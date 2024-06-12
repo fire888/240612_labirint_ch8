@@ -31,7 +31,4 @@ export const pipelineInit = async root => {
     studio.add(floor.mesh)
 
     await documentClickOnce()
-
-    controlsPointer.enable()
-
 }

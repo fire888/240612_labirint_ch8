@@ -1,14 +1,13 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 export class ControlsOrbit {
-    constructor() {
-    }
+    constructor () {}
 
     init (camera, domElem) {
         this.controls = new OrbitControls(camera, domElem)
         this.controls.target.set( 0, 0.5, 0 )
         this.controls.update()
-        this.controls.enablePan = false
+        this.controls.enablePan = true
         this.controls.enableDamping = true
         this.controls.enabled = false
     }

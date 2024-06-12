@@ -5,6 +5,7 @@ import { BoxTest } from "./entities/BoxTest"
 import { Floor } from "./entities/Floor"
 import { ControlsPointer } from "./entities/ControlsPointer"
 import { pipelineInit } from "./pipelines/pipelineInit"
+import { pipelinePlay } from "./pipelines/pipelinePlay"
 
 const root = {
     ticker: new Ticker(),
@@ -17,4 +18,5 @@ const root = {
 
 window.addEventListener("DOMContentLoaded", async () => {
     await pipelineInit(root)
+    await pipelinePlay(root)
 })
