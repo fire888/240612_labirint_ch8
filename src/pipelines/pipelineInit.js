@@ -6,6 +6,7 @@ export const pipelineInit = async root => {
         ticker,
         boxTest,
         floor,
+        lab,
     } = root
 
     ticker.start()
@@ -19,11 +20,15 @@ export const pipelineInit = async root => {
     controlsPointer.init(studio.camera, studio.containerDom)
     ticker.on(controlsPointer.update.bind(controlsPointer))
 
-    boxTest.init()
-    controlsPointer.setToCollisionFloor(boxTest.mesh)
-    studio.add(boxTest.mesh)
+    //boxTest.init()
+    //controlsPointer.setToCollisionFloor(boxTest.mesh)
+    //studio.add(boxTest.mesh)
 
     floor.init()
     controlsPointer.setToCollisionFloor(floor.mesh)
     studio.add(floor.mesh)
+
+    lab.init()
+    studio.add(lab.mesh)
+    console.log(lab)
 }

@@ -7,19 +7,19 @@ export class Studio {
         this.containerDom = document.getElementById('container-game')
 
         this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, .001, 100)
-        this.camera.position.set(1, 2, - 3)
+        this.camera.position.set(1, 2, 3)
         this.camera.lookAt(0, 1, 0)
 
         this.scene = new THREE.Scene()
-        this.scene.background = new THREE.Color(0xa0a0a0)
-        this.scene.fog = new THREE.Fog(0xa0a0a0, 10, 50)
+        this.scene.background = new THREE.Color(0x003388)
+        this.scene.fog = new THREE.Fog(0x003388, 10, 50)
 
         this.hemiLight = new THREE.HemisphereLight(0xffffff, 0x8d8d8d, 3)
         this.hemiLight.position.set( 0, 20, 0 )
         this.scene.add(this.hemiLight)
 
         this.dirLight = new THREE.DirectionalLight( 0xffffff, 3 )
-        this.dirLight.position.set(-3, 10, -10)
+        this.dirLight.position.set(-3, 10, 2)
         // this.dirLight.castShadow = true
         // this.dirLight.shadow.camera.top = 2
         // this.dirLight.shadow.camera.bottom = -2
