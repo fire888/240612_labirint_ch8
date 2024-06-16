@@ -28,6 +28,6 @@ export const pipelineInit = async root => {
     controlsPointer.setToCollisionFloor(floor.mesh)
     studio.add(floor.mesh)
 
-    lab.init()
+    await lab.init()
     studio.add(lab.mesh)
 }

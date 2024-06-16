@@ -27,17 +27,17 @@ export const createWall00 = ({
                 newW = w - currentW
             }
             const r = createBuffer00({
-                d: .1,
+                d: 1.24,
                 w: newW,
                 h: newH,
-                border: .01,
+                border: .03,
                 splitH: Math.floor(Math.random() * 15) + 5,
                 splitHWidth: .01,
                 splitHD: 0.02,
                 splitW: Math.floor(Math.random() * 15),
                 splitWD: 0.01,
                 isCapBottom: false,
-                isCapTop: false,
+                isCapTop: true,
                 isCapLeft: true,
                 isCapRight: true,
             })

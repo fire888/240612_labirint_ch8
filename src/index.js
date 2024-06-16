@@ -4,7 +4,7 @@ import { Ticker } from "./helpers/Ticker"
 import { ControlsPointer } from "./entities/ControlsPointer"
 import { BoxTest } from "./entities/BoxTest"
 import { Floor } from "./entities/Floor"
-import { Labyrinth } from "./entities/Labyrinth";
+import { Labyrinth } from "./entities/labyrinth/Labyrinth";
 import { pipelineInit } from "./pipelines/pipelineInit"
 import { pipelinePlay } from "./pipelines/pipelinePlay"
 import {documentClickOnce} from "./helpers/clickHelpers";
