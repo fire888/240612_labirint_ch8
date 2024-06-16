@@ -1,6 +1,3 @@
-import { documentClickOnce } from "../helpers/clickHelpers"
-
-
 export const pipelineInit = async root => {
     const {
         studio,
@@ -29,6 +26,4 @@ export const pipelineInit = async root => {
     floor.init()
     controlsPointer.setToCollisionFloor(floor.mesh)
     studio.add(floor.mesh)
-
-    await documentClickOnce()
 }

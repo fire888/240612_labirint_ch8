@@ -6,17 +6,19 @@ import { Floor } from "./entities/Floor"
 import { ControlsPointer } from "./entities/ControlsPointer"
 import { pipelineInit } from "./pipelines/pipelineInit"
 import { pipelinePlay } from "./pipelines/pipelinePlay"
-
-const root = {
-    ticker: new Ticker(),
-    studio: new Studio(),
-    controlsOrbit: new ControlsOrbit(),
-    controlsPointer: new ControlsPointer(),
-    boxTest: new BoxTest(),
-    floor: new Floor(),
-}
+import {documentClickOnce} from "./helpers/clickHelpers";
 
 window.addEventListener("DOMContentLoaded", async () => {
+    const root = {
+        ticker: new Ticker(),
+        studio: new Studio(),
+        controlsOrbit: new ControlsOrbit(),
+        controlsPointer: new ControlsPointer(),
+        boxTest: new BoxTest(),
+        floor: new Floor(),
+    }
+
     await pipelineInit(root)
+    // await documentClickOnce()
     await pipelinePlay(root)
 })
