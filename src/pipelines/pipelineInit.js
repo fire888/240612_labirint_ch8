@@ -30,5 +30,4 @@ export const pipelineInit = async root => {
 
     lab.init()
     studio.add(lab.mesh)
-    console.log(lab)
 }

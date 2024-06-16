@@ -59,16 +59,16 @@ export class Labyrinth {
 
         this.mesh = new THREE.Object3D()
 
-        for (let i = 0; i < 5; ++i) {
-            for (let j = 0; j < 5; ++j) {
+        for (let i = 0; i < 1; ++i) {
+            //for (let j = 0; j < 2; ++j) {
                 const mesh = createMesh({
                     v,
                     material: m,
                 })
                 mesh.position.x += i * 12
-                mesh.position.z -= j * 12
+                //mesh.position.z -= j * 12
                 this.mesh.add(mesh)
-            }
+            //}
         }
     }
 }

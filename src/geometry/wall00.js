@@ -30,7 +30,7 @@ export const createWall00 = ({
                 d: .1,
                 w: newW,
                 h: newH,
-                border: .05,
+                border: .01,
                 splitH: Math.floor(Math.random() * 15) + 5,
                 splitHWidth: .01,
                 splitHD: 0.02,

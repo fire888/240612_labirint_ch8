@@ -1,22 +1,21 @@
-import { _M } from './_m'
+import {_M} from "./_m";
 
-
-export const createBuffer00 = ({
-    w = 3,
-    h = 5,
-    d = .1,
-    border = .2,
-    splitH = 5,
-    splitHWidth = .01,
-    splitHD = .1 - .03,
-    splitW = 5,
-    splitWWidth = .01,
-    splitWD = .1 - .032,
-    doubleSide = true,
-    isCapTop = true,
-    isCapBottom = true,
-    isCapLeft = true,
-    isCapRight = true,
+export const createBuffer00b = ({
+                                   w = 3,
+                                   h = 5,
+                                   d = .1,
+                                   border = .2,
+                                   splitH = 5,
+                                   splitHWidth = .01,
+                                   splitHD = .1 - .03,
+                                   splitW = 5,
+                                   splitWWidth = .01,
+                                   splitWD = .1 - .032,
+                                   doubleSide = true,
+                                   isCapTop = true,
+                                   isCapBottom = true,
+                                   isCapLeft = true,
+                                   isCapRight = true,
                                }) => {
 
     const v = []
@@ -113,24 +112,24 @@ export const createBuffer00 = ({
     {
         if (splitH) {
             const elem = [
-                // ..._M.createPolygon(
-                //     [border, splitHWidth, splitHD],
-                //     [w - border, splitHWidth, splitHD],
-                //     [w - border, splitHWidth, 0],
-                //     [border, splitHWidth, 0],
-                // ),
+                ..._M.createPolygon(
+                    [border, splitHWidth, splitHD],
+                    [w - border, splitHWidth, splitHD],
+                    [w - border, splitHWidth, 0],
+                    [border, splitHWidth, 0],
+                ),
                 ..._M.createPolygon(
                     [border, -splitHWidth, splitHD],
                     [w - border, -splitHWidth, splitHD],
                     [w - border, splitHWidth, splitHD],
                     [border, splitHWidth, splitHD],
                 ),
-                // ..._M.createPolygon(
-                //     [border, -splitHWidth, 0],
-                //     [w - border, -splitHWidth, 0],
-                //     [w - border, -splitHWidth, splitHD],
-                //     [border, -splitHWidth, splitHD],
-                // ),
+                ..._M.createPolygon(
+                    [border, -splitHWidth, 0],
+                    [w - border, -splitHWidth, 0],
+                    [w - border, -splitHWidth, splitHD],
+                    [border, -splitHWidth, splitHD],
+                ),
             ]
 
             const level = (h - 2 * border) / (splitH + 1)
@@ -154,20 +153,20 @@ export const createBuffer00 = ({
                     [splitWWidth, h - border, splitWD],
                     [-splitWWidth, h - border, splitWD],
                 ),
-                // // left
-                // ..._M.createPolygon(
-                //     [-splitWWidth, border, 0],
-                //     [-splitWWidth, border, splitWD],
-                //     [-splitWWidth, h - border, splitWD],
-                //     [-splitWWidth, h - border, 0],
-                // ),
-                // // right
-                // ..._M.createPolygon(
-                //     [splitWWidth, border, splitWD],
-                //     [splitWWidth, border, 0],
-                //     [splitWWidth, h - border, 0],
-                //     [splitWWidth, h - border, splitWD],
-                // ),
+                // left
+                ..._M.createPolygon(
+                    [-splitWWidth, border, 0],
+                    [-splitWWidth, border, splitWD],
+                    [-splitWWidth, h - border, splitWD],
+                    [-splitWWidth, h - border, 0],
+                ),
+                // right
+                ..._M.createPolygon(
+                    [splitWWidth, border, splitWD],
+                    [splitWWidth, border, 0],
+                    [splitWWidth, h - border, 0],
+                    [splitWWidth, h - border, splitWD],
+                ),
             ]
 
             const step = (w - 2 * border) / (splitW + 1)
