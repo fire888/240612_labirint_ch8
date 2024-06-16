@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { createBuffer00 } from '../geometry/buffer00'
 import { _M } from "../geometry/_m";
+import { createWall00 } from "../geometry/wall00"
 
 export const createMesh = ({
 
@@ -30,36 +31,44 @@ export class Labyrinth {
 
     init () {
         const v = []
-        let d = 0
-        for (let i = 0; i < 15; ++i) {
-            const l = Math.random() * 3 + 1
 
-            const r = createBuffer00({
-                d: .1,
-                w: l,
-                h: 2,
-                border: .1,
-                splitH: Math.floor(Math.random() * 15) + 5,
-                splitHWidth: .01,
-                splitHD: 0.02,
-                splitW: Math.floor(Math.random() * 15),
-                splitWD: 0.01,
-                isCapBottom: false,
-                isCapTop: false,
-                isCapLeft: i === 0,
-                isCapRight: i === 14,
-            })
-
-            _M.translateVertices(r.v, d, 0, 0)
+        {
+            const r = createWall00({ w: 10, h: 5 })
             v.push(...r.v)
-
-            d += l
         }
 
-        this.mesh = createMesh({
-            v,
-            material: new THREE.MeshPhongMaterial({ color: 0xffffff })
-        })
-        this.mesh.y = .1
+        {
+            const r = createWall00({ w: 10, h: 10 })
+            _M.translateVertices(r.v, 0, 0, -10)
+            v.push(...r.v)
+        }
+
+        {
+            const r = createWall00({ w: 10, h: 10 })
+            _M.rotateVerticesY(r.v, Math.PI / 2)
+            _M.translateVertices(r.v, 10, 0, 0)
+            v.push(...r.v)
+        }
+        {
+            const r = createWall00({ w: 10, h: 10 })
+            _M.rotateVerticesY(r.v, Math.PI / 2)
+            v.push(...r.v)
+        }
+
+        const m = new THREE.MeshPhongMaterial({ color: 0xffffff })
+
+        this.mesh = new THREE.Object3D()
+
+        for (let i = 0; i < 5; ++i) {
+            for (let j = 0; j < 5; ++j) {
+                const mesh = createMesh({
+                    v,
+                    material: m,
+                })
+                mesh.position.x += i * 12
+                mesh.position.z -= j * 12
+                this.mesh.add(mesh)
+            }
+        }
     }
 }
