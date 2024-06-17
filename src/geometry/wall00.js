@@ -27,7 +27,7 @@ export const createWall00 = ({
                 newW = w - currentW
             }
             const r = createBuffer00({
-                d: 1.24,
+                d: 0.05,
                 w: newW,
                 h: newH,
                 border: .03,

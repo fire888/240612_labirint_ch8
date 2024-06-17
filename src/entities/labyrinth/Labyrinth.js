@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { createBuffer00 } from '../../geometry/buffer00'
 import { _M } from "../../geometry/_m";
 import { createWall00 } from "../../geometry/wall00"
-import { createScheme } from './scheme';
+import { createScheme } from './scheme02';
 
 export const createMesh = ({
 
@@ -42,11 +42,33 @@ export class Labyrinth {
 
         for (let i = 0; i < 23; ++i) {
             for (let j = 0; j < 23; ++j) {
-                if (maze[i + ',' + j] === 1) {
-                    const r = createWall00({ w: 2.5, h: Math.random() * 4 + 1.1 })
-                    _M.translateVertices(r.v, i * 2.5, 0, j * 2.5)
-                    v.push(...r.v)
+                const { type, dir } = maze[i + ',' + j]
+
+                if (type !== 0) {
+                    continue
                 }
+
+                const tunnelV = []
+                const rL = createWall00({ w: 2, h: 3 })
+                _M.translateVertices(rL.v, -1, 0, .5)
+                tunnelV.push(...rL.v)
+
+                const rR = createWall00({ w: 2, h: 3 })
+                _M.translateVertices(rR.v, -1, 0, -.5)
+                tunnelV.push(...rR.v)
+
+                const rT = createWall00({ w: 2, h: 1 })
+                _M.rotateVerticesX(rT.v, Math.PI / 2)
+                _M.translateVertices(rT.v, -1, 3, -.5)
+                tunnelV.push(...rT.v)
+
+                if (dir === 'n' || dir === 's') {
+                    _M.rotateVerticesY(tunnelV, Math.PI / 2)
+                }
+
+
+                _M.translateVertices(tunnelV, i * 2, 0, j * 2)
+                v.push(...tunnelV)
             }
         }
 

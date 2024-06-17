@@ -18,6 +18,10 @@ export const _M = {
         const m4 = new THREE.Matrix4().makeTranslation(x, y, z)
         this.applyMatrixToArray(m4, v)
     },
+    rotateVerticesX(v, angle) {
+        const m4 = new THREE.Matrix4().makeRotationX(angle)
+        this.applyMatrixToArray(m4, v)
+    },
     rotateVerticesY(v, angle) {
         const m4 = new THREE.Matrix4().makeRotationY(angle)
         this.applyMatrixToArray(m4, v)
