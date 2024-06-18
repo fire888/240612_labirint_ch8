@@ -3,6 +3,7 @@ import { createBuffer00 } from '../../geometry/buffer00'
 import { _M } from "../../geometry/_m";
 import { createWall00 } from "../../geometry/wall00"
 import { createScheme } from './scheme02';
+import { createScheme03 } from './scheme03';
 
 export const createMesh = ({
 
@@ -31,8 +32,11 @@ export class Labyrinth {
     }
 
     async init () {
-        const maze = await createScheme(23, 23)
-        console.log(maze)
+        const maze = await createScheme03(23, 23)
+        console.log('markedMaze', maze)
+
+        //const maze = await createScheme(23, 23)
+        //console.log(maze)
 
 
 
@@ -42,59 +46,72 @@ export class Labyrinth {
 
         for (let i = 0; i < 23; ++i) {
             for (let j = 0; j < 23; ++j) {
-                const { type, dir } = maze[i + ',' + j]
+                const { type, dir, model } = maze[i + ',' + j]
 
-                if (type !== 0) {
+                if (type !== 3) {
                     continue
                 }
 
                 const tunnelV = []
-                const rL = createWall00({ w: 2, h: 3 })
-                _M.translateVertices(rL.v, -1, 0, .5)
-                tunnelV.push(...rL.v)
 
-                const rR = createWall00({ w: 2, h: 3 })
-                _M.translateVertices(rR.v, -1, 0, -.5)
-                tunnelV.push(...rR.v)
+                if (model === 'I') {
+                    const rL = createWall00({ w: 2, h: 3 })
+                    _M.translateVertices(rL.v, -1, 0, .5)
+                    tunnelV.push(...rL.v)
 
-                const rT = createWall00({ w: 2, h: 1 })
-                _M.rotateVerticesX(rT.v, Math.PI / 2)
-                _M.translateVertices(rT.v, -1, 3, -.5)
-                tunnelV.push(...rT.v)
+                    const rR = createWall00({ w: 2, h: 3 })
+                    _M.translateVertices(rR.v, -1, 0, -.5)
+                    tunnelV.push(...rR.v)
+                }
 
-                if (dir === 'n' || dir === 's') {
-                    _M.rotateVerticesY(tunnelV, Math.PI / 2)
+                if (model === 'U') {
+                    const rL = createWall00({ w: 2, h: 3 })
+                    _M.translateVertices(rL.v, -1, 0, .5)
+                    tunnelV.push(...rL.v)
+
+                    const rR = createWall00({ w: 2, h: 3 })
+                    _M.translateVertices(rR.v, -1, 0, -.5)
+                    tunnelV.push(...rR.v)
+
+                    const rC = createWall00({ w: 1, h: 3 })
+                    _M.rotateVerticesY(rC.v, Math.PI * .5)
+                    _M.translateVertices(rC.v, -1, 0, .5)
+                    tunnelV.push(...rC.v)
+                }
+
+                if (model === 'L') {
+                    const rInner1 = createWall00({ w: .3, h: 3 })
+                    _M.translateVertices(rInner1.v, .3, 0, .5)
+                    tunnelV.push(...rInner1.v)
+
+                    const rInner2 = createWall00({ w: .3, h: 3 })
+                    _M.rotateVerticesY(rInner2.v, Math.PI * .5)
+                    _M.translateVertices(rInner2.v, .3, 0, .8)
+                    tunnelV.push(...rInner2.v)
+
+                    const rOuter1 = createWall00({ w: 1.5, h: 3 })
+                    _M.translateVertices(rOuter1.v, -0.8, 0, -.5)
+                    tunnelV.push(...rOuter1.v)
+
+                    const rOuter2 = createWall00({ w: 1.5, h: 3 })
+                    _M.rotateVerticesY(rOuter2.v, Math.PI * .5)
+                    _M.translateVertices(rOuter2.v, -0.8, 0, .8)
+                    tunnelV.push(...rOuter2.v)
+                }
+
+                if (model === 'T') {
+                    const rL = createWall00({ w: 2, h: 3 })
+                    _M.translateVertices(rL.v, -1, 0, -.5)
+                    tunnelV.push(...rL.v)
                 }
 
 
+                _M.rotateVerticesY(tunnelV, dir)
                 _M.translateVertices(tunnelV, i * 2, 0, j * 2)
                 v.push(...tunnelV)
             }
         }
 
-
-        // {
-        //     const r = createWall00({ w: 10, h: 5 })
-        //     v.push(...r.v)
-        // }
-
-        // {
-        //     const r = createWall00({ w: 10, h: 10 })
-        //     _M.translateVertices(r.v, 0, 0, -10)
-        //     v.push(...r.v)
-        // }
-
-        // {
-        //     const r = createWall00({ w: 10, h: 10 })
-        //     _M.rotateVerticesY(r.v, Math.PI / 2)
-        //     _M.translateVertices(r.v, 10, 0, 0)
-        //     v.push(...r.v)
-        // }
-        // {
-        //     const r = createWall00({ w: 10, h: 10 })
-        //     _M.rotateVerticesY(r.v, Math.PI / 2)
-        //     v.push(...r.v)
-        // }
 
         const m = new THREE.MeshPhongMaterial({ color: 0xffffff })
 
