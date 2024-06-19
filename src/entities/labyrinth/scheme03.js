@@ -135,19 +135,19 @@ export const createScheme03 = async (WIDTH = 21, HEIGHT = 21) => {
                 // U
                 if (!isN && !isS && !isW && isE) {
                     markedMaze[x + ',' + y].model = 'U'
-                    markedMaze[x + ',' + y].dir = 0
-                }
-                if (isN && !isS && isW && !isE) {
-                    markedMaze[x + ',' + y].model = 'U'
-                    markedMaze[x + ',' + y].dir = Math.PI * 0.5
+                    markedMaze[x + ',' + y].dir = Math.PI
                 }
                 if (!isN && !isS && isW && !isE) {
                     markedMaze[x + ',' + y].model = 'U'
-                    markedMaze[x + ',' + y].dir = Math.PI
+                    markedMaze[x + ',' + y].dir = 0
+                }
+                if (isN && !isS && !isW && !isE) {
+                    markedMaze[x + ',' + y].model = 'U'
+                    markedMaze[x + ',' + y].dir = Math.PI * 1.5
                 }
                 if (!isN && isS && !isW && !isE) {
                     markedMaze[x + ',' + y].model = 'U'
-                    markedMaze[x + ',' + y].dir = Math.PI * 1.5
+                    markedMaze[x + ',' + y].dir = Math.PI * .5
                 }
 
 

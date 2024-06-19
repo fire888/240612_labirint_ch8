@@ -5,8 +5,7 @@ export const createWall00 = ({
     w = 10,
     h = 7,
                              }) => {
-
-
+    
     const v = []
 
     let currentH = 0
@@ -49,8 +48,6 @@ export const createWall00 = ({
         }
         currentH += newH
     }
-
-
 
     return {
         v
