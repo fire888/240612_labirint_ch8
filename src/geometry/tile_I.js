@@ -21,21 +21,21 @@ export const createTileI = ({ w, h, wc }) => {
     _M.translateVertices(rR.v, -w / 2, 0, wc)
     v.push(...rR.v)
 
-    // floor
-    v.push(..._M.createPolygon(
-        [-w / 2, 0, wc],
-        [w / 2, 0, wc],
-        [w / 2, 0, -wc],
-        [-w / 2, 0, -wc],
-    ))
-
-    // ceil
-    v.push(..._M.createPolygon(
-        [-w / 2, h, -wc],
-        [w / 2, h, -wc],
-        [w / 2, h, wc],
-        [-w / 2, h, wc],
-    ))
+    // // floor
+    // v.push(..._M.createPolygon(
+    //     [-w / 2, 0, wc],
+    //     [w / 2, 0, wc],
+    //     [w / 2, 0, -wc],
+    //     [-w / 2, 0, -wc],
+    // ))
+    //
+    // // ceil
+    // v.push(..._M.createPolygon(
+    //     [-w / 2, h, -wc],
+    //     [w / 2, h, -wc],
+    //     [w / 2, h, wc],
+    //     [-w / 2, h, wc],
+    // ))
 
     return { v }
 }

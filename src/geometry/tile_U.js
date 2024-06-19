@@ -17,22 +17,22 @@ export const createTileU = ({ w, h, wc }) => {
     _M.rotateVerticesY(rT.v, Math.PI * 0.5)
     _M.translateVertices(rT.v, w / 2, 0, wc)
     v.push(...rT.v)
+    //
+    // // floor
+    // v.push(..._M.createPolygon(
+    //     [-w / 2, 0, wc],
+    //     [w / 2, 0, wc],
+    //     [w / 2, 0, -wc],
+    //     [-w / 2, 0, -wc],
+    // ))
 
-    // floor
-    v.push(..._M.createPolygon(
-        [-w / 2, 0, wc],
-        [w / 2, 0, wc],
-        [w / 2, 0, -wc],
-        [-w / 2, 0, -wc],
-    ))
-
-    // ceil
-    v.push(..._M.createPolygon(
-        [-w / 2, h, -wc],
-        [w / 2, h, -wc],
-        [w / 2, h, wc],
-        [-w / 2, h, wc],
-    ))
+    // // ceil
+    // v.push(..._M.createPolygon(
+    //     [-w / 2, h, -wc],
+    //     [w / 2, h, -wc],
+    //     [w / 2, h, wc],
+    //     [-w / 2, h, wc],
+    // ))
 
 
 

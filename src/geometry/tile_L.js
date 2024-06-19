@@ -32,24 +32,24 @@ export const createTileL = ({ w, h, wc }) => {
     _M.translateVertices(rOuter2.v, -wc, 0, -wc)
     v.push(...rOuter2.v)
 
-    // floor
-    v.push(
-        ..._M.createPolygon(
-            [w / 2, 0, -wc],
-            [-wc, 0, -wc],
-            [wc, 0, wc],
-            [w / 2, 0, wc],
-        )
-    )
-
-    v.push(
-        ..._M.createPolygon(
-            [-wc, 0, -wc],
-            [-wc, 0, w / 2],
-            [wc, 0, w / 2],
-            [wc, 0, wc],
-        )
-    )
+    // // floor
+    // v.push(
+    //     ..._M.createPolygon(
+    //         [w / 2, 0, -wc],
+    //         [-wc, 0, -wc],
+    //         [wc, 0, wc],
+    //         [w / 2, 0, wc],
+    //     )
+    // )
+    //
+    // v.push(
+    //     ..._M.createPolygon(
+    //         [-wc, 0, -wc],
+    //         [-wc, 0, w / 2],
+    //         [wc, 0, w / 2],
+    //         [wc, 0, wc],
+    //     )
+    // )
 
     return { v }
 }
