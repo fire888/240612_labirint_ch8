@@ -38,20 +38,46 @@ export const _M = {
         rad = rad % (Math.PI * 2)
         return -rad
     },
+    // mirrorZ: (arr) => {
+    //     const arr2 = []
+    //     for (let i = 0; i < arr.length; i += 18) {
+    //         //if (!arr[i + 1]) {
+    //         //    continue;
+    //         //}
+    //         arr2.push(
+    //             arr[i + 3], arr[i + 4], -arr[i + 5],
+    //             arr[i], arr[i + 1], -arr[i + 2],
+    //             arr[i + 15], arr[i + 16], -arr[i + 17],
+    //             arr[i + 3], arr[i + 4], -arr[i + 5],
+    //             arr[i + 15], arr[i + 16], -arr[i + 17],
+    //             arr[i + 12], arr[i + 13], -arr[i + 14],
+    //         )
+    //     }
+    //     arr.push(...arr2)
+    // },
     mirrorZ: (arr) => {
         const arr2 = []
-        for (let i = 0; i < arr.length; i += 18) {
+
+       // 0 1 2   3 4 5    6 7 8
+
+        for (let i = 0; i < arr.length; i += 9) {
             //if (!arr[i + 1]) {
             //    continue;
             //}
             arr2.push(
+                arr[i + 6], arr[i + 7], -arr[i + 8],
                 arr[i + 3], arr[i + 4], -arr[i + 5],
                 arr[i], arr[i + 1], -arr[i + 2],
-                arr[i + 15], arr[i + 16], -arr[i + 17],
-                arr[i + 3], arr[i + 4], -arr[i + 5],
-                arr[i + 15], arr[i + 16], -arr[i + 17],
-                arr[i + 12], arr[i + 13], -arr[i + 14],
             )
+
+            // arr2.push(
+            //     arr[i + 3], arr[i + 4], -arr[i + 5],
+            //     arr[i], arr[i + 1], -arr[i + 2],
+            //     arr[i + 15], arr[i + 16], -arr[i + 17],
+            //     arr[i + 3], arr[i + 4], -arr[i + 5],
+            //     arr[i + 15], arr[i + 16], -arr[i + 17],
+            //     arr[i + 12], arr[i + 13], -arr[i + 14],
+            // )
         }
         arr.push(...arr2)
     },

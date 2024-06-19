@@ -76,47 +76,6 @@ export class Labyrinth {
                     const r = createTileU({ w: W, h: H, wc: WC })
                     tunnelV.push(...r.v)
                 }
-                //
-                // if (model === 'U') {
-                //     const rL = createWall00({ w: W, h: H })
-                //     _M.translateVertices(rL.v, -1, 0, .5)
-                //     tunnelV.push(...rL.v)
-                //
-                //     const rR = createWall00({ w: W, h: H })
-                //     _M.translateVertices(rR.v, -1, 0, -.5)
-                //     tunnelV.push(...rR.v)
-                //
-                //     const rC = createWall00({ w: W, h: H })
-                //     _M.rotateVerticesY(rC.v, Math.PI * .5)
-                //     _M.translateVertices(rC.v, -1, 0, .5)
-                //     tunnelV.push(...rC.v)
-                // }
-                //
-                // if (model === 'L') {
-                //     const rInner1 = createWall00({ w: .3, h: H })
-                //     _M.translateVertices(rInner1.v, .3, 0, .5)
-                //     tunnelV.push(...rInner1.v)
-                //
-                //     const rInner2 = createWall00({ w: .3, h: H })
-                //     _M.rotateVerticesY(rInner2.v, Math.PI * .5)
-                //     _M.translateVertices(rInner2.v, .3, 0, .8)
-                //     tunnelV.push(...rInner2.v)
-                //
-                //     const rOuter1 = createWall00({ w: 1.5, h: H })
-                //     _M.translateVertices(rOuter1.v, -0.8, 0, -.5)
-                //     tunnelV.push(...rOuter1.v)
-                //
-                //     const rOuter2 = createWall00({ w: 1.5, h: H })
-                //     _M.rotateVerticesY(rOuter2.v, Math.PI * .5)
-                //     _M.translateVertices(rOuter2.v, -0.8, 0, .8)
-                //     tunnelV.push(...rOuter2.v)
-                // }
-                //
-                // if (model === 'T') {
-                //     const rL = createWall00({ w: W, h: H })
-                //     _M.translateVertices(rL.v, -1, 0, -.5)
-                //     tunnelV.push(...rL.v)
-                // }
 
 
                 _M.rotateVerticesY(tunnelV, dir)
@@ -129,6 +88,8 @@ export class Labyrinth {
 
         this.mesh = new THREE.Object3D()
         this.mesh.position.y = .2
+        this.mesh.position.z = -W * 23 / 2
+        this.mesh.position.x = -W * 23 / 2
         const mesh = createMesh({ v, material: m })
         this.mesh.add(mesh)
     }

@@ -11,8 +11,8 @@ export class Studio {
         this.camera.lookAt(0, 1, 0)
 
         this.scene = new THREE.Scene()
-        this.scene.background = new THREE.Color(0x003388)
-        //this.scene.fog = new THREE.Fog(0x003388, 1, 50)
+        this.scene.background = new THREE.Color(0x0a1429)
+        this.fog = new THREE.Fog(0x0a1429, 1, 30)
 
         this.hemiLight = new THREE.HemisphereLight(0xffffff, 0x8d8d8d, 3)
         this.hemiLight.position.set( 0, 20, 0 )
