@@ -1,16 +1,22 @@
-export const createScheme03 = async (WIDTH = 21, HEIGHT = 21) => {
+export const createScheme03 = async ({
+    width = 21,
+    height = 21,
+    posStart = [11, 1]
+}) => {
+    const WIDTH = width
+    const HEIGHT = height
 
 
     console.assert(WIDTH % 2 === 1 && WIDTH >= 3)
     console.assert(HEIGHT % 2 === 1 && HEIGHT >= 3)
 
     const EMPTY = 3
-    const MARK = 2
     const WALL = 1
     const [NORTH, SOUTH, EAST, WEST] = ['n', 's', 'e', 'w']
 
     let maze = {}
     let hasVisited = []
+    const posEnd = []
 
     const makeMap = () => {
         hasVisited = []
@@ -23,6 +29,8 @@ export const createScheme03 = async (WIDTH = 21, HEIGHT = 21) => {
     }
 
     const visit = async (x, y) => {
+        posEnd[0] = x
+        posEnd[1] = y
         maze[[x, y]] = EMPTY
 
         while(true) {
@@ -57,9 +65,7 @@ export const createScheme03 = async (WIDTH = 21, HEIGHT = 21) => {
             }
 
 
-            const nextInterseption = unvisitetNeighbors[
-                Math.floor(Math.random() * unvisitetNeighbors.length)
-                ]
+            const nextInterseption = unvisitetNeighbors[Math.floor(Math.random() * unvisitetNeighbors.length)]
 
             let nextX, nextY
             if (nextInterseption === NORTH) {
@@ -87,10 +93,8 @@ export const createScheme03 = async (WIDTH = 21, HEIGHT = 21) => {
 
 
     makeMap()
-    hasVisited.push(Math.floor(WIDTH / 2), 1)
-    await visit(Math.floor(WIDTH / 2), 1)
-    //    await createButton()
-    //    await pipeline()
+    hasVisited.push(posStart[0], posStart[1])
+    await visit(posStart[0], posStart[1])
 
     const markedMaze = {}
     for (let x = 0; x < WIDTH; ++x) {
@@ -197,5 +201,9 @@ export const createScheme03 = async (WIDTH = 21, HEIGHT = 21) => {
         }
     }
 
-    return markedMaze
+    return {
+        posStart,
+        posEnd,
+        markedMaze,
+    }
 }
