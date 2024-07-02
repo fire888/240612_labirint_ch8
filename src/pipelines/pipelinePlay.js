@@ -22,6 +22,7 @@ export const pipelinePlay = async root => {
                 studio.scene.fog = null
                 controlsPointer.disable()
                 controlsOrbit.enable()
+
             } else {
                 studio.scene.fog = studio.fog
                 controlsOrbit.disable()
