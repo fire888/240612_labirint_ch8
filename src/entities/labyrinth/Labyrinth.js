@@ -5,6 +5,7 @@ import { createTileI } from '../../geometry/tile_I'
 import { createTileL } from '../../geometry/tile_L'
 import { createTileT } from '../../geometry/tile_T'
 import { createTileU } from '../../geometry/tile_U'
+import { createStair } from "../../geometry/stair";
 
 export const createMesh = ({
 
@@ -119,6 +120,14 @@ export class Labyrinth {
                     vC.push(..._vC)
                 }
             }
+
+
+
+            // stair /////////////////////
+            const sV = createStair()
+            _M.translateVertices(sV.vC, W * posEndLast[0], 0, W * posEndLast[1])
+            vC.push(...sV.vC)
+
 
             const m = new THREE.MeshPhongMaterial({ color: 0xffffff })
 
