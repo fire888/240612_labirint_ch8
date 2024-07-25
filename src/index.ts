@@ -8,9 +8,10 @@ import { Labyrinth } from "./entities/labyrinth/Labyrinth";
 import { pipelineInit } from "./pipelines/pipelineInit"
 import { pipelinePlay } from "./pipelines/pipelinePlay"
 import {documentClickOnce} from "./helpers/clickHelpers";
+import { Root } from "./types/types";
 
 window.addEventListener("DOMContentLoaded", async () => {
-    const root = {
+    const root: Root = {
         ticker: new Ticker(),
         studio: new Studio(),
         controlsOrbit: new ControlsOrbit(),

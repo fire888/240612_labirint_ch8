@@ -1,11 +1,17 @@
 import * as THREE from 'three'
 
 export class Studio {
-    constructor(props) {}
+    containerDom: HTMLElement
+    camera: THREE.PerspectiveCamera
+    scene: THREE.Scene
+    fog: THREE.Fog
+    hemiLight: THREE.HemisphereLight
+    dirLight: THREE.DirectionalLight
+    renderer: THREE.WebGLRenderer
+    constructor() {}
 
     init () {
         this.containerDom = document.getElementById('container-game')
-
         this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, .001, 200)
         this.camera.position.set(1, 2, 3)
         this.camera.lookAt(0, 1, 0)
@@ -50,7 +56,7 @@ export class Studio {
         this.renderer.setSize(window.innerWidth, window.innerHeight)
     }
 
-    add (m) {
+    add (m: THREE.Object3D) {
         this.scene.add(m)
     }
 }

@@ -1,9 +1,12 @@
-const completePlay = () => {
+import { Root } from '../types/types'
+
+
+const completePlay = (): Promise<void> => {
     return new Promise(res => {})
 }
 
 
-export const pipelinePlay = async root => {
+export const pipelinePlay = async (root: Root) => {
     const {
         studio,
         controlsOrbit,
@@ -16,7 +19,7 @@ export const pipelinePlay = async root => {
     controlsPointer.disable()
     controlsOrbit.enable()
 
-    const onKeyUp = event => {
+    const onKeyUp = (event: any) => {
         if (event.code === 'KeyO') {
             if (controlsPointer.isEnabled) {
                 studio.scene.fog = null

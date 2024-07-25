@@ -86,7 +86,7 @@ export class ControlsPointer {
         document.addEventListener('keydown', onKeyDown)
         document.addEventListener('keyup', onKeyUp)
 
-        this.raycaster = new THREE.Raycaster(new THREE.Vector3(),new THREE.Vector3(0, -1, 0), 0, 1)
+        this.raycaster = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, -1, 0), 0, 1)
     }
 
     update () {
@@ -121,9 +121,12 @@ export class ControlsPointer {
             if (this.moveForward || this.moveBackward) this.velocity.z -= this.direction.z * 40.0 * delta
             if (this.moveLeft || this.moveRight) this.velocity.x -= this.direction.x * 40.0 * delta
 
-            if ( onObject === true ) {
+            if (onObject === true) {
                 this.velocity.y = Math.max(0, this.velocity.y)
                 this.canJump = true
+                if (intersections[0].distance < 1) {
+                    this.controls.getObject().position.y += 1 - intersections[0].distance
+                }
             }
 
             this.controls.moveRight( - this.velocity.x * delta)

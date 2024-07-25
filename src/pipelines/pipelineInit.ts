@@ -1,4 +1,6 @@
-export const pipelineInit = async root => {
+import { Root } from '../types/types'
+
+export const pipelineInit = async (root: Root) => {
     const {
         studio,
         controlsOrbit,

@@ -4,14 +4,23 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 //const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 
 
 
 module.exports = (env, { mode }) => {
     return {
-        entry: './src/index.js',
+        entry: './src/index.ts',
         // mode: 'development',
         devtool: 'source-map',
+        resolve: {
+            plugins: [
+                new TsconfigPathsPlugin({
+                    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+                }),
+            ],
+            extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        },
         output: {
             filename: "./dist/index.js",
             path: path.resolve(__dirname, 'dist'),
@@ -42,6 +51,11 @@ module.exports = (env, { mode }) => {
         ],
         module: {
             rules: [
+                {
+                    test: /\.tsx?$/,
+                    use: 'ts-loader',
+                    exclude: /node_modules/,
+                },
                 {
                     test: /\.css$/i,
                     use: [
