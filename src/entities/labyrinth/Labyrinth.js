@@ -64,6 +64,10 @@ export class Labyrinth {
 
             for (let i = 0; i < WIDTH; ++i) {
                 for (let j = 0; j < HEIGHT; ++j) {
+                    if (!markedMaze[i + ',' + j]) {
+                        continue;
+                    }
+
                     const { type, dir, model } = markedMaze[i + ',' + j]
 
                     if (type !== 3) {

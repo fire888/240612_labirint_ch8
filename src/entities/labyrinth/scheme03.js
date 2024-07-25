@@ -11,6 +11,7 @@ export const createScheme03 = async ({
     console.assert(HEIGHT % 2 === 1 && HEIGHT >= 3)
 
     const EMPTY = 3
+    const STAIR = 4
     const WALL = 1
     const [NORTH, SOUTH, EAST, WEST] = ['n', 's', 'e', 'w']
 
@@ -94,7 +95,63 @@ export const createScheme03 = async ({
 
     makeMap()
     hasVisited.push(posStart[0], posStart[1])
+    const cX = Math.floor(WIDTH / 2)
+    const cY = Math.floor(0)
+
+    maze[cX + ',' + cY + ''] = STAIR
+    hasVisited.push(cX + '', cY + '')
+
+    maze[cX - 1 + ',' + cY + ''] = STAIR
+    maze[cX - 2 + ',' + cY + ''] = STAIR
+    hasVisited.push(cX - 1 + '', cY + '')
+    hasVisited.push(cX - 2 + '', cY + '')
+
+    maze[cX + 1 + ',' + cY + ''] = STAIR
+    maze[cX + 2 + ',' + cY + ''] = STAIR
+    hasVisited.push(cX + 1 + '', cY + '')
+    hasVisited.push(cX + 2 + '', cY + '')
+
+
+
     await visit(posStart[0], posStart[1])
+
+    const cont = document.createElement('div')
+    const parent = document.getElementById('cont-level-dev')
+    cont.innerText = '&&&&&'
+    parent.appendChild(cont)
+
+    console.log(maze)
+
+    const wallPrint = "&#9608"
+    const emptyPrint = "&nbsp"
+    const stairPrint = "a"
+    const printMaze = (maze, markX = -1, markY = -1) => {
+        cont.innerHTML = ''
+        let str = '<pre>'
+        for (let y = 0; y < HEIGHT; ++y) {
+            for (let x = 0; x < WIDTH; ++x) {
+                if (markX === x && markY === y) {
+                    str += MARK
+                } else {
+                    if (maze[x + ',' + y + ''] === WALL) {
+                        str += wallPrint
+                    } else if (maze[x + ',' + y + ''] === EMPTY) {
+                        str += emptyPrint
+                    } else if (maze[x + ',' + y + ''] === STAIR) {
+                        console.log('!!!!&&&&&')
+                        str += stairPrint
+                    }
+                    //str += maze[[x, y]]
+                }
+            }
+            str += '<br />'
+        }
+        str += '</pre>'
+        cont.innerHTML = str + '<br /><br />'
+    }
+
+    printMaze(maze)
+
 
     const markedMaze = {}
     for (let x = 0; x < WIDTH; ++x) {
