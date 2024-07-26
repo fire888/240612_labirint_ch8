@@ -50,7 +50,7 @@ export class Labyrinth {
 
         const collisionV = []
 
-        for (let i = 0; i < 3; ++i) {
+        for (let iFloor = 0; iFloor < 3; ++iFloor) {
             const {
                 posStart,
                 posEnd,
@@ -76,6 +76,16 @@ export class Labyrinth {
 
                     const _v = []
                     const _vC = []
+
+                    if (model === 'END_ROOM') {
+                        const b = new THREE.Mesh(
+                            new THREE.BoxGeometry(H * 1.8, H * 1.8, H * 1.8),
+                            new THREE.MeshPhongMaterial({ color: 0xff0000 })
+                        )
+                        b.position.set(W * i, iFloor * H + H * .9, W * j)
+                        this.mesh.add(b)
+                    }
+
 
                     if (model === 'I') {
                         const r = createTileI({ w: W, h: H, wc: WC })
@@ -136,7 +146,7 @@ export class Labyrinth {
             const m = new THREE.MeshPhongMaterial({ color: 0xffffff })
 
             const mesh = createMesh({ v, material: m })
-            mesh.position.y = i * H
+            mesh.position.y = iFloor * H
 
             {
                 const b = new THREE.Mesh(
@@ -161,7 +171,7 @@ export class Labyrinth {
 
             this.mesh.add(mesh)
 
-            _M.translateVertices(vC, 0, i * H, 0)
+            _M.translateVertices(vC, 0, iFloor * H, 0)
             collisionV.push(...vC)
         }
 
