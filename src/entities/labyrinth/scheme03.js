@@ -1,19 +1,20 @@
-export const createScheme03 = async ({
-    width = 21,
-    height = 21,
-    posStart = [11, 1]
-}) => {
+const EMPTY = 3
+const STAIR = 4
+const WALL = 1
+const [
+    NORTH,
+    SOUTH,
+    EAST,
+    WEST
+] = ['n', 's', 'e', 'w']
+
+
+const createMaze = async (width, height, posStart) => {
     const WIDTH = width
     const HEIGHT = height
 
-
     console.assert(WIDTH % 2 === 1 && WIDTH >= 3)
     console.assert(HEIGHT % 2 === 1 && HEIGHT >= 3)
-
-    const EMPTY = 3
-    const STAIR = 4
-    const WALL = 1
-    const [NORTH, SOUTH, EAST, WEST] = ['n', 's', 'e', 'w']
 
     let maze = {}
     let hasVisited = []
@@ -92,12 +93,16 @@ export const createScheme03 = async ({
         }
     }
 
-
     makeMap()
 
     hasVisited.push(posStart)
     await visit(...posStart)
 
+    return { posStart, posEnd, maze, }
+}
+
+
+const debugPrintMaze = (maze, W, H, posStart, posEnd) => {
     const cont = document.createElement('div')
     const parent = document.getElementById('cont-level-dev')
     cont.innerText = '&&&&&'
@@ -109,8 +114,8 @@ export const createScheme03 = async ({
     const printMaze = (maze, markX = -1, markY = -1) => {
         cont.innerHTML = ''
         let str = '<pre>'
-        for (let y = 0; y < HEIGHT; ++y) {
-            for (let x = 0; x < WIDTH; ++x) {
+        for (let y = 0; y < H; ++y) {
+            for (let x = 0; x < W; ++x) {
                 if (x === posStart[0] && y === posStart[1]) {
                     str += 's'
                     continue;
@@ -121,7 +126,7 @@ export const createScheme03 = async ({
                 }
 
                 if (maze[x + ',' + y + ''] === WALL) {
-                        str += wallPrint
+                    str += wallPrint
                 } else if (maze[x + ',' + y + ''] === EMPTY) {
                     str += emptyPrint
                 } else if (maze[x + ',' + y + ''] === STAIR) {
@@ -135,13 +140,15 @@ export const createScheme03 = async ({
     }
 
     printMaze(maze)
+}
 
 
+const addMarksToWays = (maze, W, H) => {
     const markedMaze = {}
 
     // make way
-    for (let x = 0; x < WIDTH; ++x) {
-        for (let y = 0; y < HEIGHT; ++y) {
+    for (let x = 0; x < W; ++x) {
+        for (let y = 0; y < H; ++y) {
             if (maze[x + ',' +  y] === WALL) {
                 markedMaze[x + ',' + y] = { type: WALL, model: null }
             }
@@ -244,7 +251,10 @@ export const createScheme03 = async ({
         }
     }
 
-    // set stairs
+    return markedMaze
+}
+
+const addStairsData = (markedMaze, posStart, posEnd) => {
     {
         // enter stairs
         let dir = null
@@ -302,10 +312,21 @@ export const createScheme03 = async ({
         }
         markedMaze[posStart[0] + ',' + posEnd[0]] = {type: EMPTY, model: 'START_ROOM', dir }
     }
+}
 
 
-    console.log(markedMaze)
+export const createScheme03 = async ({
+    width = 21,
+    height = 21,
+    posStart = [11, 1]
+}) => {
+    const WIDTH = width
+    const HEIGHT = height
 
+    const { posEnd, maze } = await createMaze(width, height, posStart)
+    debugPrintMaze(maze, WIDTH, HEIGHT, posStart, posEnd)
+    const markedMaze = addMarksToWays(maze, WIDTH, HEIGHT)
+    addStairsData(markedMaze, posStart, posEnd)
 
     return {
         posStart,
