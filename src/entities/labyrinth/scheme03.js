@@ -1,6 +1,7 @@
+const WALL = 1
 const EMPTY = 3
 const STAIR = 4
-const WALL = 1
+
 const [
     NORTH,
     SOUTH,
@@ -258,10 +259,11 @@ const addStairsData = (markedMaze, posStart, posEnd) => {
     {
         // enter stairs
         let dir = null
+        let sI = -1
+        let sJ = -1
         for (let i = posEnd[0] - 1; i < posEnd[0] + 2; ++i) {
             for (let j = posEnd[1] - 1; j < posEnd[1] + 2; ++j) {
                 if (markedMaze[i + ',' + j].type === EMPTY) {
-                    console.log('!!&&&&', i, j)
                     markedMaze[i + ',' + j].type = WALL
                     markedMaze[i + ',' + j].model = null
                     markedMaze[i + ',' + j].dir = null
@@ -278,10 +280,12 @@ const addStairsData = (markedMaze, posStart, posEnd) => {
                     if (j > posEnd[1]) {
                         dir = 's'
                     }
+                    sI = i
+                    sJ = j
                 }
             }
         }
-        markedMaze[posEnd[0] + ',' + posEnd[1]] = {type: EMPTY, model: 'END_ROOM', dir: dir}
+        markedMaze[posEnd[0] + ',' + posEnd[1]] = { type: EMPTY, model: 'END_ROOM', dir: dir, i: posEnd[0], j: posEnd[1] }
     }
 
     {
@@ -290,21 +294,20 @@ const addStairsData = (markedMaze, posStart, posEnd) => {
         for (let i = posStart[0] - 1; i < posStart[0] + 2; ++i) {
             for (let j = posStart[1] - 1; j < posStart[1] + 2; ++j) {
                 if (markedMaze[i + ',' + j].type === EMPTY) {
-
                     markedMaze[i + ',' + j].type = WALL
                     markedMaze[i + ',' + j].model = null
                     markedMaze[i + ',' + j].dir = null
 
-                    if (i < posEnd[0]) {
+                    if (i < posStart[0]) {
                         dir = 'w'
                     }
-                    if (i > posEnd[0]) {
+                    if (i > posStart[0]) {
                         dir = 'e'
                     }
-                    if (j < posEnd[1]) {
+                    if (j < posStart[1]) {
                         dir = 'n'
                     }
-                    if (j > posEnd[1]) {
+                    if (j > posStart[1]) {
                         dir = 's'
                     }
                 }

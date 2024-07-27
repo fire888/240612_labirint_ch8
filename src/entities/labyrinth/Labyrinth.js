@@ -7,6 +7,9 @@ import { createTileT } from '../../geometry/tile_T'
 import { createTileU } from '../../geometry/tile_U'
 import { createStair } from "../../geometry/stair";
 
+const TUNNEL = 3
+
+
 export const createMesh = ({
 
     v = [],
@@ -46,19 +49,25 @@ export class Labyrinth {
         this.mesh.position.z = -W * 23 / 2
         this.mesh.position.x = -W * 23 / 2
 
-        let posEndLast = [11, 1]
+        let posStartNext = [11, 1]
 
-        const collisionV = []
-
-        for (let iFloor = 0; iFloor < 3; ++iFloor) {
+        const levelsData = []
+        for (let i = 0; i < 4; ++i) {
             const {
                 posStart,
                 posEnd,
                 markedMaze,
-            } = await createScheme03({ width: WIDTH, height: HEIGHT, posStart: posEndLast })
+            } = await createScheme03({ width: WIDTH, height: HEIGHT, posStart: posStartNext })
 
-            posEndLast = posEnd
+            levelsData.push({ posStart, posEnd, markedMaze })
 
+            posStartNext = posEnd
+        }
+
+        const collisionV = []
+
+        for (let iFloor = 0; iFloor < levelsData.length; ++iFloor) {
+            const { posStart, posEnd, markedMaze } = levelsData[iFloor]
             const v = []
             const vC = []
 
@@ -70,21 +79,12 @@ export class Labyrinth {
 
                     const { type, dir, model } = markedMaze[i + ',' + j]
 
-                    if (type !== 3) {
+                    if (type !== TUNNEL) {
                         continue
                     }
 
                     const _v = []
                     const _vC = []
-
-                    if (model === 'END_ROOM') {
-                        const b = new THREE.Mesh(
-                            new THREE.BoxGeometry(H * 1.8, H * 1.8, H * 1.8),
-                            new THREE.MeshPhongMaterial({ color: 0xff0000 })
-                        )
-                        b.position.set(W * i, iFloor * H + H * .9, W * j)
-                        this.mesh.add(b)
-                    }
 
 
                     if (model === 'I') {
@@ -134,20 +134,51 @@ export class Labyrinth {
                     vC.push(..._vC)
                 }
             }
+            // make level
 
 
+
+
+            let stairDataBottom = null
+            for (let key in markedMaze) {
+                if (markedMaze[key].model === 'END_ROOM') {
+                    stairDataBottom = markedMaze[key]
+                }
+            }
+            const { dir, i, j } = stairDataBottom
+            let stairDataTop = null
+            if (levelsData[iFloor + 1]) {
+                const { markedMaze } = levelsData[iFloor + 1]
+                for (let key in markedMaze) {
+                    if (markedMaze[key].model === 'START_ROOM') {
+                        stairDataTop = markedMaze[key]
+                    }
+                }
+            }
 
             // stair /////////////////////
-            const sV = createStair()
-            _M.translateVertices(sV.vC, W * posEndLast[0], 0, W * posEndLast[1])
-            vC.push(...sV.vC)
-
+            if (stairDataBottom && stairDataTop) {
+                console.log('****!!! ')
+                const stair = createStair({ stairDataBottom, stairDataTop, W, WC, H })
+                _M.translateVertices(stair.vC, W * i, 0, W * j)
+                vC.push(...stair.vC)
+                 _M.translateVertices(stair.v, W * i, H * iFloor, W * j)
+                v.push(...stair.v)
+            }
 
             const m = new THREE.MeshPhongMaterial({ color: 0xffffff })
-
             const mesh = createMesh({ v, material: m })
             mesh.position.y = iFloor * H
 
+            // {
+            //     const b = new THREE.Mesh(
+            //         new THREE.BoxGeometry(H * 1.8, H * 1.8, H * 1.8),
+            //         new THREE.MeshPhongMaterial({color: 0xff0000})
+            //     )
+            //     b.position.set(W * i, iFloor * H + H * .9, W * j)
+            //     this.mesh.add(b)
+            // }
+            //
             {
                 const b = new THREE.Mesh(
                     new THREE.BoxGeometry(1, 1, 1),
@@ -157,23 +188,28 @@ export class Labyrinth {
                 b.position.z = W * posStart[1]
                 mesh.add(b)
             }
-            {
-                const b = new THREE.Mesh(
-                    new THREE.BoxGeometry(1, 1, 1),
-                    new THREE.MeshPhongMaterial({
-                        color: 0xffff00,
-                    })
-                )
-                b.position.x = W * posEndLast[0]
-                b.position.z = W * posEndLast[1]
-                mesh.add(b)
-            }
+            // {
+            //     const b = new THREE.Mesh(
+            //         new THREE.BoxGeometry(1, 1, 1),
+            //         new THREE.MeshPhongMaterial({
+            //             color: 0xffff00,
+            //         })
+            //     )
+            //     b.position.x = W * posEnd[0]
+            //     b.position.z = W * posEnd[1]
+            //     mesh.add(b)
+            // }
+
+
+
+
 
             this.mesh.add(mesh)
 
             _M.translateVertices(vC, 0, iFloor * H, 0)
             collisionV.push(...vC)
         }
+
 
         this.collisionMech = createMesh({
             v: collisionV,
