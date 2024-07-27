@@ -138,20 +138,10 @@ export const createScheme03 = async ({
 
 
     const markedMaze = {}
+
+    // make way
     for (let x = 0; x < WIDTH; ++x) {
         for (let y = 0; y < HEIGHT; ++y) {
-
-            if (x === posStart[0] && y === posStart[1]) {
-                markedMaze[x + ',' + y] = { type: EMPTY, model: 'START_ROOM' }
-                continue;
-            }
-
-            if (x === posEnd[0] && y === posEnd[1]) {
-                console.log('^^^^')
-                markedMaze[x + ',' + y] = { type: EMPTY, model: 'END_ROOM' }
-                continue;
-            }
-
             if (maze[x + ',' +  y] === WALL) {
                 markedMaze[x + ',' + y] = { type: WALL, model: null }
             }
@@ -253,6 +243,69 @@ export const createScheme03 = async ({
             }
         }
     }
+
+    // set stairs
+    {
+        // enter stairs
+        let dir = null
+        for (let i = posEnd[0] - 1; i < posEnd[0] + 2; ++i) {
+            for (let j = posEnd[1] - 1; j < posEnd[1] + 2; ++j) {
+                if (markedMaze[i + ',' + j].type === EMPTY) {
+                    console.log('!!&&&&', i, j)
+                    markedMaze[i + ',' + j].type = WALL
+                    markedMaze[i + ',' + j].model = null
+                    markedMaze[i + ',' + j].dir = null
+
+                    if (i < posEnd[0]) {
+                        dir = 'w'
+                    }
+                    if (i > posEnd[0]) {
+                        dir = 'e'
+                    }
+                    if (j < posEnd[1]) {
+                        dir = 'n'
+                    }
+                    if (j > posEnd[1]) {
+                        dir = 's'
+                    }
+                }
+            }
+        }
+        markedMaze[posEnd[0] + ',' + posEnd[1]] = {type: EMPTY, model: 'END_ROOM', dir: dir}
+    }
+
+    {
+        // exit stairs
+        let dir = null
+        for (let i = posStart[0] - 1; i < posStart[0] + 2; ++i) {
+            for (let j = posStart[1] - 1; j < posStart[1] + 2; ++j) {
+                if (markedMaze[i + ',' + j].type === EMPTY) {
+
+                    markedMaze[i + ',' + j].type = WALL
+                    markedMaze[i + ',' + j].model = null
+                    markedMaze[i + ',' + j].dir = null
+
+                    if (i < posEnd[0]) {
+                        dir = 'w'
+                    }
+                    if (i > posEnd[0]) {
+                        dir = 'e'
+                    }
+                    if (j < posEnd[1]) {
+                        dir = 'n'
+                    }
+                    if (j > posEnd[1]) {
+                        dir = 's'
+                    }
+                }
+            }
+        }
+        markedMaze[posStart[0] + ',' + posEnd[0]] = {type: EMPTY, model: 'START_ROOM', dir }
+    }
+
+
+    console.log(markedMaze)
+
 
     return {
         posStart,
