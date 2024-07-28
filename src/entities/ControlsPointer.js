@@ -104,7 +104,7 @@ export class ControlsPointer {
             this.raycaster.ray.origin.copy(this.controls.getObject().position)
             this.raycaster.ray.origin.y -= 0
 
-            const intersections = this.raycaster.intersectObjects(this.objects, false)
+            const intersections = this.raycaster.intersectObjects(this.objects, true)
 
             const onObject = intersections.length > 0
 

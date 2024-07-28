@@ -5,8 +5,7 @@ const W = 3
 
 export const createStair = (data) => {
     const { stairDataBottom, stairDataTop, W, WC, H } = data
-    console.log('RRRR', stairDataBottom, stairDataTop)
-
+    
     const v = []
     const vC = []
 
