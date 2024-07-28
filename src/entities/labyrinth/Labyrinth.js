@@ -45,7 +45,7 @@ export class Labyrinth {
         const WC = W / 2 - .2
 
         this.mesh = new THREE.Object3D()
-        this.mesh.position.y = .2
+        this.mesh.position.y = 0.08
         this.mesh.position.z = -W * 23 / 2
         this.mesh.position.x = -W * 23 / 2
 
@@ -162,7 +162,7 @@ export class Labyrinth {
                 const stair = createStair({ stairDataBottom, stairDataTop, W, WC, H })
                 _M.translateVertices(stair.vC, W * i, 0, W * j)
                 vC.push(...stair.vC)
-                 _M.translateVertices(stair.v, W * i, H * iFloor, W * j)
+                 _M.translateVertices(stair.v, W * i, 0, W * j)
                 v.push(...stair.v)
             }
 
@@ -217,6 +217,7 @@ export class Labyrinth {
                 color: 0x0000ff,
                 transparent: true,
                 opacity: .2,
+                side: THREE.DoubleSide
             })
         })
         this.collisionMech.position.z = -W * 23 / 2

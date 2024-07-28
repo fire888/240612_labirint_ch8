@@ -106,6 +106,7 @@ const createMaze = async (width, height, posStart) => {
 const debugPrintMaze = (maze, W, H, posStart, posEnd) => {
     const cont = document.createElement('div')
     const parent = document.getElementById('cont-level-dev')
+    parent.classList.add('show-over-canvas')
     cont.innerText = '&&&&&'
     parent.appendChild(cont)
 
@@ -327,7 +328,7 @@ export const createScheme03 = async ({
     const HEIGHT = height
 
     const { posEnd, maze } = await createMaze(width, height, posStart)
-    debugPrintMaze(maze, WIDTH, HEIGHT, posStart, posEnd)
+    //debugPrintMaze(maze, WIDTH, HEIGHT, posStart, posEnd)
     const markedMaze = addMarksToWays(maze, WIDTH, HEIGHT)
     addStairsData(markedMaze, posStart, posEnd)
 
