@@ -328,7 +328,7 @@ export const createScheme03 = async ({
     const HEIGHT = height
 
     const { posEnd, maze } = await createMaze(width, height, posStart)
-    debugPrintMaze(maze, WIDTH, HEIGHT, posStart, posEnd)
+   // debugPrintMaze(maze, WIDTH, HEIGHT, posStart, posEnd)
     const markedMaze = addMarksToWays(maze, WIDTH, HEIGHT)
     addStairsData(markedMaze, posStart, posEnd)
 

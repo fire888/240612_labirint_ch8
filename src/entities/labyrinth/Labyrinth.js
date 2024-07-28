@@ -181,26 +181,26 @@ export class Labyrinth {
             meshCollide.position.y = iFloor * H
 
 
-            {
-                const b = new THREE.Mesh(
-                    new THREE.BoxGeometry(1, 1, 1),
-                    new THREE.MeshPhongMaterial({ color: 0xff0000 })
-                )
-                b.position.x = W * posStart[0]
-                b.position.z = W * posStart[1]
-                mesh.add(b)
-            }
-            {
-                const b = new THREE.Mesh(
-                    new THREE.BoxGeometry(1, 1, 1),
-                    new THREE.MeshPhongMaterial({
-                        color: 0xffff00,
-                    })
-                )
-                b.position.x = W * posEnd[0]
-                b.position.z = W * posEnd[1]
-                mesh.add(b)
-            }
+            // {
+            //     const b = new THREE.Mesh(
+            //         new THREE.BoxGeometry(1, 1, 1),
+            //         new THREE.MeshPhongMaterial({ color: 0xff0000 })
+            //     )
+            //     b.position.x = W * posStart[0]
+            //     b.position.z = W * posStart[1]
+            //     mesh.add(b)
+            // }
+            // {
+            //     const b = new THREE.Mesh(
+            //         new THREE.BoxGeometry(1, 1, 1),
+            //         new THREE.MeshPhongMaterial({
+            //             color: 0xffff00,
+            //         })
+            //     )
+            //     b.position.x = W * posEnd[0]
+            //     b.position.z = W * posEnd[1]
+            //     mesh.add(b)
+            // }
 
             this.mesh.add(mesh)
             this.collisionMech.add(meshCollide)

@@ -17,12 +17,12 @@ export class Studio {
         this.camera.lookAt(0, 1, 0)
 
         this.scene = new THREE.Scene()
-        this.scene.background = new THREE.Color(0x0a1429)
-        this.fog = new THREE.Fog(0x0a1429, 1, 30)
+        this.scene.background = new THREE.Color(0x999999)
+        this.fog = new THREE.Fog(0x999999, 1, 30)
 
-        this.hemiLight = new THREE.HemisphereLight(0xffffff, 0x8d8d8d, 3)
-        this.hemiLight.position.set( 0, 20, 0 )
-        this.scene.add(this.hemiLight)
+       // this.hemiLight = new THREE.HemisphereLight(0xffffff, 0x8d8d8d, 3)
+       // this.hemiLight.position.set( 0, 20, 0 )
+       // this.scene.add(this.hemiLight)
 
         this.dirLight = new THREE.DirectionalLight( 0xffffff, 3 )
         this.dirLight.position.set(-3, 10, 2)

@@ -1,7 +1,7 @@
 import * as THREE from "three";
 
 export const _M = {
-    createPolygon:(v0, v1, v2, v3) => [...v0, ...v1, ...v2, ...v0, ...v2, ...v3],
+    createPolygon: function(v0, v1, v2, v3) { return  [...v0, ...v1, ...v2, ...v0, ...v2, ...v3] },
     fillColorFace: c => [...c, ...c, ...c, ...c, ...c, ...c],
     createUv: (v1, v2, v3, v4) => [...v1, ...v2, ...v3, ...v1, ...v3, ...v4],
     applyMatrixToArray(m, arr) {
@@ -184,4 +184,21 @@ export const _M = {
         ]
         return { vArr, cArr, uArr }
     },
+    createBox: (
+        v1, v2, v3, v4,
+        v5, v6, v7, v8,
+    ) => {
+        const vArr = [
+            ..._M.createPolygon(v1, v2, v3, v4), // f
+            ..._M.createPolygon(v6, v5, v8, v7), // back
+            ..._M.createPolygon(v4, v3, v7, v8), // top
+            ..._M.createPolygon(v2, v1, v5, v6), // bottom
+            ..._M.createPolygon(v5, v1, v4, v8), // left
+            ..._M.createPolygon(v2, v6, v7, v3), // right
+        ]
+
+        return {
+            vArr
+        }
+    }
 }
