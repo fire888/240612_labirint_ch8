@@ -11,7 +11,6 @@ const TUNNEL = 3
 
 
 export const createMesh = ({
-
     v = [],
     uv = [],
     c = [],
@@ -28,6 +27,23 @@ export const createMesh = ({
     //const cF32 = new Float32Array(c)
     //geometry.setAttribute('color', new THREE.BufferAttribute(cF32, 3))
     return new THREE.Mesh(geometry, material)
+}
+
+
+const makeCreaterSquare = ({ w }) => {
+    const lineMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff })
+    const linePoints = [
+        new THREE.Vector3(-w / 2, 0, -w / 2),
+        new THREE.Vector3(-w / 2, 0, w / 2),
+        new THREE.Vector3(w / 2, 0, w / 2),
+        new THREE.Vector3(w / 2, 0, -w / 2),
+        new THREE.Vector3(-w / 2, 0, -w / 2),
+    ]
+    const geometry = new THREE.BufferGeometry().setFromPoints(linePoints)
+
+    return () => {
+        return new THREE.Line(geometry, lineMaterial)
+    }
 }
 
 
@@ -71,9 +87,69 @@ export class Labyrinth {
             posStartNext = posEnd
         }
 
-        console.log('HHHH', levelsData)
 
-        const collisionV = []
+        // demo tiles
+
+        const makeScuare = makeCreaterSquare({ w: W })
+
+        const _v = []
+
+
+       {
+            const r = createTileI({ w: W, h: H, wc: WC })
+            _v.push(...r.v)
+
+            const line = makeScuare() 
+            line.position.z = 15
+            line.position.y = 15
+            this.mesh.add(line)
+        }
+
+        {
+            const r = createTileL({ w: W, h: H, wc: WC })
+            _M.translateVertices(r.v, W * 2, 0, 0)
+            _v.push(...r.v)
+
+            const line = makeScuare() 
+            line.position.z = 15
+            line.position.y = 15
+            line.position.x = W * 2
+            this.mesh.add(line)
+        }
+
+        {
+            const r = createTileT({ w: W, h: H, wc: WC })
+            _M.translateVertices(r.v, W * 4, 0, 0)
+            _v.push(...r.v)
+
+            const line = makeScuare() 
+            line.position.z = 15
+            line.position.y = 15
+            line.position.x = W * 4
+            this.mesh.add(line)
+        }
+
+        {
+            const r = createTileU({ w: W, h: H, wc: WC })
+            _M.translateVertices(r.v, W * 6, 0, 0)
+            _v.push(...r.v)
+
+            const line = makeScuare() 
+            line.position.z = 15
+            line.position.y = 15
+            line.position.x = W * 6
+            this.mesh.add(line)
+        }
+
+        const m = createMesh({ v: _v, material: this.collideMat })
+        m.position.z = 15
+        m.position.y = 15
+        this.mesh.add(m)
+
+
+        // / demo tiles
+
+        console.log('HHHH', levelsData)
 
         for (let iFloor = 0; iFloor < levelsData.length; ++iFloor) {
             const { posStart, posEnd, markedMaze } = levelsData[iFloor]

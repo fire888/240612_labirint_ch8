@@ -59,4 +59,9 @@ export class Studio {
     add (m: THREE.Object3D) {
         this.scene.add(m)
     }
+
+    addAxisHelper () {
+        const axesHelper = new THREE.AxesHelper(15)
+        this.scene.add(axesHelper)
+    }
 }

@@ -39,7 +39,7 @@ export const createStair = (data) => {
             [-W * 1.5, 0, -WC],
         )
 
-        const tt = _M.createPolygon(
+        const collisionEnter = _M.createPolygon(
             [-W * 1.5 + W * 0.2, 0, WC],
             [-W * .5, H * .5, WC],
             [-W * .5, H * .5, -WC],
@@ -68,13 +68,10 @@ export const createStair = (data) => {
             arrStair.push(...copyStair) 
         }
         t.push(...arrStair)
-        //_M.translateVertices(stair.vArr, 0, H * 0.25, 0)
-        //v.push(...stair.vArr)
 
-        //const t = [...p, ...p1, ...b]
 
         // collision
-        const cT = [...b, ...tt]
+        const collisionEnterFull = [...b, ...collisionEnter]
 
         let r = 0
         if (stairDataBottom.dir === 'n') {
@@ -87,11 +84,10 @@ export const createStair = (data) => {
             r = Math.PI * .5
         }
         _M.rotateVerticesY(t, r)
-
         v.push(...t)
 
-        _M.rotateVerticesY(cT, r)
-        vC.push(...cT)
+        _M.rotateVerticesY(collisionEnterFull, r)
+        vC.push(...collisionEnterFull)
 
 
         const ss = _M.createBox(
@@ -118,7 +114,6 @@ export const createStair = (data) => {
             [W * .5, H * .5, -W * .5],
             [-W * .5, H * .5, -W * .5],
         )
-        // v.push(...n)
         vC.push(...n)
     }
 
@@ -130,13 +125,13 @@ export const createStair = (data) => {
            [W * 1.5 - W * .2, H, -WC],
            [W * .5, H * .5, -WC],
         )
-
         const vTT = _M.createPolygon(
             [W * 1.5 - W * .2, H, WC],
             [W * 1.5, H, WC],
             [W * 1.5, H, -WC],
             [W * 1.5  - W * .2, H, -WC],
         )
+
 
         let r = 0
         if (stairDataTop.dir === 'n') {
@@ -170,10 +165,13 @@ export const createStair = (data) => {
             arrStair.push(...copyStair) 
         }
 
-        const rr = [...arrStair, ...vTT]
+        const rr = [...arrStair]
         _M.rotateVerticesY(rr, r)
         v.push(...rr)
-        vC.push(...rr)
+
+        const collisionExit = [...vT, ...vTT]
+        _M.rotateVerticesY(collisionExit, r)
+        vC.push(...collisionExit)
     }
 
     return {

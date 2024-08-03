@@ -14,6 +14,7 @@ export const pipelineInit = async (root: Root) => {
     ticker.start()
 
     studio.init()
+    studio.addAxisHelper()
     ticker.on(studio.render.bind(studio))
 
     controlsOrbit.init(studio.camera, studio.containerDom)

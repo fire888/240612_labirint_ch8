@@ -200,5 +200,5 @@ export const _M = {
         return {
             vArr
         }
-    }
+    },
 }

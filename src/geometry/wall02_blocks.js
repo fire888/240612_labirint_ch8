@@ -1,5 +1,6 @@
 
 import { _M } from "./_m"
+import { ELEMS_N } from './constants'
 
 export const createWall02_blocks = ({
                                  w = 10,
@@ -8,11 +9,12 @@ export const createWall02_blocks = ({
 
     const v = []
 
-    const N = 5
+    const N = ELEMS_N
     const step = w / N
     const xW = .05
     const zW = .05
     
+    // inner stolbs
     const stolb = [
         ..._M.createPolygon(         
             [-xW, 0, zW],
@@ -49,6 +51,7 @@ export const createWall02_blocks = ({
     }
 
 
+    // left/right small parts
     const smallStolb = [
         ..._M.createPolygon(
             [0, 0, zW],
@@ -66,7 +69,7 @@ export const createWall02_blocks = ({
             [xW, 0, -zW],
             [0, 0, -zW],
             [0, h, -zW],
-            [xW, h, zW],
+            [xW, h, -zW],
         ),
         ..._M.createPolygon(
             [0, 0, -zW],
