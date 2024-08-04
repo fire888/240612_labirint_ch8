@@ -18,6 +18,7 @@ export const pipelinePlay = async (root: Root) => {
 
     controlsPointer.disable()
     controlsOrbit.enable()
+    //controlsOrbit.disable()
 
     const onKeyUp = (event: any) => {
         if (event.code === 'KeyO') {
