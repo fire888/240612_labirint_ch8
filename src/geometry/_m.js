@@ -1,5 +1,6 @@
 import * as THREE from "three";
 
+
 export const _M = {
     createPolygon: function(v0, v1, v2, v3) { return  [...v0, ...v1, ...v2, ...v0, ...v2, ...v3] },
     fillColorFace: c => [...c, ...c, ...c, ...c, ...c, ...c],
@@ -32,11 +33,11 @@ export const _M = {
     },
     angleFromCoords (x, y) {
         let rad = Math.atan(y / x)
-        x < 0 && y > 0 && (rad = PI - Math.abs(rad))
-        x < 0 && y <= 0 && (rad = PI + Math.abs(rad))
+        x < 0 && y > 0 && (rad = Math.PI - Math.abs(rad))
+        x < 0 && y <= 0 && (rad = Math.PI + Math.abs(rad))
         rad += Math.PI * 6
         rad = rad % (Math.PI * 2)
-        return -rad
+        return rad
     },
     // mirrorZ: (arr) => {
     //     const arr2 = []

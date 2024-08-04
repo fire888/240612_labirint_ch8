@@ -7,6 +7,8 @@ import { createTileT } from '../../geometry/tile_T'
 import { createTileU } from '../../geometry/tile_U'
 import { createStair } from "../../geometry/stair";
 
+import { createLineGeom  } from 'geometry/lineGeom';
+
 const TUNNEL = 3
 
 
@@ -68,7 +70,6 @@ export class Labyrinth {
         this.collisionMech = new THREE.Object3D()
         this.collisionMech.position.z = -W * 23 / 2
         this.collisionMech.position.x = -W * 23 / 2
-
         this.collideMat = new THREE.MeshBasicMaterial({ color: 0xFF0000 })
 
 
@@ -87,15 +88,15 @@ export class Labyrinth {
             posStartNext = posEnd
         }
 
+        console.log('Levels: ', levelsData)
+
 
         // demo tiles
 
         const makeScuare = makeCreaterSquare({ w: W })
 
         const _v = []
-
-
-       {
+        {
             const r = createTileI({ w: W, h: H, wc: WC })
             _v.push(...r.v)
 
@@ -149,12 +150,14 @@ export class Labyrinth {
 
         // / demo tiles
 
-        console.log('HHHH', levelsData)
+
 
         for (let iFloor = 0; iFloor < levelsData.length; ++iFloor) {
             const { posStart, posEnd, markedMaze } = levelsData[iFloor]
             const v = []
             const vC = []
+
+
 
             for (let i = 0; i < WIDTH; ++i) {
                 for (let j = 0; j < HEIGHT; ++j) {
@@ -247,6 +250,8 @@ export class Labyrinth {
                  _M.translateVertices(stair.v, W * i, 0, W * j)
                 v.push(...stair.v)
             }
+
+            console.log('&&&&', v.length)
 
             const m = new THREE.MeshPhongMaterial({ color: 0xffffff })
             const mesh = createMesh({ v, material: m })
