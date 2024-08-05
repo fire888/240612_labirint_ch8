@@ -70,7 +70,7 @@ export class Labyrinth {
         this.collisionMech = new THREE.Object3D()
         this.collisionMech.position.z = -W * 23 / 2
         this.collisionMech.position.x = -W * 23 / 2
-        this.collideMat = new THREE.MeshBasicMaterial({ color: 0xFF0000 })
+        this.collideMat = new THREE.MeshPhongMaterial({ color: 0xFF0000 })
 
 
         let posStartNext = [11, 1]

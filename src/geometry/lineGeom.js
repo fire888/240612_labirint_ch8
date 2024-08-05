@@ -1,6 +1,6 @@
 import { _M  } from "./_m"
 
-export const createLineGeom = ({ form, points, isClosed }) => {
+export const createLineGeom = ({ form, points, isClosed, isDebug }) => {
     const arrForms = []
     
     for (let i = 0; i < points.length; ++i) {
@@ -24,29 +24,34 @@ export const createLineGeom = ({ form, points, isClosed }) => {
             nextPoint = points[i + 1]
         }
 
-        let angle1
+        let angle1 = null
         if (prevPoint) {
             const deltaX1 = currentPoint[0] - prevPoint[0]
             const deltaY1 = currentPoint[1] - prevPoint[1]
             angle1 = _M.angleFromCoords(deltaX1, deltaY1)    
-        } else {
-            angle1 = 0
         }
 
-        let angle2
+        let angle2 = null
         if (nextPoint) {
             const deltaX2 = nextPoint[0] - currentPoint[0]
             const deltaY2 = nextPoint[1] - currentPoint[1]
             angle2 = _M.angleFromCoords(deltaX2, deltaY2)
-        } else {
-            angle2 = 0
+        }
+
+        if (angle1 === null) {
+            angle1 = angle2
+        }
+        if (angle2 === null) {
+            angle2 = angle1
         }
 
 
 
-        let angle = angle1 + (angle2 - angle1) / 2
-        if (i === points.length - 1) {
-            angle += Math.PI
+        let angle = angle2 - (angle2 - angle1) / 2
+        angle = angle % (Math.PI * 2)
+
+        if (i === points.length - 1 && isClosed) {
+           angle -= Math.PI
         }
 
         const copyForm = [...form]

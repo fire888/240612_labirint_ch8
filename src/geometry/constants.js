@@ -10,7 +10,11 @@ export const WF = 3
 export const W = WF / 2
 export const W_m_WC = .2
 export const WC = W - W_m_WC 
+export const STEP = WF / ELEMS_N
+export const STEP_HALF = STEP / 2
+
 export const H = 3 
+
 
 
 export const N_GON = 3
