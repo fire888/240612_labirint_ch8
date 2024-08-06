@@ -1,7 +1,7 @@
 import { createLineGeom } from "./lineGeom"
 
 export const ELEMS_N = 5 
-export const ELEM_W = .05
+export const ELEM_W = .04
 
 export const ROAD_WIDTH = .2
 export const ROAD_HEIGHT = .07
@@ -21,10 +21,10 @@ export const N_GON = 3
 
 
 export const FORM = [
-    0, -.05, -.05,
-    0, -.05, .05,
-    0, .05, .05,
-    0, .05, -.05,
+    0, -ELEM_W, -ELEM_W,
+    0, -ELEM_W, ELEM_W,
+    0, ELEM_W, ELEM_W,
+    0, ELEM_W, -ELEM_W,
 ]
 export const POINTS  = [
     [.9, 0, 0],

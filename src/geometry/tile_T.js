@@ -91,11 +91,10 @@ export const createTileT = ({ w, h, wc }) => {
             _
     */
 
-    let veer = []
-
+    const veerRight = []
     {
         const newPoints = [
-            [0, 0, 0],
+            [-.02, 0, 0],
             POINTS[0],
             POINTS[1],
             POINTS[2],
@@ -104,16 +103,14 @@ export const createTileT = ({ w, h, wc }) => {
         _M.translateVertices(l.v, -1.2, 0, 0)
         
         const aStep = Math.PI / 2 / (ELEMS_N - 1)
-        
-        const _v = []
+
         for (let i = 1; i < ELEMS_N - 1; ++i) {
             const copyN = [...l.v]
             _M.rotateVerticesY(copyN, -aStep * i)
-            _v.push(...copyN)
+            veerRight.push(...copyN)
         }
-        veer = [..._v]
-        _M.translateVertices(_v, W - STEP_HALF, 0, W - STEP_HALF)
-        v.push(..._v)
+        _M.translateVertices(veerRight, W - STEP_HALF, 0, W - STEP_HALF)
+        v.push(...veerRight)
     }
 
 
@@ -123,13 +120,39 @@ export const createTileT = ({ w, h, wc }) => {
         | /   <-!!!!!  
            -- 
     */
-    {
-        _M.rotateVerticesY(veer, -Math.PI / 2)
-        _M.translateVertices(veer, .1, 0, -.1)
-        
-        _M.translateVertices(veer, -WC, 0, WC)
-        v.push(...veer)
+    const leftPartsBottom = []
+    const leftPartsTop = []
 
+    let veerLeft = [...veerRight]
+    {
+        _M.rotateVerticesY(veerLeft, -Math.PI / 2)
+        v.push(...veerLeft)
+
+    }
+
+
+
+    /*
+           --------
+             ---
+              -
+     */
+
+    {
+        const p = [0, 0, -1.2]
+        const aStep = Math.PI / 2 / (ELEMS_N - 1)
+        for (let i = 1; i < ELEMS_N - 1; ++i) {
+            const copy_P = [...p]
+            _M.rotateVerticesY(copy_P, -aStep * i)
+            _M.translateVertices(copy_P, -1.2, 0, 1.2)
+
+            const copy2_P = [...p]
+            _M.rotateVerticesY(copy2_P, aStep * i)
+            _M.translateVertices(copy2_P, 1.2, 0, 1.2)
+
+            const l = createLineGeom({ form: FORM, points: [copy_P, copy2_P], isClosed: false })
+            v.push(...l.v)
+        }
     }
 
     return { v }
