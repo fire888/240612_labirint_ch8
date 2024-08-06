@@ -142,6 +142,12 @@ export class Labyrinth {
             this.mesh.add(line)
         }
 
+        {
+            const stair = createStair({ stairDataBottom: { dir: 'w' }, stairDataTop: { dir: 'e' }, W, WC, H })
+            _M.translateVertices(stair.v, W * 9, 0, 0)
+            _v.push(...stair.v)
+        }
+
         const m = createMesh({ v: _v, material: this.collideMat })
         m.position.z = 15
         m.position.y = 15
@@ -230,6 +236,7 @@ export class Labyrinth {
             let stairDataBottom = null
             for (let key in markedMaze) {
                 if (markedMaze[key].model === 'END_ROOM') {
+                    console.log('endS', markedMaze[key])
                     stairDataBottom = markedMaze[key]
                 }
             }
@@ -239,6 +246,7 @@ export class Labyrinth {
                 const { markedMaze } = levelsData[iFloor + 1]
                 for (let key in markedMaze) {
                     if (markedMaze[key].model === 'START_ROOM') {
+                        console.log('stS', markedMaze[key])
                         stairDataTop = markedMaze[key]
                     }
                 }

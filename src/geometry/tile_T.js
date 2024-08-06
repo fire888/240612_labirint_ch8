@@ -71,7 +71,7 @@ export const createTileT = ({ w, h, wc }) => {
             POINTS[2],
             POINTS[3],
             POINTS[4],
-            [0, -.001, 0],
+            [-.3, -.001, 0],
         ]
 
         const l = createLineGeom({ form: FORM, points: newPoints, isClosed: false})
@@ -84,6 +84,26 @@ export const createTileT = ({ w, h, wc }) => {
         }
     }
 
+        /*
+         ----------
+        | | | | |  |
+        |  ------  <--!!!!
+        |          |
+        |_________ | 
+
+    */
+        {
+            //[-.3, -.001, 0],
+    
+            const l = createLineGeom({ 
+                form: FORM, points: [
+                    [-0.05 - STEP, 0, -.3], [0.05 + STEP, 0, -.3],
+                ], 
+                isClosed: false
+            })
+            v.push(...l.v)
+        }
+
 
     /*
 
@@ -94,7 +114,7 @@ export const createTileT = ({ w, h, wc }) => {
     const veerRight = []
     {
         const newPoints = [
-            [-.02, 0, 0],
+            [-.01, 0, 0],
             POINTS[0],
             POINTS[1],
             POINTS[2],
