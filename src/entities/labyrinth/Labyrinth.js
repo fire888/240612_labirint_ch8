@@ -146,6 +146,24 @@ export class Labyrinth {
             const stair = createStair({ stairDataBottom: { dir: 'w' }, stairDataTop: { dir: 'e' }, W, WC, H })
             _M.translateVertices(stair.v, W * 9, 0, 0)
             _v.push(...stair.v)
+
+            const line0 = makeScuare() 
+            line0.position.z = 15
+            line0.position.y = 15
+            line0.position.x = W * 8
+            this.mesh.add(line0)
+
+            const line1 = makeScuare() 
+            line1.position.z = 15
+            line1.position.y = 15
+            line1.position.x = W * 9
+            this.mesh.add(line1)
+
+            const line2 = makeScuare() 
+            line2.position.z = 15
+            line2.position.y = 15
+            line2.position.x = W * 10
+            this.mesh.add(line2)
         }
 
         const m = createMesh({ v: _v, material: this.collideMat })
@@ -266,7 +284,7 @@ export class Labyrinth {
             mesh.position.y = iFloor * H
 
             const meshCollide = createMesh({ v: vC, material: this.collideMat })
-            meshCollide.visible = false
+            //meshCollide.visible = false
             meshCollide.position.y = iFloor * H
 
 

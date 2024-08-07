@@ -7,72 +7,22 @@ import {
     H,
     ELEMS_N,
     STEP,
+    STEP_HALF,
 } from './constants'
 
+import { createTileI } from './tile_I'
+import { createTileL } from './tile_L'
+
 export const createStair = (data) => {
-    const { stairDataBottom, stairDataTop, W, WC, H } = data
+    const { stairDataBottom, stairDataTop } = data
 
     const v = []
     const vC = []
 
     // part enter
     {
-        // enter right
-        //const p = _M.createPolygon(
-        //    [0, 0, 0],
-        //    [W * 0.2, 0, 0],
-        //    [W * 0.2, H, 0],
-        //    [0, H, 0],
-        //)
-        //_M.translateVertices(p, -W * 1.5, 0, -WC)
-
-        // enter left
-        //const p1 = _M.createPolygon(
-        //    [W * 0.2, 0, 0],
-        //    [0, 0, 0],
-        //    [0, H, 0],
-        //    [W * 0.2, H, 0],
-        //)
-        //_M.translateVertices(p1, -W * 1.5, 0, WC)
-
         // enter bottom
-        const b = _M.createPolygon(
-           [-W * 1.5, 0, WC],
-           [-W * 1.5 + W * 0.2, 0, WC],
-           [-W * 1.5 + W * 0.2, 0, -WC],
-           [-W * 1.5, 0, -WC],
-        )
-
-        const collisionEnter = _M.createPolygon(
-            [-W * 1.5 + W * 0.2, 0, WC],
-            [-W * .5, H * .5, WC],
-            [-W * .5, H * .5, -WC],
-            [-W * 1.5 + W * 0.2, 0, -WC],
-        )
-
-        const t = []//[...p, ...p1, ...b]
-
-        // view stairs 
-        //const stair = _M.createBox(
-        //    [-.05, 0, WC],
-        //    [.05, 0, WC],
-        //    [.05, .07, WC],
-        
-        //    [-.05, .07, WC],
-        //    [-.05, 0, -WC],
-        //    [.05, 0, -WC],
-        //    [.05, .07, -WC],
-        //    [-.05, .07, -WC],
-        //)
-        //const arrStair = []
-        
-        //for (let i = 1; i < 7; ++i) {
-        //    const sX = (-W * .5 - (-W * 1.5 + W * .2)) / 7
-        //    const copyStair = [...stair.vArr]
-        //    _M.translateVertices(copyStair, -W * 1.5 + W * 0.2 + i * sX, H * 0.5 / 7 * i, 0)
-        //    arrStair.push(...copyStair) 
-        //}
-        //t.push(...arrStair)
+        const t = []
 
 
         /**                        /
@@ -89,14 +39,12 @@ export const createStair = (data) => {
         
         for (let i = 0; i < ELEMS_N; ++i) {
             const c = [...copyC]
-            _M.translateVertices(c, -W * 1.5 + STEP * i, stepY * i, 0)
+            _M.translateVertices(c, -WF * 1.5 + STEP * i + STEP_HALF, stepY * i, 0)
             t.push(...c)
         }
 
 
         // collision
-        const collisionEnterFull = [...b, ...collisionEnter]
-
         let r = 0
         if (stairDataBottom.dir === 'n') {
             r = Math.PI * 1.5
@@ -110,33 +58,39 @@ export const createStair = (data) => {
         _M.rotateVerticesY(t, r)
         v.push(...t)
 
-        _M.rotateVerticesY(collisionEnterFull, r)
-        vC.push(...collisionEnterFull)
-
-
-        const ss = _M.createBox(
-            [-.05, 0, WC],
-            [.05, 0, WC],
-            [.05, .07, WC],
-            [-.05, .07, WC],
-
-            [-.05, 0, -WC],
-            [.05, 0, -WC],
-            [.05, .07, -WC],
-            [-.05, .07, -WC],
+        const collisionEnter = _M.createPolygon(
+            [-WF - W , 0, WC],
+            [-WC, H * .5, WC],
+            [-WC, H * .5, -WC],
+            [-WF - W, 0, -WC],
         )
 
-        for (let i = 0; i < 7; ++i) {
-            const copy = [...ss.vArr]
-            _M.translateVertices(copy, W / 7 * i - W * .5, H * .5, 0)
-            v.push(...copy)
-        }
+        _M.rotateVerticesY(collisionEnter, r)
+        vC.push(...collisionEnter)
+
+
+    }
+
+
+    /*
+                      / 
+                     /
+                    /
+          /--------/  <-!!!!
+         /
+        /
+    */
+    {
+
+        const tI = createTileI({ })
+        _M.translateVertices(tI.v, 0, H / 2, 0)
+        v.push(...tI.v)
 
         const n = _M.createPolygon(
-            [-W * .5, H * .5, W * .5],
-            [W * .5, H * .5, W * .5],
-            [W * .5, H * .5, -W * .5],
-            [-W * .5, H * .5, -W * .5],
+            [-W, H * .5, W],
+            [W, H * .5, W],
+            [W, H * .5, -W],
+            [-W, H * .5, -W],
         )
         vC.push(...n)
     }
@@ -160,23 +114,16 @@ export const createStair = (data) => {
              
         for (let i = 0; i < ELEMS_N; ++i) {
             const c = [...copyC]
-            _M.translateVertices(c, W * .5 + STEP * i, stepY * i + H / 2, 0)
+            _M.translateVertices(c, WF * .5 + STEP * i + STEP_HALF, stepY * i + H / 2, 0)
             arrStair.push(...c)
         }
 
-        const vT = _M.createPolygon(
-           [W * .5, H * .5, WC],
-           [W * 1.5 - W * .2, H, WC],
-           [W * 1.5 - W * .2, H, -WC],
-           [W * .5, H * .5, -WC],
+        const _vC = _M.createPolygon(
+           [W, H * .5, WC],
+           [W + WF, H, WC],
+           [W + WF, H, -WC],
+           [W, H * .5, -WC],
         )
-        const vTT = _M.createPolygon(
-            [W * 1.5 - W * .2, H, WC],
-            [W * 1.5, H, WC],
-            [W * 1.5, H, -WC],
-            [W * 1.5  - W * .2, H, -WC],
-        )
-
 
         let r = 0
         if (stairDataTop.dir === 'n') {
@@ -189,34 +136,12 @@ export const createStair = (data) => {
             r = Math.PI * 1.5
         }
 
-
-        // view stairs 
-        // const stair = _M.createBox(
-        //     [-.05, 0, WC],
-        //     [.05, 0, WC],
-        //     [.05, .07, WC],
-        //     [-.05, .07, WC],
-
-        //     [-.05, 0, -WC],
-        //     [.05, 0, -WC],
-        //     [.05, .07, -WC],
-        //     [-.05, .07, -WC],
-        // )
-        // const arrStair = []
-        // for (let i = 1; i < 7; ++i) {
-        //     const sX = (W * 1.5 + W * .2 - W * .5) / 7
-        //     const copyStair = [...stair.vArr]
-        //     _M.translateVertices(copyStair, W * 0.5 + sX * i, H * 0.5 / 7 * i + H * .5, 0)
-        //     arrStair.push(...copyStair) 
-        // }
-
         const rr = [...arrStair]
         _M.rotateVerticesY(rr, r)
         v.push(...rr)
 
-        const collisionExit = [...vT, ...vTT]
-        _M.rotateVerticesY(collisionExit, r)
-        vC.push(...collisionExit)
+        _M.rotateVerticesY(_vC, r)
+        vC.push(..._vC)
     }
 
     return {
