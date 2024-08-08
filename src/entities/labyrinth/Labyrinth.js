@@ -76,14 +76,21 @@ export class Labyrinth {
         let posStartNext = [11, 1]
 
         const levelsData = []
+        let startDirection = 's'
         for (let i = 0; i < 4; ++i) {
             const {
                 posStart,
                 posEnd,
                 markedMaze,
-            } = await createScheme03({ width: WIDTH, height: HEIGHT, posStart: posStartNext })
+                endDir
+            } = await createScheme03({ width: WIDTH, height: HEIGHT, posStart: posStartNext, startDirection, })
 
             levelsData.push({ posStart, posEnd, markedMaze })
+
+            // TODO: check side level
+            const arr = ['e', 'n', 'w', 's']
+            const arrF = arr.filter(e => e !== endDir)
+            startDirection = arrF[Math.floor(Math.random() * arrF.length)]
 
             posStartNext = posEnd
         }
@@ -254,7 +261,6 @@ export class Labyrinth {
             let stairDataBottom = null
             for (let key in markedMaze) {
                 if (markedMaze[key].model === 'END_ROOM') {
-                    console.log('endS', markedMaze[key])
                     stairDataBottom = markedMaze[key]
                 }
             }
@@ -264,7 +270,6 @@ export class Labyrinth {
                 const { markedMaze } = levelsData[iFloor + 1]
                 for (let key in markedMaze) {
                     if (markedMaze[key].model === 'START_ROOM') {
-                        console.log('stS', markedMaze[key])
                         stairDataTop = markedMaze[key]
                     }
                 }
@@ -277,14 +282,12 @@ export class Labyrinth {
                 v.push(...stair.v)
             }
 
-            console.log('&&&&', v.length)
-
             const m = new THREE.MeshPhongMaterial({ color: 0xffffff })
             const mesh = createMesh({ v, material: m })
             mesh.position.y = iFloor * H
 
             const meshCollide = createMesh({ v: vC, material: this.collideMat })
-            //meshCollide.visible = false
+            meshCollide.visible = false
             meshCollide.position.y = iFloor * H
 
 
