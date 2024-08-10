@@ -143,7 +143,7 @@ export class Labyrinth {
         }
 
         {
-            const stair = createStair({ stairDataBottom: { dir: 'w' }, stairDataTop: { dir: 'e' }, W, WC, H })
+            const stair = createStair({ stairDataBottom: { dir: 'e' }, stairDataTop: { dir: 's' }, W, WC, H })
             _M.translateVertices(stair.v, W * 9, 0, 0)
             _v.push(...stair.v)
 
@@ -284,7 +284,7 @@ export class Labyrinth {
             mesh.position.y = iFloor * H
 
             const meshCollide = createMesh({ v: vC, material: this.collideMat })
-            //meshCollide.visible = false
+            meshCollide.visible = false
             meshCollide.position.y = iFloor * H
 
 
