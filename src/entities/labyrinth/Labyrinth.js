@@ -67,6 +67,8 @@ export class Labyrinth {
         this.mesh.position.z = -W * 23 / 2
         this.mesh.position.x = -W * 23 / 2
 
+        const material = new THREE.MeshPhongMaterial({ color: 0xffffff })
+
         this.collisionMech = new THREE.Object3D()
         this.collisionMech.position.z = -W * 23 / 2
         this.collisionMech.position.x = -W * 23 / 2
@@ -99,87 +101,102 @@ export class Labyrinth {
 
 
         // demo tiles
-
-        const makeScuare = makeCreaterSquare({ w: W })
-
-        const _v = []
         {
-            const r = createTileI({ w: W, h: H, wc: WC })
-            _v.push(...r.v)
 
-            const line = makeScuare() 
-            line.position.z = 15
-            line.position.y = 15
-            this.mesh.add(line)
+            const makeScuare = makeCreaterSquare({ w: W })
+
+            const _v = []
+            {
+                const r = createTileI({ w: W, h: H, wc: WC })
+                _v.push(...r.v)
+
+                const line = makeScuare() 
+                line.position.z = 15
+                line.position.y = 15
+                this.mesh.add(line)
+            }
+
+            {
+                const r = createTileL({ w: W, h: H, wc: WC })
+                _M.translateVertices(r.v, W * 2, 0, 0)
+                _v.push(...r.v)
+
+                const line = makeScuare() 
+                line.position.z = 15
+                line.position.y = 15
+                line.position.x = W * 2
+                this.mesh.add(line)
+            }
+
+            {
+                const r = createTileT({ w: W, h: H, wc: WC })
+                _M.translateVertices(r.v, W * 4, 0, 0)
+                _v.push(...r.v)
+
+                const line = makeScuare() 
+                line.position.z = 15
+                line.position.y = 15
+                line.position.x = W * 4
+                this.mesh.add(line)
+            }
+
+            {
+                const r = createTileU({ w: W, h: H, wc: WC })
+                _M.translateVertices(r.v, W * 6, 0, 0)
+                _v.push(...r.v)
+
+                const line = makeScuare() 
+                line.position.z = 15
+                line.position.y = 15
+                line.position.x = W * 6
+                this.mesh.add(line)
+            }
+
+            {
+                const stair = createStair({ stairDataBottom: { dir: 'e' }, stairDataTop: { dir: 'w' }, W, WC, H })
+                _M.translateVertices(stair.v, W * 9, 0, 0)
+                _v.push(...stair.v)
+
+                const line0 = makeScuare() 
+                line0.position.z = 15
+                line0.position.y = 15
+                line0.position.x = W * 8
+                this.mesh.add(line0)
+
+                const line1 = makeScuare() 
+                line1.position.z = 15
+                line1.position.y = 15
+                line1.position.x = W * 9
+                this.mesh.add(line1)
+
+                const line2 = makeScuare() 
+                line2.position.z = 15
+                line2.position.y = 15
+                line2.position.x = W * 10
+                this.mesh.add(line2)
+            }
+
+            const m = createMesh({ v: _v, material: this.collideMat })
+            m.position.z = 15
+            m.position.y = 15
+            this.mesh.add(m)
         }
 
+
+        // enter bottom stair
         {
-            const r = createTileL({ w: W, h: H, wc: WC })
-            _M.translateVertices(r.v, W * 2, 0, 0)
-            _v.push(...r.v)
+            const stair = createStair({ stairDataBottom: { dir: 'n' }, stairDataTop: { dir: 's' }, W, WC, H })
+            const m = createMesh({ v: stair.v, material: material })
+            m.position.x = Math.floor(WIDTH / 2) * W
+            m.position.z = 1 * W
+            this.mesh.add(m)
 
-            const line = makeScuare() 
-            line.position.z = 15
-            line.position.y = 15
-            line.position.x = W * 2
-            this.mesh.add(line)
+            const meshCollide = createMesh({ v: stair.vC, material: this.collideMat })
+            meshCollide.position.x = Math.floor(WIDTH / 2) * W
+            meshCollide.position.z = 1 * W
+            meshCollide.visible = false
+            this.collisionMech.add(meshCollide)
         }
-
-        {
-            const r = createTileT({ w: W, h: H, wc: WC })
-            _M.translateVertices(r.v, W * 4, 0, 0)
-            _v.push(...r.v)
-
-            const line = makeScuare() 
-            line.position.z = 15
-            line.position.y = 15
-            line.position.x = W * 4
-            this.mesh.add(line)
-        }
-
-        {
-            const r = createTileU({ w: W, h: H, wc: WC })
-            _M.translateVertices(r.v, W * 6, 0, 0)
-            _v.push(...r.v)
-
-            const line = makeScuare() 
-            line.position.z = 15
-            line.position.y = 15
-            line.position.x = W * 6
-            this.mesh.add(line)
-        }
-
-        {
-            const stair = createStair({ stairDataBottom: { dir: 'e' }, stairDataTop: { dir: 's' }, W, WC, H })
-            _M.translateVertices(stair.v, W * 9, 0, 0)
-            _v.push(...stair.v)
-
-            const line0 = makeScuare() 
-            line0.position.z = 15
-            line0.position.y = 15
-            line0.position.x = W * 8
-            this.mesh.add(line0)
-
-            const line1 = makeScuare() 
-            line1.position.z = 15
-            line1.position.y = 15
-            line1.position.x = W * 9
-            this.mesh.add(line1)
-
-            const line2 = makeScuare() 
-            line2.position.z = 15
-            line2.position.y = 15
-            line2.position.x = W * 10
-            this.mesh.add(line2)
-        }
-
-        const m = createMesh({ v: _v, material: this.collideMat })
-        m.position.z = 15
-        m.position.y = 15
-        this.mesh.add(m)
-
-
-        // / demo tiles
 
 
 
@@ -187,8 +204,6 @@ export class Labyrinth {
             const { posStart, posEnd, markedMaze } = levelsData[iFloor]
             const v = []
             const vC = []
-
-
 
             for (let i = 0; i < WIDTH; ++i) {
                 for (let j = 0; j < HEIGHT; ++j) {
@@ -282,13 +297,12 @@ export class Labyrinth {
                 v.push(...stair.v)
             }
 
-            const m = new THREE.MeshPhongMaterial({ color: 0xffffff })
-            const mesh = createMesh({ v, material: m })
-            mesh.position.y = iFloor * H
+            const mesh = createMesh({ v, material: material })
+            mesh.position.y = iFloor * H + H
 
             const meshCollide = createMesh({ v: vC, material: this.collideMat })
             meshCollide.visible = false
-            meshCollide.position.y = iFloor * H
+            meshCollide.position.y = iFloor * H + H
 
 
             // {

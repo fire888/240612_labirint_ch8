@@ -316,7 +316,7 @@ const addStairsData = (markedMaze, posStart, posEnd) => {
         }
         markedMaze[posEnd[0] + ',' + posEnd[1]] = { type: EMPTY, model: 'END_ROOM', dir: dir, i: posEnd[0], j: posEnd[1] }
 
-        console.log('*****)))', dir)
+        //console.log('*****)))', dir)
         endDir = dir
     }
 
@@ -362,7 +362,7 @@ export const createScheme03 = async ({
     const HEIGHT = height
 
     const { posEnd, maze } = await createMaze(width, height, posStart, startDirection)
-    debugPrintMaze(maze, WIDTH, HEIGHT, posStart, posEnd)
+    // debugPrintMaze(maze, WIDTH, HEIGHT, posStart, posEnd)
     const markedMaze = addMarksToWays(maze, WIDTH, HEIGHT)
     const endDir = addStairsData(markedMaze, posStart, posEnd)
 

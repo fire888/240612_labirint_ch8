@@ -67,8 +67,6 @@ export const createStair = (data) => {
 
         _M.rotateVerticesY(collisionEnter, r)
         vC.push(...collisionEnter)
-
-
     }
 
 
@@ -81,8 +79,27 @@ export const createStair = (data) => {
         /
     */
     {
-        let type = 'I'
+        let type = null
         let rot = 0 
+
+        if (stairDataBottom.dir === 's' && stairDataTop.dir === 'n') {
+            type = 'I'
+            rot = Math.PI * .5
+        }
+        if (stairDataBottom.dir === 'n' && stairDataTop.dir === 's') {
+            type = 'I'
+            rot = Math.PI * .5
+        }
+        if (stairDataBottom.dir === 'e' && stairDataTop.dir === 'w') {
+            type = 'I'
+            rot = Math.PI
+        }
+        if (stairDataBottom.dir === 'w' && stairDataTop.dir === 'e') {
+            type = 'I'
+            rot = Math.PI
+        }
+
+
         if (stairDataBottom.dir === 's' && stairDataTop.dir === 'e' ) {
             type = 'L'
             rot = 0
@@ -116,6 +133,8 @@ export const createStair = (data) => {
             rot = Math.PI
         }
 
+
+
         if (type === 'L') {
             const _l = createTileL({})
             _M.rotateVerticesY(_l.v, rot)
@@ -124,14 +143,12 @@ export const createStair = (data) => {
         }
 
         if (type === 'I') {
-            const tI = createTileI({ })
-            _M.translateVertices(tI.v, 0, H / 2, 0)
-            v.push(...tI.v)
+            const _l = createTileI({})
+            _M.rotateVerticesY(_l.v, rot)
+            _M.translateVertices(_l.v, 0, H / 2, 0)
+            v.push(..._l.v)
         }
 
-        //const tI = createTileI({ })
-        //_M.translateVertices(tI.v, 0, H / 2, 0)
-        //v.push(...tI.v)
 
         const n = _M.createPolygon(
             [-W, H * .5, W],
