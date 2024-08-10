@@ -10,7 +10,7 @@ const [
 ] = ['n', 's', 'e', 'w']
 
 
-const createMaze = async (width, height, posStart) => {
+const createMaze = async (width, height, posStart, startDirection) => {
     const WIDTH = width
     const HEIGHT = height
 
@@ -97,7 +97,32 @@ const createMaze = async (width, height, posStart) => {
     makeMap()
 
     hasVisited.push(posStart)
-    await visit(...posStart)
+    maze[posStart] = EMPTY
+    const posNext = [...posStart]
+    const posNextNext = [...posStart]
+    if (startDirection === 's') {
+          posNext[1] = posStart[1] + 1
+          posNextNext[1] = posStart[1] + 2
+    }
+    if (startDirection === 'e') {
+         posNext[0] = posStart[0] + 1
+         posNextNext[0] = posStart[0] + 2
+    }
+    if (startDirection === 'n') {
+         posNext[1] = posStart[1] - 1
+         posNextNext[1] = posStart[1] - 2
+    }
+    if (startDirection === 'w') {
+         posNext[0] = posStart[0] - 1
+         posNextNext[0] = posStart[0] - 2
+    }
+    hasVisited.push(
+        posNext,
+        posNextNext
+    )
+    maze[posNext] = EMPTY
+    maze[posNextNext] = EMPTY
+    await visit(...posNextNext)
 
     return { posStart, posEnd, maze, }
 }
@@ -189,22 +214,23 @@ const addMarksToWays = (maze, W, H) => {
                 }
 
                 // U
-                if (!isN && !isS && !isW && isE) {
-                    markedMaze[x + ',' + y].model = 'U'
-                    markedMaze[x + ',' + y].dir = Math.PI
-                }
                 if (!isN && !isS && isW && !isE) {
                     markedMaze[x + ',' + y].model = 'U'
                     markedMaze[x + ',' + y].dir = 0
-                }
-                if (isN && !isS && !isW && !isE) {
-                    markedMaze[x + ',' + y].model = 'U'
-                    markedMaze[x + ',' + y].dir = Math.PI * 1.5
                 }
                 if (!isN && isS && !isW && !isE) {
                     markedMaze[x + ',' + y].model = 'U'
                     markedMaze[x + ',' + y].dir = Math.PI * .5
                 }
+                if (!isN && !isS && !isW && isE) {
+                    markedMaze[x + ',' + y].model = 'U'
+                    markedMaze[x + ',' + y].dir = Math.PI
+                }
+                if (isN && !isS && !isW && !isE) {
+                    markedMaze[x + ',' + y].model = 'U'
+                    markedMaze[x + ',' + y].dir = Math.PI * 1.5
+                }
+
 
 
                 // L
@@ -257,6 +283,8 @@ const addMarksToWays = (maze, W, H) => {
 }
 
 const addStairsData = (markedMaze, posStart, posEnd) => {
+    let endDir = null
+
     {
         // enter stairs
         let dir = null
@@ -287,6 +315,9 @@ const addStairsData = (markedMaze, posStart, posEnd) => {
             }
         }
         markedMaze[posEnd[0] + ',' + posEnd[1]] = { type: EMPTY, model: 'END_ROOM', dir: dir, i: posEnd[0], j: posEnd[1] }
+
+        console.log('*****)))', dir)
+        endDir = dir
     }
 
     {
@@ -316,25 +347,29 @@ const addStairsData = (markedMaze, posStart, posEnd) => {
         }
         markedMaze[posStart[0] + ',' + posStart[1]] = {type: EMPTY, model: 'START_ROOM', dir }
     }
+
+    return endDir
 }
 
 
 export const createScheme03 = async ({
     width = 21,
     height = 21,
-    posStart = [11, 1]
+    posStart = [11, 1],
+    startDirection = 's'
 }) => {
     const WIDTH = width
     const HEIGHT = height
 
-    const { posEnd, maze } = await createMaze(width, height, posStart)
-   // debugPrintMaze(maze, WIDTH, HEIGHT, posStart, posEnd)
+    const { posEnd, maze } = await createMaze(width, height, posStart, startDirection)
+    debugPrintMaze(maze, WIDTH, HEIGHT, posStart, posEnd)
     const markedMaze = addMarksToWays(maze, WIDTH, HEIGHT)
-    addStairsData(markedMaze, posStart, posEnd)
+    const endDir = addStairsData(markedMaze, posStart, posEnd)
 
     return {
         posStart,
         posEnd,
+        endDir,
         markedMaze,
     }
 }
