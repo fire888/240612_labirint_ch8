@@ -78,23 +78,36 @@ export class Labyrinth {
         let posStartNext = [11, 1]
 
         const levelsData = []
-        let startDirection = 's'
+        let nextStartDirection = 's'
         for (let i = 0; i < 4; ++i) {
             const {
                 posStart,
                 posEnd,
                 markedMaze,
                 endDir
-            } = await createScheme03({ width: WIDTH, height: HEIGHT, posStart: posStartNext, startDirection, })
+            } = await createScheme03({ width: WIDTH, height: HEIGHT, posStart: posStartNext, startDirection: nextStartDirection, })
 
             levelsData.push({ posStart, posEnd, markedMaze })
 
-            // TODO: check side level
-            const arr = ['e', 'n', 'w', 's']
-            const arrF = arr.filter(e => e !== endDir)
-            startDirection = arrF[Math.floor(Math.random() * arrF.length)]
-
             posStartNext = posEnd
+
+            // TODO: check side level
+            let arr = ['e', 'n', 'w', 's']
+            arr = arr.filter(e => e !== endDir) // check not same direction in stair
+            if (posEnd[0] < 3) {
+                arr = arr.filter(e => e !== 'w')
+            } 
+            if (posEnd[0] > WIDTH - 3) {
+                arr = arr.filter(e => e !== 'e')
+            } 
+            if (posEnd[1] < 3) {
+                arr = arr.filter(e => e !== 'n')
+            } 
+            if (posEnd[1] > WIDTH - 3) {
+                arr = arr.filter(e => e !== 's')
+            } 
+        
+            nextStartDirection = arr[Math.floor(Math.random() * arr.length)]
         }
 
         console.log('Levels: ', levelsData)
