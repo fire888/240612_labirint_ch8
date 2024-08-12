@@ -45,6 +45,10 @@ export class Labyrinth {
         this.collideMat = new THREE.MeshPhongMaterial({ color: 0xFF0000 })
 
 
+        this.exitPoint = []
+        this.exitDir = null
+
+
         // test demo debug
         const meshDemoTiles = createDemoTiles({ W, H, WC })
         this.mesh.add(meshDemoTiles)
@@ -212,12 +216,15 @@ export class Labyrinth {
                 } 
                 if (j < 3) {
                     arr = arr.filter(e => e !== 'n')
-                } 
+                }
                 if (j > WIDTH - 3) {
                     arr = arr.filter(e => e !== 's')
                 } 
                 nextStartDirection = arr[Math.floor(Math.random() * arr.length)]
                 stairDataTop = { dir: nextStartDirection }
+
+                this.exitPoint = [i, j]
+                this.exitDir = nextStartDirection
             }
 
             if (stairDataBottom && stairDataTop) {
@@ -238,5 +245,7 @@ export class Labyrinth {
             this.mesh.add(mesh)
             this.collisionMesh.add(meshCollide)
         }
+
+        console.log(this.exitPoint, this.exitDir)
     }
 }
