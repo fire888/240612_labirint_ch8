@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { Root } from "../index";
 
 export class Studio {
     containerDom: HTMLElement
@@ -10,19 +11,26 @@ export class Studio {
     renderer: THREE.WebGLRenderer
     constructor() {}
 
-    init () {
+    init (root: Root) {
         this.containerDom = document.getElementById('container-game')
         this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, .001, 200)
         this.camera.position.set(1, 30, 70)
         this.camera.lookAt(0, 1, 0)
 
         this.scene = new THREE.Scene()
-        this.scene.background = new THREE.Color(0x999999)
-        this.fog = new THREE.Fog(0x999999, 1, 100)
+        console.log(root.loader.assets.mapEnv)
+        //debugger
+        //root.loader.assets.envMap.encoding = THREE.sRGBEncoding;
+        root.loader.assets.mapEnv.mapping = THREE.EquirectangularReflectionMapping;
+        root.loader.assets.mapEnv.colorSpace = THREE.SRGBColorSpace;
 
-       //this.hemiLight = new THREE.HemisphereLight(0xffffff, 0x8d8d8d, 3)
-       //this.hemiLight.position.set( 0, 20, 0 )
-       //this.scene.add(this.hemiLight)
+        this.scene.background = root.loader.assets.mapEnv
+        //this.scene.background = new THREE.Color(0x999999)
+        this.fog = new THREE.Fog(0x00001a, 1, 100)
+
+       this.hemiLight = new THREE.HemisphereLight(0x6767f3, 0xffffff, 3)
+       this.hemiLight.position.set( 0, 20, 0 )
+       this.scene.add(this.hemiLight)
 
         this.dirLight = new THREE.DirectionalLight( 0xffffff, 3 )
         this.dirLight.position.set(-3, 10, 2)

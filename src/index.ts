@@ -8,7 +8,19 @@ import { Labyrinth } from "./entities/labyrinth/Labyrinth";
 import { pipelineInit } from "./pipelines/pipelineInit"
 import { pipelinePlay } from "./pipelines/pipelinePlay"
 import {documentClickOnce} from "./helpers/clickHelpers";
-import { Root } from "./types/types";
+import { LoaderAssets } from "./helpers/Loader";
+
+export type Root = {
+    ticker: Ticker,
+    studio: Studio,
+    controlsOrbit: ControlsOrbit,
+    controlsPointer: ControlsPointer,
+    boxTest: BoxTest,
+    floor: Floor,
+    lab: Labyrinth,
+    loader: LoaderAssets,
+}
+
 
 window.addEventListener("DOMContentLoaded", async () => {
     const root: Root = {
@@ -18,7 +30,8 @@ window.addEventListener("DOMContentLoaded", async () => {
         controlsPointer: new ControlsPointer(),
         boxTest: new BoxTest(),
         floor: new Floor(),
-        lab: new Labyrinth()
+        lab: new Labyrinth(),
+        loader: new LoaderAssets(),
     }
 
     await pipelineInit(root)

@@ -1,4 +1,4 @@
-import { Root } from '../types/types'
+import { Root } from '../index'
 
 export const pipelineInit = async (root: Root) => {
     const {
@@ -9,11 +9,15 @@ export const pipelineInit = async (root: Root) => {
         boxTest,
         floor,
         lab,
+        loader,
     } = root
+
+    loader.init()
+    await loader.loadAssets()
 
     ticker.start()
 
-    studio.init()
+    studio.init(root)
     studio.addAxisHelper()
     ticker.on(studio.render.bind(studio))
 
@@ -23,11 +27,7 @@ export const pipelineInit = async (root: Root) => {
     controlsPointer.init(studio.camera, studio.containerDom)
     ticker.on(controlsPointer.update.bind(controlsPointer))
 
-    //boxTest.init()
-    //controlsPointer.setToCollisionFloor(boxTest.mesh)
-    //studio.add(boxTest.mesh)
-
-    floor.init()
+    floor.init(root)
     controlsPointer.setToCollisionFloor(floor.mesh)
     studio.add(floor.mesh)
 

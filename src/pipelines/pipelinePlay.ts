@@ -1,4 +1,4 @@
-import { Root } from '../types/types'
+import { Root } from '../index'
 
 
 const completePlay = (): Promise<void> => {
