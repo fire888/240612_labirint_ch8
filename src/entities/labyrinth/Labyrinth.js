@@ -5,6 +5,7 @@ import { createTileI } from '../../geometry/tile_I'
 import { createTileL } from '../../geometry/tile_L'
 import { createTileT } from '../../geometry/tile_T'
 import { createTileU } from '../../geometry/tile_U'
+import { createTileX } from '../../geometry/tile_X';
 import { createStair } from "../../geometry/stair";
 
 import { createDemoTiles } from './demoTiles';
@@ -148,6 +149,12 @@ export class Labyrinth {
 
                     if (model === 'U') {
                         const r = createTileU({ w: W, h: H, wc: WC })
+                        _v.push(...r.v)
+                    }
+
+                    if (model === 'X') {
+                        console.log('X', iFloor, i, j)
+                        const r = createTileX({ w: W, h: H, wc: WC })
                         _v.push(...r.v)
                     }
 

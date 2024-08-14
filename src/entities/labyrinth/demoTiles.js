@@ -5,13 +5,13 @@ import { createTileL } from '../../geometry/tile_L'
 import { createTileT } from '../../geometry/tile_T'
 import { createTileU } from '../../geometry/tile_U'
 import { createStair } from "../../geometry/stair"
+import { createTileX } from "../../geometry/tile_X"
+
 
 import {
     createMesh,
     makeCreaterSquare
 } from '../../geometry/helperCreateMesh'
-
-
 
 
 export const createDemoTiles = (data) => {
@@ -92,7 +92,20 @@ export const createDemoTiles = (data) => {
         mesh.add(line2)
     }
 
-    const m = createMesh({ v: _v, })
+
+    {
+        const r = createTileX({ w: W, h: H, wc: WC })
+        _M.translateVertices(r.v, W * 12, 0, 0)
+        _v.push(...r.v)
+
+        const line = makeScuare() 
+        line.position.z = 15
+        line.position.y = 15
+        line.position.x = W * 12
+        mesh.add(line)
+    }
+
+    const m = createMesh({ v: _v, material: new THREE.MeshPhongMaterial({ color: 0xff0000 }) })
     m.position.z = 15
     m.position.y = 15
     mesh.add(m)
