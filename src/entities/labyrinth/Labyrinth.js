@@ -14,14 +14,13 @@ import { createLineGeom  } from 'geometry/lineGeom';
 
 import {
     createMesh,
-    makeCreaterSquare
 } from '../../geometry/helperCreateMesh'
 
 const TUNNEL = 3
 const N_FLOORS = 5
 
 export class Labyrinth {
-    constructor() {
+    constructor () {
         this.collisionMech = null
     }
 

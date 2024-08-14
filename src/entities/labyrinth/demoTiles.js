@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { _M } from "../../geometry/_m";
-import { createTileI } from '../../geometry/tile_I'
+import { createTileI } from '../../geometry/tile_I_crafted'
 import { createTileL } from '../../geometry/tile_L'
 import { createTileT } from '../../geometry/tile_T'
 import { createTileU } from '../../geometry/tile_U'
@@ -14,6 +14,39 @@ import {
 } from '../../geometry/helperCreateMesh'
 
 
+const form1 = [
+    [0, .05, -.05],
+    [0, .05, .05],
+    [0, 0, 0],
+]
+
+const form2 = [
+    [0, .05, -.05],
+    [0, .05, .05],
+    [0, -.1, 0],
+]
+
+const path1 = [
+    [.9, 0, 0],
+    [1.2, 1.4, 0],
+    [0, 2.5, 0],
+    [-1.2, 1.4, 0],
+    [-.9, 0, 0],
+]
+
+const path2 = [
+    [.5, 0, 0],
+    [1.7, 1.4, 0],
+    [0, 2, 0],
+    [-1, 1.4, 0],
+    [-.5, 0, 0],
+]
+
+const color1 = [1, 0, 0]
+const color2 = [0, 1, 0]
+
+
+
 export const createDemoTiles = (data) => {
     const { W, WC, H } = data
 
@@ -23,7 +56,14 @@ export const createDemoTiles = (data) => {
 
     const _v = []
     {
-        const r = createTileI({ w: W, h: H, wc: WC })
+        const r = createTileI({ 
+            w: W, 
+            h: H,
+            n: 5,
+            forms: [form1, form2],
+            paths: [path1, path2],
+            colors: [color1, color2],
+        })
         _v.push(...r.v)
 
         const line = makeScuare() 
