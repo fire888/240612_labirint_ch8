@@ -31,6 +31,13 @@ const form2 = [
     0, -.2, .0,
 ]
 
+const form3 = [
+    0, .05, .05,
+    0, .05, -.05,
+    0, .0, .0,
+]
+
+
 const path1 = [
     [.9, 0, 0],
     [1.2, 1.4, 0],
@@ -55,7 +62,7 @@ const path2 = [
 const color1 = [1, 0, 0]
 const color2 = [0, 1, 0]
 
-const forms = [form1, form2]
+const forms = [form1, form2, form3]
 const paths = [path1, path2]
 const colors = [color1, color2]
 
@@ -73,11 +80,11 @@ export const createTileI = ({ w }) => {
     const xStep = w / n
     const startX = xStep / 2
 
-    const nInForms = n / forms.length
+    const nInForms = n / (forms.length - 1)
     for (let i = 0; i < n; ++i) {
         const prevFormIndex = Math.floor(i / nInForms) 
-        const nextFormIndex = Math.floor((i + 1) / nInForms)
-        const phasePrevNext = (i - prevFormIndex) / nInForms
+        const nextFormIndex = prevFormIndex + 1
+        const phasePrevNext = i % nInForms / nInForms
         
         const prevForm = forms[prevFormIndex]
         const nextForm = forms[nextFormIndex] ? forms[nextFormIndex] : forms[forms.length - 1]
