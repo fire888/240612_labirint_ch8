@@ -1,6 +1,6 @@
 import { _M  } from "./_m"
 
-export const createLineGeom = ({ form, points, isClosed, isDebug }) => {
+export const createLineGeom = ({ form, points, color, isClosed, isDebug }) => {
     const arrForms = []
     
     for (let i = 0; i < points.length; ++i) {
@@ -62,6 +62,8 @@ export const createLineGeom = ({ form, points, isClosed, isDebug }) => {
     }
 
     const v = []
+    const c = []
+
     for (let i = 0; i < arrForms.length; ++i) {
         if (!isClosed && i === 0) {
             continue;
@@ -82,6 +84,8 @@ export const createLineGeom = ({ form, points, isClosed, isDebug }) => {
                 [currentForm[indN], currentForm[indN + 1], currentForm[indN + 2]],
                 [prevForm[indN], prevForm[indN + 1], prevForm[indN + 2]],
             )
+
+            c.push(..._M.fillColorFace(color))
             v.push(...b)
         } 
 
@@ -90,7 +94,8 @@ export const createLineGeom = ({ form, points, isClosed, isDebug }) => {
 
 
     return {
-        v
+        v,
+        c,
     }
 
 

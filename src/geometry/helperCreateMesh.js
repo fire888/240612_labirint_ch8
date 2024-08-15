@@ -14,6 +14,10 @@ export const createMesh = ({
     const vF32 = new Float32Array(v)
     geometry.setAttribute('position', new THREE.BufferAttribute(vF32, 3))
     geometry.computeVertexNormals()
+    if (c.length > 0) {
+        const cF32 = new Float32Array(c)
+        geometry.setAttribute('color', new THREE.BufferAttribute(cF32, 3))
+    }
     //const uvF32 = new Float32Array(uv)
     //geometry.setAttribute('uv', new THREE.BufferAttribute(uvF32, 2))
     //const cF32 = new Float32Array(c)
