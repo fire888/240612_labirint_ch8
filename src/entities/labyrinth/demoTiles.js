@@ -3,7 +3,7 @@ import { _M } from "../../geometry/_m";
 import { createTileI } from '../../geometry/tile_I_crafted'
 import { createTileL } from '../../geometry/tile_L_crafted'
 import { createTileT } from '../../geometry/tile_T'
-import { createTileU } from '../../geometry/tile_U'
+import { createTileU } from '../../geometry/tile_U_crafted'
 import { createStair } from "../../geometry/stair"
 import { createTileX } from "../../geometry/tile_X"
 
@@ -83,7 +83,6 @@ export const createDemoTiles = (data) => {
     {
         const r = createTileI({ 
             w: W, 
-            h: H,
             n: 5,
             forms: [form1, form2],
             paths: [path1, path2],
@@ -105,9 +104,32 @@ export const createDemoTiles = (data) => {
     }
 
     {
+        const r = createTileU({ 
+            w: W,
+            n: 5,
+            forms: [form1, form2],
+            paths: [path1, path2],
+            colors: [color1, color2],
+        })
+
+        const m = createMesh({
+            v: r.v,
+            c: r.c,
+            material: new THREE.MeshPhongMaterial({
+                color: 0xffffff,
+                vertexColors: true,
+            })
+        })
+        const line = makeSquare()
+        m.add(line)
+
+        mesh.add(m)
+        m.position.x = -10
+    }
+
+    {
         const r = createTileL({ 
             w: W, 
-            h: H,
             n: 8,
             forms: [form1, form2],
             paths: [path1, path2],
@@ -142,17 +164,7 @@ export const createDemoTiles = (data) => {
         mesh.add(line)
     }
 
-    {
-        const r = createTileU({ w: W, h: H, wc: WC })
-        _M.translateVertices(r.v, W * 6, 0, 0)
-        _v.push(...r.v)
 
-        const line = makeSquare()
-        line.position.z = 15
-        line.position.y = 15
-        line.position.x = W * 6
-        mesh.add(line)
-    }
 
     {
         const stair = createStair({ stairDataBottom: { dir: 'e' }, stairDataTop: { dir: 'w' }, W, WC, H })
