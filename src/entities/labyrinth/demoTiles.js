@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { _M } from "../../geometry/_m";
 import { createTileI } from '../../geometry/tile_I_crafted'
-import { createTileL } from '../../geometry/tile_L'
+import { createTileL } from '../../geometry/tile_L_crafted'
 import { createTileT } from '../../geometry/tile_T'
 import { createTileU } from '../../geometry/tile_U'
 import { createStair } from "../../geometry/stair"
@@ -15,16 +15,23 @@ import {
 
 
 const form1 = [
-    [0, .05, -.05],
-    [0, .05, .05],
-    [0, 0, 0],
+    0, .05, .05,
+    0, .05, -.05,
+    0, .0, .0,
 ]
 
 const form2 = [
-    [0, .05, -.05],
-    [0, .05, .05],
-    [0, -.1, 0],
+    0, .1, .1,
+    0, .1, -.1,
+    0, -.2, .0,
 ]
+
+const form3 = [
+    0, .05, .05,
+    0, .05, -.05,
+    0, .0, .0,
+]
+
 
 const path1 = [
     [.9, 0, 0],
@@ -37,13 +44,29 @@ const path1 = [
 const path2 = [
     [.5, 0, 0],
     [1.7, 1.4, 0],
+    [0, 3, 0],
+    [-1, 1.4, 0],
+    [-.5, 0, 0],
+]
+
+const path3 = [
+    [.5, 0, 0],
+    [1.7, 1.4, 0],
     [0, 2, 0],
     [-1, 1.4, 0],
     [-.5, 0, 0],
 ]
 
 const color1 = [1, 0, 0]
-const color2 = [1, 1, 1]
+const color2 = [0, 1, 0]
+const color3 = [0, 0, 1]
+const color4 = [0, 0, 0]
+
+const forms = [form1, form2, form3]
+const paths = [path1, path2, path3]
+const colors = [color1, color4, color2, color3]
+
+const n = 20
 
 
 
@@ -66,7 +89,6 @@ export const createDemoTiles = (data) => {
             paths: [path1, path2],
             colors: [color1, color2],
         })
-        //_v.push(...r.v)
 
         const m = createMesh({
             v: r.v,
@@ -79,20 +101,32 @@ export const createDemoTiles = (data) => {
         mesh.add(m)
 
         const line = makeSquare()
-        line.position.z = 15
-        line.position.y = 15
         mesh.add(line)
     }
 
     {
-        const r = createTileL({ w: W, h: H, wc: WC })
-        _M.translateVertices(r.v, W * 2, 0, 0)
-        _v.push(...r.v)
+        const r = createTileL({ 
+            w: W, 
+            h: H,
+            n: 8,
+            forms: [form1, form2],
+            paths: [path1, path2],
+            colors: [color1, color2],
+        })
+
+        const m = createMesh({
+            v: r.v,
+            c: r.c,
+            material: new THREE.MeshPhongMaterial({
+                color: 0xffffff,
+                vertexColors: true,
+            })
+        })
+        m.position.x = -5
+        mesh.add(m)
 
         const line = makeSquare()
-        line.position.z = 15
-        line.position.y = 15
-        line.position.x = W * 2
+        line.position.x = -5
         mesh.add(line)
     }
 

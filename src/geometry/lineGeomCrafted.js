@@ -91,12 +91,5 @@ export const createLineGeom = ({ form, points, color, isClosed, isDebug }) => {
 
     }
 
-
-
-    return {
-        v,
-        c,
-    }
-
-
+    return { v, c, }
 } 

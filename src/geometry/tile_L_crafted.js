@@ -2,14 +2,14 @@ import { _M } from "./_m";
 import { createLineGeom } from './lineGeomCrafted'
 
 
-//export const createTileI = ({ w, n, forms = [], paths = [], colors = [] }) => {
-export const createTileI = ({ w, n, forms, paths, colors }) => {
 
+export const createTileL = ({ w, n, forms, paths, colors }) => {
     // CREATE ARRAYS DATA
 
     const formsReal = []
     const pathsReal = []
     const colorsReal = []
+
 
     const xStep = w / n
     const startX = xStep / 2
@@ -76,11 +76,12 @@ export const createTileI = ({ w, n, forms, paths, colors }) => {
     }
 
 
-    // CREATE BUFFERS FROM ARRAYS
+    // CREATE ARRAYS FROM 
 
     const v = []
     const c = []
 
+    const stepAngle = -Math.PI / 2 / (n - 1) 
     for (let i = 0; i < n; ++i) {
         if (pathsReal[i].length === 0) {
             continue;
@@ -91,11 +92,31 @@ export const createTileI = ({ w, n, forms, paths, colors }) => {
             color: colorsReal[i],
             isClosed: true,
         })
-        _M.rotateVerticesY(l.v, -Math.PI / 2)
-        _M.translateVertices(l.v, -w / 2 + startX + i * xStep, 0, 0)
+        _M.translateVertices(l.v, -w / 2, 0, 0)
+        _M.rotateVerticesY(l.v, stepAngle * i)
+        //_M.rotateVerticesY(l.v, -Math.PI / 2)
+        //_M.translateVertices(l.v, -w / 2 + startX + i * xStep, 0, 0)
         v.push(...l.v)
         c.push(...l.c)
     }
+
+    _M.translateVertices(v, w / 2, 0, w / 2)
+
+
+
+    // const copyV = [...PATH_ELEM.v]
+    // _M.translateVertices(copyV, -WC, 0, 0)
+
+    // const aStep = Math.PI / 2 / ELEMS_N
+
+    // for (let i = 0; i < ELEMS_N + 1; ++i) {
+    //     const copyN = [...copyV]
+    //     _M.rotateVerticesY(copyN, -aStep * i)
+    //     v.push(...copyN)
+    // }
+
+    // _M.translateVertices(v, WC, 0, WC)
+
 
     return { v, c }
 }
