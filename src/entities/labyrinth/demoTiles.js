@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { _M } from "../../geometry/_m";
 import { createTileI } from '../../geometry/tile_I_crafted'
 import { createTileL } from '../../geometry/tile_L_crafted'
-import { createTileT } from '../../geometry/tile_T'
+import { createTileT } from '../../geometry/tile_T_crafted'
 import { createTileU } from '../../geometry/tile_U_crafted'
 import { createStair } from "../../geometry/stair"
 import { createTileX } from "../../geometry/tile_X"
@@ -60,7 +60,7 @@ const path3 = [
 const color1 = [1, 0, 0]
 const color2 = [0, 1, 0]
 const color3 = [0, 0, 1]
-const color4 = [0, 0, 0]
+const color4 = [0, 1, 1]
 
 const forms = [form1, form2, form3]
 const paths = [path1, path2, path3]
@@ -153,15 +153,47 @@ export const createDemoTiles = (data) => {
     }
 
     {
-        const r = createTileT({ w: W, h: H, wc: WC })
-        _M.translateVertices(r.v, W * 4, 0, 0)
-        _v.push(...r.v)
+        const 
+            w = W, 
+            n = 7,
+            formS = forms[0],
+            formE = forms[1],
+            formW = forms[2],
+            pathS = paths[0],
+            pathE = paths[1],
+            pathW = paths[2],
+            colorS = colors[0],
+            colorW = colors[1],
+            colorE = colors[2]
+
+
+        const r = createTileT({ 
+            w, 
+            n,
+            formS,
+            formE,
+            formW,
+            pathS,
+            pathE,
+            pathW,
+            colorS,
+            colorW,
+            colorE,
+        })
+
+        const m = createMesh({
+            v: r.v,
+            c: r.c,
+            material: new THREE.MeshPhongMaterial({
+                color: 0xffffff,
+                vertexColors: true,
+            })
+        })
+        m.position.x = -20
+        mesh.add(m)
 
         const line = makeSquare()
-        line.position.z = 15
-        line.position.y = 15
-        line.position.x = W * 4
-        mesh.add(line)
+        m.add(line)
     }
 
 
