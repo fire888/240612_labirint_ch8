@@ -1,10 +1,10 @@
 import * as THREE from 'three'
 import { _M } from "../../geometry/_m";
 import { createScheme03 } from './scheme03';
-import { createTileI } from '../../geometry/tile_I'
-import { createTileL } from '../../geometry/tile_L'
-import { createTileT } from '../../geometry/tile_T'
-import { createTileU } from '../../geometry/tile_U'
+import { createTileI } from '../../geometry/tile_I_crafted'
+import { createTileL } from '../../geometry/tile_L_crafted'
+import { createTileT } from '../../geometry/tile_T_crafted'
+import { createTileU } from '../../geometry/tile_U_crafted'
 import { createTileX } from '../../geometry/tile_X';
 import { createStair } from "../../geometry/stair";
 
@@ -15,6 +15,63 @@ import { createLineGeom  } from 'geometry/lineGeom';
 import {
     createMesh,
 } from '../../geometry/helperCreateMesh'
+
+
+const form1 = [
+    0, .05, .05,
+    0, .05, -.05,
+    0, .0, .0,
+]
+
+const form2 = [
+    0, .03, .03,
+    0, .03, -.03,
+    0, .0, .0,
+]
+
+const form3 = [
+    0, .05, .05,
+    0, .05, -.05,
+    0, .0, .0,
+]
+
+
+const path1 = [
+    [.9, 0, 0],
+    [1.2, 1.4, 0],
+    [0, 2.5, 0],
+    [-1.2, 1.4, 0],
+    [-.9, 0, 0],
+]
+
+const path2 = [
+    [.9, .2, 0],
+    [1.2, 1.3, 0],
+    [0, 2.2, 0],
+    [-2, 1.3, 0],
+    [-.9, .2, 0],
+]
+
+const path3 = [
+    [.5, 0, 0],
+    [1.7, 1.4, 0],
+    [0, 2, 0],
+    [-1, 1.4, 0],
+    [-.5, 0, 0],
+]
+
+const color1 = [1, 1, 1]
+const color2 = [.3, 1, 1]
+const color3 = [0, 0, 1]
+const color4 = [0, 1, 1]
+
+const forms = [form1, form2, form3]
+const paths = [path1, path2, path3]
+const colors = [color1, color4, color2, color3]
+
+const n = 20
+
+
 
 const TUNNEL = 3
 const N_FLOORS = 5
@@ -37,7 +94,7 @@ export class Labyrinth {
         this.mesh.position.z = -W * 23 / 2
         this.mesh.position.x = -W * 23 / 2
 
-        const material = new THREE.MeshPhongMaterial({ color: 0xffffff })
+        const material = new THREE.MeshPhongMaterial({ color: 0xffffff, vertexColors: true })
 
         this.collisionMesh = new THREE.Object3D()
         this.collisionMesh.position.z = -W * 23 / 2
@@ -113,7 +170,9 @@ export class Labyrinth {
         for (let iFloor = 0; iFloor < levelsData.length; ++iFloor) {
             const { markedMaze } = levelsData[iFloor]
             const v = []
+            const c = []
             const vC = []
+
 
             for (let i = 0; i < WIDTH; ++i) {
                 for (let j = 0; j < HEIGHT; ++j) {
@@ -132,29 +191,80 @@ export class Labyrinth {
 
 
                     if (model === 'I') {
-                        const r = createTileI({ w: W, h: H, wc: WC })
+                        //const r = createTileI({ w: W, h: H, wc: WC })
+                        const r = createTileI({             
+                            w: W, 
+                            n: 10,
+                            forms: [form1, form2, form1],
+                            paths: [path1, path2, path1],
+                            colors: [color1, color2, color1]
+                        })
+                        c.push(...r.c)
                         _v.push(...r.v)
                     }
 
                     if (model === 'L') {
-                        const r = createTileL({ w: W, h: H, wc: WC })
+                        //const r = createTileL({ w: W, h: H, wc: WC })
+                        const r = createTileL({
+                            w: W, 
+                            n: 10,
+                            forms: [form1, form2, form1],
+                            paths: [path1, path2, path1],
+                            colors: [color1, color2, color1],
+                        })
+                        c.push(...r.c)
                         _v.push(...r.v)
                     }
 
                     if (model === 'T') {
-                        const r = createTileT({ w: W, h: H, wc: WC })
-                        _v.push(...r.v)
+                        const 
+                        w = W, 
+                        n = 7,
+                        formS = forms[0],
+                        formE = forms[1],
+                        formW = forms[2],
+                        pathS = paths[0],
+                        pathE = paths[1],
+                        pathW = paths[2],
+                        colorS = colors[0],
+                        colorW = colors[1],
+                        colorE = colors[2]
+            
+            
+                        const r = createTileT({ 
+                            w, 
+                            n,
+                            formS,
+                            formE,
+                            formW,
+                            pathS,
+                            pathE,
+                            pathW,
+                            colorS,
+                            colorW,
+                            colorE,
+                        })
+                       // const r = createTileT({ w: W, h: H, wc: WC })
+                       c.push(...r.c)
+                       _v.push(...r.v)
                     }
 
                     if (model === 'U') {
-                        const r = createTileU({ w: W, h: H, wc: WC })
+                        const r = createTileU({
+                            w: W,
+                            n: 5,
+                            forms: [form1, form2],
+                            paths: [path1, path2],
+                            colors: [color1, color2],
+                        })
+                        c.push(...r.c)
                         _v.push(...r.v)
                     }
 
                     if (model === 'X') {
                         console.log('X', iFloor, i, j)
-                        const r = createTileX({ w: W, h: H, wc: WC })
-                        _v.push(...r.v)
+                        //const r = createTileX({ w: W, h: H, wc: WC })
+                        //_v.push(...r.v)
                     }
 
                     _M.rotateVerticesY(_v, dir)
@@ -238,10 +348,10 @@ export class Labyrinth {
                 _M.translateVertices(stair.vC, W * i, 0, W * j)
                 vC.push(...stair.vC)
                  _M.translateVertices(stair.v, W * i, 0, W * j)
-                v.push(...stair.v)
+                //v.push(...stair.v)
             }
 
-            const mesh = createMesh({ v, material: material })
+            const mesh = createMesh({ v, c, material: material })
             mesh.position.y = iFloor * H + H
 
             const meshCollide = createMesh({ v: vC, material: this.collideMat })

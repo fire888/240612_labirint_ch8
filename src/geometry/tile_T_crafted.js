@@ -1,16 +1,5 @@
 import { _M } from "./_m"
 
-import {
-    POINTS,
-    PATH_ELEM,
-    W,
-    WF,
-    WC,
-    FORM,
-    ELEMS_N,
-    STEP,
-    STEP_HALF,
-} from './constants'
 import { createLineGeom  } from "./lineGeomCrafted";
 
 
@@ -50,7 +39,6 @@ export const createTileT = ({
      */
 
     {
-        console.log(pathW, formW, colorW)
         const p = createLineGeom({ points: pathW, form: formW, color: colorW, isClosed: true })
         _M.rotateVerticesY(p.v, -Math.PI / 2)
         _M.translateVertices(p.v, -w / 2, 0, 0)
@@ -66,7 +54,6 @@ export const createTileT = ({
      */
 
     {
-        console.log(pathW, formW, colorW)
         const p = createLineGeom({ points: pathE, form: formE, color: colorE, isClosed: true })
         _M.rotateVerticesY(p.v, -Math.PI / 2)
         _M.translateVertices(p.v, w / 2, 0, 0)
