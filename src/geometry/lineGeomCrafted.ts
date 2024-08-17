@@ -1,6 +1,28 @@
 import { _M  } from "./_m"
 
-export const createLineGeom = ({ form, points, color, isClosed, isDebug }) => {
+type AttributesArrs = {
+    v: number[],
+    c: number[],
+}
+
+type DataToCreateLine = {
+    form: number[],
+    points: number[][],
+    color: number[],
+    isClosed: boolean,
+    isDebug?: boolean,
+}
+
+export const createLineGeom = (data: DataToCreateLine): AttributesArrs => {
+    const {
+        form,
+        points,
+        color,
+        isClosed,
+        isDebug,
+    } = data
+
+
     const arrForms = []
     
     for (let i = 0; i < points.length; ++i) {

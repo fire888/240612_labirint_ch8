@@ -234,17 +234,16 @@ export class Labyrinth {
                         const r = createTileT({ 
                             w, 
                             n,
-                            formS,
-                            formE,
-                            formW,
-                            pathS,
-                            pathE,
-                            pathW,
-                            colorS,
-                            colorW,
-                            colorE,
+                            formS: form1,
+                            formE: form1,
+                            formW: form1,
+                            pathS: path1,
+                            pathE: path1,
+                            pathW: path1,
+                            colorS: color1,
+                            colorW: color1,
+                            colorE: color1,
                         })
-                       // const r = createTileT({ w: W, h: H, wc: WC })
                        c.push(...r.c)
                        _v.push(...r.v)
                     }
