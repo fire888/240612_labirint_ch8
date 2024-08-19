@@ -10,13 +10,22 @@ import {
     STEP_HALF,
 } from './constants'
 
-import { createTileI } from './tile_I'
-import { createTileL } from './tile_L'
+import { createTileI } from './tile_I_crafted'
+import { createTileL } from './tile_L_crafted'
+import { createLineGeom } from './lineGeomCrafted'
 
 export const createStair = (data) => {
-    const { stairDataBottom, stairDataTop } = data
+    let { stairDataBottom, stairDataTop, n, w } = data
+
+    if (!n) {
+        n = 10
+    }
+    if (!w) {
+        w = 3
+    }
 
     const v = []
+    const c = []
     const vC = []
 
     // part enter
@@ -33,15 +42,44 @@ export const createStair = (data) => {
              /  <--!!!!!
          */
 
-        const copyC = [...PATH_ELEM.v]
-        _M.rotateVerticesY(copyC, Math.PI / 2)
-        const stepY = H / 2 / ELEMS_N
-        
-        for (let i = 0; i < ELEMS_N; ++i) {
-            const c = [...copyC]
-            _M.translateVertices(c, -WF * 1.5 + STEP * i + STEP_HALF, stepY * i, 0)
-            t.push(...c)
+
+        const arr = _M.interpolateArrays({
+            paths: [stairDataBottom.path, stairDataBottom.path],
+            forms: [stairDataBottom.form, stairDataBottom.form],
+            colors: [stairDataBottom.color, stairDataBottom.color],
+            n: 10,
+        })
+
+        const stepX = w / n
+        const stepY = 3 * .5 / n
+        for (let i = 0; i < arr.paths.length; ++i) {
+            const r = createLineGeom({ 
+                points: arr.paths[i],
+                form: arr.forms[i],
+                color: arr.colors[i],
+                isClosed: true,
+            })
+            _M.rotateVerticesY(r.v, Math.PI / 2)
+            _M.translateVertices(
+                r.v, 
+                -w * 1.5 + stepX * i + stepX / 2, 
+                stepY * i,
+                0,
+            )
+            t.push(...r.v)
+            c.push(...r.c)
         }
+
+    
+        //const copyC = [...PATH_ELEM.v]
+        //_M.rotateVerticesY(copyC, Math.PI / 2)
+        //const stepY = H / 2 / ELEMS_N
+        
+        //for (let i = 0; i < ELEMS_N; ++i) {
+        //    const c = [...copyC]
+        //    _M.translateVertices(c, -WF * 1.5 + STEP * i + STEP_HALF, stepY * i, 0)
+        //    t.push(...c)
+        //}
 
 
         // collision
@@ -136,17 +174,29 @@ export const createStair = (data) => {
 
 
         if (type === 'L') {
-            const _l = createTileL({})
-            _M.rotateVerticesY(_l.v, rot)
-            _M.translateVertices(_l.v, 0, H / 2, 0)
-            v.push(..._l.v)
+            const res = createTileL({ 
+                forms: [stairDataBottom.form, stairDataTop.form],
+                paths: [stairDataBottom.path, stairDataTop.path],
+                colors: [stairDataBottom.color, stairDataTop.color],
+                n: 10,
+                w: 3,  
+            }) 
+            _M.rotateVerticesY(res.v, rot)
+            _M.translateVertices(res.v, 0, H / 2, 0)
+            v.push(...res.v)
         }
 
         if (type === 'I') {
-            const _l = createTileI({})
-            _M.rotateVerticesY(_l.v, rot)
-            _M.translateVertices(_l.v, 0, H / 2, 0)
-            v.push(..._l.v)
+            const res = createTileI({ 
+                forms: [stairDataBottom.form, stairDataTop.form],
+                paths: [stairDataBottom.path, stairDataTop.path],
+                colors: [stairDataBottom.color, stairDataTop.color],
+                n: 10,
+                w: 3,  
+            }) 
+            _M.rotateVerticesY(res.v, rot)
+            _M.translateVertices(res.v, 0, H / 2, 0)
+            v.push(...res.v)
         }
 
 
@@ -170,17 +220,45 @@ export const createStair = (data) => {
             /  
         */
 
-        const arrStair = []
+        //const arrStair = []
 
-        const copyC = [...PATH_ELEM.v]
-        _M.rotateVerticesY(copyC, Math.PI / 2)
-        const stepY = H / 2 / ELEMS_N
-             
-        for (let i = 0; i < ELEMS_N; ++i) {
-            const c = [...copyC]
-            _M.translateVertices(c, WF * .5 + STEP * i + STEP_HALF, stepY * i + H / 2, 0)
-            arrStair.push(...c)
+        const t = []
+        const arr = _M.interpolateArrays({
+            paths: [stairDataTop.path, stairDataTop.path],
+            forms: [stairDataTop.form, stairDataTop.form],
+            colors: [stairDataTop.color, stairDataTop.color],
+            n: 10,
+        })
+
+        const stepX = w / n
+        const stepY = 3 * .5 / n
+        for (let i = 0; i < arr.paths.length; ++i) {
+            const r = createLineGeom({ 
+                points: arr.paths[i],
+                form: arr.forms[i],
+                color: arr.colors[i],
+                isClosed: true,
+            })
+            _M.rotateVerticesY(r.v, Math.PI / 2)
+            _M.translateVertices(
+                r.v, 
+                w * .5 + stepX * i + stepX / 2, 
+                stepY * i + 3 * .5,
+                0,
+            )
+            t.push(...r.v)
+            c.push(...r.c)
         }
+
+        //const copyC = [...PATH_ELEM.v]
+        //_M.rotateVerticesY(copyC, Math.PI / 2)
+        //const stepY = H / 2 / ELEMS_N
+             
+       // for (let i = 0; i < ELEMS_N; ++i) {
+       //     const c = [...copyC]
+        //    _M.translateVertices(c, WF * .5 + STEP * i + STEP_HALF, stepY * i + H / 2, 0)
+        //    arrStair.push(...c)
+        //}
 
         const _vC = _M.createPolygon(
            [W, H * .5, WC],
@@ -200,9 +278,8 @@ export const createStair = (data) => {
             r = Math.PI * 1.5
         }
 
-        const rr = [...arrStair]
-        _M.rotateVerticesY(rr, r)
-        v.push(...rr)
+        _M.rotateVerticesY(t, r)
+        v.push(...t)
 
         _M.rotateVerticesY(_vC, r)
         vC.push(..._vC)

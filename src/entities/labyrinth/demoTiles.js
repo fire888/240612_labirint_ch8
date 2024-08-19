@@ -248,7 +248,18 @@ export const createDemoTiles = (data) => {
 
 
     {
-        const stair = createStair({ stairDataBottom: { dir: 'e' }, stairDataTop: { dir: 'w' }, W, WC, H })
+        const stairDataBottom = { dir: 'e' }
+        stairDataBottom.form = form1
+        stairDataBottom.path = path1
+        stairDataBottom.color = color1
+
+        const stairDataTop = { dir: 'w' }
+        stairDataTop.form = form2
+        stairDataTop.path = path2
+        stairDataTop.color = color2
+
+
+        const stair = createStair({ stairDataBottom, stairDataTop, W, WC, H })
         _M.translateVertices(stair.v, W * 9, 0, 0)
         _v.push(...stair.v)
 

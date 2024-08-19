@@ -158,7 +158,17 @@ export class Labyrinth {
 
         // create start stair
         {
-            const stair = createStair({ stairDataBottom: { dir: 'n' }, stairDataTop: { dir: 's' }, W, WC, H })
+            const stairDataBottom = { dir: 'n' }
+            stairDataBottom.form = form1
+            stairDataBottom.path = path1
+            stairDataBottom.color = color1
+    
+            const stairDataTop = { dir: 's' }
+            stairDataTop.form = form2
+            stairDataTop.path = path2
+            stairDataTop.color = color2
+
+            const stair = createStair({ stairDataBottom, stairDataTop, W, WC, H })
             const m = createMesh({ v: stair.v, material: material })
             m.position.x = Math.floor(WIDTH / 2) * W
             m.position.z = 1 * W
@@ -379,10 +389,21 @@ export class Labyrinth {
             }
 
             if (stairDataBottom && stairDataTop) {
+                console.log('$$$$$---')
+                stairDataBottom.form = form1
+                stairDataBottom.path = path1
+                stairDataBottom.color = color1
+
+                stairDataTop.form = form2
+                stairDataTop.path = path2
+                stairDataTop.color = color2
+
                 const stair = createStair({ stairDataBottom, stairDataTop, W, WC, H })
                 _M.translateVertices(stair.vC, W * i, 0, W * j)
                 vC.push(...stair.vC)
                 _M.translateVertices(stair.v, W * i, 0, W * j)
+                v.push(...stair.v)
+                //c.push(...stair.c)
             }
 
             const mesh = createMesh({ v, c, material: material })
