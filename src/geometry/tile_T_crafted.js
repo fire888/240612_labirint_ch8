@@ -1,4 +1,3 @@
-import { color } from "three/examples/jsm/nodes/Nodes";
 import { _M } from "./_m"
 
 import { createLineGeom  } from "./lineGeomCrafted";

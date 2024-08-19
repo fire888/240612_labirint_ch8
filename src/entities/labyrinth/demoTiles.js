@@ -5,7 +5,7 @@ import { createTileL } from '../../geometry/tile_L_crafted'
 import { createTileT } from '../../geometry/tile_T_crafted'
 import { createTileU } from '../../geometry/tile_U_crafted'
 import { createStair } from "../../geometry/stair"
-import { createTileX } from "../../geometry/tile_X"
+import { createTileX } from "../../geometry/tile_X_crafted"
 
 
 import {
@@ -32,6 +32,12 @@ const form3 = [
     0, .0, .0,
 ]
 
+const form4 = [
+    0, .1, .05,
+    0, .1, -.05,
+    0, .0, .0,
+]
+
 
 const path1 = [
     [.9, 0, 0],
@@ -53,6 +59,14 @@ const path3 = [
     [.5, 0, 0],
     [1.7, 1.4, 0],
     [0, 2, 0],
+    [-1, 1.4, 0],
+    [-.5, 0, 0],
+]
+
+const path4 = [
+    [.5, 0, 0],
+    [1.7, 1.4, 0],
+    [0, 2.5, 0],
     [-1, 1.4, 0],
     [-.5, 0, 0],
 ]
@@ -196,6 +210,41 @@ export const createDemoTiles = (data) => {
         m.add(line)
     }
 
+    {
+        const r = createTileX({
+            w: W,
+            n: 10,
+
+            formS: form1,
+            formE: form2,
+            formN: form3,
+            formW: form4,
+
+            pathS: path1,
+            pathE: path2,
+            pathN: path3,
+            pathW: path4,
+
+            colorS: color1,
+            colorE: color2,
+            colorN: color3,
+            colorW: color4,
+        })
+        const m = createMesh({
+            v: r.v,
+            c: r.c,
+            material: new THREE.MeshPhongMaterial({
+                color: 0xffffff,
+                vertexColors: true,
+            })
+        })
+        m.position.x = -25
+        mesh.add(m)
+
+        const line = makeSquare()
+        m.add(line)
+    }
+
 
 
     {
@@ -223,17 +272,7 @@ export const createDemoTiles = (data) => {
     }
 
 
-    {
-        const r = createTileX({ w: W, h: H, wc: WC })
-        _M.translateVertices(r.v, W * 12, 0, 0)
-        _v.push(...r.v)
 
-        const line = makeSquare()
-        line.position.z = 15
-        line.position.y = 15
-        line.position.x = W * 12
-        mesh.add(line)
-    }
 
     const m = createMesh({ v: _v, c: _c, material: new THREE.MeshPhongMaterial({ color: 0xff0000 }) })
     m.position.z = 15
