@@ -18,7 +18,6 @@ export class Studio {
         this.camera.lookAt(0, 1, 0)
 
         this.scene = new THREE.Scene()
-        console.log(root.loader.assets.mapEnv)
         //debugger
         //root.loader.assets.envMap.encoding = THREE.sRGBEncoding;
         root.loader.assets.mapEnv.mapping = THREE.EquirectangularReflectionMapping;

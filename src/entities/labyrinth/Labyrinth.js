@@ -5,7 +5,7 @@ import { createTileI } from '../../geometry/tile_I_crafted'
 import { createTileL } from '../../geometry/tile_L_crafted'
 import { createTileT } from '../../geometry/tile_T_crafted'
 import { createTileU } from '../../geometry/tile_U_crafted'
-import { createTileX } from '../../geometry/tile_X';
+import { createTileX } from '../../geometry/tile_X_crafted';
 import { createStair } from "../../geometry/stair";
 
 import { createDemoTiles } from './demoTiles';
@@ -33,6 +33,12 @@ const form3 = [
     0, .05, .05,
     0, .05, -.05,
     0, .0, .0,
+]
+
+const form4 = [
+    0, .05, .05,
+    0, .05, -.05,
+    0, .01, .0,
 ]
 
 
@@ -65,9 +71,9 @@ const color2 = [.3, 1, 1]
 const color3 = [0, 0, 1]
 const color4 = [0, 1, 1]
 
-const forms = [form1, form2, form3]
-const paths = [path1, path2, path3]
-const colors = [color1, color4, color2, color3]
+const forms = [form1, form2, form3, form4]
+const paths = [path1, path2, path3, path1]
+const colors = [color1, color2, color3, color4]
 
 const n = 20
 
@@ -261,9 +267,40 @@ export class Labyrinth {
                     }
 
                     if (model === 'X') {
-                        console.log('X', iFloor, i, j)
-                        //const r = createTileX({ w: W, h: H, wc: WC })
-                        //_v.push(...r.v)
+                        const
+                            w = W,
+                            n = 7,
+                            formS = forms[0],
+                            formE = forms[1],
+                            formW = forms[2],
+                            formN = forms[3],
+                            pathS = paths[0],
+                            pathE = paths[1],
+                            pathW = paths[2],
+                            pathN = paths[3],
+                            colorS = colors[0],
+                            colorW = colors[1],
+                            colorE = colors[2],
+                            colorN = colors[3]
+
+                        const r = createTileX({
+                            w,
+                            n,
+                            formS,
+                            formE,
+                            formW,
+                            formN,
+                            pathS,
+                            pathE,
+                            pathW,
+                            pathN,
+                            colorS,
+                            colorW,
+                            colorE,
+                            colorN,
+                        })
+                        c.push(...r.c)
+                        _v.push(...r.v)
                     }
 
                     _M.rotateVerticesY(_v, dir)
@@ -320,7 +357,6 @@ export class Labyrinth {
                 let arr = ['e', 'n', 'w', 's']
                 // check not same direction in stair
 
-                console.log('stairDataBottom', stairDataBottom)
                 arr = arr.filter(e => e !== stairDataBottom.dir) 
                 // check end side of level
                 if (i < 3) {
@@ -346,8 +382,7 @@ export class Labyrinth {
                 const stair = createStair({ stairDataBottom, stairDataTop, W, WC, H })
                 _M.translateVertices(stair.vC, W * i, 0, W * j)
                 vC.push(...stair.vC)
-                 _M.translateVertices(stair.v, W * i, 0, W * j)
-                //v.push(...stair.v)
+                _M.translateVertices(stair.v, W * i, 0, W * j)
             }
 
             const mesh = createMesh({ v, c, material: material })
@@ -360,7 +395,5 @@ export class Labyrinth {
             this.mesh.add(mesh)
             this.collisionMesh.add(meshCollide)
         }
-
-        console.log(this.exitPoint, this.exitDir)
     }
 }
