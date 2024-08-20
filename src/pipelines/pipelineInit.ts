@@ -1,5 +1,6 @@
 import { Root } from '../index'
 import { createDemoTiles } from 'entities/labyrinth/demoTiles'
+import { createDeemoLongCorridor } from 'entities/labyrinth/demoLongCorridor'
 
 export const pipelineInit = async (root: Root) => {
     const {
@@ -41,4 +42,7 @@ export const pipelineInit = async (root: Root) => {
     const meshDemoTiles = createDemoTiles({ W: 3, H: 3, WC: 1.2 })
     studio.add(meshDemoTiles)
     meshDemoTiles.position.z = 35
+
+    const mCorr = createDeemoLongCorridor()
+    studio.add(mCorr)
 }

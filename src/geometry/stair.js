@@ -1,21 +1,17 @@
 import { _M } from './_m'
-import {
-    PATH_ELEM,
-    W,
-    WF,
-    WC,
-    H,
-    ELEMS_N,
-    STEP,
-    STEP_HALF,
-} from './constants'
-
 import { createTileI } from './tile_I_crafted'
 import { createTileL } from './tile_L_crafted'
 import { createLineGeom } from './lineGeomCrafted'
 
+//const 
+//W = 3,
+//WF = ,
+//WC,
+//H,
+
+
 export const createStair = (data) => {
-    let { stairDataBottom, stairDataTop, n, w } = data
+    let { stairDataBottom, stairDataTop, n, w, h = 3 } = data
 
     if (!n) {
         n = 10
@@ -86,10 +82,10 @@ export const createStair = (data) => {
         v.push(...t)
 
         const collisionEnter = _M.createPolygon(
-            [-WF - W , 0, WC],
-            [-WC, H * .5, WC],
-            [-WC, H * .5, -WC],
-            [-WF - W, 0, -WC],
+            [-w -w , 0, w],
+            [-w, h * .5, w],
+            [-w, h * .5, -w],
+            [-w -w, 0, -w],
         )
 
         _M.rotateVerticesY(collisionEnter, r)
@@ -171,7 +167,7 @@ export const createStair = (data) => {
                 w: 3,  
             }) 
             _M.rotateVerticesY(res.v, rot)
-            _M.translateVertices(res.v, 0, H / 2, 0)
+            _M.translateVertices(res.v, 0, h / 2, 0)
             v.push(...res.v)
             c.push(...res.c)
         }
@@ -185,17 +181,17 @@ export const createStair = (data) => {
                 w: 3,  
             }) 
             _M.rotateVerticesY(res.v, rot)
-            _M.translateVertices(res.v, 0, H / 2, 0)
+            _M.translateVertices(res.v, 0, h / 2, 0)
             v.push(...res.v)
             c.push(...res.c)
         }
 
 
         const n = _M.createPolygon(
-            [-W, H * .5, W],
-            [W, H * .5, W],
-            [W, H * .5, -W],
-            [-W, H * .5, -W],
+            [-w, h * .5, w],
+            [w, h * .5, w],
+            [w, h * .5, -w],
+            [-w, h * .5, -w],
         )
         vC.push(...n)
     }
@@ -241,21 +237,11 @@ export const createStair = (data) => {
             c.push(...r.c)
         }
 
-        //const copyC = [...PATH_ELEM.v]
-        //_M.rotateVerticesY(copyC, Math.PI / 2)
-        //const stepY = H / 2 / ELEMS_N
-             
-       // for (let i = 0; i < ELEMS_N; ++i) {
-       //     const c = [...copyC]
-        //    _M.translateVertices(c, WF * .5 + STEP * i + STEP_HALF, stepY * i + H / 2, 0)
-        //    arrStair.push(...c)
-        //}
-
         const _vC = _M.createPolygon(
-           [W, H * .5, WC],
-           [W + WF, H, WC],
-           [W + WF, H, -WC],
-           [W, H * .5, -WC],
+           [w, h * .5, w],
+           [w + w, h, w],
+           [w + w, h, -w],
+           [w, h * .5, -w],
         )
 
         let r = 0
