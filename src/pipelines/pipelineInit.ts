@@ -1,4 +1,5 @@
 import { Root } from '../index'
+import { createDemoTiles } from 'entities/labyrinth/demoTiles'
 
 export const pipelineInit = async (root: Root) => {
     const {
@@ -35,4 +36,9 @@ export const pipelineInit = async (root: Root) => {
     studio.add(lab.mesh)
     studio.add(lab.collisionMesh)
     controlsPointer.setToCollisionFloor(lab.collisionMesh)
+
+    // test demo debug tiles
+    const meshDemoTiles = createDemoTiles({ W: 3, H: 3, WC: 1.2 })
+    studio.add(meshDemoTiles)
+    meshDemoTiles.position.z = 35
 }

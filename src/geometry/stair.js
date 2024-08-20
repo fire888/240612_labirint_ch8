@@ -71,17 +71,6 @@ export const createStair = (data) => {
         }
 
     
-        //const copyC = [...PATH_ELEM.v]
-        //_M.rotateVerticesY(copyC, Math.PI / 2)
-        //const stepY = H / 2 / ELEMS_N
-        
-        //for (let i = 0; i < ELEMS_N; ++i) {
-        //    const c = [...copyC]
-        //    _M.translateVertices(c, -WF * 1.5 + STEP * i + STEP_HALF, stepY * i, 0)
-        //    t.push(...c)
-        //}
-
-
         // collision
         let r = 0
         if (stairDataBottom.dir === 'n') {
@@ -184,6 +173,7 @@ export const createStair = (data) => {
             _M.rotateVerticesY(res.v, rot)
             _M.translateVertices(res.v, 0, H / 2, 0)
             v.push(...res.v)
+            c.push(...res.c)
         }
 
         if (type === 'I') {
@@ -197,6 +187,7 @@ export const createStair = (data) => {
             _M.rotateVerticesY(res.v, rot)
             _M.translateVertices(res.v, 0, H / 2, 0)
             v.push(...res.v)
+            c.push(...res.c)
         }
 
 
@@ -288,5 +279,6 @@ export const createStair = (data) => {
     return {
         v,
         vC,
+        c,
     }
 }

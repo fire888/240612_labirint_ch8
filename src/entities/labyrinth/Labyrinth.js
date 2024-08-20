@@ -8,10 +8,6 @@ import { createTileU } from '../../geometry/tile_U_crafted'
 import { createTileX } from '../../geometry/tile_X_crafted';
 import { createStair } from "../../geometry/stair";
 
-import { createDemoTiles } from './demoTiles';
-
-import { createLineGeom  } from 'geometry/lineGeom';
-
 import {
     createMesh,
 } from '../../geometry/helperCreateMesh'
@@ -111,12 +107,6 @@ export class Labyrinth {
         this.exitPoint = []
         this.exitDir = null
 
-
-        // test demo debug
-        const meshDemoTiles = createDemoTiles({ W, H, WC })
-        this.mesh.add(meshDemoTiles)
-
-
         let posStartNext = [11, 1]
 
         const levelsData = []
@@ -169,7 +159,7 @@ export class Labyrinth {
             stairDataTop.color = color2
 
             const stair = createStair({ stairDataBottom, stairDataTop, W, WC, H })
-            const m = createMesh({ v: stair.v, material: material })
+            const m = createMesh({ v: stair.v, c: stair.c, material: material })
             m.position.x = Math.floor(WIDTH / 2) * W
             m.position.z = 1 * W
             this.mesh.add(m)
@@ -207,7 +197,6 @@ export class Labyrinth {
 
 
                     if (model === 'I') {
-                        //const r = createTileI({ w: W, h: H, wc: WC })
                         const r = createTileI({             
                             w: W, 
                             n: 10,
@@ -220,7 +209,6 @@ export class Labyrinth {
                     }
 
                     if (model === 'L') {
-                        //const r = createTileL({ w: W, h: H, wc: WC })
                         const r = createTileL({
                             w: W, 
                             n: 10,
@@ -235,18 +223,8 @@ export class Labyrinth {
                     if (model === 'T') {
                         const 
                         w = W, 
-                        n = 7,
-                        formS = forms[0],
-                        formE = forms[1],
-                        formW = forms[2],
-                        pathS = paths[0],
-                        pathE = paths[1],
-                        pathW = paths[2],
-                        colorS = colors[0],
-                        colorW = colors[1],
-                        colorE = colors[2]
-            
-            
+                        n = 7
+
                         const r = createTileT({ 
                             w, 
                             n,
@@ -389,7 +367,6 @@ export class Labyrinth {
             }
 
             if (stairDataBottom && stairDataTop) {
-                console.log('$$$$$---')
                 stairDataBottom.form = form1
                 stairDataBottom.path = path1
                 stairDataBottom.color = color1
@@ -403,7 +380,7 @@ export class Labyrinth {
                 vC.push(...stair.vC)
                 _M.translateVertices(stair.v, W * i, 0, W * j)
                 v.push(...stair.v)
-                //c.push(...stair.c)
+                c.push(...stair.c)
             }
 
             const mesh = createMesh({ v, c, material: material })

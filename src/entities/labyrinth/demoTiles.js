@@ -262,6 +262,7 @@ export const createDemoTiles = (data) => {
         const stair = createStair({ stairDataBottom, stairDataTop, W, WC, H })
         _M.translateVertices(stair.v, W * 9, 0, 0)
         _v.push(...stair.v)
+        _c.push(...stair.c)
 
         const line0 = makeSquare()
         line0.position.z = 15
