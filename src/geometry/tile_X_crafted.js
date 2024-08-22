@@ -32,7 +32,7 @@ export const createTileX = ({
     */
 
     {
-        const p = createLineGeom({ points: pathS, form: formS, color: colorS, isClosed: true })
+        const p = createLineGeom({ path: pathS, form: formS, color: colorS, isClosed: true })
         _M.translateVertices(p.v, 0, 0, w / 2)
         v.push(...p.v)
         c.push(...p.c)
@@ -45,7 +45,7 @@ export const createTileX = ({
      */
 
     {
-        const p = createLineGeom({ points: pathW, form: formW, color: colorW, isClosed: true })
+        const p = createLineGeom({ path: pathW, form: formW, color: colorW, isClosed: true })
         _M.rotateVerticesY(p.v, -Math.PI / 2)
         _M.translateVertices(p.v, -w / 2, 0, 0)
         v.push(...p.v)
@@ -60,7 +60,7 @@ export const createTileX = ({
      */
 
     {
-        const p = createLineGeom({ points: pathE, form: formE, color: colorE, isClosed: true })
+        const p = createLineGeom({ path: pathE, form: formE, color: colorE, isClosed: true })
         _M.rotateVerticesY(p.v, -Math.PI / 2)
         _M.translateVertices(p.v, w / 2, 0, 0)
         v.push(...p.v)
@@ -79,7 +79,7 @@ export const createTileX = ({
      */
 
     {
-        const p = createLineGeom({ points: pathN, form: formN, color: colorN, isClosed: true })
+        const p = createLineGeom({ path: pathN, form: formN, color: colorN, isClosed: true })
         _M.translateVertices(p.v, 0, 0, -w / 2)
         v.push(...p.v)
         c.push(...p.c)
@@ -119,7 +119,7 @@ export const createTileX = ({
         const angleStep = Math.PI / 2 / (nRot + 1)
         for (let i = 0; i < arrs.paths.length; ++i) {
             const r = createLineGeom({
-                points: arrs.paths[i],
+                path: arrs.paths[i],
                 form: arrs.forms[i],
                 color: arrs.colors[i],
             })
@@ -173,7 +173,7 @@ export const createTileX = ({
         const angleStep = Math.PI / 2 / (nRot + 1)
         for (let i = 0; i < arrs.paths.length; ++i) {
             const r = createLineGeom({
-                points: arrs.paths[i],
+                path: arrs.paths[i],
                 form: arrs.forms[i],
                 color: arrs.colors[i],
             })
@@ -222,7 +222,7 @@ export const createTileX = ({
         const angleStep = Math.PI / 2 / (nRot + 1)
         for (let i = 0; i < arrs.paths.length; ++i) {
             const r = createLineGeom({
-                points: arrs.paths[i],
+                path: arrs.paths[i],
                 form: arrs.forms[i],
                 color: arrs.colors[i],
             })
@@ -271,7 +271,7 @@ export const createTileX = ({
         const angleStep = Math.PI / 2 / (nRot + 1)
         for (let i = 0; i < arrs.paths.length; ++i) {
             const r = createLineGeom({
-                points: arrs.paths[i],
+                path: arrs.paths[i],
                 form: arrs.forms[i],
                 color: arrs.colors[i],
             })

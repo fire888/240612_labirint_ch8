@@ -21,7 +21,7 @@ export const createTileL = ({ w, n, forms, paths, colors }) => {
         }
         const l = createLineGeom({
             form: arrs.forms[i],
-            points: arrs.paths[i],
+            path: arrs.paths[i],
             color: arrs.colors[i],
             isClosed: true,
         })

@@ -7,16 +7,38 @@ type AttributesArrs = {
 
 type DataToCreateLine = {
     form: number[],
-    points: number[][],
+    path: number[][],
     color: number[],
     isClosed: boolean,
     isDebug?: boolean,
 }
 
+export const createRandomDataForLine = (): DataToCreateLine => {
+    return {
+        form: [
+            -1.3 * Math.random(), .2, 0,
+            1.3 * Math.random(), .2, 0,
+            0, 0, 0,
+        ],
+        path: [
+            [-1.3 * Math.random(), 0, 0],
+            [1.3 * Math.random(), 0, 0],
+            [0, 2, 0],
+        ],
+        color: [
+            Math.random(),
+            Math.random(),
+            Math.random(),
+        ],
+        isClosed: true,
+    }
+}
+
+
 export const createLineGeom = (data: DataToCreateLine): AttributesArrs => {
     const {
         form,
-        points,
+        path,
         color,
         isClosed,
         isDebug,
@@ -25,25 +47,25 @@ export const createLineGeom = (data: DataToCreateLine): AttributesArrs => {
 
     const arrForms = []
     
-    for (let i = 0; i < points.length; ++i) {
-        const currentPoint = points[i]
+    for (let i = 0; i < path.length; ++i) {
+        const currentPoint = path[i]
         let prevPoint = null
         let nextPoint = null
 
         if (i === 0) {
             if (isClosed) {
-                prevPoint = points[points.length - 1]
+                prevPoint = path[path.length - 1]
             }
         } else (
-            prevPoint = points[i - 1]
+            prevPoint = path[i - 1]
         )
 
-        if (i === points.length - 1) {
+        if (i === path.length - 1) {
             if (isClosed) {
-                nextPoint = points[0]
+                nextPoint = path[0]
             }
         } else {
-            nextPoint = points[i + 1]
+            nextPoint = path[i + 1]
         }
 
         let angle1 = null
@@ -72,7 +94,7 @@ export const createLineGeom = (data: DataToCreateLine): AttributesArrs => {
         let angle = angle2 - (angle2 - angle1) / 2
         angle = angle % (Math.PI * 2)
 
-        if (i === points.length - 1 && isClosed) {
+        if (i === path.length - 1 && isClosed) {
            angle -= Math.PI
         }
 

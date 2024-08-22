@@ -26,15 +26,20 @@ const createMaze = async (width, height, posStart, startDirection) => {
         maze = {}
         for (let x = 0; x < WIDTH; ++x) {
             for (let y = 0; y < HEIGHT; ++y) {
-                maze[[x, y]] = { type: EMPTY }
+                maze[[x, y]] = { type: EMPTY, s: null, e: null, n: null, w: null }
             }
         }
     }
 
-    const visit = async (x, y) => {
+    const visit = async (x, y, prevDir, prevForm, prevPath, prevColor) => {
         posEnd[0] = x
         posEnd[1] = y
-        maze[[x, y]] = { type: TUNNEL }
+        maze[[x, y]].type = TUNNEL
+        maze[[x, y]][prevDir] = {
+            color: prevColor,
+            form: prevForm,
+            path: prevPath,
+        }
 
         while(true) {
             const unvisitetNeighbors = []
@@ -74,23 +79,25 @@ const createMaze = async (width, height, posStart, startDirection) => {
             if (nextInterseption === NORTH) {
                 nextX = x
                 nextY = y - 2
-                maze[[x, y - 1]] = TUNNEL
+                maze[[x, y - 1]].type = TUNNEL
             } else if (nextInterseption === SOUTH) {
                 nextX = x
                 nextY = y + 2
-                maze[[x, y + 1]] = TUNNEL
+                maze[[x, y + 1]].type = TUNNEL
             } else if (nextInterseption === WEST) {
                 nextX = x - 2
                 nextY = y
-                maze[[x - 1, y]] = TUNNEL
+                maze[[x - 1, y]].type = TUNNEL
             } else if (nextInterseption === EAST) {
                 nextX = x + 2
                 nextY = y
-                maze[[x + 1, y]] = TUNNEL
+                maze[[x + 1, y]].type = TUNNEL
             }
             hasVisited.push([nextX, nextY])
 
-            await visit(nextX, nextY)
+            //const newColor = [Math.random(), Math.random(), Math.random()]
+            //const newColor = [Math.random(), Math.random(), Math.random()]
+            await visit(nextX, nextY, nextInterseption, )
         }
     }
 
@@ -231,8 +238,6 @@ const addMarksToWays = (maze, W, H) => {
                     markedMaze[x + ',' + y].dir = Math.PI * 1.5
                 }
 
-
-
                 // L
                 if (!isN && isS && !isW && isE) {
                     markedMaze[x + ',' + y].model = 'L'
@@ -250,7 +255,6 @@ const addMarksToWays = (maze, W, H) => {
                     markedMaze[x + ',' + y].model = 'L'
                     markedMaze[x + ',' + y].dir = Math.PI * 1.5
                 }
-
 
                 // T
                 if (isN && isS && !isW && isE) {

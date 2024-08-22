@@ -50,7 +50,7 @@ export const createStair = (data) => {
         const stepY = 3 * .5 / n
         for (let i = 0; i < arr.paths.length; ++i) {
             const r = createLineGeom({ 
-                points: arr.paths[i],
+                path: arr.paths[i],
                 form: arr.forms[i],
                 color: arr.colors[i],
                 isClosed: true,
@@ -221,7 +221,7 @@ export const createStair = (data) => {
         const stepY = 3 * .5 / n
         for (let i = 0; i < arr.paths.length; ++i) {
             const r = createLineGeom({ 
-                points: arr.paths[i],
+                path: arr.paths[i],
                 form: arr.forms[i],
                 color: arr.colors[i],
                 isClosed: true,

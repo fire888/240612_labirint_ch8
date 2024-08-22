@@ -16,7 +16,7 @@ export const createTileU = ({ w, n, forms, paths, colors }) => {
     // smaller part 
     const lastBuffer = createLineGeom({ 
         form: forms[forms.length - 1], 
-        points: paths[paths.length - 1], 
+        path: paths[paths.length - 1],
         color: colors[colors.length - 1],
         isClosed: true,
     })
