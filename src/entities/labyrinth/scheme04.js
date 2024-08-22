@@ -1,3 +1,7 @@
+import { createRandomDataForLine } from "../../geometry/lineGeomCrafted"
+import { _M } from "../../geometry/_m"
+
+
 const EMPTY = 1
 const TUNNEL = 3
 const STAIR = 3
@@ -74,30 +78,39 @@ const createMaze = async (width, height, posStart, startDirection) => {
 
 
             const nextInterseption = unvisitetNeighbors[Math.floor(Math.random() * unvisitetNeighbors.length)]
+            const newData = createRandomDataForLine()
 
             let nextX, nextY
+            const prevData = { form: prevForm, path: prevPath, color: prevColor }
             if (nextInterseption === NORTH) {
                 nextX = x
                 nextY = y - 2
                 maze[[x, y - 1]].type = TUNNEL
+                maze[[x, y - 1]][SOUTH] = prevData
+                maze[[x, y - 1]][NORTH] = newData
             } else if (nextInterseption === SOUTH) {
                 nextX = x
                 nextY = y + 2
                 maze[[x, y + 1]].type = TUNNEL
+                maze[[x, y + 1]][NORTH] = prevData
+                maze[[x, y + 1]][SOUTH] = newData
             } else if (nextInterseption === WEST) {
                 nextX = x - 2
                 nextY = y
                 maze[[x - 1, y]].type = TUNNEL
+                maze[[x - 1, y]][EAST] = prevData
+                maze[[x - 1, y]][WEST] = newData
             } else if (nextInterseption === EAST) {
                 nextX = x + 2
                 nextY = y
                 maze[[x + 1, y]].type = TUNNEL
+                maze[[x + 1, y]][WEST] = prevData
+                maze[[x + 1, y]][EAST] = newData
             }
             hasVisited.push([nextX, nextY])
 
-            //const newColor = [Math.random(), Math.random(), Math.random()]
-            //const newColor = [Math.random(), Math.random(), Math.random()]
-            await visit(nextX, nextY, nextInterseption, )
+            maze[[x, y]][nextInterseption] = prevData
+            await visit(nextX, nextY, nextInterseption, newData.form, newData.path, newData.color)
         }
     }
 
@@ -366,16 +379,17 @@ export const createScheme04_crafted = async ({
     const HEIGHT = height
 
     const { posEnd, maze } = await createMaze(width, height, posStart, startDirection)
-    debugPrintMaze(maze, WIDTH, HEIGHT, posStart, posEnd)
-    const markedMaze = addMarksToWays(maze, WIDTH, HEIGHT)
-    const endDir = addStairsData(markedMaze, posStart, posEnd)
+    console.log('MMMMM', maze)
+    //debugPrintMaze(maze, WIDTH, HEIGHT, posStart, posEnd)
+    //const markedMaze = addMarksToWays(maze, WIDTH, HEIGHT)
+    // const endDir = addStairsData(markedMaze, posStart, posEnd)
 
-    console.log(markedMaze)
+    //console.log(markedMaze)
 
     return {
-        posStart,
-        posEnd,
-        endDir,
-        markedMaze,
+        //posStart,
+        //posEnd,
+        //endDir,
+        //markedMaze,
     }
 }

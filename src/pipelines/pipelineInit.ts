@@ -1,6 +1,7 @@
 import { Root } from '../index'
 import { createDemoTiles } from 'entities/labyrinth/demoTiles'
 import { createDeemoLongCorridor } from 'entities/labyrinth/demoLongCorridor'
+import { Labyrinth02 } from "../entities/labyrinth/demoLab2";
 
 export const pipelineInit = async (root: Root) => {
     const {
@@ -45,4 +46,7 @@ export const pipelineInit = async (root: Root) => {
 
     const mCorr = createDeemoLongCorridor()
     studio.add(mCorr)
+
+    const lab02 = new Labyrinth02()
+    await lab02.init()
 }
