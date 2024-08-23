@@ -17,7 +17,7 @@ export type Root = {
     controlsPointer: ControlsPointer,
     boxTest: BoxTest,
     floor: Floor,
-    lab: Labyrinth,
+    //lab: Labyrinth,
     loader: LoaderAssets,
 }
 
@@ -30,7 +30,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         controlsPointer: new ControlsPointer(),
         boxTest: new BoxTest(),
         floor: new Floor(),
-        lab: new Labyrinth(),
+        //lab: new Labyrinth(),
         loader: new LoaderAssets(),
     }
 

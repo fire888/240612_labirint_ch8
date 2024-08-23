@@ -47,7 +47,6 @@ export const createDeemoLongCorridor = () => {
     const v = []
     const c = []
 
-    console.log('GGG', arrs)
     for (let i = 1; i < arrs.paths.length; ++i) {
         const r = createTileI({
             paths: [arrs.paths[i - 1], arrs.paths[i]],

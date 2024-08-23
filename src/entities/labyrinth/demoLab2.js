@@ -13,6 +13,10 @@ import {
 } from '../../geometry/helperCreateMesh'
 
 
+const EMPTY = 1
+const TUNNEL = 3
+const STAIR = 4
+
 const form1 = [
     0, .05, .05,
     0, .05, -.05,
@@ -75,9 +79,6 @@ const n = 20
 
 
 
-const TUNNEL = 3
-const N_FLOORS = 5
-
 export class Labyrinth02 {
     constructor () {
         this.collisionMech = null
@@ -87,6 +88,7 @@ export class Labyrinth02 {
         const WIDTH = 23
         const HEIGHT = 23
         const W = 3
+        const N = 10
         const H = 3
 
         const WC = W / 2 - .2
@@ -98,9 +100,77 @@ export class Labyrinth02 {
 
         const material = new THREE.MeshPhongMaterial({color: 0xffffff, vertexColors: true})
 
-        const s = await createScheme04_crafted({})
-        console.log('lab_02_Data', s)
+        const { maze } = await createScheme04_crafted({})
 
+        const v = []
+        const c = []
 
+        for (let key in maze) {
+            const tile = maze[key]
+            
+            if (
+                tile.type === EMPTY ||
+                tile.type === STAIR
+            ) {
+                continue;
+            }
+
+            const ij = key.split(',')
+             
+
+            let typeTile = null
+            let angle = null
+
+            if (
+                tile.w && 
+                tile.e &&
+                !tile.n &&
+                !tile.s
+            ) {
+                typeTile = 'I'
+                angle = 0
+            }
+            if (
+                tile.n && 
+                tile.s &&
+                !tile.e &&
+                !tile.w
+            ) {
+                typeTile = 'I'
+                angle = -Math.PI / 2
+            }
+
+            let e = null
+
+            if (typeTile === 'I' && angle === 0) {
+                e = createTileI({ 
+                    paths: [tile.w.path, tile.e.path],
+                    colors: [tile.w.color, tile.e.color],
+                    forms: [tile.w.form, tile.e.form],
+                    n: N,
+                    w: W,
+                })
+            }
+
+            if (typeTile === 'I' && angle === -Math.PI / 2) {
+                e = createTileI({ 
+                    paths: [tile.n.path, tile.s.path],
+                    colors: [tile.n.color, tile.s.color],
+                    forms: [tile.n.form, tile.s.form],
+                    n: N,
+                    w: W,
+                })
+            }
+
+            if (e) {
+                _M.rotateVerticesY(e.v, angle)
+                _M.translateVertices(e.v, +ij[0] * W, 0, +ij[1] * W)
+                v.push(...e.v)
+                c.push(...e.c)
+            }
+        }
+
+        const m = createMesh({ v, c, material: new THREE.MeshPhongMaterial({ color: 0xFFFFFF, vertexColors: true }) })
+        this.mesh = m
     }
 }

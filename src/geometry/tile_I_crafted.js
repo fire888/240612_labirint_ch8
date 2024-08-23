@@ -4,7 +4,6 @@ import { createLineGeom } from './lineGeomCrafted'
 
 //export const createTileI = ({ w, n, forms = [], paths = [], colors = [] }) => {
 export const createTileI = ({ w, n, forms, paths, colors }) => {
-
     // CREATE ARRAYS DATA
 
     const arrs = _M.interpolateArrays({ forms, paths, colors, n })
@@ -19,9 +18,6 @@ export const createTileI = ({ w, n, forms, paths, colors }) => {
     const startX = xStep / 2
 
     for (let i = 0; i < arrs.paths.length; ++i) {
-        if (arrs.paths.length === 0) {
-            continue;
-        }
         const l = createLineGeom({
             form: arrs.forms[i],
             path: arrs.paths[i],

@@ -218,6 +218,11 @@ export const _M = {
                 const nextFormIndex = prevFormIndex + 1
                 const phasePrevNext = i % nInForms / nInForms
     
+                if (!forms[prevFormIndex]) {
+                    console.log('error data in interpolate')
+                    return { paths: [], forms: [], colors: [] }
+                }
+
                 const prevForm = forms[prevFormIndex]
                 const nextForm = forms[nextFormIndex] ? forms[nextFormIndex] : forms[forms.length - 1]
     
@@ -232,6 +237,11 @@ export const _M = {
                 const prevPathIndex = Math.floor(i / nInPaths)
                 const nextPathIndex = prevPathIndex + 1
                 const phasePrevNext = i % nInPaths / nInPaths
+
+                if (!paths[prevPathIndex]) {
+                    console.log('error data in interpolate')
+                    return { paths: [], forms: [], colors: [] }
+                }
     
                 const prevPath = paths[prevPathIndex]
                 const nextPath = paths[nextPathIndex] ? paths[nextPathIndex] : paths[paths.length - 1]
@@ -256,6 +266,12 @@ export const _M = {
                 const prevCIndex = Math.floor(i / nInColors)
                 const nextCIndex = prevCIndex + 1
                 const phasePrevNext = (i % nInColors) / nInColors
+
+                if (!colors[prevCIndex]) {
+                    console.log('error data in interpolate')
+                    return { paths: [], forms: [], colors: [] }
+                }
+
     
                 const prevC = colors[prevCIndex]
                 const nextC = colors[nextCIndex] ? colors[nextCIndex] : colors[colors.length - 1]

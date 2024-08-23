@@ -1,6 +1,7 @@
 import { Root } from '../index'
 import { createDemoTiles } from 'entities/labyrinth/demoTiles'
 import { createDeemoLongCorridor } from 'entities/labyrinth/demoLongCorridor'
+import { Labyrinth } from "../entities/labyrinth/Labyrinth";
 import { Labyrinth02 } from "../entities/labyrinth/demoLab2";
 
 export const pipelineInit = async (root: Root) => {
@@ -11,7 +12,7 @@ export const pipelineInit = async (root: Root) => {
         ticker,
         boxTest,
         floor,
-        lab,
+        //lab,
         loader,
     } = root
 
@@ -34,6 +35,7 @@ export const pipelineInit = async (root: Root) => {
     controlsPointer.setToCollisionFloor(floor.mesh)
     studio.add(floor.mesh)
 
+    const lab = new Labyrinth()
     await lab.init()
     studio.add(lab.mesh)
     studio.add(lab.collisionMesh)
@@ -49,4 +51,5 @@ export const pipelineInit = async (root: Root) => {
 
     const lab02 = new Labyrinth02()
     await lab02.init()
+    studio.add(lab02.mesh)
 }
