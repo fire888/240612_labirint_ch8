@@ -27,7 +27,7 @@ export class Studio {
         //this.scene.background = new THREE.Color(0x999999)
         this.fog = new THREE.Fog(0x00001a, 1, 100)
 
-       this.hemiLight = new THREE.HemisphereLight(0x6767f3, 0xffffff, 3)
+       this.hemiLight = new THREE.HemisphereLight(0x6767f3, 0xffffff, 1.5)
        this.hemiLight.position.set( 0, 20, 0 )
        this.scene.add(this.hemiLight)
 

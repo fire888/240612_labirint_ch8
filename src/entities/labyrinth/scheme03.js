@@ -1,7 +1,3 @@
-// const WALL = 1
-// const EMPTY = 3
-// const STAIR = 4
-
 const EMPTY = 1
 const TUNNEL = 3
 const STAIR = 3
@@ -365,7 +361,7 @@ export const createScheme03 = async ({
     const HEIGHT = height
 
     const { posEnd, maze } = await createMaze(width, height, posStart, startDirection)
-    debugPrintMaze(maze, WIDTH, HEIGHT, posStart, posEnd)
+    //debugPrintMaze(maze, WIDTH, HEIGHT, posStart, posEnd)
     const markedMaze = addMarksToWays(maze, WIDTH, HEIGHT)
     const endDir = addStairsData(markedMaze, posStart, posEnd)
 

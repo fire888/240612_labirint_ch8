@@ -16,20 +16,18 @@ type DataToCreateLine = {
 export const createRandomDataForLine = (): DataToCreateLine => {
     return {
         form: [
-            -1.3 * Math.random(), .2, 0,
-            1.3 * Math.random(), .2, 0,
+            0, .08 * Math.random(), .06 - Math.random() * .06,
+            0, .08 * Math.random(), -.06 + Math.random() * .06,
             0, 0, 0,
         ],
         path: [
-            [-1.3 * Math.random(), 0, 0],
             [1.3 * Math.random(), 0, 0],
+            [1 + .7 * Math.random(), .6 + Math.random(), 0],
             [0, 2, 0],
+            [-1 - .7 * Math.random(), .6 + Math.random(), 0],
+            [-1.3 * Math.random(), 0, 0],
         ],
-        color: [
-            Math.random(),
-            Math.random(),
-            Math.random(),
-        ],
+        color: [Math.random(), Math.random(), Math.random()],
         isClosed: true,
     }
 }

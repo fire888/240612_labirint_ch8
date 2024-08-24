@@ -49,7 +49,7 @@ export const pipelineInit = async (root: Root) => {
     const mCorr = createDeemoLongCorridor()
     studio.add(mCorr)
 
-    const lab02 = new Labyrinth02()
-    await lab02.init()
-    studio.add(lab02.mesh)
+   const lab02 = new Labyrinth02()
+   await lab02.init()
+   studio.add(lab02.mesh)
 }
