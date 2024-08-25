@@ -12,7 +12,7 @@ export class Floor {
         root.loader.assets.mapFloor.wrapT = THREE.RepeatWrapping
         root.loader.assets.mapFloor.repeat.set(1400, 1400)
 
-        const floorMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, map: root.loader.assets.mapFloor  })
+        const floorMaterial = new THREE.MeshBasicMaterial({ color: 0x333333, map: root.loader.assets.mapFloor  })
         this.mesh = new THREE.Mesh(floorGeometry, floorMaterial)
         this.mesh.position.y = -.5
     }

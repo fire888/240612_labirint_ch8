@@ -2,10 +2,12 @@ import * as THREE from 'three'
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import envModel from "../assets/env.jpg"
 import mapFloor from  "../assets/floor.jpg"
+import sky from '../assets/sky.jpg'
 
 type Assets = {
     mapEnv?: any,
     mapFloor?: any,
+    sky?: any, 
 }
 
 export class LoaderAssets {
@@ -17,6 +19,7 @@ export class LoaderAssets {
         this.assets = {
             mapEnv: null,
             mapFloor: null,
+            sky: null,
         }
     }
 
@@ -32,7 +35,12 @@ export class LoaderAssets {
                     this.assets.mapEnv = t
                     this._textureLoader.load(mapFloor, t => {
                         this.assets.mapFloor = t
-                        res()
+                        this._textureLoader.load(sky, s => {
+                            s.mapping = THREE.EquirectangularReflectionMapping;
+                            s.colorSpace = THREE.SRGBColorSpace;
+                            this.assets.sky = s
+                            res()
+                        })
                     })
                 })
             //})

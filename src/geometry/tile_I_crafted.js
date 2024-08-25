@@ -24,8 +24,7 @@ export const createTileI = ({ w, n, forms, paths, colors }) => {
             color: arrs.colors[i],
             isClosed: true,
         })
-        _M.rotateVerticesY(l.v, -Math.PI / 2)
-        _M.translateVertices(l.v, -w / 2 + startX + i * xStep, 0, 0)
+        _M.translateVertices(l.v, 0 , 0, w / 2 - startX - i * xStep)
         v.push(...l.v)
         c.push(...l.c)
     }

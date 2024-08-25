@@ -18,12 +18,12 @@ export const createRandomDataForLine = (): DataToCreateLine => {
         form: [
             0, .1 * Math.random(), .12 - Math.random() * .1,
             0, .1 * Math.random(), -.12 + Math.random() * .1,
-            0, 0, 0,
+            0, -Math.random() * .2 , 0,
         ],
         path: [
             [1.3 * Math.random(), 0, 0],
             [1 + .7 * Math.random(), .6 + Math.random(), 0],
-            [0, 2, 0],
+            [0, 2 + Math.random() * 2, 0],
             [-1 - .7 * Math.random(), .6 + Math.random(), 0],
             [-1.3 * Math.random(), 0, 0],
         ],

@@ -110,11 +110,11 @@ export class Labyrinth02 {
         this.collisionMech = null
     }
 
-    async init () {
+    async init (root) {
         const WIDTH = 23
         const HEIGHT = 23
         const W = 3
-        const N = 10
+        const N = 7
         const H = 3
 
         const WC = W / 2 - .2
@@ -146,26 +146,28 @@ export class Labyrinth02 {
 
             let typeTile = null
             let angle = null
+            let keyDir = null
 
             if (
-                tile.w && 
-                tile.e &&
-                !tile.n &&
-                !tile.s
+                tile.s && 
+                tile.n &&
+                !tile.w &&
+                !tile.e
             ) {
                 typeTile = 'I'
                 angle = 0
             }
             if (
-                tile.n && 
-                tile.s &&
-                !tile.e &&
-                !tile.w
+                tile.w && 
+                tile.e &&
+                !tile.s &&
+                !tile.n
             ) {
                 typeTile = 'I'
-                angle = -Math.PI / 2
+                angle = -Math.PI * .5
             }
 
+            ///////////////
 
             if (
                 tile.s &&
@@ -174,18 +176,31 @@ export class Labyrinth02 {
                 !tile.w
             ) {
                 typeTile = 'L'
+                keyDir = 'se'
                 angle = 0
             }
 
-            // if (
-            //     tile.e &&
-            //     tile.n &&
-            //     !tile.w &&
-            //     !tile.s
-            // ) {
-            //     typeTile = 'L'
-            //     angle = 0
-            // }
+            if (
+                tile.n &&
+                tile.w &&
+                !tile.s &&
+                !tile.e
+            ) {
+                typeTile = 'L'
+                angle = 0
+                keyDir = 'nw' 
+            }
+
+            if (
+                tile.w &&
+                tile.s &&
+                !tile.e &&
+                !tile.n
+            ) {
+                typeTile = 'L'
+                angle = 0
+                keyDir = 'ws' 
+            }
 
             // if (
             //     tile.n &&
@@ -194,7 +209,17 @@ export class Labyrinth02 {
             //     !tile.e
             // ) {
             //     typeTile = 'L'
-            //     angle = Math.PI * .5
+            //     angle = Math.PI
+            // }
+
+            // if (
+            //     tile.w &&
+            //     tile.s &&
+            //     !tile.e &&
+            //     !tile.n
+            // ) {
+            //     typeTile = 'L'
+            //     angle = Math.PI * 1.5
             // }
 
 
@@ -249,12 +274,25 @@ export class Labyrinth02 {
 
             if (typeTile === 'I' && angle === 0) {
                 if (
+                    !checkArray(tile.s.path) ||
+                    !checkArray(tile.n.path)
+                ) {
+                    continue;
+                }
+
+                e = createTileI({ 
+                    paths: [tile.s.path, tile.n.path],
+                    colors: [tile.s.color, tile.n.color],
+                    forms: [tile.s.form, tile.n.form],
+                    n: N,
+                    w: W,
+                })
+            }
+
+            if (typeTile === 'I' && angle === -Math.PI * .5) {
+                if (
                     !checkArray(tile.w.path) ||
-                    !checkArray(tile.e.path) ||
-                    !checkArray(tile.w.color) ||
-                    !checkArray(tile.e.color) ||
-                    !checkArray(tile.w.form) ||
-                    !checkArray(tile.e.form) 
+                    !checkArray(tile.e.path)
                 ) {
                     continue;
                 }
@@ -268,28 +306,7 @@ export class Labyrinth02 {
                 })
             }
 
-            if (typeTile === 'I' && angle === -Math.PI / 2) {
-                if (
-                    !checkArray(tile.n.path) ||
-                    !checkArray(tile.s.path) ||
-                    !checkArray(tile.n.color) ||
-                    !checkArray(tile.s.color) ||
-                    !checkArray(tile.n.form) ||
-                    !checkArray(tile.s.form) 
-                ) {
-                    continue;
-                }
-
-                e = createTileI({ 
-                    paths: [tile.n.path, tile.s.path],
-                    colors: [tile.n.color, tile.s.color],
-                    forms: [tile.n.form, tile.s.form],
-                    n: N,
-                    w: W,
-                })
-            }
-
-            if (typeTile === 'L' && angle === 0) {
+            if (typeTile === 'L' && keyDir === 'se') {
                 if (
                     !checkArray(tile.s.path) ||
                     !checkArray(tile.e.path)
@@ -303,42 +320,63 @@ export class Labyrinth02 {
                     forms: [tile.s.form, tile.e.form],
                     n: N,
                     w: W,
+                    key: 'se',
                 })
             }
 
-            // if (typeTile === 'L' && angle === 0) {
-            //     if (
-            //         !checkArray(tile.e.path) ||
-            //         !checkArray(tile.n.path)
-            //     ) {
-            //         continue;
-            //     }
+            if (typeTile === 'L' && keyDir === 'nw') {
+                if (
+                    !checkArray(tile.w.path) ||
+                    !checkArray(tile.n.path)
+                ) {
+                    continue;
+                }
 
-            //     e = createTileL({ 
-            //         paths: [tile.e.path, tile.n.path],
-            //         colors: [tile.e.color, tile.n.color],
-            //         forms: [tile.e.form, tile.n.form],
-            //         n: N,
-            //         w: W,
-            //     })
-            // }
+                e = createTileL({ 
+                    paths: [tile.w.path, tile.n.path],
+                    colors: [tile.w.color, tile.n.color],
+                    forms: [tile.w.form, tile.n.form],
+                    n: N,
+                    w: W,
+                    key: 'nw',
+                })
+            }
 
-            // if (typeTile === 'L' && angle === Math.PI * .5) {
-            //      if (
-            //          !checkArray(tile.n.path) ||
-            //          !checkArray(tile.w.path)
-            //      ) {
-            //          continue;
-            //      }
+            if (typeTile === 'L' && keyDir === 'ws') {
+                 if (
+                     !checkArray(tile.w.path) ||
+                     !checkArray(tile.s.path)
+                 ) {
+                     continue;
+                 }
 
-            //     e = createTileL({ 
-            //         paths: [tile.n.path, tile.w.path],
-            //         colors: [tile.n.color, tile.w.color],
-            //         forms: [tile.n.form, tile.w.form],
-            //         n: N,
-            //         w: W,
-            //     })
-            // }
+                e = createTileL({ 
+                    paths: [tile.w.path, tile.s.path],
+                    colors: [tile.w.color, tile.s.color],
+                    forms: [tile.w.form, tile.s.form],
+                    n: N,
+                    w: W,
+                    key: 'ws',
+                })
+            }
+
+            if (typeTile === 'L' && angle === Math.PI * 1.5) {
+                if (
+                    !checkArray(tile.w.path) ||
+                    !checkArray(tile.s.path)
+                ) {
+                    continue;
+                }
+
+               e = createTileL({ 
+                   paths: [tile.w.path, tile.s.path],
+                   colors: [tile.w.color, tile.s.color],
+                   forms: [tile.w.form, tile.s.form],
+                   n: N,
+                   w: W,
+                   key: 'ws',
+               })
+           }
 
 
             // if (typeTile === 'T' && angle === Math.PI) {
@@ -451,14 +489,23 @@ export class Labyrinth02 {
             // }
 
             if (e) {
-                _M.rotateVerticesY(e.v, angle)
+                if (typeTile === 'L') {
+                    //_M.rotateVerticesY(e.v, angle + Math.PI)
+                } else {
+                    _M.rotateVerticesY(e.v, angle)
+                }
                 _M.translateVertices(e.v, +ij[0] * W, 0, +ij[1] * W)
                 v.push(...e.v)
                 c.push(...e.c)
             }
         }
 
-        const m = createMesh({ v, c, material: new THREE.MeshPhongMaterial({ color: 0xFFFFFF, vertexColors: true }) })
+        const m = createMesh({ v, c, material: new THREE.MeshPhongMaterial({ 
+            color: 0xFFFFFF, 
+            vertexColors: true,
+            envMap: root.loader.assets.sky,
+            reflectivity: .6,
+        }) })
         this.mesh = m
     }
 }

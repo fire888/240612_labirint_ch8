@@ -9,6 +9,7 @@ export class Studio {
     hemiLight: THREE.HemisphereLight
     dirLight: THREE.DirectionalLight
     renderer: THREE.WebGLRenderer
+    envMap: THREE.Texture
     constructor() {}
 
     init (root: Root) {
@@ -24,10 +25,11 @@ export class Studio {
         root.loader.assets.mapEnv.colorSpace = THREE.SRGBColorSpace;
 
         this.scene.background = root.loader.assets.mapEnv
+        this.envMap = root.loader.assets.mapEnv
         //this.scene.background = new THREE.Color(0x999999)
         this.fog = new THREE.Fog(0x00001a, 1, 100)
 
-       this.hemiLight = new THREE.HemisphereLight(0x6767f3, 0xffffff, 1.5)
+       this.hemiLight = new THREE.HemisphereLight(0x6767f3, 0xffffff, 5)
        this.hemiLight.position.set( 0, 20, 0 )
        this.scene.add(this.hemiLight)
 

@@ -153,7 +153,7 @@ const createMaze = async (width, height, posStart, startDirection) => {
             }
             hasVisited.push([nextX, nextY])
 
-            console.log('prevdir', prevDir, 'current:', x, y,  maze[[x, y]])
+            // console.log('prevdir', prevDir, 'current:', x, y,  maze[[x, y]])
             await visit(nextX, nextY, nextDir, nextData.form, nextData.path, nextData.color)
         }
     }
