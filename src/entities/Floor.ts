@@ -14,6 +14,6 @@ export class Floor {
 
         const floorMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, map: root.loader.assets.mapFloor  })
         this.mesh = new THREE.Mesh(floorGeometry, floorMaterial)
-        this.mesh.position.y = 0
+        this.mesh.position.y = -.5
     }
 }

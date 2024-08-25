@@ -35,15 +35,44 @@ const createMaze = async (width, height, posStart, startDirection) => {
         }
     }
 
-    const visit = async (x, y, prevDir, prevForm, prevPath, prevColor) => {
+    const visit = async (x, y, prevDir, prevForm, prevPath, prevColor) => {        
+        // save global for stair
         posEnd[0] = x
         posEnd[1] = y
+
+        // current tile mark prev direction 
         maze[[x, y]].type = TUNNEL
-        maze[[x, y]][prevDir] = {
-            color: prevColor,
-            form: prevForm,
-            path: prevPath,
+
+        if (prevDir === NORTH) {
+            maze[[x, y]][SOUTH] = {
+                color: prevColor,
+                form: prevForm,
+                path: prevPath,
+            }
         }
+        if (prevDir === SOUTH) {
+            maze[[x, y]][NORTH] = {
+                color: prevColor,
+                form: prevForm,
+                path: prevPath,
+            }
+        }
+        if (prevDir === WEST) {
+            maze[[x, y]][EAST] = {
+                color: prevColor,
+                form: prevForm,
+                path: prevPath,
+            }
+        }
+        if (prevDir === EAST) {
+            maze[[x, y]][WEST] = {
+                color: prevColor,
+                form: prevForm,
+                path: prevPath,
+            }
+        }
+
+
 
         while(true) {
             const unvisitetNeighbors = []
@@ -76,41 +105,56 @@ const createMaze = async (width, height, posStart, startDirection) => {
                 return
             }
 
+            const nextDir = unvisitetNeighbors[Math.floor(Math.random() * unvisitetNeighbors.length)]
+            const randomData1 = createRandomDataForLine()
+            const currentData = { form: randomData1.form, path: randomData1.path, color: randomData1.color }
 
-            const nextInterseption = unvisitetNeighbors[Math.floor(Math.random() * unvisitetNeighbors.length)]
-            const newData = createRandomDataForLine()
+            const randomData2 = createRandomDataForLine()
+            const nextData = { form: randomData2.form, path: randomData2.path, color: randomData2.color }
 
             let nextX, nextY
-            const prevData = { form: prevForm, path: prevPath, color: prevColor }
-            if (nextInterseption === NORTH) {
-                nextX = x
-                nextY = y - 2
+            if (nextDir === NORTH) {
+                maze[[x, y]][NORTH] = currentData
+
                 maze[[x, y - 1]].type = TUNNEL
-                maze[[x, y - 1]][SOUTH] = prevData
-                maze[[x, y - 1]][NORTH] = newData
-            } else if (nextInterseption === SOUTH) {
+                maze[[x, y - 1]][SOUTH] = currentData
+                maze[[x, y - 1]][NORTH] = nextData
+
+                nextX = x
+                nextY = y - 2    
+            } else if (nextDir === SOUTH) {
+                maze[[x, y]][SOUTH] = currentData
+                
+                maze[[x, y + 1]].type = TUNNEL
+                maze[[x, y + 1]][NORTH] = currentData
+                maze[[x, y + 1]][SOUTH] = nextData
+
                 nextX = x
                 nextY = y + 2
-                maze[[x, y + 1]].type = TUNNEL
-                maze[[x, y + 1]][NORTH] = prevData
-                maze[[x, y + 1]][SOUTH] = newData
-            } else if (nextInterseption === WEST) {
+            } else if (nextDir === WEST) {
+                maze[[x, y]][WEST] = currentData
+
+                maze[[x - 1, y]].type = TUNNEL
+                maze[[x - 1, y]][EAST] = currentData
+                maze[[x - 1, y]][WEST] = nextData
+
                 nextX = x - 2
                 nextY = y
-                maze[[x - 1, y]].type = TUNNEL
-                maze[[x - 1, y]][EAST] = prevData
-                maze[[x - 1, y]][WEST] = newData
-            } else if (nextInterseption === EAST) {
+
+            } else if (nextDir === EAST) {
+                maze[[x, y]][EAST] = currentData
+
+                maze[[x + 1, y]].type = TUNNEL
+                maze[[x + 1, y]][WEST] = currentData
+                maze[[x + 1, y]][EAST] = nextData
+
                 nextX = x + 2
                 nextY = y
-                maze[[x + 1, y]].type = TUNNEL
-                maze[[x + 1, y]][WEST] = prevData
-                maze[[x + 1, y]][EAST] = newData
             }
             hasVisited.push([nextX, nextY])
 
-            maze[[x, y]][nextInterseption] = prevData
-            await visit(nextX, nextY, nextInterseption, newData.form, newData.path, newData.color)
+            console.log('prevdir', prevDir, 'current:', x, y,  maze[[x, y]])
+            await visit(nextX, nextY, nextDir, nextData.form, nextData.path, nextData.color)
         }
     }
 
@@ -140,7 +184,7 @@ const createMaze = async (width, height, posStart, startDirection) => {
         posNext,
         posNextNext
     )
-    maze[posNext] = { type: TUNNEL,   }
+    maze[posNext] = { type: TUNNEL }
     maze[posNextNext] = { type: TUNNEL }
     await visit(...posNextNext)
 

@@ -16,8 +16,8 @@ type DataToCreateLine = {
 export const createRandomDataForLine = (): DataToCreateLine => {
     return {
         form: [
-            0, .08 * Math.random(), .06 - Math.random() * .06,
-            0, .08 * Math.random(), -.06 + Math.random() * .06,
+            0, .1 * Math.random(), .12 - Math.random() * .1,
+            0, .1 * Math.random(), -.12 + Math.random() * .1,
             0, 0, 0,
         ],
         path: [

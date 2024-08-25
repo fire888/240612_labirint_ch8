@@ -94,7 +94,8 @@ export class Labyrinth {
         this.mesh = new THREE.Object3D()
         this.mesh.position.y = 0.08
         this.mesh.position.z = -W * 23 / 2
-        this.mesh.position.x = -W * 23 / 2
+        //this.mesh.position.x = -W * 23 / 2
+        this.mesh.position.x = -W * 23
 
         const material = new THREE.MeshPhongMaterial({ color: 0xffffff, vertexColors: true })
 

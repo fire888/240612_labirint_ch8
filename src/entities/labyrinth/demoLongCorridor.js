@@ -70,6 +70,7 @@ export const createDeemoLongCorridor = () => {
     })
 
     m.position.z = 39
+    m.position.x = -40
 
     return m
 }

@@ -174,71 +174,71 @@ export class Labyrinth02 {
                 !tile.w
             ) {
                 typeTile = 'L'
-                angle = Math.PI * 1.5
-            }
-
-            if (
-                tile.e &&
-                tile.n &&
-                !tile.w &&
-                !tile.s
-            ) {
-                typeTile = 'L'
                 angle = 0
             }
 
-            if (
-                tile.n &&
-                tile.w &&
-                !tile.s &&
-                !tile.e
-            ) {
-                typeTile = 'L'
-                angle = Math.PI * .5
-            }
+            // if (
+            //     tile.e &&
+            //     tile.n &&
+            //     !tile.w &&
+            //     !tile.s
+            // ) {
+            //     typeTile = 'L'
+            //     angle = 0
+            // }
+
+            // if (
+            //     tile.n &&
+            //     tile.w &&
+            //     !tile.s &&
+            //     !tile.e
+            // ) {
+            //     typeTile = 'L'
+            //     angle = Math.PI * .5
+            // }
 
 
-            if (
-                tile.e &&
-                tile.s &&
-                tile.w &&
-                !tile.n
-            ) {
-                typeTile = 'T'
-                angle = Math.PI
-            }
+            // if (
+            //     tile.e &&
+            //     tile.s &&
+            //     tile.w &&
+            //     !tile.n
+            // ) {
+            //     typeTile = 'T'
+            //     angle = Math.PI
+            // }
 
-            if (
-                tile.s &&
-                tile.e &&
-                tile.n &&
-                !tile.w
-            ) {
-                typeTile = 'T'
-                angle = Math.PI * 1.5
-            }
+            // if (
+            //     tile.s &&
+            //     tile.e &&
+            //     tile.n &&
+            //     !tile.w
+            // ) {
+            //     typeTile = 'T'
+            //     angle = Math.PI * 1.5
+            // }
 
-            if (
-                tile.e &&
-                tile.n &&
-                tile.w &&
-                !tile.s
-            ) {
-                typeTile = 'T'
-                angle = 0
-            }
+            // if (
+            //     tile.e &&
+            //     tile.n &&
+            //     tile.w &&
+            //     !tile.s
+            // ) {
+            //     typeTile = 'T'
+            //     angle = 0
+            // }
             
 
             
-            if (
-                tile.n &&
-                tile.w &&
-                tile.s &&
-                !tile.e
-            ) {
-                typeTile = 'T'
-                angle = Math.PI * .5
-            }
+            // if (
+            //     tile.n &&
+            //     tile.w &&
+            //     tile.s &&
+            //     !tile.e
+            // ) {
+            //     typeTile = 'T'
+            //     angle = Math.PI * .5
+            // }
 
 
 
@@ -289,7 +289,7 @@ export class Labyrinth02 {
                 })
             }
 
-            if (typeTile === 'L' && angle === Math.PI * 1.5) {
+            if (typeTile === 'L' && angle === 0) {
                 if (
                     !checkArray(tile.s.path) ||
                     !checkArray(tile.e.path)
@@ -306,149 +306,149 @@ export class Labyrinth02 {
                 })
             }
 
-            if (typeTile === 'L' && angle === 0) {
-                if (
-                    !checkArray(tile.e.path) ||
-                    !checkArray(tile.n.path)
-                ) {
-                    continue;
-                }
+            // if (typeTile === 'L' && angle === 0) {
+            //     if (
+            //         !checkArray(tile.e.path) ||
+            //         !checkArray(tile.n.path)
+            //     ) {
+            //         continue;
+            //     }
 
-                e = createTileL({ 
-                    paths: [tile.e.path, tile.n.path],
-                    colors: [tile.e.color, tile.n.color],
-                    forms: [tile.e.form, tile.n.form],
-                    n: N,
-                    w: W,
-                })
-            }
+            //     e = createTileL({ 
+            //         paths: [tile.e.path, tile.n.path],
+            //         colors: [tile.e.color, tile.n.color],
+            //         forms: [tile.e.form, tile.n.form],
+            //         n: N,
+            //         w: W,
+            //     })
+            // }
 
-            if (typeTile === 'L' && angle === Math.PI * .5) {
-                 if (
-                     !checkArray(tile.n.path) ||
-                     !checkArray(tile.w.path)
-                 ) {
-                     continue;
-                 }
+            // if (typeTile === 'L' && angle === Math.PI * .5) {
+            //      if (
+            //          !checkArray(tile.n.path) ||
+            //          !checkArray(tile.w.path)
+            //      ) {
+            //          continue;
+            //      }
 
-                e = createTileL({ 
-                    paths: [tile.n.path, tile.w.path],
-                    colors: [tile.n.color, tile.w.color],
-                    forms: [tile.n.form, tile.w.form],
-                    n: N,
-                    w: W,
-                })
-            }
+            //     e = createTileL({ 
+            //         paths: [tile.n.path, tile.w.path],
+            //         colors: [tile.n.color, tile.w.color],
+            //         forms: [tile.n.form, tile.w.form],
+            //         n: N,
+            //         w: W,
+            //     })
+            // }
 
 
-            if (typeTile === 'T' && angle === Math.PI) {
-                if (
-                    !checkArray(tile.w.path) ||
-                    !checkArray(tile.s.path) ||
-                    !checkArray(tile.e.path)
-                ) {
-                    continue;
-                }
+            // if (typeTile === 'T' && angle === Math.PI) {
+            //     if (
+            //         !checkArray(tile.w.path) ||
+            //         !checkArray(tile.s.path) ||
+            //         !checkArray(tile.e.path)
+            //     ) {
+            //         continue;
+            //     }
 
-                e = createTileT({ 
-                    formW: tile.w.form,
-                    pathW: tile.w.path,
-                    colorW: tile.w.color,
+            //     e = createTileT({ 
+            //         formW: tile.w.form,
+            //         pathW: tile.w.path,
+            //         colorW: tile.w.color,
 
-                    formS: tile.s.form,
-                    pathS: tile.s.path,
-                    colorS: tile.s.color,
+            //         formS: tile.s.form,
+            //         pathS: tile.s.path,
+            //         colorS: tile.s.color,
 
-                    formE: tile.e.form,
-                    pathE: tile.e.path,
-                    colorE: tile.e.color,
+            //         formE: tile.e.form,
+            //         pathE: tile.e.path,
+            //         colorE: tile.e.color,
 
-                    n: N,
-                    w: W,
-                })
-            }
+            //         n: N,
+            //         w: W,
+            //     })
+            // }
 
-            if (typeTile === 'T' && angle === Math.PI * 1.5) {
-                if (
-                    !checkArray(tile.s.path) ||
-                    !checkArray(tile.e.path) ||
-                    !checkArray(tile.n.path)
-                ) {
-                    continue;
-                }
+            // if (typeTile === 'T' && angle === Math.PI * 1.5) {
+            //     if (
+            //         !checkArray(tile.s.path) ||
+            //         !checkArray(tile.e.path) ||
+            //         !checkArray(tile.n.path)
+            //     ) {
+            //         continue;
+            //     }
 
-                e = createTileT({ 
-                    formW: tile.s.form,
-                    pathW: tile.s.path,
-                    colorW: tile.s.color,
+            //     e = createTileT({ 
+            //         formW: tile.s.form,
+            //         pathW: tile.s.path,
+            //         colorW: tile.s.color,
 
-                    formS: tile.e.form,
-                    pathS: tile.e.path,
-                    colorS: tile.e.color,
+            //         formS: tile.e.form,
+            //         pathS: tile.e.path,
+            //         colorS: tile.e.color,
 
-                    formE: tile.n.form,
-                    pathE: tile.n.path,
-                    colorE: tile.n.color,
+            //         formE: tile.n.form,
+            //         pathE: tile.n.path,
+            //         colorE: tile.n.color,
 
-                    n: N,
-                    w: W,
-                })
-            }
+            //         n: N,
+            //         w: W,
+            //     })
+            // }
 
             
-            if (typeTile === 'T' && angle === 0) {
-                if (
-                    !checkArray(tile.e.path) ||
-                    !checkArray(tile.n.path) ||
-                    !checkArray(tile.w.path)
-                ) {
-                    continue;
-                }
+            // if (typeTile === 'T' && angle === 0) {
+            //     if (
+            //         !checkArray(tile.e.path) ||
+            //         !checkArray(tile.n.path) ||
+            //         !checkArray(tile.w.path)
+            //     ) {
+            //         continue;
+            //     }
 
-                e = createTileT({ 
-                    formW: tile.e.form,
-                    pathW: tile.e.path,
-                    colorW: tile.e.color,
+            //     e = createTileT({ 
+            //         formW: tile.e.form,
+            //         pathW: tile.e.path,
+            //         colorW: tile.e.color,
 
-                    formS: tile.n.form,
-                    pathS: tile.n.path,
-                    colorS: tile.n.color,
+            //         formS: tile.n.form,
+            //         pathS: tile.n.path,
+            //         colorS: tile.n.color,
 
-                    formE: tile.w.form,
-                    pathE: tile.w.path,
-                    colorE: tile.w.color,
+            //         formE: tile.w.form,
+            //         pathE: tile.w.path,
+            //         colorE: tile.w.color,
 
-                    n: N,
-                    w: W,
-                })
-            }
+            //         n: N,
+            //         w: W,
+            //     })
+            // }
 
-            if (typeTile === 'T' && angle === .5) {
-                if (
-                    !checkArray(tile.n.path) ||
-                    !checkArray(tile.w.path) ||
-                    !checkArray(tile.s.path)
-                ) {
-                    continue;
-                }
+            // if (typeTile === 'T' && angle === .5) {
+            //     if (
+            //         !checkArray(tile.n.path) ||
+            //         !checkArray(tile.w.path) ||
+            //         !checkArray(tile.s.path)
+            //     ) {
+            //         continue;
+            //     }
 
-                e = createTileT({ 
-                    formW: tile.n.form,
-                    pathW: tile.n.path,
-                    colorW: tile.n.color,
+            //     e = createTileT({ 
+            //         formW: tile.n.form,
+            //         pathW: tile.n.path,
+            //         colorW: tile.n.color,
 
-                    formS: tile.w.form,
-                    pathS: tile.w.path,
-                    colorS: tile.w.color,
+            //         formS: tile.w.form,
+            //         pathS: tile.w.path,
+            //         colorS: tile.w.color,
 
-                    formE: tile.s.form,
-                    pathE: tile.s.path,
-                    colorE: tile.s.color,
+            //         formE: tile.s.form,
+            //         pathE: tile.s.path,
+            //         colorE: tile.s.color,
 
-                    n: N,
-                    w: W,
-                })
-            }
+            //         n: N,
+            //         w: W,
+            //     })
+            // }
 
             if (e) {
                 _M.rotateVerticesY(e.v, angle)

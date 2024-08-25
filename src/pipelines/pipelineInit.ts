@@ -3,7 +3,7 @@ import { createDemoTiles } from 'entities/labyrinth/demoTiles'
 import { createDeemoLongCorridor } from 'entities/labyrinth/demoLongCorridor'
 import { Labyrinth } from "../entities/labyrinth/Labyrinth";
 import { Labyrinth02 } from "../entities/labyrinth/demoLab2";
-import { BufferTexture } from '../entities/bufferTexture'
+// import { BufferTexture } from '../entities/bufferTexture'
 
 export const pipelineInit = async (root: Root) => {
     const {
@@ -45,7 +45,6 @@ export const pipelineInit = async (root: Root) => {
     // test demo debug tiles
     const meshDemoTiles = createDemoTiles({ W: 3, H: 3, WC: 1.2 })
     studio.add(meshDemoTiles)
-    meshDemoTiles.position.z = 35
 
     const mCorr = createDeemoLongCorridor()
     studio.add(mCorr)
@@ -54,16 +53,15 @@ export const pipelineInit = async (root: Root) => {
     await lab02.init()
     studio.add(lab02.mesh)
 
-    const bufferTexture = new BufferTexture()
-    studio.add(bufferTexture.mesh)
-
-    let n = 0
-    ticker.on(() => {
-        n++
-        if (n < 100) {
-            return
-        }
-        n = 0
-        bufferTexture.update()
-    })
+    // const bufferTexture = new BufferTexture()
+    // studio.add(bufferTexture.mesh)
+    // let n = 0
+    // ticker.on(() => {
+    //     n++
+    //     if (n < 100) {
+    //         return
+    //     }
+    //     n = 0
+    //     bufferTexture.update()
+    // })
 }

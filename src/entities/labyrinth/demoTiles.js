@@ -291,5 +291,8 @@ export const createDemoTiles = (data) => {
     m.position.y = 15
     mesh.add(m)
 
+    mesh.position.z = 35
+    mesh.position.x = -45
+
     return mesh
 }
