@@ -3,6 +3,7 @@ import { createDemoTiles } from 'entities/labyrinth/demoTiles'
 import { createDeemoLongCorridor } from 'entities/labyrinth/demoLongCorridor'
 import { Labyrinth } from "../entities/labyrinth/Labyrinth";
 import { Labyrinth02 } from "../entities/labyrinth/demoLab2";
+import { BufferTexture } from '../entities/bufferTexture'
 
 export const pipelineInit = async (root: Root) => {
     const {
@@ -49,7 +50,20 @@ export const pipelineInit = async (root: Root) => {
     const mCorr = createDeemoLongCorridor()
     studio.add(mCorr)
 
-   const lab02 = new Labyrinth02()
-   await lab02.init()
-   studio.add(lab02.mesh)
+    const lab02 = new Labyrinth02()
+    await lab02.init()
+    studio.add(lab02.mesh)
+
+    const bufferTexture = new BufferTexture()
+    studio.add(bufferTexture.mesh)
+
+    let n = 0
+    ticker.on(() => {
+        n++
+        if (n < 100) {
+            return
+        }
+        n = 0
+        bufferTexture.update()
+    })
 }
