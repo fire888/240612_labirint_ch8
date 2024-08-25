@@ -114,7 +114,7 @@ export class Labyrinth02 {
         const WIDTH = 23
         const HEIGHT = 23
         const W = 3
-        const N = 7
+        const N = 5
         const H = 3
 
         const WC = W / 2 - .2
@@ -200,6 +200,17 @@ export class Labyrinth02 {
                 typeTile = 'L'
                 angle = 0
                 keyDir = 'ws' 
+            }
+
+            if (
+                tile.n &&
+                tile.e &&
+                !tile.w &&
+                !tile.s
+            ) {
+                typeTile = 'L'
+                angle = 0
+                keyDir = 'ne' 
             }
 
             // if (
@@ -360,21 +371,21 @@ export class Labyrinth02 {
                 })
             }
 
-            if (typeTile === 'L' && angle === Math.PI * 1.5) {
+            if (typeTile === 'L' && keyDir === 'ne') {
                 if (
-                    !checkArray(tile.w.path) ||
-                    !checkArray(tile.s.path)
+                    !checkArray(tile.n.path) ||
+                    !checkArray(tile.e.path)
                 ) {
                     continue;
                 }
 
                e = createTileL({ 
-                   paths: [tile.w.path, tile.s.path],
-                   colors: [tile.w.color, tile.s.color],
-                   forms: [tile.w.form, tile.s.form],
+                   paths: [tile.n.path, tile.e.path],
+                   colors: [tile.n.color, tile.e.color],
+                   forms: [tile.n.form, tile.e.form],
                    n: N,
                    w: W,
-                   key: 'ws',
+                   key: 'ne',
                })
            }
 

@@ -52,10 +52,10 @@ export const pipelineInit = async (root: Root) => {
     const lab02 = new Labyrinth02()
     await lab02.init(root)
     studio.add(lab02.mesh)
-    const lab03 = new Labyrinth02()
-    await lab03.init(root)
-    studio.add(lab03.mesh)
-    lab03.mesh.position.y = 3
+    // const lab03 = new Labyrinth02()
+    // await lab03.init(root)
+    // studio.add(lab03.mesh)
+    // lab03.mesh.position.y = 3
 
 
     // const bufferTexture = new BufferTexture()

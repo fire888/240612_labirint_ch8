@@ -4,14 +4,28 @@ import { createLineGeom } from './lineGeomCrafted'
 
 
 export const createTileL = ({ w, n, forms, paths, colors, key }) => {
-    // CREATE ARRAYS DATA
+    if (key === 'ws' || key === 'ne') {
+        const copy = JSON.parse(JSON.stringify(paths[1]))
+        const s1 = copy[0][1]
+        copy[0][1] = copy[4][1]
+        copy[4][1] = s1
+        
+        const s2 = copy[1][1] 
+        copy[1][1] = copy[3][1] 
+        copy[3][1] = s2 
 
-    // const p0 = JSON.parse(JSON.stringify(paths[0]))
-    // for (let i = 0; i < p0.length; ++i) {
-    //     p0[i][0] = -p0[i][0]
-    // }
+        const s3 = copy[0][0]
+        copy[0][0] = -copy[4][0]
+        copy[4][0] = -s3
 
-    // const p = [p0, paths[1]]
+        const s4 = copy[1][0]
+        copy[1][0] = -copy[3][0]
+        copy[3][0] = -s4
+
+
+        paths = [paths[0], copy]
+    }
+
     const arrs = _M.interpolateArrays({ forms, paths, colors, n })
 
     // CREATE ARRAYS FROM 
@@ -87,6 +101,28 @@ export const createTileL = ({ w, n, forms, paths, colors, key }) => {
             c.push(...l.c)
         }
         _M.translateVertices(v, -w / 2, 0, w / 2)
+    }
+
+
+    if (key === 'ne') {
+        const stepAngle = Math.PI / 2 / n
+        
+        for (let i = 0; i < n; ++i) {
+            if (arrs.paths[i].length === 0) {
+                continue;
+            }
+            const l = createLineGeom({
+                form: arrs.forms[i],
+                path: arrs.paths[i],
+                color: arrs.colors[i],
+                isClosed: true,
+            })
+            _M.translateVertices(l.v, -w / 2, 0, 0)
+            _M.rotateVerticesY(l.v, stepAngle * i)
+            v.push(...l.v)
+            c.push(...l.c)
+        }
+        _M.translateVertices(v, w / 2, 0, -w / 2)
     }
 
 
