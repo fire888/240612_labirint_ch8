@@ -17,65 +17,6 @@ const EMPTY = 1
 const TUNNEL = 3
 const STAIR = 4
 
-const form1 = [
-    0, .05, .05,
-    0, .05, -.05,
-    0, .0, .0,
-]
-
-const form2 = [
-    0, .03, .03,
-    0, .03, -.03,
-    0, .0, .0,
-]
-
-const form3 = [
-    0, .05, .05,
-    0, .05, -.05,
-    0, .0, .0,
-]
-
-const form4 = [
-    0, .05, .05,
-    0, .05, -.05,
-    0, .01, .0,
-]
-
-
-const path1 = [
-    [.9, 0, 0],
-    [1.2, 1.4, 0],
-    [0, 2.5, 0],
-    [-1.2, 1.4, 0],
-    [-.9, 0, 0],
-]
-
-const path2 = [
-    [.9, .2, 0],
-    [1.2, 1.3, 0],
-    [0, 2.2, 0],
-    [-2, 1.3, 0],
-    [-.9, .2, 0],
-]
-
-const path3 = [
-    [.5, 0, 0],
-    [1.7, 1.4, 0],
-    [0, 2, 0],
-    [-1, 1.4, 0],
-    [-.5, 0, 0],
-]
-
-const color1 = [1, 1, 1]
-const color2 = [.3, 1, 1]
-const color3 = [0, 0, 1]
-const color4 = [0, 1, 1]
-
-const forms = [form1, form2, form3, form4]
-const paths = [path1, path2, path3, path1]
-const colors = [color1, color2, color3, color4]
-
-const n = 20
 
 
 const checkArray = arr => {
@@ -114,7 +55,7 @@ export class Labyrinth02 {
         const WIDTH = 23
         const HEIGHT = 23
         const W = 3
-        const N = 5
+        const N = 10
         const H = 3
 
         const WC = W / 2 - .2
@@ -248,16 +189,16 @@ export class Labyrinth02 {
                 keyDir = 'e-w|n-e|n-w'
             }
 
-            // if (
-            //     tile.e &&
-            //     tile.n &&
-            //     tile.w &&
-            //     !tile.s
-            // ) {
-            //     typeTile = 'T'
-            //     angle = 0
-            //     keyDir = 'n-s|w-s|n-w'
-            // }
+            if (
+                tile.n &&
+                tile.w &&
+                tile.s &&
+                !tile.e
+            ) {
+                typeTile = 'T'
+                angle = 0
+                keyDir = 'n-s|w-s|n-w'
+            }
 
 
 

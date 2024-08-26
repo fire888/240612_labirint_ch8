@@ -21,7 +21,6 @@ export const createTileT = ({
     const v = []
     const c = []
 
-    console.log(key)
     if (!key) {
         return { v, c }
     }
@@ -57,8 +56,7 @@ export const createTileT = ({
                 n: nRot,
             })
     
-            console.log('HHH', arrs)
-    
+
             const angleStep = Math.PI / 2 / (nRot + 1) 
             for (let i = 0; i < arrs.paths.length; ++i) {
                 const r = createLineGeom({ 
@@ -104,9 +102,9 @@ export const createTileT = ({
             for (let i = 0; i < pathEnd.length; ++i) {
                 pathEnd[i][0] = -pathEnd[i][0] 
             }
-            
+
             const nRot = Math.floor(n * 0.6) 
-    
+                
             const arrs = _M.interpolateArrays({ 
                 paths: [pathStart, pathEnd], 
                 forms: [tile.s.form, tile.w.form], 
@@ -131,6 +129,96 @@ export const createTileT = ({
             
             for (let i = 0; i < arrs.length; ++i) {
                 _M.rotateVerticesY(arrs, -angleStep * i)
+            }
+        }
+    }
+
+
+    if (key.includes('n-e')) {
+        {
+            /*
+                ----------
+                       ---
+                        / |
+
+
+
+            */
+
+            const pathStart = [
+                [0, 0, 0], 
+                tile.n.path[0], 
+                tile.n.path[1], 
+                tile.n.path[2], 
+            ]
+            const pathEnd = [
+                [0, 0, 0], 
+                tile.e.path[0], 
+                tile.e.path[1], 
+                tile.e.path[2], 
+            ]
+
+            const nRot = Math.floor(n * 0.6) 
+    
+            const arrs = _M.interpolateArrays({ 
+                paths: [pathStart, pathEnd], 
+                forms: [tile.n.form, tile.e.form], 
+                colors: [tile.n.color, tile.e.color],
+                n: nRot,
+            }) 
+
+            const angleStep = Math.PI / 2 / (nRot) 
+            for (let i = 0; i < arrs.paths.length; ++i) {
+                const r = createLineGeom({ form: arrs.forms[i], path: arrs.paths[i], color: arrs.colors[i], isClosed: false })
+                _M.translateVertices(r.v, -w / 2, 0, 0)
+                _M.rotateVerticesY(r.v, angleStep * i)
+                _M.translateVertices(r.v, w / 2, 0 , -w / 2)
+                v.push(...r.v) 
+                c.push(...r.c) 
+            }
+        }
+    }
+
+    if (key.includes('n-w')) {
+        {
+            /*
+                ----------
+                |\
+
+
+
+            */
+
+            const pathStart = [
+                [0, 0, 0], 
+                tile.w.path[4], 
+                tile.w.path[3], 
+                tile.w.path[2], 
+            ]
+            const pathEnd = [
+                [0, 0, 0], 
+                tile.n.path[4], 
+                tile.n.path[3], 
+                tile.n.path[2], 
+            ]
+
+            const nRot = Math.floor(n * 0.6) 
+    
+            const arrs = _M.interpolateArrays({ 
+                paths: [pathStart, pathEnd], 
+                forms: [tile.w.form, tile.n.form], 
+                colors: [tile.w.color, tile.n.color],
+                n: nRot,
+            }) 
+
+            const angleStep = Math.PI / 2 / (nRot) 
+            for (let i = 0; i < arrs.paths.length; ++i) {
+                const r = createLineGeom({ form: arrs.forms[i], path: arrs.paths[i], color: arrs.colors[i], isClosed: false })
+                _M.translateVertices(r.v, w / 2, 0, 0)
+                _M.rotateVerticesY(r.v, angleStep * i - Math.PI / 2)
+                _M.translateVertices(r.v, -w / 2, 0 , -w / 2)
+                v.push(...r.v) 
+                c.push(...r.c) 
             }
         }
     }
@@ -179,63 +267,129 @@ export const createTileT = ({
         }
     }
 
-    // if (key.includes('w-s')) {
 
+    if (key.includes('s-n')) {
+        /*
+            -----------
+            | -
+            | -
+            | -        
+            |_-________
 
-    // /*
+        */
        
-    //     | /   <-!!!!!  
-    //        -- 
-    // */
-    //        {
+        const pathStart = [
+            [0, 0, 0], 
+            tile.s.path[4], 
+            tile.s.path[3], 
+            tile.s.path[2], 
+        ]
+        const pathEnd = [
+            [0, 0, 0], 
+            tile.n.path[4], 
+            tile.n.path[3], 
+            tile.n.path[2], 
+        ]
 
-    //         const pathStart = [
-    //             pathS[2],
-    //             pathS[3],
-    //             pathS[4],
-    //             [0, 0, 0], 
-    //         ] 
-    //         const pathEnd = [
-    //             [...pathW[2]],
-    //             [...pathW[1]],
-    //             [...pathW[0]],
-    //             [0, 0, 0], 
-    //         ] 
-    
-    //         for (let i = 0; i < pathEnd.length; ++i) {
-    //             pathEnd[i][0] = -pathEnd[i][0] 
-    //         }
-    
-    //         const nRot = Math.floor(n * 0.6) 
-    
-    //         const arrs = _M.interpolateArrays({ 
-    //             //paths: [pathStart, pathEnd], 
-    //             paths: [pathStart, pathEnd], 
-    //             forms: [formS, formW], 
-    //             colors: [colorS, colorW],
-    //             n: nRot,
-    //         }) 
-    
-    //         const angleStep = Math.PI / 2 / (nRot + 1) 
-    //         for (let i = 0; i < arrs.paths.length; ++i) {
-    //             const r = createLineGeom({ 
-    //                 path: arrs.paths[i],
-    //                 form: arrs.forms[i],
-    //                 color: arrs.colors[i],
-    //             })
-    //             _M.translateVertices(r.v, w / 2, 0, 0)
-    //             _M.rotateVerticesY(r.v, angleStep * i + angleStep)
-    //             _M.translateVertices(r.v, -w / 2, 0, w / 2)
-    //             v.push(...r.v)
-    //             c.push(...r.c)
-    //         }
-    
-    
-    //         for (let i = 0; i < arrs.length; ++i) {
-    //             _M.rotateVerticesY(arrs, -angleStep * i)
-    //         }
-    //     }
-    // }
+        const arrs = _M.interpolateArrays({ 
+            paths: [pathStart, pathEnd], 
+            forms: [tile.s.form, tile.n.form], 
+            colors: [tile.s.color, tile.n.color],
+            n,
+        }) 
+
+        const step = w / n
+        for (let i = 0; i < arrs.paths.length; ++i) {
+            const r = createLineGeom({ form: arrs.forms[i], path: arrs.paths[i], color: arrs.colors[i], isClosed: false })
+            _M.translateVertices(r.v, 0, 0, w / 2 - i * step - step / 2)
+            v.push(...r.v) 
+            c.push(...r.c) 
+        }
+
+    }
+
+
+    if (key.includes('n-s')) {
+        /*
+            -----------
+                      -
+                      - <--!!!
+                      -  
+            _________ -
+
+        */
+       
+        const pathStart = [
+            [0, 0, 0], 
+            tile.s.path[0], 
+            tile.s.path[1], 
+            tile.s.path[2], 
+        ]
+        const pathEnd = [
+            [0, 0, 0], 
+            tile.n.path[0], 
+            tile.n.path[1], 
+            tile.n.path[2], 
+        ]
+
+        const arrs = _M.interpolateArrays({ 
+            paths: [pathStart, pathEnd], 
+            forms: [tile.s.form, tile.n.form], 
+            colors: [tile.s.color, tile.n.color],
+            n,
+        }) 
+
+        const step = w / n
+        for (let i = 0; i < arrs.paths.length; ++i) {
+            const r = createLineGeom({ form: arrs.forms[i], path: arrs.paths[i], color: arrs.colors[i], isClosed: false })
+            _M.translateVertices(r.v, 0, 0, w / 2 - i * step - step / 2)
+            v.push(...r.v) 
+            c.push(...r.c) 
+        }
+
+    }
+
+    if (key.includes('e-w')) {
+        /*
+            ----------
+                      
+                      
+            |||||||||| <--!!!           
+            __________ 
+
+        */
+       
+        const pathStart = [
+            [0, 0, 0], 
+            tile.w.path[0], 
+            tile.w.path[1], 
+            tile.w.path[2], 
+        ]
+        const pathEnd = [
+            [0, 0, 0], 
+            tile.e.path[0], 
+            tile.e.path[1], 
+            tile.e.path[2], 
+        ]
+
+        const arrs = _M.interpolateArrays({ 
+            paths: [pathStart, pathEnd], 
+            forms: [tile.w.form, tile.e.form], 
+            colors: [tile.w.color, tile.e.color],
+            n,
+        }) 
+
+        const step = w / n
+        for (let i = 0; i < arrs.paths.length; ++i) {
+            const r = createLineGeom({ form: arrs.forms[i], path: arrs.paths[i], color: arrs.colors[i], isClosed: false })
+            _M.translateVertices(r.v, 0, 0, w / 2 - i * step - step / 2)
+            _M.rotateVerticesY(r.v, -Math.PI / 2)
+            v.push(...r.v) 
+            c.push(...r.c) 
+        }
+
+    }
+
 
     return { v, c }
 
