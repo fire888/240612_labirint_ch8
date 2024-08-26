@@ -213,46 +213,40 @@ export class Labyrinth02 {
                 keyDir = 'ne' 
             }
 
-            // if (
-            //     tile.n &&
-            //     tile.w &&
-            //     !tile.s &&
-            //     !tile.e
-            // ) {
-            //     typeTile = 'L'
-            //     angle = Math.PI
-            // }
+            /////////
 
-            // if (
-            //     tile.w &&
-            //     tile.s &&
-            //     !tile.e &&
-            //     !tile.n
-            // ) {
-            //     typeTile = 'L'
-            //     angle = Math.PI * 1.5
-            // }
+            if (
+                tile.w &&
+                tile.s &&
+                tile.e &&
+                !tile.n
+            ) {
+                typeTile = 'T'
+                angle = 0
+                keyDir = 'w-e|w-s|s-e'
+            }
 
+            if (
+                tile.s &&
+                tile.e &&
+                tile.n &&
+                !tile.w
+            ) {
+                typeTile = 'T'
+                angle = 0
+                keyDir = 's-n|s-e|n-e'
+            }
 
-            // if (
-            //     tile.e &&
-            //     tile.s &&
-            //     tile.w &&
-            //     !tile.n
-            // ) {
-            //     typeTile = 'T'
-            //     angle = Math.PI
-            // }
-
-            // if (
-            //     tile.s &&
-            //     tile.e &&
-            //     tile.n &&
-            //     !tile.w
-            // ) {
-            //     typeTile = 'T'
-            //     angle = Math.PI * 1.5
-            // }
+            if (
+                tile.e &&
+                tile.n &&
+                tile.w &&
+                !tile.s
+            ) {
+                typeTile = 'T'
+                angle = 0
+                keyDir = 'e-w|n-e|n-w'
+            }
 
             // if (
             //     tile.e &&
@@ -262,20 +256,8 @@ export class Labyrinth02 {
             // ) {
             //     typeTile = 'T'
             //     angle = 0
+            //     keyDir = 'n-s|w-s|n-w'
             // }
-            
-
-            
-            // if (
-            //     tile.n &&
-            //     tile.w &&
-            //     tile.s &&
-            //     !tile.e
-            // ) {
-            //     typeTile = 'T'
-            //     angle = Math.PI * .5
-            // }
-
 
 
 
@@ -389,122 +371,17 @@ export class Labyrinth02 {
                })
            }
 
-
-            // if (typeTile === 'T' && angle === Math.PI) {
-            //     if (
-            //         !checkArray(tile.w.path) ||
-            //         !checkArray(tile.s.path) ||
-            //         !checkArray(tile.e.path)
-            //     ) {
-            //         continue;
-            //     }
-
-            //     e = createTileT({ 
-            //         formW: tile.w.form,
-            //         pathW: tile.w.path,
-            //         colorW: tile.w.color,
-
-            //         formS: tile.s.form,
-            //         pathS: tile.s.path,
-            //         colorS: tile.s.color,
-
-            //         formE: tile.e.form,
-            //         pathE: tile.e.path,
-            //         colorE: tile.e.color,
-
-            //         n: N,
-            //         w: W,
-            //     })
-            // }
-
-            // if (typeTile === 'T' && angle === Math.PI * 1.5) {
-            //     if (
-            //         !checkArray(tile.s.path) ||
-            //         !checkArray(tile.e.path) ||
-            //         !checkArray(tile.n.path)
-            //     ) {
-            //         continue;
-            //     }
-
-            //     e = createTileT({ 
-            //         formW: tile.s.form,
-            //         pathW: tile.s.path,
-            //         colorW: tile.s.color,
-
-            //         formS: tile.e.form,
-            //         pathS: tile.e.path,
-            //         colorS: tile.e.color,
-
-            //         formE: tile.n.form,
-            //         pathE: tile.n.path,
-            //         colorE: tile.n.color,
-
-            //         n: N,
-            //         w: W,
-            //     })
-            // }
-
-            
-            // if (typeTile === 'T' && angle === 0) {
-            //     if (
-            //         !checkArray(tile.e.path) ||
-            //         !checkArray(tile.n.path) ||
-            //         !checkArray(tile.w.path)
-            //     ) {
-            //         continue;
-            //     }
-
-            //     e = createTileT({ 
-            //         formW: tile.e.form,
-            //         pathW: tile.e.path,
-            //         colorW: tile.e.color,
-
-            //         formS: tile.n.form,
-            //         pathS: tile.n.path,
-            //         colorS: tile.n.color,
-
-            //         formE: tile.w.form,
-            //         pathE: tile.w.path,
-            //         colorE: tile.w.color,
-
-            //         n: N,
-            //         w: W,
-            //     })
-            // }
-
-            // if (typeTile === 'T' && angle === .5) {
-            //     if (
-            //         !checkArray(tile.n.path) ||
-            //         !checkArray(tile.w.path) ||
-            //         !checkArray(tile.s.path)
-            //     ) {
-            //         continue;
-            //     }
-
-            //     e = createTileT({ 
-            //         formW: tile.n.form,
-            //         pathW: tile.n.path,
-            //         colorW: tile.n.color,
-
-            //         formS: tile.w.form,
-            //         pathS: tile.w.path,
-            //         colorS: tile.w.color,
-
-            //         formE: tile.s.form,
-            //         pathE: tile.s.path,
-            //         colorE: tile.s.color,
-
-            //         n: N,
-            //         w: W,
-            //     })
-            // }
+           if (typeTile === 'T') {
+                e = createTileT({ 
+                    tile,
+                    n: N,
+                    w: W,
+                    key: keyDir,
+                })
+           }
 
             if (e) {
-                if (typeTile === 'L') {
-                    //_M.rotateVerticesY(e.v, angle + Math.PI)
-                } else {
-                    _M.rotateVerticesY(e.v, angle)
-                }
+                _M.rotateVerticesY(e.v, angle)
                 _M.translateVertices(e.v, +ij[0] * W, 0, +ij[1] * W)
                 v.push(...e.v)
                 c.push(...e.c)
