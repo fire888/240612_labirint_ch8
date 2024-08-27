@@ -14,7 +14,7 @@ type DataToCreateLine = {
 }
 
 
-const D = .2
+const D = .1
 export const createRandomDataForLine = (): DataToCreateLine => {
     return {
         form: [
@@ -23,13 +23,13 @@ export const createRandomDataForLine = (): DataToCreateLine => {
             0, -Math.random() * D, 0,
         ],
         path: [
-            [1 + 1 * Math.random(), 0, 0],
+            [1 + Math.random(), 0, 0],
             [1 + .7 * Math.random(), .6 + Math.random(), 0],
             [0, 2 + Math.random() * 2, 0],
             [-1 - .7 * Math.random(), .6 + Math.random(), 0],
-            [-1 - 1 * Math.random(), 0, 0],
+            [-1 - Math.random(), 0, 0],
         ],
-        color: [Math.random(), Math.random(), Math.random()],
+        color: [Math.random() * .5, Math.random() +.5, Math.random() +.5],
         isClosed: true,
     }
 }

@@ -55,7 +55,7 @@ export class Labyrinth02 {
         const WIDTH = 23
         const HEIGHT = 23
         const W = 3
-        const N = 10
+        const N = 7
         const H = 3
 
         const WC = W / 2 - .2
@@ -88,6 +88,81 @@ export class Labyrinth02 {
             let typeTile = null
             let angle = null
             let keyDir = null
+
+            if (
+                tile.s &&
+                !tile.e &&
+                !tile.n &&
+                !tile.w
+            ) {
+                if (
+                    !tile.s ||
+                    !checkArray(tile.s.path)
+                ) {
+                    continue;
+                }
+
+                typeTile = 'U'
+                angle = 0
+                keyDir = 's'
+            }
+
+            if (
+                !tile.s &&
+                tile.e &&
+                !tile.n &&
+                !tile.w
+            ) {
+                if (
+                    !tile.e ||
+                    !checkArray(tile.e.path)
+                ) {
+                    continue;
+                }
+
+                typeTile = 'U'
+                angle = 0
+                keyDir = 'e'
+            }
+
+            if (
+                !tile.s &&
+                !tile.e &&
+                tile.n &&
+                !tile.w
+            ) {
+                if (
+                    !tile.n ||
+                    !checkArray(tile.n.path)
+                ) {
+                    continue;
+                }
+
+                typeTile = 'U'
+                angle = 0
+                keyDir = 'n'
+            }
+
+            if (
+                !tile.s &&
+                !tile.e &&
+                !tile.n &&
+                tile.w
+            ) {
+                if (
+                    !tile.w ||
+                    !checkArray(tile.w.path)
+                ) {
+                    continue;
+                }
+
+                typeTile = 'U'
+                angle = 0
+                keyDir = 'w'
+            }
+
+
+            /////////////
 
             if (
                 tile.s && 
@@ -205,6 +280,18 @@ export class Labyrinth02 {
             // create buffers
 
             let e = null
+
+            if (typeTile === 'U') {
+                e = createTileU({
+                    paths: [tile[keyDir].path, tile[keyDir].path],
+                    colors: [tile[keyDir].color, tile[keyDir].color],
+                    forms: [tile[keyDir].form, tile[keyDir].form],
+                    n: N,
+                    w: W,
+                    key: keyDir,
+                })
+            }
+
 
             if (typeTile === 'I' && angle === 0) {
                 if (

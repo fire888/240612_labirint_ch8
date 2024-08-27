@@ -27,7 +27,8 @@ export class Studio {
         this.scene.background = root.loader.assets.mapEnv
         this.envMap = root.loader.assets.mapEnv
         //this.scene.background = new THREE.Color(0x999999)
-        this.fog = new THREE.Fog(0x00001a, 1, 100)
+        //this.fog = new THREE.Fog(0x00001a, 1, 50)
+        this.fog = new THREE.Fog(0x00001a, 1, 50)
 
        this.hemiLight = new THREE.HemisphereLight(0x6767f3, 0xffffff, 5)
        this.hemiLight.position.set( 0, 20, 0 )
