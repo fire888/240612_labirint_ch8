@@ -25,7 +25,7 @@ export const createRandomDataForLine = (): DataToCreateLine => {
         path: [
             [1 + Math.random(), 0, 0],
             [1 + .7 * Math.random(), .6 + Math.random(), 0],
-            [0, 2 + Math.random() * 2, 0],
+            [0, 2 + Math.random(), 0],
             [-1 - .7 * Math.random(), .6 + Math.random(), 0],
             [-1 - Math.random(), 0, 0],
         ],

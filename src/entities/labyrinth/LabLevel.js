@@ -46,14 +46,22 @@ const checkArray = arr => {
 
 
 
-export class Labyrinth02 {
+export class LabLevel {
     constructor () {
         this.collisionMech = null
     }
 
-    async init (root) {
-        const WIDTH = 23
-        const HEIGHT = 23
+    async init (
+        root, 
+        { 
+            material, 
+            numTilesX, 
+            numTilesZ, 
+            posStart,
+            posStartDir,
+            dataForEnter,
+        }
+    ) {
         const W = 3
         const N = 7
         const H = 3
@@ -65,9 +73,13 @@ export class Labyrinth02 {
         this.mesh.position.z = -W * 23 / 2
         this.mesh.position.x = -W * 23 / 2
 
-        const material = new THREE.MeshPhongMaterial({color: 0xffffff, vertexColors: true})
-
-        const { maze } = await createScheme04_crafted({})
+        const { maze } = await createScheme04_crafted({
+            width: numTilesX,
+            height: numTilesZ,
+            posStart,
+            posStartDir,
+            dataForEnter,
+        })
 
         const v = []
         const c = []
@@ -416,12 +428,7 @@ export class Labyrinth02 {
             }
         }
 
-        const m = createMesh({ v, c, material: new THREE.MeshPhongMaterial({ 
-            color: 0xFFFFFF, 
-            vertexColors: true,
-            envMap: root.loader.assets.sky,
-            reflectivity: .6,
-        }) })
+        const m = createMesh({ v, c, material })
         this.mesh = m
     }
 }
