@@ -60,26 +60,29 @@ export class LabLevel {
             posStart,
             posStartDir,
             dataForEnter,
+            w,
+            n,
         }
     ) {
-        const W = 3
-        const N = 7
-        const H = 3
-
-        const WC = W / 2 - .2
+        const W = w
+        const N = n
 
         this.mesh = new THREE.Object3D()
         this.mesh.position.y = 0.08
         this.mesh.position.z = -W * 23 / 2
         this.mesh.position.x = -W * 23 / 2
 
-        const { maze } = await createScheme04_crafted({
+        const shemeData = await createScheme04_crafted({
             width: numTilesX,
             height: numTilesZ,
             posStart,
             posStartDir,
             dataForEnter,
         })
+
+        console.log("SCHEME_DATA:", shemeData)
+
+        const { maze } = shemeData
 
         const v = []
         const c = []

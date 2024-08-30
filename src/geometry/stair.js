@@ -54,7 +54,7 @@ export const createStair = (data) => {
         })
 
         const stepX = w / n
-        const stepY = 3 * .5 / n
+        const stepY = h / 2 / n
         for (let i = 0; i < arr.paths.length; ++i) {
             const r = createLineGeom({ 
                 path: arr.paths[i],
@@ -62,19 +62,82 @@ export const createStair = (data) => {
                 color: arr.colors[i],
                 isClosed: true,
             })
-            //_M.rotateVerticesY(r.v, Math.PI / 2)
-            _M.translateVertices(
-                r.v, 
-                0,
-                stepY * i,
-                -w * 1.5 + stepX * i + stepX / 2,
-            )
+
+            if (stairDataBottom.dir === 'n') {
+                _M.translateVertices(r.v, 0, stepY * i, -w * 1.5 + stepX * i + stepX / 2)
+            }
+            if (stairDataBottom.dir === 's') {
+                _M.translateVertices(r.v, 0, stepY * i, w * 1.5 - stepX * i - stepX / 2)
+            }
+            if (stairDataBottom.dir === 'w') {
+                _M.rotateVerticesY(r.v, Math.PI / 2)
+                _M.translateVertices(r.v, -w - w / 2 + i * stepX, stepY * i, 0)
+            }
+            if (stairDataBottom.dir === 'e') {
+                _M.rotateVerticesY(r.v, Math.PI / 2)
+                _M.translateVertices(r.v, w + w / 2 - i * stepX, stepY * i, 0)
+            }
+
+
             t.push(...r.v)
             c.push(...r.c)
         }
 
         v.push(...t)
     }
+
+
+    // part Exit
+    {
+        /**
+                             /  <--!!!!!
+                            /
+                           /
+              /-----------/ 
+             /
+            /  
+        */
+        const t = []
+        const arr = _M.interpolateArrays({
+            paths: [stairDataCenterT.path, stairDataTop.path],
+            forms: [stairDataCenterT.form, stairDataTop.form],
+            colors: [stairDataCenterT.color, stairDataTop.color],
+            n: 10,
+        })
+
+        const stepX = w / n
+        const stepY = h / 2 / n
+        for (let i = 0; i < arr.paths.length; ++i) {
+            const r = createLineGeom({ 
+                path: arr.paths[i],
+                form: arr.forms[i],
+                color: arr.colors[i],
+                isClosed: true,
+            })
+            if (stairDataTop.dir === 's') {
+                _M.translateVertices(r.v, 0, stepY * i + h / 2, w * .5 + stepX * i + stepX / 2)
+            }
+            if (stairDataTop.dir === 'n') {
+                _M.translateVertices(r.v, 0, stepY * i + h / 2, -w * .5 - stepX * i - stepX / 2)
+            }
+            if (stairDataTop.dir === 'e') {
+                _M.rotateVerticesY(r.v, Math.PI / 2)
+                _M.translateVertices(r.v, w / 2 + i * stepX, stepY * i + h / 2, 0)
+            }
+            if (stairDataTop.dir === 'w') {
+                _M.rotateVerticesY(r.v, Math.PI / 2)
+                _M.translateVertices(r.v, -w / 2 - i * stepX, stepY * i  + h / 2, 0)
+            }
+
+            t.push(...r.v)
+            c.push(...r.c)
+        }
+
+        v.push(...t)
+    }
+
+
+
 
 
     /*
@@ -86,120 +149,14 @@ export const createStair = (data) => {
         /
     */
     {
-        let type = null
-        let rot = 0 
 
-        if (stairDataBottom.dir === 's' && stairDataTop.dir === 'n') {
-
-        }
-        if (stairDataBottom.dir === 'n' && stairDataTop.dir === 's') {
-            const res = createTileI({ 
-                forms: [stairDataCenterT.form, stairDataCenterB.form],
-                paths: [stairDataCenterT.path, stairDataCenterB.path],
-                colors: [stairDataCenterT.color, stairDataCenterB.color],
-                n: 10,
-                w: 3,  
-            }) 
-            _M.translateVertices(res.v, 0, h / 2, 0)
-            v.push(...res.v)
-            c.push(...res.c)
-        }
-        if (stairDataBottom.dir === 'e' && stairDataTop.dir === 'w') {
-            type = 'I'
-            rot = Math.PI * .5
-        }
-        if (stairDataBottom.dir === 'w' && stairDataTop.dir === 'e') {
-            type = 'I'
-            rot = Math.PI * .5
-        }
-
-
-        if (stairDataBottom.dir === 's' && stairDataTop.dir === 'e' ) {
-            type = 'L'
-            rot = 0
-        }
-        if (stairDataBottom.dir === 's' && stairDataTop.dir === 'w' ) {
-            type = 'L'
-            rot = Math.PI * 1.5
-        }
-        if (stairDataBottom.dir === 'e' && stairDataTop.dir === 'n' ) {
-            type = 'L'
-            rot = Math.PI * .5
-        }
-        if (stairDataBottom.dir === 'e' && stairDataTop.dir === 's' ) {
-            type = 'L'
-            rot = 0
-        }
-        if (stairDataBottom.dir === 'n' && stairDataTop.dir === 'w' ) {
-            type = 'L'
-            rot = Math.PI
-        }
-        if (stairDataBottom.dir === 'n' && stairDataTop.dir === 'e' ) {
-            type = 'L'
-            rot = Math.PI * .5
-        }
-        if (stairDataBottom.dir === 'w' && stairDataTop.dir === 's' ) {
-            type = 'L'
-            rot = Math.PI * 1.5
-        }
-        if (stairDataBottom.dir === 'w' && stairDataTop.dir === 'n' ) {
-            type = 'L'
-            rot = Math.PI
-        }
-
-
-
-        if (type === 'L') {
-            const res = createTileL({ 
-                forms: [stairDataBottom.form, stairDataTop.form],
-                paths: [stairDataBottom.path, stairDataTop.path],
-                colors: [stairDataBottom.color, stairDataTop.color],
-                n: 10,
-                w: 3,  
-            }) 
-            _M.rotateVerticesY(res.v, rot)
-            _M.translateVertices(res.v, 0, h / 2, 0)
-            v.push(...res.v)
-            c.push(...res.c)
-        }
-
-        if (type === 'I') {
-
-        }
-
-
-        const n = _M.createPolygon(
-            [-w, h * .5, w],
-            [w, h * .5, w],
-            [w, h * .5, -w],
-            [-w, h * .5, -w],
-        )
-        vC.push(...n)
-    }
-
-    // part Exit
-    {
-
-        /**                /  <--!!!!!
-                         /
-                        /
-            /-----------/ 
-            /
-            /  
-        */
-
-        //const arrStair = []
-
-        const t = []
         const arr = _M.interpolateArrays({
-            paths: [stairDataCenterT.path, stairDataTop.path],
-            forms: [stairDataCenterT.form, stairDataTop.form],
-            colors: [stairDataCenterT.color, stairDataTop.color],
+            paths: [stairDataCenterB.path, stairDataCenterT.path],
+            forms: [stairDataCenterB.form, stairDataCenterT.form],
+            colors: [stairDataCenterB.color, stairDataCenterT.color],
             n: 10,
         })
-
-        const stepX = w / n
-        const stepY = 3 * .5 / n
+        const step = w / n
         for (let i = 0; i < arr.paths.length; ++i) {
             const r = createLineGeom({ 
                 path: arr.paths[i],
@@ -207,21 +164,43 @@ export const createStair = (data) => {
                 color: arr.colors[i],
                 isClosed: true,
             })
-            //_M.rotateVerticesY(r.v, Math.PI / 2)
-            _M.translateVertices(
-                r.v, 
-                0,
-                stepY * i + 3 * .5,
-                w * .5 + stepX * i + stepX / 2,
-            )
-            t.push(...r.v)
+
+            if (stairDataBottom.dir === 'n' && stairDataTop.dir === 's') {
+                _M.translateVertices(r.v, 0, h / 2, -w / 2 + step / 2 + step * i) 
+            }
+
+            if (stairDataBottom.dir === 's' && stairDataTop.dir === 'n') {
+                _M.translateVertices(r.v, 0, h / 2, w / 2 - step / 2 - step * i) 
+            }
+
+            if (stairDataBottom.dir === 'w' && stairDataTop.dir === 'e') {
+                _M.rotateVerticesY(r.v, Math.PI / 2)
+                _M.translateVertices(r.v, -w / 2 + step / 2 + step * i, h / 2, 0) 
+            }
+
+            if (stairDataBottom.dir === 'e' && stairDataTop.dir === 'w') {
+                _M.rotateVerticesY(r.v, Math.PI / 2)
+                _M.translateVertices(r.v, w / 2 - step / 2 - step * i, h / 2, 0) 
+            }
+
+            if (stairDataBottom.dir === 'n' && stairDataTop.dir === 'w') {
+                _M.translateVertices(r.v, w / 2, h / 2, 0)
+                _M.rotateVerticesY(r.v, -Math.PI / 2 / n * i)
+                _M.translateVertices(r.v, -w / 2, 0, -w / 2) 
+            }
+
+            if (stairDataBottom.dir === 'n' && stairDataTop.dir === 'e') {
+                _M.translateVertices(r.v, -w / 2, h / 2, 0)
+                _M.rotateVerticesY(r.v, Math.PI / 2 / n * i)
+                _M.translateVertices(r.v, w / 2, 0, -w / 2) 
+            }
+
+            v.push(...r.v)
             c.push(...r.c)
         }
-
-        v.push(...t)
-
-       // vC.push(..._vC)
     }
+
+
 
     return {
         v,
