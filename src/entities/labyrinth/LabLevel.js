@@ -80,9 +80,21 @@ export class LabLevel {
             dataForEnter,
         })
 
-        console.log("SCHEME_DATA:", shemeData)
+        const {         
+            maze,
+            posEnd, 
+            dirToPosEnd,
+            pathToPosEnd,
+            colorToPosEnd,
+            formToPosEnd, 
+        } = shemeData
 
-        const { maze } = shemeData
+        this.posStart = posStart
+        this.posEnd = posEnd
+        this.dirToPosEnd = dirToPosEnd
+        this.pathToPosEnd = pathToPosEnd
+        this.colorToPosEnd = colorToPosEnd
+        this.formToPosEnd = formToPosEnd
 
         const v = []
         const c = []

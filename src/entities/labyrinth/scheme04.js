@@ -38,12 +38,10 @@ const debugPrintMaze = (maze, W, H, posStart, posEnd) => {
                     continue;
                 }
 
-                if (maze[x + ',' + y + ''] === EMPTY) {
+                if (maze[x + ',' + y + ''].type === EMPTY) {
                     str += wallPrint
-                } else if (maze[x + ',' + y + ''] === TUNNEL) {
+                } else if (maze[x + ',' + y + ''].type === TUNNEL) {
                     str += emptyPrint
-                } else if (maze[x + ',' + y + ''] === STAIR) {
-                    str += stairPrint
                 }
             }
             str += '<br />'
@@ -67,6 +65,10 @@ const createMaze = async (width, height, posStart, startDirection, dataForEnter)
     let maze = {}
     let hasVisited = []
     const posEnd = []
+    let dirToPosEnd = null
+    let pathToPosEnd = null
+    let colorToPosEnd = null
+    let formToPosEnd = null
 
     const makeMap = () => {
         hasVisited = []
@@ -82,6 +84,10 @@ const createMaze = async (width, height, posStart, startDirection, dataForEnter)
         // save global for stair
         posEnd[0] = x
         posEnd[1] = y
+        dirToPosEnd = prevDir
+        pathToPosEnd = prevPath
+        colorToPosEnd = prevColor
+        formToPosEnd = prevForm
 
         // current tile mark prev direction 
         maze[[x, y]].type = TUNNEL
@@ -203,7 +209,7 @@ const createMaze = async (width, height, posStart, startDirection, dataForEnter)
     makeMap()
 
     hasVisited.push(posStart)
-    maze[posStart] = { type: TUNNEL }
+    maze[posStart] = { type: STAIR }
     const posNext = [...posStart]
     const posNextNext = [...posStart]
     let startGatesDir = null
@@ -226,89 +232,80 @@ const createMaze = async (width, height, posStart, startDirection, dataForEnter)
     if (startDirection === 'w') {
         posNext[0] = posStart[0] - 1
         posNextNext[0] = posStart[0] - 2
-        startDirection = EAST
+        startGatesDir = EAST
     }
     hasVisited.push(
         posNext,
         posNextNext
     )
-    maze[posNext] = { type: TUNNEL }
+    maze[posNext] = { type: STAIR }
     maze[posNextNext] = { type: TUNNEL }
     maze[posNextNext][startGatesDir] = dataForEnter
 
     await visit(...posNextNext)
 
-    return { posStart, posEnd, maze, }
+    return { 
+        posStart, 
+        posEnd, 
+        dirToPosEnd,
+        pathToPosEnd,
+        colorToPosEnd,
+        formToPosEnd, 
+        maze, 
+    }
 }
 
 
 
 
-const addStairsData = (markedMaze, posStart, posEnd) => {
+const addStairsData = (maze, posStart, posEnd) => {
     let endDir = null
 
     {
-        // enter stairs
+        // exit stair from level
         let dir = null
         let sI = -1
         let sJ = -1
         for (let i = posEnd[0] - 1; i < posEnd[0] + 2; ++i) {
             for (let j = posEnd[1] - 1; j < posEnd[1] + 2; ++j) {
-                if (markedMaze[i + ',' + j].type === TUNNEL) {
-                    markedMaze[i + ',' + j].type = EMPTY
-                    markedMaze[i + ',' + j].model = null
-                    markedMaze[i + ',' + j].dir = null
-
-                    if (i < posEnd[0]) {
-                        dir = 'w'
-                    }
-                    if (i > posEnd[0]) {
-                        dir = 'e'
-                    }
-                    if (j < posEnd[1]) {
-                        dir = 'n'
-                    }
-                    if (j > posEnd[1]) {
-                        dir = 's'
-                    }
-                    sI = i
-                    sJ = j
+                if (maze[i + ',' + j].type === TUNNEL) {
+                    maze[i + ',' + j] = { type: EMPTY, s: null, e: null, n: null, w: null }
                 }
             }
         }
-        markedMaze[posEnd[0] + ',' + posEnd[1]] = { type: TUNNEL, model: 'END_ROOM', dir: dir, i: posEnd[0], j: posEnd[1] }
+        maze[posEnd[0] + ',' + posEnd[1]] = { type: STAIR }
         endDir = dir
     }
 
-    {
-        // exit stairs
-        let dir = null
-        for (let i = posStart[0] - 1; i < posStart[0] + 2; ++i) {
-            for (let j = posStart[1] - 1; j < posStart[1] + 2; ++j) {
-                if (markedMaze[i + ',' + j].type === TUNNEL) {
-                    markedMaze[i + ',' + j].type = EMPTY
-                    markedMaze[i + ',' + j].model = null
-                    markedMaze[i + ',' + j].dir = null
+    // {
+    //     // enterStair 
+    //     let dir = null
+    //     for (let i = posStart[0] - 1; i < posStart[0] + 2; ++i) {
+    //         for (let j = posStart[1] - 1; j < posStart[1] + 2; ++j) {
+    //             if (maze[i + ',' + j].type === TUNNEL) {
+    //                 maze[i + ',' + j].type = EMPTY
+    //                 maze[i + ',' + j].model = null
+    //                 maze[i + ',' + j].dir = null
 
-                    if (i < posStart[0]) {
-                        dir = 'w'
-                    }
-                    if (i > posStart[0]) {
-                        dir = 'e'
-                    }
-                    if (j < posStart[1]) {
-                        dir = 'n'
-                    }
-                    if (j > posStart[1]) {
-                        dir = 's'
-                    }
-                }
-            }
-        }
-        markedMaze[posStart[0] + ',' + posStart[1]] = {type: TUNNEL, model: 'START_ROOM', dir }
-    }
+    //                 if (i < posStart[0]) {
+    //                     dir = 'w'
+    //                 }
+    //                 if (i > posStart[0]) {
+    //                     dir = 'e'
+    //                 }
+    //                 if (j < posStart[1]) {
+    //                     dir = 'n'
+    //                 }
+    //                 if (j > posStart[1]) {
+    //                     dir = 's'
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     maze[posStart[0] + ',' + posStart[1]] = {type: TUNNEL, model: 'START_ROOM', dir }
+    // }
 
-    return endDir
+    // return endDir
 }
 
 
@@ -320,19 +317,26 @@ export const createScheme04_crafted = async ({
     dataForEnter,
 }) => {
 
-    const { posEnd, posEndDir, posEndData, maze } = await createMaze(width, height, posStart, posStartDir, dataForEnter)
-    console.log("EXIT DATA:", posEnd, posEndDir, posEndData)
-    //debugPrintMaze(maze, WIDTH, HEIGHT, posStart, posEnd)
-    //const markedMaze = addMarksToWays(maze, WIDTH, HEIGHT)
-    const endDir = addStairsData(maze, posStart, posEnd)
+    const { 
+        posEnd, 
+        dirToPosEnd,
+        pathToPosEnd,
+        colorToPosEnd,
+        formToPosEnd, 
+        maze,
+    } = await createMaze(width, height, posStart, posStartDir, dataForEnter)
 
-    //console.log(markedMaze)
+    //debugPrintMaze(maze, width, height, posStart, posEnd)
+
+    addStairsData(maze, posStart, posEnd)
 
     return {
         maze,
-        //posStart,
-        //posEnd,
-        //endDir,
-        //markedMaze,
+        posStart,
+        posEnd, 
+        dirToPosEnd,
+        pathToPosEnd,
+        colorToPosEnd,
+        formToPosEnd,
     }
 }
