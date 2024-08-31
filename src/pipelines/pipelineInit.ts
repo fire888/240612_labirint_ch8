@@ -2,6 +2,7 @@ import { Root } from '../index'
 import { createDemoTiles } from '_0_trash/demoTiles'
 import { Lab } from '../entities/labyrinth/Lab'
 // import { BufferTexture } from '../entities/bufferTexture'
+import { testStairs } from '../entities/labyrinth/testStairs'
 
 export const pipelineInit = async (root: Root) => {
     const {
@@ -42,9 +43,12 @@ export const pipelineInit = async (root: Root) => {
     const meshDemoTiles = createDemoTiles({ W: 3, H: 3, WC: 1.2 })
     studio.add(meshDemoTiles)
 
+    const m = testStairs()
+    m.position.x = -50
+    studio.add(m)
+
     //const mCorr = createDeemoLongCorridor()
     //studio.add(mCorr)
-
 
     // const bufferTexture = new BufferTexture()
     // studio.add(bufferTexture.mesh)

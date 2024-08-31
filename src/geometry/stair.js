@@ -50,7 +50,7 @@ export const createStair = (data) => {
             paths: [stairDataBottom.path, stairDataCenterB.path],
             forms: [stairDataBottom.form, stairDataCenterB.form],
             colors: [stairDataBottom.color, stairDataCenterB.color],
-            n: 10,
+            n,
         })
 
         const stepX = w / n
@@ -102,7 +102,7 @@ export const createStair = (data) => {
             paths: [stairDataCenterT.path, stairDataTop.path],
             forms: [stairDataCenterT.form, stairDataTop.form],
             colors: [stairDataCenterT.color, stairDataTop.color],
-            n: 10,
+            n,
         })
 
         const stepX = w / n
@@ -137,9 +137,6 @@ export const createStair = (data) => {
     }
 
 
-
-
-
     /*
                       / 
                      /
@@ -154,7 +151,7 @@ export const createStair = (data) => {
             paths: [stairDataCenterB.path, stairDataCenterT.path],
             forms: [stairDataCenterB.form, stairDataCenterT.form],
             colors: [stairDataCenterB.color, stairDataCenterT.color],
-            n: 10,
+            n,
         })
         const step = w / n
         for (let i = 0; i < arr.paths.length; ++i) {
@@ -193,6 +190,42 @@ export const createStair = (data) => {
                 _M.translateVertices(r.v, -w / 2, h / 2, 0)
                 _M.rotateVerticesY(r.v, Math.PI / 2 / n * i)
                 _M.translateVertices(r.v, w / 2, 0, -w / 2) 
+            }
+
+            if (stairDataBottom.dir === 's' && stairDataTop.dir === 'e') {
+                _M.translateVertices(r.v, -w / 2, h / 2, 0)
+                _M.rotateVerticesY(r.v, -Math.PI / 2 / n * i)
+                _M.translateVertices(r.v, w / 2, 0, w / 2) 
+            }
+
+            if (stairDataBottom.dir === 's' && stairDataTop.dir === 'w') {
+                _M.translateVertices(r.v, w / 2, h / 2, 0)
+                _M.rotateVerticesY(r.v, Math.PI / 2 / n * i)
+                _M.translateVertices(r.v, -w / 2, 0, w / 2) 
+            }
+
+            if (stairDataBottom.dir === 'e' && stairDataTop.dir === 'n') {
+                _M.translateVertices(r.v, -w / 2, h / 2, 0)
+                _M.rotateVerticesY(r.v, Math.PI / 2 - Math.PI / 2 / n * i)
+                _M.translateVertices(r.v, w / 2, 0, -w / 2) 
+            }
+
+            if (stairDataBottom.dir === 'e' && stairDataTop.dir === 's') {
+                _M.translateVertices(r.v, w / 2, h / 2, 0)
+                _M.rotateVerticesY(r.v, Math.PI / 2 + Math.PI / 2 / n * i)
+                _M.translateVertices(r.v, w / 2, 0, w / 2) 
+            }
+
+            if (stairDataBottom.dir === 'w' && stairDataTop.dir === 'n') {
+                _M.translateVertices(r.v, -w / 2, h / 2, 0)
+                _M.rotateVerticesY(r.v, Math.PI / 2 + Math.PI / 2 / n * i)
+                _M.translateVertices(r.v, -w / 2, 0, -w / 2) 
+            }
+
+            if (stairDataBottom.dir === 'w' && stairDataTop.dir === 's') {
+                _M.translateVertices(r.v, w / 2, h / 2, 0)
+                _M.rotateVerticesY(r.v, Math.PI / 2 - Math.PI / 2 / n * i)
+                _M.translateVertices(r.v, -w / 2, 0, w / 2) 
             }
 
             v.push(...r.v)
