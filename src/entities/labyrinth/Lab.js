@@ -131,8 +131,7 @@ export class Lab {
             stairM.position.y = (i + 1) * LEVEL_H
             this.mesh.add(stairM)
 
-            console.log('---------------------------')
-
+            // save for next level
             posStart = labLevel.posEnd
             posStartDir = stairDataTopExit.dir
             dataForEnter = stairDataTopExit
