@@ -55,6 +55,7 @@ export class LabLevel {
         root, 
         { 
             material, 
+            collisionMaterial,
             numTilesX, 
             numTilesZ, 
             posStart,
@@ -66,11 +67,6 @@ export class LabLevel {
     ) {
         const W = w
         const N = n
-
-        this.mesh = new THREE.Object3D()
-        this.mesh.position.y = 0.08
-        this.mesh.position.z = -W * 23 / 2
-        this.mesh.position.x = -W * 23 / 2
 
         const shemeData = await createScheme04_crafted({
             width: numTilesX,
@@ -98,6 +94,7 @@ export class LabLevel {
 
         const v = []
         const c = []
+        const vC = []
 
         for (let key in maze) {
             const tile = maze[key]
@@ -440,10 +437,19 @@ export class LabLevel {
                 _M.translateVertices(e.v, +ij[0] * W, 0, +ij[1] * W)
                 v.push(...e.v)
                 c.push(...e.c)
+
+                const _vC = _M.createPolygon(
+                    [-w * .5, 0, w * .5],
+                    [w * .5, 0, w * .5],
+                    [w * .5, 0, -w * .5],
+                    [-w * .5, 0, -w * .5],
+                )
+                _M.translateVertices(_vC, +ij[0] * W, 0, +ij[1] * W)
+                vC.push(..._vC)
             }
         }
 
-        const m = createMesh({ v, c, material })
-        this.mesh = m
+        this.mesh = createMesh({ v, c, material })
+        this.collisionMesh = createMesh({ v: vC, material: collisionMaterial }) 
     }
 }

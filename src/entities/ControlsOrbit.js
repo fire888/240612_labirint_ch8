@@ -7,7 +7,7 @@ export class ControlsOrbit {
         this.controls = new OrbitControls(camera, domElem)
         this.controls.target.set( 0, 0.5, 0 )
         this.controls.update()
-        this.controls.autoRotate = true
+        //this.controls.autoRotate = true
         this.controls.enablePan = true
         this.controls.enableDamping = true
         this.controls.enabled = false

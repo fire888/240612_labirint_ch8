@@ -46,6 +46,7 @@ export const createStair = (data) => {
              /  <--!!!!!
          */
 
+        // geometry      
         const arr = _M.interpolateArrays({
             paths: [stairDataBottom.path, stairDataCenterB.path],
             forms: [stairDataBottom.form, stairDataCenterB.form],
@@ -62,7 +63,6 @@ export const createStair = (data) => {
                 color: arr.colors[i],
                 isClosed: true,
             })
-
             if (stairDataBottom.dir === 'n') {
                 _M.translateVertices(r.v, 0, stepY * i, -w * 1.5 + stepX * i + stepX / 2)
             }
@@ -79,11 +79,29 @@ export const createStair = (data) => {
             }
 
 
-            t.push(...r.v)
+            v.push(...r.v)
             c.push(...r.c)
         }
 
-        v.push(...t)
+        // collision
+        const _vC = _M.createPolygon(
+            [-w * .5, 0, -w * 1.5],
+            [-w * .5, h * .5, -w * .5],
+            [w * .5, h * .5, -w * .5],
+            [w * .5, 0, -w * 1.5],
+        )
+        if (stairDataBottom.dir === 'n') {
+        }
+        if (stairDataBottom.dir === 's') {
+            _M.rotateVerticesY(_vC, Math.PI)
+        }
+        if (stairDataBottom.dir === 'w') {
+            _M.rotateVerticesY(_vC, Math.PI * .5)
+        }
+        if (stairDataBottom.dir === 'e') {
+            _M.rotateVerticesY(_vC, Math.PI * 1.5)
+        }
+        vC.push(..._vC)
     }
 
 
@@ -129,11 +147,29 @@ export const createStair = (data) => {
                 _M.translateVertices(r.v, -w / 2 - i * stepX, stepY * i  + h / 2, 0)
             }
 
-            t.push(...r.v)
+            v.push(...r.v)
             c.push(...r.c)
         }
 
-        v.push(...t)
+        // collision
+        const _vC = _M.createPolygon(
+            [-w * .5, h * .5, -w * .5],
+            [w * .5, h * .5, -w * .5],
+            [w * .5, h, -w * 1.5],
+            [-w * .5, h, -w * 1.5],
+        )
+        if (stairDataTop.dir === 'n') {
+        }
+        if (stairDataTop.dir === 's') {
+            _M.rotateVerticesY(_vC, Math.PI)
+        }
+        if (stairDataTop.dir === 'w') {
+            _M.rotateVerticesY(_vC, Math.PI * .5)
+        }
+        if (stairDataTop.dir === 'e') {
+            _M.rotateVerticesY(_vC, Math.PI * 1.5)
+        }
+        vC.push(..._vC)
     }
 
 
@@ -231,9 +267,16 @@ export const createStair = (data) => {
             v.push(...r.v)
             c.push(...r.c)
         }
+
+        // collision
+        const _vC = _M.createPolygon(
+            [-w * .5, h * .5, w * .5],
+            [w * .5, h * .5, w * .5],
+            [w * .5, h * .5, -w * .5],
+            [-w * .5, h * .5, -w * .5],
+        )
+        vC.push(..._vC)
     }
-
-
 
     return {
         v,

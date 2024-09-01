@@ -22,7 +22,7 @@ export const pipelineInit = async (root: Root) => {
     ticker.start()
 
     studio.init(root)
-    studio.addAxisHelper()
+    //studio.addAxisHelper()
     ticker.on(studio.render.bind(studio))
 
     controlsOrbit.init(studio.camera, studio.containerDom)
@@ -38,14 +38,17 @@ export const pipelineInit = async (root: Root) => {
     const lab = new Lab()
     await lab.init(root)
     studio.add(lab.mesh)
+    studio.add(lab.collisionMesh)
+    lab.collisionMesh.visible = false
+    controlsPointer.setToCollisionFloor(lab.collisionMesh)
 
     // test demo debug tiles
-    const meshDemoTiles = createDemoTiles({ W: 3, H: 3, WC: 1.2 })
-    studio.add(meshDemoTiles)
+    //const meshDemoTiles = createDemoTiles({ W: 3, H: 3, WC: 1.2 })
+    //studio.add(meshDemoTiles)
 
-    const m = testStairs()
-    m.position.x = -50
-    studio.add(m)
+    //const m = testStairs()
+    //m.position.x = -50
+    //studio.add(m)
 
     //const mCorr = createDeemoLongCorridor()
     //studio.add(mCorr)

@@ -8,7 +8,7 @@ const TILES_X = 11
 const TILES_Z = 13
 //const LEVEL_H = 3.3
 const LEVEL_H = 5
-const FLOORS = 5
+const FLOORS = 15
 const W = 3
 const N = 7
 
@@ -17,6 +17,7 @@ export class Lab {
 
     async init(root) {
         this.mesh = new THREE.Object3D()
+        this.collisionMesh = new THREE.Object3D()
 
         const material = new THREE.MeshPhongMaterial({ 
             color: 0xFFFFFF, 
@@ -25,6 +26,7 @@ export class Lab {
             reflectivity: .6,
         })
 
+        this.collisionMaterial = new THREE.MeshBasicMaterial({ color: 0xFFFF00 })
 
         // start stair
         const stairDataBottom = createRandomDataForLine()
@@ -52,6 +54,17 @@ export class Lab {
         stairM.position.z = W
         this.mesh.add(stairM)
 
+        const collisionStairM = createMesh({
+            v: startStair.vC,
+            material: this.collisionMaterial,
+        })
+        collisionStairM.position.x = W * 5
+        collisionStairM.position.z = W
+        this.collisionMesh.add(collisionStairM)
+
+
+
+
         let posStart = [5, 1]
         let posStartDir = stairDataTop.dir
         let dataForEnter = stairDataTop
@@ -65,14 +78,17 @@ export class Lab {
                 posStart,
                 posStartDir, 
                 dataForEnter,
-                material, 
                 numTilesX: TILES_X, 
                 numTilesZ: TILES_Z,
                 w: W,
                 n: N,
+                material, 
+                collisionMaterial: this.collisionMaterial,
             })
             labLevel.mesh.position.y = LEVEL_H * i + LEVEL_H
             this.mesh.add(labLevel.mesh)
+            labLevel.collisionMesh.position.y = LEVEL_H * i + LEVEL_H
+            this.collisionMesh.add(labLevel.collisionMesh)
 
             // create stair
             const stairDataTopExit = createRandomDataForLine()
@@ -130,6 +146,15 @@ export class Lab {
             stairM.position.z = W * labLevel.posEnd[1]
             stairM.position.y = (i + 1) * LEVEL_H
             this.mesh.add(stairM)
+
+            const collisionM = createMesh({
+                v: stair.vC,
+                material: this.collisionMaterial,
+            })
+            collisionM.position.x = W * labLevel.posEnd[0]
+            collisionM.position.z = W * labLevel.posEnd[1]
+            collisionM.position.y = (i + 1) * LEVEL_H
+            this.collisionMesh.add(collisionM)
 
             // save for next level
             posStart = labLevel.posEnd
