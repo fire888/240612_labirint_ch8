@@ -2,7 +2,8 @@ import { Root } from '../index'
 import { createDemoTiles } from '_0_trash/demoTiles'
 import { Lab } from '../entities/labyrinth/Lab'
 // import { BufferTexture } from '../entities/bufferTexture'
-import { testStairs } from '../entities/labyrinth/testStairs'
+//import { testStairs } from '../entities/labyrinth/testStairs'
+import { SmallTriangles } from '../entities/SmallTriangles'
 
 export const pipelineInit = async (root: Root) => {
     const {
@@ -41,6 +42,11 @@ export const pipelineInit = async (root: Root) => {
     studio.add(lab.collisionMesh)
     lab.collisionMesh.visible = false
     controlsPointer.setToCollisionFloor(lab.collisionMesh)
+
+    const smallTriangles = new SmallTriangles(root)
+    for (let i = 0; i < smallTriangles.arrSprites.length; ++i) {
+        studio.add(smallTriangles.arrSprites[i])
+    }
 
     // test demo debug tiles
     //const meshDemoTiles = createDemoTiles({ W: 3, H: 3, WC: 1.2 })

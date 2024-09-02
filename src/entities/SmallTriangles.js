@@ -1,0 +1,49 @@
+import * as THREE from 'three'
+
+
+
+const createS = m => {
+    const v = []
+
+    for (let i = 0; i < 20; ++i) {
+        const x = Math.random() * 3 * 12 
+        const y = Math.random() * 150
+        const z = Math.random() * 3 * 12
+
+        for (let i = 0; i < 3; ++i) {
+            v.push(
+                x + Math.random() * .5,
+                y + Math.random() * .5,
+                z + Math.random() * .5,
+            )
+        }
+    } 
+
+    const vertices = new Float32Array(v)
+    const geometry = new THREE.BufferGeometry()
+    geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3))
+    geometry.computeVertexNormals()
+
+    return new THREE.Mesh(geometry, m)
+}
+
+
+export class SmallTriangles {
+    constructor (root) {
+        const ob = new THREE.Object3D()
+        ob.position.set(0, 0, -3000)
+    
+        this.material = new THREE.MeshPhongMaterial({ 
+            color: 0x88aaff,
+            envMap: root.loader.assets.sky,
+            reflectivity: .6,
+        })
+    
+        this.arrSprites = []
+        for (let i = 0; i < 50; ++i) {
+            const s = createS(this.material)
+            //s.position.set(Math.random() * 3, 0, Math.random() * 3)
+            this.arrSprites.push(s)
+        }
+    }
+}

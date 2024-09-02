@@ -47,7 +47,7 @@ export const createTileL = ({ w, n, forms, paths, colors, key }) => {
                 isClosed: true,
             })
             _M.translateVertices(l.v, -w / 2, 0, 0)
-            _M.rotateVerticesY(l.v, stepAngle * i)
+            _M.rotateVerticesY(l.v, stepAngle * i + stepAngle * .5)
             v.push(...l.v)
             c.push(...l.c)
         }
@@ -73,7 +73,7 @@ export const createTileL = ({ w, n, forms, paths, colors, key }) => {
             })
             _M.rotateVerticesY(l.v, -Math.PI / 2)
             _M.translateVertices(l.v, 0, 0, w / 2)
-            _M.rotateVerticesY(l.v, stepAngle * i)
+            _M.rotateVerticesY(l.v, stepAngle * i + stepAngle * .5)
             v.push(...l.v)
             c.push(...l.c)
         }
@@ -96,7 +96,7 @@ export const createTileL = ({ w, n, forms, paths, colors, key }) => {
             })
             _M.rotateVerticesY(l.v, -Math.PI / 2)
             _M.translateVertices(l.v, 0, 0, -w / 2)
-            _M.rotateVerticesY(l.v, stepAngle * i)
+            _M.rotateVerticesY(l.v, stepAngle * i + stepAngle * .5)
             v.push(...l.v)
             c.push(...l.c)
         }
@@ -118,7 +118,7 @@ export const createTileL = ({ w, n, forms, paths, colors, key }) => {
                 isClosed: true,
             })
             _M.translateVertices(l.v, -w / 2, 0, 0)
-            _M.rotateVerticesY(l.v, stepAngle * i)
+            _M.rotateVerticesY(l.v, stepAngle * i + stepAngle * .5)
             v.push(...l.v)
             c.push(...l.c)
         }
