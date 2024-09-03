@@ -44,9 +44,9 @@ export const pipelineInit = async (root: Root) => {
     controlsPointer.setToCollisionFloor(lab.collisionMesh)
 
     const smallTriangles = new SmallTriangles(root)
-    for (let i = 0; i < smallTriangles.arrSprites.length; ++i) {
-        studio.add(smallTriangles.arrSprites[i])
-    }
+    studio.add(smallTriangles.m)
+    smallTriangles.m.position.x = 3 * 5
+    smallTriangles.m.position.z = 3 * 5
 
     // test demo debug tiles
     //const meshDemoTiles = createDemoTiles({ W: 3, H: 3, WC: 1.2 })

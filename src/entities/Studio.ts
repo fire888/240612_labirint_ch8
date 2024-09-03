@@ -49,7 +49,7 @@ export class Studio {
         this.envMap = root.loader.assets.mapEnv
         //this.scene.background = new THREE.Color(0x999999)
         //this.fog = new THREE.Fog(0x00001a, 1, 50)
-        this.fog = new THREE.Fog(0x00001a, 1, 50)
+        this.fog = new THREE.Fog(0x00001a, 1, 150)
 
        this.hemiLight = new THREE.HemisphereLight(0x6767f3, 0xffffff, 5)
        this.hemiLight.position.set( 0, 20, 0 )
@@ -100,32 +100,32 @@ export class Studio {
         window.addEventListener( 'resize', this.onWindowResize.bind(this))
         this.onWindowResize()
 
-        const gui = new GUI();
-        const bloomFolder = gui.addFolder( 'bloom' );
-        bloomFolder.add(params, 'threshold',0.0,1.0).onChange( function ( value ) {
-            bloomPass.threshold = Number( value );
-        });
+        // const gui = new GUI();
+        // const bloomFolder = gui.addFolder( 'bloom' );
+        // bloomFolder.add(params, 'threshold',0.0,1.0).onChange( function ( value ) {
+        //     bloomPass.threshold = Number( value );
+        // });
 
-        bloomFolder.add( params, 'strength', 0.0, 3.0 ).onChange( function ( value ) {
-            bloomPass.strength = Number( value );
-        });
+        // bloomFolder.add( params, 'strength', 0.0, 3.0 ).onChange( function ( value ) {
+        //     bloomPass.strength = Number( value );
+        // });
 
-        gui.add( params, 'radius', 0.0, 1.0 ).step( 0.01 ).onChange( function ( value ) {
-            bloomPass.radius = Number( value );
-        });
+        // gui.add( params, 'radius', 0.0, 1.0 ).step( 0.01 ).onChange( function ( value ) {
+        //     bloomPass.radius = Number( value );
+        // });
 
-        gui.add( params, 'focus', 1, 300, .0001 ).onChange( v => {
-            // @ts-ignore: Unreachable code error
-            bokehPass.uniforms.focus.value = v
-        });
-        gui.add( params, 'aperture', 0, .1, 0.000001 ).onChange( v => {
-            // @ts-ignore: Unreachable code error
-            bokehPass.uniforms.aperture.value = v
-        });
-        gui.add( params, 'maxblur', 0.0, 0.05, 0.0001 ).onChange( v => {
-            // @ts-ignore: Unreachable code error
-            bokehPass.uniforms.maxblur.value = v
-        })
+        // gui.add( params, 'focus', 1, 300, .0001 ).onChange( v => {
+        //     // @ts-ignore: Unreachable code error
+        //     bokehPass.uniforms.focus.value = v
+        // });
+        // gui.add( params, 'aperture', 0, .1, 0.000001 ).onChange( v => {
+        //     // @ts-ignore: Unreachable code error
+        //     bokehPass.uniforms.aperture.value = v
+        // });
+        // gui.add( params, 'maxblur', 0.0, 0.05, 0.0001 ).onChange( v => {
+        //     // @ts-ignore: Unreachable code error
+        //     bokehPass.uniforms.maxblur.value = v
+        // })
 
         //const smaaFolder = gui.addFolder( 'SMAA' );
         //smaaFolder.add( params, 'enabled' );

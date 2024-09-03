@@ -6,9 +6,12 @@ const createS = m => {
     const v = []
 
     for (let i = 0; i < 20; ++i) {
-        const x = Math.random() * 3 * 12 
-        const y = Math.random() * 150
-        const z = Math.random() * 3 * 12
+        const angle = Math.random() * Math.PI * 2
+        const d = Math.random() * 3 * 12 + 50
+
+        const x = Math.cos(angle) * d
+        const y = Math.random() * 150 + 10
+        const z = Math.sin(angle) * d
 
         for (let i = 0; i < 3; ++i) {
             v.push(
@@ -30,20 +33,27 @@ const createS = m => {
 
 export class SmallTriangles {
     constructor (root) {
-        const ob = new THREE.Object3D()
-        ob.position.set(0, 0, -3000)
-    
-        this.material = new THREE.MeshPhongMaterial({ 
-            color: 0x88aaff,
-            envMap: root.loader.assets.sky,
-            reflectivity: .6,
+        this.m = new THREE.Object3D()
+        // this.material = new THREE.MeshPhongMaterial({ 
+        //     color: 0x88aaff,
+        //     envMap: root.loader.assets.sky,
+        //     reflectivity: .6,
+        // })
+        this.material = new THREE.MeshBasicMaterial({ 
+            color: 0xffffff,
+            //envMap: root.loader.assets.sky,
+            //reflectivity: .6,
         })
+
     
-        this.arrSprites = []
+        //this.arrSprites = []
         for (let i = 0; i < 50; ++i) {
             const s = createS(this.material)
+            s.position.x = 0
+            s.position.z = 0
+            this.m.add(s) 
             //s.position.set(Math.random() * 3, 0, Math.random() * 3)
-            this.arrSprites.push(s)
+            //this.arrSprites.push(s)
         }
     }
 }
