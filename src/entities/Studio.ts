@@ -3,6 +3,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { BokehPass } from 'three/examples/jsm/postprocessing/BokehPass';
+//import { BokehPass } from 'three/examples/jsm/postprocessing/';
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js';
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
@@ -48,7 +49,7 @@ export class Studio {
         this.envMap = root.loader.assets.mapEnv
         //this.scene.background = new THREE.Color(0x999999)
         //this.fog = new THREE.Fog(0x00001a, 1, 50)
-        this.fog = new THREE.Fog(0x00001a, 1, 300)
+        this.fog = new THREE.Fog(0x00001a, 1, 50)
 
        this.hemiLight = new THREE.HemisphereLight(0x6767f3, 0xffffff, 5)
        this.hemiLight.position.set( 0, 20, 0 )
