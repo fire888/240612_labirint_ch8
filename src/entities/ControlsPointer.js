@@ -1,5 +1,6 @@
 import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls'
 import * as THREE from 'three'
+import { Quaternion } from 'cannon-es'
 
 export class ControlsPointer {
     constructor() {
@@ -19,6 +20,10 @@ export class ControlsPointer {
         this._prevTime = performance.now()
         this.velocity = new THREE.Vector3()
         this.direction = new THREE.Vector3()
+
+        this.savedPosition = new THREE.Vector3()
+        this.diffVec = new THREE.Vector3()
+        this.savedRotation = new THREE.Quaternion()
 
         this.objects = []
 
@@ -93,56 +98,131 @@ export class ControlsPointer {
         if (!this.isEnabled) {
             return;
         }
-
         if (!this.camera) {
+            return;
+        }
+        if (!this.controls.isLocked) {
             return;
         }
 
         const time = performance.now()
 
-        if (this.controls.isLocked === true ) {
-            this.raycaster.ray.origin.copy(this.controls.getObject().position)
-            this.raycaster.ray.origin.y -= 0
+        this.raycaster.ray.origin.copy(this.controls.getObject().position)
+        this.raycaster.ray.origin.y -= 0
 
-            const intersections = this.raycaster.intersectObjects(this.objects, true)
+        const intersections = this.raycaster.intersectObjects(this.objects, true)
 
-            const onObject = intersections.length > 0
+        const onObject = intersections.length > 0
 
-            const delta = ( time - this._prevTime ) / 1000
+        const delta = ( time - this._prevTime ) / 1000
 
-            this.velocity.x -= this.velocity.x * 10.0 * delta
-            this.velocity.z -= this.velocity.z * 10.0 * delta
-            this.velocity.y -= 9.8 * 3. * delta; // 100.0 = mass
+        this.velocity.x -= this.velocity.x * 10.0 * delta
+        this.velocity.z -= this.velocity.z * 10.0 * delta
+        this.velocity.y -= 9.8 * 3. * delta; // 100.0 = mass
 
-            this.direction.z = Number(this.moveForward) - Number(this.moveBackward)
-            this.direction.x = Number(this.moveRight) - Number(this.moveLeft)
-            this.direction.normalize() // this ensures consistent movements in all directions
+        this.direction.z = Number(this.moveForward) - Number(this.moveBackward)
+        this.direction.x = Number(this.moveRight) - Number(this.moveLeft)
+        this.direction.normalize() // this ensures consistent movements in all directions
 
-            if (this.moveForward || this.moveBackward) this.velocity.z -= this.direction.z * 40.0 * delta
-            if (this.moveLeft || this.moveRight) this.velocity.x -= this.direction.x * 40.0 * delta
+        if (this.moveForward || this.moveBackward) this.velocity.z -= this.direction.z * 40.0 * delta
+        if (this.moveLeft || this.moveRight) this.velocity.x -= this.direction.x * 40.0 * delta
 
-            if (onObject === true) {
-                this.velocity.y = Math.max(0, this.velocity.y)
-                this.canJump = true
-                if (intersections[0].distance < 1) {
-                    this.controls.getObject().position.y += 1 - intersections[0].distance
-                }
+        if (onObject === true) {
+            this.velocity.y = Math.max(0, this.velocity.y)
+            this.canJump = true
+            if (intersections[0].distance < 1) {
+                this.controls.getObject().position.y += 1 - intersections[0].distance
             }
+        }
 
-            this.controls.moveRight( - this.velocity.x * delta)
-            this.controls.moveForward( - this.velocity.z * delta)
+        this.controls.moveRight( - this.velocity.x * delta)
+        this.controls.moveForward( - this.velocity.z * delta)
 
-            this.controls.getObject().position.y += (this.velocity.y * delta) // new behavior
+        this.controls.getObject().position.y += (this.velocity.y * delta) // new behavior
 
-            if (this.controls.getObject().position.y < 1) {
-                this.velocity.y = 0
-                this.controls.getObject().position.y = 1
-                this.canJump = true
-            }
+        if (this.controls.getObject().position.y < 1) {
+            this.velocity.y = 0
+            this.controls.getObject().position.y = 1
+            this.canJump = true
         }
 
         this._prevTime = time
     }
+
+
+    // update (playerCollision) {
+    //     if (!this.isEnabled) {
+    //         return;
+    //     }
+
+    //     if (!this.camera) {
+    //         return;
+    //     }
+
+
+    //     const time = performance.now()
+
+    //     if (this.controls.isLocked === true ) {
+
+    //         console.log('YY', playerCollision.position.y)
+    //         //this.raycaster.ray.origin.copy(this.controls.getObject().position)
+    //         //this.raycaster.ray.origin.y -= 0
+
+    //         //const intersections = this.raycaster.intersectObjects(this.objects, true)
+
+    //         //const onObject = intersections.length > 0
+
+    //         //const delta = ( time - this._prevTime ) / 1000
+
+    //         //this.velocity.x -= this.velocity.x * 10.0 * delta
+    //         //this.velocity.z -= this.velocity.z * 10.0 * delta
+    //         //this.velocity.y -= 9.8 * 3. * delta; // 100.0 = mass
+
+    //         //this.direction.z = Number(this.moveForward) - Number(this.moveBackward)
+    //         //this.direction.x = Number(this.moveRight) - Number(this.moveLeft)
+    //         //this.direction.normalize() // this ensures consistent movements in all directions
+
+    //         //if (this.moveForward || this.moveBackward) this.velocity.z -= this.direction.z * 40.0 * delta
+    //         //if (this.moveLeft || this.moveRight) this.velocity.x -= this.direction.x * 40.0 * delta
+
+    //         //if (onObject === true) {
+    //         //    this.velocity.y = Math.max(0, this.velocity.y)
+    //         //    this.canJump = true
+    //         //    if (intersections[0].distance < 1) {
+    //         //        this.controls.getObject().position.y += 1 - intersections[0].distance
+    //         //    }
+    //         //}
+
+    //         //this.controls.moveRight( - this.velocity.x * delta)
+    //         //this.controls.moveForward( - this.velocity.z * delta)
+
+    //         //this.controls.getObject().position.y += (this.velocity.y * delta) // new behavior
+
+    //         //if (this.controls.getObject().position.y < 1) {
+    //         //    this.velocity.y = 0
+    //         //    this.controls.getObject().position.y = 1
+    //         //    this.canJump = true
+    //         //}
+
+    //         // this.savedPosition.copy(this.controls.getObject().position)
+    //         // this.savedRotation.copy(this.controls.getObject().quaternion)
+
+    //         // this.diffVec.x = playerCollision.position.x
+    //         // this.diffVec.y = playerCollision.position.y
+    //         // this.diffVec.z = playerCollision.position.z
+
+    //         // this.diffVec.sub(th)
+
+    //         this.controls.getObject().position.x = playerCollision.position.x
+    //         this.controls.getObject().position.y = playerCollision.position.y
+    //         this.controls.getObject().position.z = playerCollision.position.z
+
+
+    //     }
+
+    //     this._prevTime = time
+    // }
+
 
     setToCollisionFloor (m) {
         this.objects.push(m)

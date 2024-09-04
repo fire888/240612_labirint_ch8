@@ -4,6 +4,7 @@ import { Lab } from '../entities/labyrinth/Lab'
 // import { BufferTexture } from '../entities/bufferTexture'
 //import { testStairs } from '../entities/labyrinth/testStairs'
 import { SmallTriangles } from '../entities/SmallTriangles'
+import { Phisics } from 'entities/Phisics'
 
 export const pipelineInit = async (root: Root) => {
     const {
@@ -29,12 +30,26 @@ export const pipelineInit = async (root: Root) => {
     controlsOrbit.init(studio.camera, studio.containerDom)
     ticker.on(controlsOrbit.update.bind(controlsOrbit))
 
-    controlsPointer.init(studio.camera, studio.containerDom)
-    ticker.on(controlsPointer.update.bind(controlsPointer))
+    const phisics = new Phisics()
+    phisics.init()
+    ticker.on(phisics.update.bind(phisics))
+    phisics.createPlayerPhisicsBody({ x: 0, y: 50, z: 0}, 0)
 
+    controlsPointer.init(studio.camera, studio.containerDom)
+    ticker.on(() => { 
+        controlsPointer.update() 
+    })
+
+    //ticker.on(() => { 
+    //    controlsPointer.update(phisics.playerBody) 
+    //})
+
+
+    
     floor.init(root)
-    controlsPointer.setToCollisionFloor(floor.mesh)
     studio.add(floor.mesh)
+    //controlsPointer.setToCollisionFloor(floor.mesh)
+    //phisics.addMeshToCollision(floor.mesh)
 
     const lab = new Lab()
     await lab.init(root)
