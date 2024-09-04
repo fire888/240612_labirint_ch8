@@ -438,14 +438,11 @@ export class LabLevel {
                 v.push(...e.v)
                 c.push(...e.c)
 
-                const _vC = _M.createPolygon(
-                    [-w * .5, 0, w * .5],
-                    [w * .5, 0, w * .5],
-                    [w * .5, 0, -w * .5],
-                    [-w * .5, 0, -w * .5],
-                )
-                _M.translateVertices(_vC, +ij[0] * W, 0, +ij[1] * W)
-                vC.push(..._vC)
+                if (e.vC) {
+                    _M.rotateVerticesY(e.vC, angle)
+                    _M.translateVertices(e.vC, +ij[0] * W, 0, +ij[1] * W)
+                    vC.push(...e.vC)
+                }
             }
         }
 

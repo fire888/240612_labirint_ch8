@@ -40,7 +40,6 @@ export const pipelineInit = async (root: Root) => {
     await lab.init(root)
     studio.add(lab.mesh)
     studio.add(lab.collisionMesh)
-    lab.collisionMesh.visible = false
     controlsPointer.setToCollisionFloor(lab.collisionMesh)
 
     const smallTriangles = new SmallTriangles(root)

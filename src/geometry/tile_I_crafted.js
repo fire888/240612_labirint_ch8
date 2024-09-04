@@ -13,6 +13,7 @@ export const createTileI = ({ w, n, forms, paths, colors }) => {
 
     const v = []
     const c = []
+    const vC = []
 
     const xStep = w / n
     const startX = xStep / 2
@@ -29,5 +30,26 @@ export const createTileI = ({ w, n, forms, paths, colors }) => {
         c.push(...l.c)
     }
 
-    return { v, c }
+    vC.push(
+        ..._M.createPolygon(
+            [-w * .5, 0, w * .5],
+            [w * .5, 0, w * .5],
+            [w * .5, 0, -w * .5],
+            [-w * .5, 0, -w * .5],
+        ),
+        ..._M.createPolygon(
+            [-w * .5, 0, w * .5],
+            [-w * .5, 0, -w * .5],
+            [-w * .5, 3, -w * .5],
+            [-w * .5, 3, w * .5],
+        ),
+        ..._M.createPolygon(
+            [w * .5, 0, -w * .5],
+            [w * .5, 0, w * .5],
+            [w * .5, 3, w * .5],
+            [w * .5, 3, -w * .5],
+        ),
+    )
+
+    return { v, c, vC }
 }
