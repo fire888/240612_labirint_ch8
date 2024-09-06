@@ -283,5 +283,5 @@ export const createTileX = ({
         }
     }
 
-    return { v, c }
+    return { v, c, vC }
 }
