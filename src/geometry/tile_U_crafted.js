@@ -5,6 +5,14 @@ import { createLineGeom } from './lineGeomCrafted'
 export const createTileU = ({ w, n, forms, paths, colors, key }) => {
     const v = []
     const c = []
+    const vC = [
+        ..._M.createPolygon(
+            [-w * .5, 0, w * .5],
+            [w * .5, 0, w * .5],
+            [w * .5, 0, -w * .5],
+            [-w * .5, 0, -w * .5],
+        )
+    ]
 
     const step = w / n
 
@@ -124,5 +132,5 @@ export const createTileU = ({ w, n, forms, paths, colors, key }) => {
     //     c.push(...lastBuffer.c)
     // }
 
-    return { v, c }
+    return { v, c, vC }
 }

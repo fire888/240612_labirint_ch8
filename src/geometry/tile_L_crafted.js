@@ -32,6 +32,16 @@ export const createTileL = ({ w, n, forms, paths, colors, key }) => {
 
     const v = []
     const c = []
+    const vC = [
+        ..._M.createPolygon(
+            [-w * .5, 0, w * .5],
+            [w * .5, 0, w * .5],
+            [w * .5, 0, -w * .5],
+            [-w * .5, 0, -w * .5],
+        )
+    ]
+    
+    
 
     if (key === 'se') {
         const stepAngle = -Math.PI / 2 / n
@@ -127,5 +137,5 @@ export const createTileL = ({ w, n, forms, paths, colors, key }) => {
 
 
 
-    return { v, c }
+    return { v, c, vC }
 }

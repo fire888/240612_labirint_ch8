@@ -18,7 +18,7 @@ export class Lab {
     async init(root) {
         this.mesh = new THREE.Object3D()
         this.collisionMesh = new THREE.Object3D()
-        // this.collisionMesh.visible = false
+         this.collisionMesh.visible = false
 
         const material = new THREE.MeshPhongMaterial({ 
             color: 0xFFFFFF, 
