@@ -12,6 +12,7 @@
     "@tweenjs/tween.js": "^23.1.1",
     "@types/three": "^0.166.0",
     "cannon-es": "^0.20.0",
+    "cannon-es-debugger": "^1.0.0",
     "three": "^0.165.0"
   },
   "devDependencies": {

@@ -7,7 +7,6 @@ export const createMesh = ({
     uv = [],
     c = [],
     material = new THREE.MeshBasicMaterial({ color: 0x777777 })
-
 }) => {
 
     const geometry = new THREE.BufferGeometry()
@@ -18,10 +17,10 @@ export const createMesh = ({
         const cF32 = new Float32Array(c)
         geometry.setAttribute('color', new THREE.BufferAttribute(cF32, 3))
     }
-    //const uvF32 = new Float32Array(uv)
-    //geometry.setAttribute('uv', new THREE.BufferAttribute(uvF32, 2))
-    //const cF32 = new Float32Array(c)
-    //geometry.setAttribute('color', new THREE.BufferAttribute(cF32, 3))
+    if (uv.length > 0) {
+        const uvF32 = new Float32Array(uv)
+        geometry.setAttribute('uv', new THREE.BufferAttribute(uvF32, 2))
+    }
     return new THREE.Mesh(geometry, material)
 }
 

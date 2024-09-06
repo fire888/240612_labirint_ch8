@@ -31,13 +31,13 @@ export const pipelineInit = async (root: Root) => {
     ticker.on(controlsOrbit.update.bind(controlsOrbit))
 
     const phisics = new Phisics()
-    phisics.init()
+    phisics.init(root)
     ticker.on(phisics.update.bind(phisics))
     phisics.createPlayerPhisicsBody({ x: 0, y: 50, z: 0}, 0)
 
     controlsPointer.init(studio.camera, studio.containerDom)
-    ticker.on(() => { 
-        controlsPointer.update() 
+    ticker.on((t: number) => { 
+        controlsPointer.update(t, phisics.playerBody) 
     })
 
     //ticker.on(() => { 
@@ -49,7 +49,7 @@ export const pipelineInit = async (root: Root) => {
     floor.init(root)
     studio.add(floor.mesh)
     //controlsPointer.setToCollisionFloor(floor.mesh)
-    //phisics.addMeshToCollision(floor.mesh)
+    phisics.addMeshToCollision(floor.mesh)
 
     const lab = new Lab()
     await lab.init(root)
