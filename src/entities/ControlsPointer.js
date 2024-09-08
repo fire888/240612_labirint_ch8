@@ -174,17 +174,21 @@ export class ControlsPointer {
             this.direction.normalize() // this ensures consistent movements in all directions
 
             if (this.moveForward) {
-                playerCollision._object3D.translateZ(.03)
+                //playerCollision._object3D.translateZ(.03)
+                playerCollision.velocity.x += .3
             }
             if (this.moveBackward) {
-                playerCollision._object3D.translateZ(-.03)
+                playerCollision.velocity.x -= .3
+                //playerCollision._object3D.translateZ(-.03)
                 //playerCollision.positio
             }
             if (this.moveLeft) {
-                playerCollision._object3D.rotation.y += .03
+                playerCollision.velocity.z += .3
+                //playerCollision._object3D.rotation.y += .03
             }
             if (this.moveRight) {
-                playerCollision._object3D.rotation.y -= .03
+                playerCollision.velocity.z -= .3
+                //playerCollision._object3D.rotation.y -= .03
             }
 
             //playerCollision.position.x += 0.01//this.velocity.x

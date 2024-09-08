@@ -18,7 +18,8 @@ export class Lab {
     async init(root) {
         this.mesh = new THREE.Object3D()
         this.collisionMesh = new THREE.Object3D()
-         this.collisionMesh.visible = false
+        //this.collisionMesh.visible = false
+        this.collisionsItems = []
 
         const material = new THREE.MeshPhongMaterial({ 
             color: 0xFFFFFF, 
@@ -62,8 +63,7 @@ export class Lab {
         collisionStairM.position.x = W * 5
         collisionStairM.position.z = W
         this.collisionMesh.add(collisionStairM)
-
-
+        this.collisionsItems.push(collisionStairM)
 
 
         let posStart = [5, 1]
@@ -90,6 +90,8 @@ export class Lab {
             this.mesh.add(labLevel.mesh)
             labLevel.collisionMesh.position.y = LEVEL_H * i + LEVEL_H
             this.collisionMesh.add(labLevel.collisionMesh)
+            this.collisionsItems.push(labLevel.collisionMesh)
+
 
             // create stair
             const stairDataTopExit = createRandomDataForLine()
@@ -156,6 +158,7 @@ export class Lab {
             collisionM.position.z = W * labLevel.posEnd[1]
             collisionM.position.y = (i + 1) * LEVEL_H
             this.collisionMesh.add(collisionM)
+            this.collisionsItems.push(collisionM)
 
             // save for next level
             posStart = labLevel.posEnd
