@@ -57,10 +57,7 @@ export class Phisics {
 
         this._levelsPhisicsMeshes = []
 
-
-        this.cannonDebugger = new CannonDebugger(root.studio.scene, this.world, {})
-
-
+        //this.cannonDebugger = new CannonDebugger(root.studio.scene, this.world, {})
     }
 
     createPlayerPhisicsBody (playerPosition, playerRotationY) {
@@ -86,7 +83,7 @@ export class Phisics {
         this.world.addBody(this.playerBody)
 
         this.playerBody.addEventListener("collide", e => {
-            console.log(e)
+            //console.log(e)
         });
     }
     
@@ -107,17 +104,15 @@ export class Phisics {
         this.world.addBody(body)
     }
 
+    /**
+     * Updates the physics world by fixed time step.
+     * @param {number} delta - Time elapsed since last frame.
+     */
     update (delta) {
         if (!this.playerBody) {
             return;
         }
-        //this.playerBody.position.x = this.playerBody._object3D.position.x
-        //this.playerBody.position.z = this.playerBody._object3D.position.z
-
-        //this.playerBody.quaternion.copy(this.playerBody._object3D.quaternion)
-
         this.world.fixedStep()
-
-        this.cannonDebugger.update()
+        this.cannonDebugger && this.cannonDebugger.update()
     }
 }

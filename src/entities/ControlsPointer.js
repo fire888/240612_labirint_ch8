@@ -159,68 +159,44 @@ export class ControlsPointer {
         //    return;
         //}
 
-
         const time = performance.now()
-
-        //if (this.controls.isLocked === true ) {
-
-            //console.log('YY', playerCollision.position)
-
-            this.velocity.x -= this.velocity.x * 10.0 * delta
-            this.velocity.z -= this.velocity.z * 10.0 * delta
-
-            this.direction.z = Number(this.moveForward) - Number(this.moveBackward)
-            this.direction.x = Number(this.moveRight) - Number(this.moveLeft)
-            this.direction.normalize() // this ensures consistent movements in all directions
-
-            if (this.moveForward) {
-                //playerCollision._object3D.translateZ(.03)
-                playerCollision.velocity.x += .3
-            }
-            if (this.moveBackward) {
-                playerCollision.velocity.x -= .3
-                //playerCollision._object3D.translateZ(-.03)
-                //playerCollision.positio
-            }
-            if (this.moveLeft) {
-                playerCollision.velocity.z += .3
-                //playerCollision._object3D.rotation.y += .03
-            }
-            if (this.moveRight) {
-                playerCollision.velocity.z -= .3
-                //playerCollision._object3D.rotation.y -= .03
-            }
-
-            //playerCollision.position.x += 0.01//this.velocity.x
-            //playerCollision.position.z += 0.01//this.velocity.z
-
         
-            //this.controls.moveRight( - this.velocity.x * delta)
-            //this.controls.moveForward( - this.velocity.z * delta)
+        const obj = this.controls.getObject()
+        const dir = new THREE.Vector3()
+        obj.getWorldDirection(dir)
+        dir.y = 0
+        dir.normalize()
+        const dirLeft = new THREE.Vector3().copy(dir).applyAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI * .5)
 
-            //this.controls.getObject().position.y += (this.velocity.y * delta) // new behavior
+        playerCollision.quaternion.x = obj.quaternion.x
+        playerCollision.quaternion.y = obj.quaternion.y
+        playerCollision.quaternion.z = obj.quaternion.z
+        playerCollision.quaternion.w = obj.quaternion.w
 
-            //if (this.controls.getObject().position.y < 1) {
-            //    this.velocity.y = 0
-            //    this.controls.getObject().position.y = 1
-            //    this.canJump = true
-            //}
+        const resultDir = new THREE.Vector3()
 
-            // this.savedPosition.copy(this.controls.getObject().position)
-            // this.savedRotation.copy(this.controls.getObject().quaternion)
+        if (this.moveForward) {
+            resultDir.add(dir)
+        }
+        if (this.moveBackward) {
+            resultDir.sub(dir)
+        }
+        if (this.moveLeft) {
+            resultDir.add(dirLeft)
+        }
+        if (this.moveRight) {
+            resultDir.sub(dirLeft)
+        }
+        resultDir.normalize()
 
-            // this.diffVec.x = playerCollision.position.x
-            // this.diffVec.y = playerCollision.position.y
-            // this.diffVec.z = playerCollision.position.z
+        playerCollision.velocity.x = resultDir.x * 3.
+        playerCollision.velocity.z = resultDir.z * 3.
 
-            // this.diffVec.sub(th)
-
-            //this.controls.getObject().position.x = playerCollision.position.x
-            //this.controls.getObject().position.y = playerCollision.position.y
-            //this.controls.getObject().position.z = playerCollision.position.z
-
-
-        //}
+        if (this.controls.isLocked === true) {
+            this.controls.getObject().position.x = playerCollision.position.x
+            this.controls.getObject().position.y = playerCollision.position.y
+            this.controls.getObject().position.z = playerCollision.position.z
+        }
 
         this._prevTime = time
     }
