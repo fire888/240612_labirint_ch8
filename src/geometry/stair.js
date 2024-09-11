@@ -84,12 +84,27 @@ export const createStair = (data) => {
         }
 
         // collision
-        const _vC = _M.createPolygon(
-            [-w * .5, 0, -w * 1.5],
-            [-w * .5, h * .5, -w * .5],
-            [w * .5, h * .5, -w * .5],
-            [w * .5, 0, -w * 1.5],
-        )
+        const _vC = [
+            ..._M.createPolygon(
+                [-w * .5, 0, -w * 1.5],
+                [-w * .5, h * .5, -w * .5],
+                [w * .5, h * .5, -w * .5],
+                [w * .5, 0, -w * 1.5],
+            ),
+            ..._M.createPolygon( // left
+                [-w * .5, h * .5, -w * .5],
+                [-w * .5, 0, -w * 1.5],
+                [-w * .5, h, -w * 1.5],
+                [-w * .5, h, -w * .5],
+            ),
+
+            ..._M.createPolygon( // right
+                [w * .5, 0, -w * 1.5],
+                [w * .5, h * .5, -w * .5],
+                [w * .5, h, -w * .5],
+                [w * .5, h, -w * 1.5],
+            ),
+        ]
         if (stairDataBottom.dir === 'n') {
         }
         if (stairDataBottom.dir === 's') {
@@ -152,12 +167,26 @@ export const createStair = (data) => {
         }
 
         // collision
-        const _vC = _M.createPolygon(
-            [-w * .5, h * .5, -w * .5],
-            [w * .5, h * .5, -w * .5],
-            [w * .5, h, -w * 1.5],
-            [-w * .5, h, -w * 1.5],
-        )
+        const _vC = [
+            ..._M.createPolygon(
+                [-w * .5, h * .5, -w * .5],
+                [w * .5, h * .5, -w * .5],
+                [w * .5, h, -w * 1.5],
+                [-w * .5, h, -w * 1.5],
+            ),
+            ..._M.createPolygon( // left
+                [-w * .5, h * .5, -w * .5],
+                [-w * .5, h, -w * 1.5],
+                [-w * .5, h * 1.5, -w * 1.5],
+                [-w * .5, h, -w * .5],
+            ),
+            ..._M.createPolygon( // right
+                [w * .5, h, -w * 1.5],
+                [w * .5, h * .5, -w * .5],
+                [w * .5, h, -w * .5],
+                [w * .5, h * 1.5, -w * 1.5],
+            ),
+        ]
         if (stairDataTop.dir === 'n') {
         }
         if (stairDataTop.dir === 's') {
@@ -269,12 +298,36 @@ export const createStair = (data) => {
         }
 
         // collision
-        const _vC = _M.createPolygon(
-            [-w * .5, h * .5, w * .5],
-            [w * .5, h * .5, w * .5],
-            [w * .5, h * .5, -w * .5],
-            [-w * .5, h * .5, -w * .5],
-        )
+        const _vC = [
+            ..._M.createPolygon(
+                [-w * .5, h * .5, w * .5],
+                [w * .5, h * .5, w * .5],
+                [w * .5, h * .5, -w * .5],
+                [-w * .5, h * .5, -w * .5],
+            ),
+        ]   
+
+        if (
+            (stairDataBottom.dir === 'n' && stairDataTop.dir === 's') ||
+            (stairDataBottom.dir === 's' && stairDataTop.dir === 'n')
+        ) {
+            _vC.push(
+                ..._M.createPolygon( // left
+                    [-w * .5, h * .5, w * .5],
+                    [-w * .5, h * .5, -w * .5],
+                    [-w * .5, h, -w * .5],
+                    [-w * .5, h, w * .5],
+                ),
+                ..._M.createPolygon( // right
+                    [w * .5, h * .5, -w * .5],
+                    [w * .5, h * .5, w * .5],
+                    [w * .5, h, w * .5],
+                    [w * .5, h, -w * .5],
+                ),
+            )
+        }
+
+        
         vC.push(..._vC)
     }
 

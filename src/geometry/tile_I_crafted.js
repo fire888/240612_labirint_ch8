@@ -3,7 +3,7 @@ import { createLineGeom } from './lineGeomCrafted'
 
 
 //export const createTileI = ({ w, n, forms = [], paths = [], colors = [] }) => {
-export const createTileI = ({ w, n, forms, paths, colors }) => {
+export const createTileI = ({ w, n, forms, paths, colors, key }) => {
     // CREATE ARRAYS DATA
 
     const arrs = _M.interpolateArrays({ forms, paths, colors, n })
@@ -30,6 +30,7 @@ export const createTileI = ({ w, n, forms, paths, colors }) => {
         c.push(...l.c)
     }
 
+
     vC.push(
         ..._M.createPolygon(
             [-w * .5, 0, w * .5],
@@ -50,6 +51,12 @@ export const createTileI = ({ w, n, forms, paths, colors }) => {
             [w * .5, 3, -w * .5],
         ),
     )
+
+    if (key === 'we') {
+        _M.rotateVerticesY(v, -Math.PI * .5)
+        _M.rotateVerticesY(vC, -Math.PI * .5)
+    }
+
 
     return { v, c, vC }
 }
