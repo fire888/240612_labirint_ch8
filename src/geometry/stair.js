@@ -35,9 +35,6 @@ export const createStair = (data) => {
     // part enter
     {
         // enter bottom
-        const t = []
-
-
         /**                        /
                                  /
                                /
@@ -249,48 +246,239 @@ export const createStair = (data) => {
                 _M.translateVertices(r.v, w / 2, h / 2, 0)
                 _M.rotateVerticesY(r.v, -Math.PI / 2 / n * i)
                 _M.translateVertices(r.v, -w / 2, 0, -w / 2) 
+
+                // collision form 
+                /*
+                        - -
+                      /    
+                     /  
+                    |
+                    |       *  
+                */
+                const radius = w
+                const angleStep = Math.PI * .5 / 5
+                const arcVC = [] 
+                for (let i = 0; i < 5; ++i) {
+                    const add = Math.PI * .5
+                    arcVC.push(..._M.createPolygon(
+                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5, Math.sin(-angleStep * (i + 1) - add) * radius],
+                        [Math.cos(-angleStep * i - add) * radius, h * .5, Math.sin(-angleStep * i - add) * radius],
+                        [Math.cos(-angleStep * i - add) * radius, h * .5 + w, Math.sin(-angleStep * i - add) * radius],
+                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5 +w, Math.sin(-angleStep * (i + 1) - add) * radius],
+                    ))
+                }
+                _M.translateVertices(arcVC, w * .5, 0, w * .5)
+                _M.rotateVerticesY(arcVC, Math.PI)
+                vC.push(...arcVC)
             }
 
             if (stairDataBottom.dir === 'n' && stairDataTop.dir === 'e') {
                 _M.translateVertices(r.v, -w / 2, h / 2, 0)
                 _M.rotateVerticesY(r.v, Math.PI / 2 / n * i)
-                _M.translateVertices(r.v, w / 2, 0, -w / 2) 
+                _M.translateVertices(r.v, w / 2, 0, -w / 2)
+
+                // collision form 
+                /*
+                        - -
+                    /    
+                    /  
+                    |
+                    |       *  
+                */
+                const radius = w
+                const angleStep = Math.PI * .5 / 5
+                const arcVC = [] 
+                for (let i = 0; i < 5; ++i) {
+                    const add = Math.PI * .5
+                    arcVC.push(..._M.createPolygon(
+                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5, Math.sin(-angleStep * (i + 1) - add) * radius],
+                        [Math.cos(-angleStep * i - add) * radius, h * .5, Math.sin(-angleStep * i - add) * radius],
+                        [Math.cos(-angleStep * i - add) * radius, h * .5 + w, Math.sin(-angleStep * i - add) * radius],
+                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5 +w, Math.sin(-angleStep * (i + 1) - add) * radius],
+                    ))
+                }
+                _M.translateVertices(arcVC, w * .5, 0, w * .5)
+                _M.rotateVerticesY(arcVC, Math.PI * .5)
+                vC.push(...arcVC)
             }
 
             if (stairDataBottom.dir === 's' && stairDataTop.dir === 'e') {
                 _M.translateVertices(r.v, -w / 2, h / 2, 0)
                 _M.rotateVerticesY(r.v, -Math.PI / 2 / n * i)
-                _M.translateVertices(r.v, w / 2, 0, w / 2) 
+                _M.translateVertices(r.v, w / 2, 0, w / 2)
+
+                // collision form 
+                /*
+                        - -
+                    /    
+                    /  
+                    |
+                    |       *  
+                */
+                const radius = w
+                const angleStep = Math.PI * .5 / 5
+                const arcVC = [] 
+                for (let i = 0; i < 5; ++i) {
+                    const add = Math.PI * .5
+                    arcVC.push(..._M.createPolygon(
+                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5, Math.sin(-angleStep * (i + 1) - add) * radius],
+                        [Math.cos(-angleStep * i - add) * radius, h * .5, Math.sin(-angleStep * i - add) * radius],
+                        [Math.cos(-angleStep * i - add) * radius, h * .5 + w, Math.sin(-angleStep * i - add) * radius],
+                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5 +w, Math.sin(-angleStep * (i + 1) - add) * radius],
+                    ))
+                }
+                _M.translateVertices(arcVC, w * .5, 0, w * .5)
+                vC.push(...arcVC)
             }
 
             if (stairDataBottom.dir === 's' && stairDataTop.dir === 'w') {
                 _M.translateVertices(r.v, w / 2, h / 2, 0)
                 _M.rotateVerticesY(r.v, Math.PI / 2 / n * i)
                 _M.translateVertices(r.v, -w / 2, 0, w / 2) 
+
+                // collision form 
+                /*
+                        - -
+                    /    
+                    /  
+                    |
+                    |       *  
+                */
+                const radius = w
+                const angleStep = Math.PI * .5 / 5
+                const arcVC = [] 
+                for (let i = 0; i < 5; ++i) {
+                    const add = Math.PI * .5
+                    arcVC.push(..._M.createPolygon(
+                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5, Math.sin(-angleStep * (i + 1) - add) * radius],
+                        [Math.cos(-angleStep * i - add) * radius, h * .5, Math.sin(-angleStep * i - add) * radius],
+                        [Math.cos(-angleStep * i - add) * radius, h * .5 + w, Math.sin(-angleStep * i - add) * radius],
+                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5 +w, Math.sin(-angleStep * (i + 1) - add) * radius],
+                    ))
+                }
+                _M.translateVertices(arcVC, w * .5, 0, w * .5)
+                _M.rotateVerticesY(arcVC, Math.PI * 1.5)
+                vC.push(...arcVC)
             }
 
             if (stairDataBottom.dir === 'e' && stairDataTop.dir === 'n') {
                 _M.translateVertices(r.v, -w / 2, h / 2, 0)
                 _M.rotateVerticesY(r.v, Math.PI / 2 - Math.PI / 2 / n * i)
-                _M.translateVertices(r.v, w / 2, 0, -w / 2) 
+                _M.translateVertices(r.v, w / 2, 0, -w / 2)
+
+                // collision form 
+                /*
+                        - -
+                    /    
+                    /  
+                    |
+                    |       *  
+                */
+                const radius = w
+                const angleStep = Math.PI * .5 / 5
+                const arcVC = [] 
+                for (let i = 0; i < 5; ++i) {
+                    const add = Math.PI * .5
+                    arcVC.push(..._M.createPolygon(
+                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5, Math.sin(-angleStep * (i + 1) - add) * radius],
+                        [Math.cos(-angleStep * i - add) * radius, h * .5, Math.sin(-angleStep * i - add) * radius],
+                        [Math.cos(-angleStep * i - add) * radius, h * .5 + w, Math.sin(-angleStep * i - add) * radius],
+                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5 +w, Math.sin(-angleStep * (i + 1) - add) * radius],
+                    ))
+                }
+                _M.translateVertices(arcVC, w * .5, 0, w * .5)
+                _M.rotateVerticesY(arcVC, Math.PI * .5)
+                vC.push(...arcVC)
             }
 
             if (stairDataBottom.dir === 'e' && stairDataTop.dir === 's') {
                 _M.translateVertices(r.v, w / 2, h / 2, 0)
                 _M.rotateVerticesY(r.v, Math.PI / 2 + Math.PI / 2 / n * i)
-                _M.translateVertices(r.v, w / 2, 0, w / 2) 
+                _M.translateVertices(r.v, w / 2, 0, w / 2)
+
+                // collision form 
+                /*
+                        - -
+                    /    
+                    /  
+                    |
+                    |       *  
+                */
+                const radius = w
+                const angleStep = Math.PI * .5 / 5
+                const arcVC = [] 
+                for (let i = 0; i < 5; ++i) {
+                    const add = Math.PI * .5
+                    arcVC.push(..._M.createPolygon(
+                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5, Math.sin(-angleStep * (i + 1) - add) * radius],
+                        [Math.cos(-angleStep * i - add) * radius, h * .5, Math.sin(-angleStep * i - add) * radius],
+                        [Math.cos(-angleStep * i - add) * radius, h * .5 + w, Math.sin(-angleStep * i - add) * radius],
+                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5 +w, Math.sin(-angleStep * (i + 1) - add) * radius],
+                    ))
+                }
+                _M.translateVertices(arcVC, w * .5, 0, w * .5)
+               // _M.rotateVerticesY(arcVC, Math.PI * .5)
+                vC.push(...arcVC)
             }
 
             if (stairDataBottom.dir === 'w' && stairDataTop.dir === 'n') {
                 _M.translateVertices(r.v, -w / 2, h / 2, 0)
                 _M.rotateVerticesY(r.v, Math.PI / 2 + Math.PI / 2 / n * i)
-                _M.translateVertices(r.v, -w / 2, 0, -w / 2) 
+                _M.translateVertices(r.v, -w / 2, 0, -w / 2)
+
+                // collision form 
+                /*
+                        - -
+                    /    
+                    /  
+                    |
+                    |       *  
+                */
+                const radius = w
+                const angleStep = Math.PI * .5 / 5
+                const arcVC = [] 
+                for (let i = 0; i < 5; ++i) {
+                    const add = Math.PI * .5
+                    arcVC.push(..._M.createPolygon(
+                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5, Math.sin(-angleStep * (i + 1) - add) * radius],
+                        [Math.cos(-angleStep * i - add) * radius, h * .5, Math.sin(-angleStep * i - add) * radius],
+                        [Math.cos(-angleStep * i - add) * radius, h * .5 + w, Math.sin(-angleStep * i - add) * radius],
+                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5 +w, Math.sin(-angleStep * (i + 1) - add) * radius],
+                    ))
+                }
+                _M.translateVertices(arcVC, w * .5, 0, w * .5)
+                _M.rotateVerticesY(arcVC, Math.PI)
+                vC.push(...arcVC)
             }
 
             if (stairDataBottom.dir === 'w' && stairDataTop.dir === 's') {
                 _M.translateVertices(r.v, w / 2, h / 2, 0)
                 _M.rotateVerticesY(r.v, Math.PI / 2 - Math.PI / 2 / n * i)
                 _M.translateVertices(r.v, -w / 2, 0, w / 2) 
+
+                // collision form 
+                /*
+                        - -
+                    /    
+                    /  
+                    |
+                    |       *  
+                */
+                const radius = w
+                const angleStep = Math.PI * .5 / 5
+                const arcVC = [] 
+                for (let i = 0; i < 5; ++i) {
+                    const add = Math.PI * .5
+                    arcVC.push(..._M.createPolygon(
+                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5, Math.sin(-angleStep * (i + 1) - add) * radius],
+                        [Math.cos(-angleStep * i - add) * radius, h * .5, Math.sin(-angleStep * i - add) * radius],
+                        [Math.cos(-angleStep * i - add) * radius, h * .5 + w, Math.sin(-angleStep * i - add) * radius],
+                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5 +w, Math.sin(-angleStep * (i + 1) - add) * radius],
+                    ))
+                }
+                _M.translateVertices(arcVC, w * .5, 0, w * .5)
+                _M.rotateVerticesY(arcVC, Math.PI * 1.5)
+                vC.push(...arcVC)
             }
 
             v.push(...r.v)
@@ -327,7 +515,30 @@ export const createStair = (data) => {
             )
         }
 
-        
+        if (
+            (stairDataBottom.dir === 'w' && stairDataTop.dir === 'e') ||
+            (stairDataBottom.dir === 'e' && stairDataTop.dir === 'w')
+        ) {
+            const _wallsVC = []
+            _wallsVC.push(
+                ..._M.createPolygon( // left
+                    [-w * .5, h * .5, w * .5],
+                    [-w * .5, h * .5, -w * .5],
+                    [-w * .5, h, -w * .5],
+                    [-w * .5, h, w * .5],
+                ),
+                ..._M.createPolygon( // right
+                    [w * .5, h * .5, -w * .5],
+                    [w * .5, h * .5, w * .5],
+                    [w * .5, h, w * .5],
+                    [w * .5, h, -w * .5],
+                ),
+            )
+            _M.rotateVerticesY(_wallsVC, Math.PI * .5)
+            _vC.push(..._wallsVC)
+        }
+
+    
         vC.push(..._vC)
     }
 

@@ -40,9 +40,30 @@ export const createTileL = ({ w, n, forms, paths, colors, key }) => {
             [-w * .5, 0, -w * .5],
         )
     ]
-    
-    
 
+    // collision form 
+    /*
+             - -
+           /    
+         /  
+        |
+        |       *  
+    */
+    const r = w
+    const angleStep = Math.PI * .5 / 5
+    const arcVC = [] 
+    for (let i = 0; i < 5; ++i) {
+        const add = Math.PI * .5
+        arcVC.push(..._M.createPolygon(
+            [Math.cos(-angleStep * (i + 1) - add) * r, 0, Math.sin(-angleStep * (i + 1) - add) * r],
+            [Math.cos(-angleStep * i - add) * r, 0, Math.sin(-angleStep * i - add) * r],
+            [Math.cos(-angleStep * i - add) * r, w, Math.sin(-angleStep * i - add) * r],
+            [Math.cos(-angleStep * (i + 1) - add) * r, w, Math.sin(-angleStep * (i + 1) - add) * r],
+        ))
+    }
+    _M.translateVertices(arcVC, w * .5, 0, w * .5)
+    
+    
     if (key === 'se') {
         const stepAngle = -Math.PI / 2 / n
 
@@ -61,12 +82,10 @@ export const createTileL = ({ w, n, forms, paths, colors, key }) => {
             v.push(...l.v)
             c.push(...l.c)
         }
-    
+
+        vC.push(...arcVC)
         _M.translateVertices(v, w / 2, 0, w / 2)
     }
-
-
-
 
     if (key === 'nw') {
         const stepAngle = Math.PI / 2 / n
@@ -88,8 +107,10 @@ export const createTileL = ({ w, n, forms, paths, colors, key }) => {
             c.push(...l.c)
         }
         _M.translateVertices(v, -w / 2, 0, -w / 2)
+    
+        _M.rotateVerticesY(arcVC, Math.PI)
+        vC.push(...arcVC)
     }
-
 
     if (key === 'ws') {
         const stepAngle = -Math.PI / 2 / n
@@ -111,8 +132,10 @@ export const createTileL = ({ w, n, forms, paths, colors, key }) => {
             c.push(...l.c)
         }
         _M.translateVertices(v, -w / 2, 0, w / 2)
-    }
 
+        _M.rotateVerticesY(arcVC, Math.PI * 1.5)
+        vC.push(...arcVC)
+    }
 
     if (key === 'ne') {
         const stepAngle = Math.PI / 2 / n
@@ -133,9 +156,10 @@ export const createTileL = ({ w, n, forms, paths, colors, key }) => {
             c.push(...l.c)
         }
         _M.translateVertices(v, w / 2, 0, -w / 2)
+
+        _M.rotateVerticesY(arcVC, Math.PI * .5)
+        vC.push(...arcVC)
     }
-
-
 
     return { v, c, vC }
 }

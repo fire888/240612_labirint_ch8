@@ -9,6 +9,7 @@ const TILES_Z = 13
 //const LEVEL_H = 3.3
 const LEVEL_H = 5
 const FLOORS = 15
+//const FLOORS = 1
 const W = 3
 const N = 7
 
