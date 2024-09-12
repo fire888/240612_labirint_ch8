@@ -57,7 +57,7 @@ export class Phisics {
 
         this._levelsPhisicsMeshes = []
 
-        this.cannonDebugger = new CannonDebugger(root.studio.scene, this.world, {})
+        //this.cannonDebugger = new CannonDebugger(root.studio.scene, this.world, {})
     }
 
     createPlayerPhisicsBody (playerPosition, playerRotationY) {
