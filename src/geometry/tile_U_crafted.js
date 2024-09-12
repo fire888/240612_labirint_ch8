@@ -5,15 +5,9 @@ import { createLineGeom } from './lineGeomCrafted'
 export const createTileU = ({ w, n, forms, paths, colors, key }) => {
     const v = []
     const c = []
-    const vC = [
-        ..._M.createPolygon(
-            [-w * .5, 0, w * .5],
-            [w * .5, 0, w * .5],
-            [w * .5, 0, -w * .5],
-            [-w * .5, 0, -w * .5],
-        )
-    ]
+    const vC = []
 
+    const h = w
     const step = w / n
 
     {
@@ -48,6 +42,46 @@ export const createTileU = ({ w, n, forms, paths, colors, key }) => {
             v.push(...b.v)
             c.push(...b.c)
         }
+
+        const _vC = [
+            ..._M.createPolygon( // bottom
+                [-w * .5, 0, w * .5],
+                [w * .5, 0, w * .5],
+                [w * .5, 0, -w * .2],
+                [-w * .5, 0, -w * .2],
+            ),
+            ..._M.createPolygon( // left
+                [-w * .5, 0, w * .5],
+                [-w * .5, 0, -w *.2],
+                [-w * .5, h, -w *.2],
+                [-w * .5, h, w * .5],
+            ),
+            ..._M.createPolygon( // right
+                [w * .5, 0, -w *.2],
+                [w * .5, 0, w * .5],
+                [w * .5, h, w * .5],
+                [w * .5, h, -w *.2],
+            ),
+            ..._M.createPolygon( // back
+              [-w * .5, 0, -w *.2],  
+              [w * .5, 0, -w *.2],  
+              [w * .5, h, -w *.2],  
+              [-w * .5, h, -w *.2],  
+            ),
+        ]
+
+        if (key === 's') {
+        }
+        if (key === 'n') {
+            _M.rotateVerticesY(_vC, Math.PI)
+        }
+        if (key === 'e') {
+            _M.rotateVerticesY(_vC, Math.PI * .5)
+        }
+        if (key === 'w') {
+            _M.rotateVerticesY(_vC, Math.PI * 1.5)
+        }
+        vC.push(..._vC)
     }
 
     {
@@ -101,36 +135,6 @@ export const createTileU = ({ w, n, forms, paths, colors, key }) => {
             c.push(...b.c)
         }
     }
-
-
-
-
-    // // normal part
-    // const r = createTileI({ w: w / 2 , n: Math.round(n / 2), forms, paths: paths, colors })
-    // _M.translateVertices(r.v, -w / 4, 0, 0)
-    // v.push(...r.v)
-    // c.push(...r.c)
-    //
-    // // smaller part
-    // const lastBuffer = createLineGeom({
-    //     form: forms[forms.length - 1],
-    //     path: paths[paths.length - 1],
-    //     color: colors[colors.length - 1],
-    //     isClosed: true,
-    // })
-    // _M.rotateVerticesY(lastBuffer.v, -Math.PI / 2)
-    //
-    // const nClose = 4
-    // const xStep = (w / 2) / nClose
-    // for (let i = 0; i < nClose; ++i) {
-    //     const _v = [...lastBuffer.v]
-    //     for (let j = 0; j < _v.length; ++j) {
-    //         _v[j] *= (nClose - i) / nClose
-    //     }
-    //     _M.translateVertices(_v, xStep * i + xStep / 2, w / 2 * (i / nClose), 0)
-    //     v.push(..._v)
-    //     c.push(...lastBuffer.c)
-    // }
 
     return { v, c, vC }
 }

@@ -273,6 +273,15 @@ export const createTileT = ({
                 v.push(...r.v) 
                 c.push(...r.c) 
             }
+
+            vC.push(
+                ..._M.createPolygon(
+                    [-w * .5, 0, -w * .5],
+                    [w * .5, 0, -w * .5],
+                    [w * .5, w, -w * .5],
+                    [-w * .5, w, -w * .5],
+                )
+            )
         }
     }
 
@@ -315,6 +324,15 @@ export const createTileT = ({
             c.push(...r.c) 
         }
 
+        vC.push(
+            ..._M.createPolygon(
+                [-w * .5, 0, w * .5],
+                [-w * .5, 0, -w * .5],
+                [-w * .5, w, -w * .5],
+                [-w * .5, w, w * .5],
+            )
+        )
+
     }
 
 
@@ -356,6 +374,15 @@ export const createTileT = ({
             c.push(...r.c) 
         }
 
+        vC.push(
+            ..._M.createPolygon(
+                [w * .5, 0, -w * .5],
+                [w * .5, 0, w * .5],
+                [w * .5, w, w * .5],
+                [w * .5, w, -w * .5],
+            )
+        )
+
     }
 
     if (key.includes('e-w')) {
@@ -396,6 +423,15 @@ export const createTileT = ({
             v.push(...r.v) 
             c.push(...r.c) 
         }
+
+        vC.push(
+            ..._M.createPolygon(
+                [w * .5, 0, w * .5],
+                [-w * .5, 0, w * .5],
+                [-w * .5, w, w * .5],
+                [w * .5, w, w * .5],
+            )
+        )
 
     }
     
