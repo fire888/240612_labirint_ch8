@@ -4,6 +4,7 @@ import { Lab } from '../entities/labyrinth/Lab'
 //import { testStairs } from '../entities/labyrinth/testStairs'
 import { SmallTriangles } from '../entities/SmallTriangles'
 import { Phisics } from 'entities/Phisics'
+import { Particles } from 'entities/Particles'
 
 export const pipelineInit = async (root: Root) => {
     const {
@@ -66,6 +67,10 @@ export const pipelineInit = async (root: Root) => {
     studio.add(smallTriangles.m)
     smallTriangles.m.position.x = 3 * 5
     smallTriangles.m.position.z = 3 * 5
+
+    const particles = new Particles()
+    particles.init(root)
+    studio.add(particles.m)
 
     // test demo debug tiles
     //const meshDemoTiles = createDemoTiles({ W: 3, H: 3, WC: 1.2 })
