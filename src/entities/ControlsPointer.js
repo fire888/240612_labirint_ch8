@@ -7,7 +7,7 @@ export class ControlsPointer {
         this.isEnabled = false
     }
 
-    init (camera, domElem) {
+    init (camera, domElem, ui) {
         this.camera = camera
         this.domElem = domElem
 

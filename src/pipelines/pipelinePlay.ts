@@ -1,4 +1,5 @@
 import { Root } from '../index'
+import { documentClickOnce } from '../helpers/clickHelpers'
 
 
 const completePlay = (): Promise<void> => {
@@ -11,17 +12,30 @@ export const pipelinePlay = async (root: Root) => {
         studio,
         controlsOrbit,
         controlsPointer,
+        phoneControls,
         ticker,
         boxTest,
         floor,
+        deviceData,
+        ui,
     } = root
 
-    controlsPointer.disable()
-    controlsOrbit.enable()
+    await documentClickOnce()
+
+    if (deviceData.device === 'desktop') {
+        controlsPointer.enable()
+        phoneControls.disable()
+        controlsOrbit.disable()
+    } else {
+        controlsPointer.disable()
+        phoneControls.enable()
+        controlsOrbit.disable()
+    }
 
 
-    // controlsOrbit.disable()
-    // controlsPointer.enable()
+    ui.lock.onclick = () => {
+        controlsPointer.enable() 
+    }
 
     const onKeyUp = (event: any) => {
         if (event.code === 'KeyO') {

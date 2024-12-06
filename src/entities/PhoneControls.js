@@ -5,6 +5,7 @@ export class PhoneControls {
     isBack = false
     isLeft = false
     isRight = false
+    _isEnabled = false
 
     init (root) {
         this._root = root
@@ -14,11 +15,9 @@ export class PhoneControls {
         this._moveForvardDiv.classList.add('move-forvard')
         this._moveForvardDiv.innerHTML = 'forvard'
         this._moveForvardDiv.addEventListener("pointerdown", () => {
-            console.log('TTTTTT')
             this.isForvard = true
         })
         this._moveForvardDiv.addEventListener("pointerup", () => {
-            console.log('TTTTTT !!!')
             this.isForvard = false
         })
         document.body.appendChild(this._moveForvardDiv)
@@ -47,49 +46,67 @@ export class PhoneControls {
         })
         document.body.appendChild(this._moveRightDiv)
 
+        this._moveForvardDiv.style.display = 'none'
+        this._moveLeftDiv.style.display = 'none'
+        this._moveRightDiv.style.display = 'none'
+
         this.obj = new THREE.Object3D()
+        this.obj.rotation.y = Math.PI
     }
 
     update (delta, playerBody) {
-        const dir = new THREE.Vector3()
-        this.obj.getWorldDirection(dir)
-        dir.y = 0
-        dir.normalize()
-        const dirLeft = new THREE.Vector3().copy(dir).applyAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI * .5)
-
+        if (!this._isEnabled) {
+            return
+        }
+        if (this.isLeft) {
+            this.obj.rotation.y += 0.023 
+        }
+        if (this.isRight) {
+            this.obj.rotation.y -= 0.023 
+        }
+        
         playerBody.quaternion.x = this.obj.quaternion.x
         playerBody.quaternion.y = this.obj.quaternion.y
         playerBody.quaternion.z = this.obj.quaternion.z
         playerBody.quaternion.w = this.obj.quaternion.w
 
-        const resultDir = new THREE.Vector3()
-
-
         if (this.isForvard) {
-            console.log('UUUU')
-            resultDir.add(dir)
+            this.obj.translateZ(-1)
         }
         if (this.isBack) {
-            resultDir.sub(dir)
+            this.obj.translateZ(1)
         }
-        if (this.isLeft) {
-            resultDir.add(dirLeft)
-        }
-        if (this.isRight) {
-            resultDir.sub(dirLeft)
-        }
-        resultDir.normalize()
 
-        playerBody.velocity.x = resultDir.x * 3.
-        playerBody.velocity.z = resultDir.z * 3.
+        playerBody.velocity.x = this.obj.position.x * 3.
+        playerBody.velocity.z = this.obj.position.z * 3.
 
-        this.obj.position.x = playerBody.position.x
-        this.obj.position.y = playerBody.position.y
-        this.obj.position.z = playerBody.position.z
+        this._root.studio.camera.quaternion.x = this.obj.quaternion.x
+        this._root.studio.camera.quaternion.y = this.obj.quaternion.y
+        this._root.studio.camera.quaternion.z = this.obj.quaternion.z
+        this._root.studio.camera.quaternion.w = this.obj.quaternion.w
 
         this._root.studio.camera.position.x = playerBody.position.x
         this._root.studio.camera.position.y = playerBody.position.y
         this._root.studio.camera.position.z = playerBody.position.z
 
+        this.obj.position.x = 0
+        this.obj.position.y = 0 
+        this.obj.position.z = 0
+    }
+
+    enable () {
+        this._moveForvardDiv.style.display = 'block'
+        this._moveLeftDiv.style.display = 'block'
+        this._moveRightDiv.style.display = 'block'
+
+        this._isEnabled = true
+    }
+
+    disable () {
+        this._moveForvardDiv.style.display = 'none'
+        this._moveLeftDiv.style.display = 'none'
+        this._moveRightDiv.style.display = 'none'
+
+        this._isEnabled = false
     }
 }

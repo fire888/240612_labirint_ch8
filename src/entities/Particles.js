@@ -295,7 +295,7 @@ export class Particles {
             gpuCompute.compute()
 
             const rt = gpuCompute.getCurrentRenderTarget( positionVariable )
-            console.log(rt)
+            //console.log(rt)
         })
     }
 

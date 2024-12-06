@@ -69,7 +69,7 @@ export class Phisics {
 
         this.playerBody.position.x = 15.076315508474185
         this.playerBody.position.y = 3
-        this.playerBody.position.z = -1.3637888007161785
+        this.playerBody.position.z = -10
 
         // this.playerBody.position.x = playerPosition.x
         // this.playerBody.position.y = playerPosition.y
@@ -94,7 +94,7 @@ export class Phisics {
         body.addShape(cannonShape)
         body._myName = 'level_' + Math.floor(Math.random() * 1000)
         //body.collisionResponse = 0;
-    
+
         body.position.x = mesh.position.x
         body.position.y = mesh.position.y
         body.position.z = mesh.position.z

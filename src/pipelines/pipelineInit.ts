@@ -17,6 +17,7 @@ export const pipelineInit = async (root: Root) => {
         //lab,
         loader,
         phoneControls,
+        ui,
     } = root
 
     loader.init()
@@ -36,7 +37,9 @@ export const pipelineInit = async (root: Root) => {
     ticker.on(phisics.update.bind(phisics))
     phisics.createPlayerPhisicsBody({ x: 0, y: 3, z: 0}, 0)
 
-    controlsPointer.init(studio.camera, studio.containerDom)
+    ui.init(root)
+
+    controlsPointer.init(studio.camera, studio.containerDom, ui)
     ticker.on((t: number) => { 
         controlsPointer.update(t, phisics.playerBody) 
     })

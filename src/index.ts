@@ -10,6 +10,8 @@ import { pipelinePlay } from "./pipelines/pipelinePlay"
 import { documentClickOnce } from "./helpers/clickHelpers";
 import { LoaderAssets } from "./helpers/Loader";
 import { PhoneControls } from "entities/PhoneControls"
+import { DeviceData } from "helpers/DeviceData"
+import { Ui } from "entities/Ui"
 
 
 export type Root = {
@@ -22,6 +24,8 @@ export type Root = {
     //lab: Labyrinth,
     loader: LoaderAssets,
     phoneControls: PhoneControls,
+    deviceData: DeviceData,
+    ui: Ui,
 }
 
 
@@ -36,6 +40,8 @@ window.addEventListener("DOMContentLoaded", async () => {
         //lab: new Labyrinth(),
         loader: new LoaderAssets(),
         phoneControls: new PhoneControls(),
+        deviceData: new DeviceData(),
+        ui: new Ui(),
     }
 
     await pipelineInit(root)
