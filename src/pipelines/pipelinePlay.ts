@@ -19,13 +19,16 @@ export const pipelinePlay = async (root: Root) => {
     controlsPointer.disable()
     controlsOrbit.enable()
 
+
+    // controlsOrbit.disable()
+    // controlsPointer.enable()
+
     const onKeyUp = (event: any) => {
         if (event.code === 'KeyO') {
             if (controlsPointer.isEnabled) {
                 studio.scene.fog = null
                 controlsPointer.disable()
                 controlsOrbit.enable()
-
             } else {
                 studio.scene.fog = studio.fog
                 controlsOrbit.disable()

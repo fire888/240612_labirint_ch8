@@ -7,8 +7,9 @@ import { Floor } from "./entities/Floor"
 import { Labyrinth } from "./_0_trash/Labyrinth";
 import { pipelineInit } from "./pipelines/pipelineInit"
 import { pipelinePlay } from "./pipelines/pipelinePlay"
-import {documentClickOnce} from "./helpers/clickHelpers";
+import { documentClickOnce } from "./helpers/clickHelpers";
 import { LoaderAssets } from "./helpers/Loader";
+import { PhoneControls } from "entities/PhoneControls"
 
 
 export type Root = {
@@ -20,6 +21,7 @@ export type Root = {
     floor: Floor,
     //lab: Labyrinth,
     loader: LoaderAssets,
+    phoneControls: PhoneControls,
 }
 
 
@@ -33,6 +35,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         floor: new Floor(),
         //lab: new Labyrinth(),
         loader: new LoaderAssets(),
+        phoneControls: new PhoneControls(),
     }
 
     await pipelineInit(root)

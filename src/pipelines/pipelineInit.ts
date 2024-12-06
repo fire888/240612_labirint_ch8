@@ -1,7 +1,6 @@
 import { Root } from '../index'
 import { createDemoTiles } from '_0_trash/demoTiles'
 import { Lab } from '../entities/labyrinth/Lab'
-// import { BufferTexture } from '../entities/bufferTexture'
 //import { testStairs } from '../entities/labyrinth/testStairs'
 import { SmallTriangles } from '../entities/SmallTriangles'
 import { Phisics } from 'entities/Phisics'
@@ -16,6 +15,7 @@ export const pipelineInit = async (root: Root) => {
         floor,
         //lab,
         loader,
+        phoneControls,
     } = root
 
     loader.init()
@@ -45,11 +45,13 @@ export const pipelineInit = async (root: Root) => {
     //})
 
 
+    phoneControls.init(root)
+    ticker.on((t: number) => { 
+        phoneControls.update(t, phisics.playerBody) 
+    })
     
     floor.init(root)
     studio.add(floor.mesh)
-    //controlsPointer.setToCollisionFloor(floor.mesh)
-    //phisics.addMeshToCollision(floor.mesh)
 
     const lab = new Lab()
     await lab.init(root)
@@ -59,8 +61,6 @@ export const pipelineInit = async (root: Root) => {
     lab.collisionsItems.map(e => {
         phisics.addMeshToCollision(e)
     })
-    //phisics
-    //controlsPointer.setToCollisionFloor(lab.collisionMesh)
 
     const smallTriangles = new SmallTriangles(root)
     studio.add(smallTriangles.m)
@@ -78,15 +78,5 @@ export const pipelineInit = async (root: Root) => {
     //const mCorr = createDeemoLongCorridor()
     //studio.add(mCorr)
 
-    // const bufferTexture = new BufferTexture()
-    // studio.add(bufferTexture.mesh)
-    // let n = 0
-    // ticker.on(() => {
-    //     n++
-    //     if (n < 100) {
-    //         return
-    //     }
-    //     n = 0
-    //     bufferTexture.update()
-    // })
+
 }

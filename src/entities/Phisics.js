@@ -9,9 +9,6 @@ const createTrimesh = geometry => {
 }
 
 export class Phisics {
-    constructor () {
-
-    }
 
     init (root) {
         this.world = new CANNON.World()
@@ -49,15 +46,16 @@ export class Phisics {
 
         this.ground = new CANNON.Body({
             type: CANNON.Body.STATIC,
-            shape: new CANNON.Plane(),
+            shape: new CANNON.Box(new CANNON.Vec3(100, 0.1, 100)),
         })
+        //this.ground.scale.set(1000, 1, 1000)
         this.ground._myName = 'ground'
-        this.ground.quaternion.setFromEuler(-Math.PI / 2, 0, 0)
+        //this.ground.quaternion.setFromEuler(-Math.PI / 2, 0, 0)
         this.world.addBody(this.ground)
 
         this._levelsPhisicsMeshes = []
 
-        //this.cannonDebugger = new CannonDebugger(root.studio.scene, this.world, {})
+        // this.cannonDebugger = new CannonDebugger(root.studio.scene, this.world, {})
     }
 
     createPlayerPhisicsBody (playerPosition, playerRotationY) {
