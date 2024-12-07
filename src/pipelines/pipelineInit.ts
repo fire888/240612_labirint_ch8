@@ -39,7 +39,7 @@ export const pipelineInit = async (root: Root) => {
 
     ui.init(root)
 
-    controlsPointer.init(studio.camera, studio.containerDom)
+    controlsPointer.init(root)
     ticker.on((t: number) => { 
         controlsPointer.update(t, phisics.playerBody) 
     })

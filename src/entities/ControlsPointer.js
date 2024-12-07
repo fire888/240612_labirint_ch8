@@ -7,9 +7,9 @@ export class ControlsPointer {
     _delayNextLock = 2000
     _isFirstLock = true
 
-    init (camera, domElem) {
-        this.camera = camera
-        this.domElem = domElem
+    init (root) {
+        this.camera = root.studio.camera
+        this.domElem = root.studio.containerDom
 
         this.moveForward = false
         this.moveBackward = false
@@ -27,7 +27,7 @@ export class ControlsPointer {
 
         this.objects = []
 
-        this.controls = new PointerLockControls(camera, domElem)
+        this.controls = new PointerLockControls(this.camera, this.domElem)
         this.controls.addEventListener('lock', () => {
             this.isEnabled = true
         })

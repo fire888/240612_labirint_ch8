@@ -46,7 +46,7 @@ export class Phisics {
 
         this.ground = new CANNON.Body({
             type: CANNON.Body.STATIC,
-            shape: new CANNON.Box(new CANNON.Vec3(100, 0.1, 100)),
+            shape: new CANNON.Box(new CANNON.Vec3(50, 0.1, 50)),
         })
         //this.ground.scale.set(1000, 1, 1000)
         this.ground._myName = 'ground'

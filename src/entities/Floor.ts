@@ -9,10 +9,10 @@ export class Floor {
     init (root: Root) {
         const v = [
             ..._M.createPolygon(
-                [-1000, 0, 1000],
-                [1000, 0, 1000],
-                [1000, 0, -1000],
-                [-1000, 0, -1000],
+                [-100, 0, 100],
+                [100, 0, 100],
+                [100, 0, -100],
+                [-100, 0, -100],
             )
         ]
 
@@ -27,7 +27,7 @@ export class Floor {
 
         root.loader.assets.mapFloor.wrapS = THREE.RepeatWrapping
         root.loader.assets.mapFloor.wrapT = THREE.RepeatWrapping
-        root.loader.assets.mapFloor.repeat.set(300, 300)
+        root.loader.assets.mapFloor.repeat.set(30, 30)
 
         const material = new THREE.MeshStandardMaterial({
             color: 0xffffff,
