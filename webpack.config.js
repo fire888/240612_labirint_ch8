@@ -2,7 +2,7 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-//const CopyPlugin = require('copy-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 
@@ -43,11 +43,12 @@ module.exports = (env, { mode }) => {
                 // 'cannon': 'cannon',
                 // 'babylonjs-loaders': 'babylonjs-loaders',
             }),
-            // new CopyPlugin({
-            //     patterns: [
-            //         {from: './src/assets/icon.png', to: 'icon.png'},
-            //     ],
-            // }),
+            new CopyPlugin({
+                patterns: [
+                    {from: './templates/icon.gif', to: 'icon.gif'},
+                    {from: './templates/start-img.jpg', to: 'start-img.jpg'},
+                ],
+            }),
         ],
         module: {
             rules: [

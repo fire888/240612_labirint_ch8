@@ -5,6 +5,7 @@ import { Lab } from '../entities/labyrinth/Lab'
 import { SmallTriangles } from '../entities/SmallTriangles'
 import { Phisics } from 'entities/Phisics'
 import { Particles } from 'entities/Particles'
+import { elementClickOnce } from 'helpers/clickHelpers'
 
 export const pipelineInit = async (root: Root) => {
     const {
@@ -80,4 +81,17 @@ export const pipelineInit = async (root: Root) => {
 
     //const mCorr = createDeemoLongCorridor()
     //studio.add(mCorr)
+
+    const loaderCont = document.body.getElementsByClassName('loader')[0]
+    // @ts-ignore: Unreachable code error
+    loaderCont.style.display = 'none'
+    const startButton = document.body.getElementsByClassName('start-but')[0]
+    // @ts-ignore: Unreachable code error
+    startButton.style.display = 'block'
+
+    await elementClickOnce(startButton)
+
+    const startScreen = document.body.getElementsByClassName('start-screen')[0]
+    // @ts-ignore: Unreachable code error
+    startScreen.style.display = 'none'
 }

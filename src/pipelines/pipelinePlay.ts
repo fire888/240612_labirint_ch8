@@ -1,6 +1,4 @@
 import { Root } from '../index'
-import { documentClickOnce } from '../helpers/clickHelpers'
-
 
 const completePlay = (): Promise<void> => {
     return new Promise(res => {})
