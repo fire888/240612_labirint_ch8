@@ -1,5 +1,5 @@
 import { Root } from '../index'
-import { createDemoTiles } from '_0_trash/demoTiles'
+// import { createDemoTiles } from '_0_trash/demoTiles'
 import { Lab } from '../entities/labyrinth/Lab'
 //import { testStairs } from '../entities/labyrinth/testStairs'
 import { SmallTriangles } from '../entities/SmallTriangles'

@@ -45,7 +45,6 @@ module.exports = (env, { mode }) => {
             }),
             new CopyPlugin({
                 patterns: [
-                    {from: './templates/icon.gif', to: 'icon.gif'},
                     {from: './templates/start-img.jpg', to: 'start-img.jpg'},
                 ],
             }),
