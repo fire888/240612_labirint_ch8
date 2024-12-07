@@ -20,8 +20,6 @@ export const pipelinePlay = async (root: Root) => {
         ui,
     } = root
 
-    await documentClickOnce()
-
     if (deviceData.device === 'desktop') {
         controlsPointer.enable()
         phoneControls.disable()
@@ -31,7 +29,6 @@ export const pipelinePlay = async (root: Root) => {
         phoneControls.enable()
         controlsOrbit.disable()
     }
-
 
     ui.lock.onclick = () => {
         controlsPointer.enable() 

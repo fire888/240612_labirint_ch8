@@ -39,15 +39,10 @@ export const pipelineInit = async (root: Root) => {
 
     ui.init(root)
 
-    controlsPointer.init(studio.camera, studio.containerDom, ui)
+    controlsPointer.init(studio.camera, studio.containerDom)
     ticker.on((t: number) => { 
         controlsPointer.update(t, phisics.playerBody) 
     })
-
-    //ticker.on(() => { 
-    //    controlsPointer.update(phisics.playerBody) 
-    //})
-
 
     phoneControls.init(root)
     ticker.on((t: number) => { 
@@ -85,6 +80,4 @@ export const pipelineInit = async (root: Root) => {
 
     //const mCorr = createDeemoLongCorridor()
     //studio.add(mCorr)
-
-
 }

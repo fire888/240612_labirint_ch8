@@ -9,7 +9,7 @@ import { pipelineInit } from "./pipelines/pipelineInit"
 import { pipelinePlay } from "./pipelines/pipelinePlay"
 import { documentClickOnce } from "./helpers/clickHelpers";
 import { LoaderAssets } from "./helpers/Loader";
-import { PhoneControls } from "entities/PhoneControls"
+import { PhoneControls } from "entities/ControlsPhone"
 import { DeviceData } from "helpers/DeviceData"
 import { Ui } from "entities/Ui"
 
@@ -45,6 +45,6 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
 
     await pipelineInit(root)
-    // await documentClickOnce()
+    await documentClickOnce()
     await pipelinePlay(root)
 })
