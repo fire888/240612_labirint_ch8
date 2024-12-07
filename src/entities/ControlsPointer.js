@@ -29,9 +29,11 @@ export class ControlsPointer {
 
         this.controls = new PointerLockControls(this.camera, this.domElem)
         this.controls.addEventListener('lock', () => {
+            root.ui.toggleVisibleLock(false)
             this.isEnabled = true
         })
         this.controls.addEventListener('unlock', () => {
+            root.ui.toggleVisibleLock(true)
             this.isEnabled = false
             this._timeLastLocked = Date.now()
         })
@@ -175,6 +177,10 @@ export class ControlsPointer {
         }
         this.isEnabled = false
         this.controls.unlock()
+    }
+
+    onUnlock (cb) {
+        this.controls.addEventListener('unlock', cb)
     }
 }
 

@@ -29,8 +29,12 @@ export const pipelinePlay = async (root: Root) => {
     }
 
     ui.lock.onclick = () => {
+        phoneControls.disable()
         controlsPointer.enable() 
     }
+    controlsPointer.onUnlock(() => {
+        phoneControls.enable()
+    }) 
 
     const onKeyUp = (event: any) => {
         if (event.code === 'KeyO') {

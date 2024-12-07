@@ -1,3 +1,4 @@
+import "./stylesheets/controls.css"
 import { Studio } from "./entities/Studio"
 import { ControlsOrbit } from "./entities/ControlsOrbit"
 import { Ticker } from "./helpers/Ticker"

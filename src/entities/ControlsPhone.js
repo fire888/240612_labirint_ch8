@@ -11,9 +11,8 @@ export class PhoneControls {
         this._root = root
 
         this._moveForvardDiv = document.createElement('div')
-        this._moveForvardDiv.classList.add('phone-control')
-        this._moveForvardDiv.classList.add('move-forvard')
-        this._moveForvardDiv.innerHTML = 'forvard'
+        this._moveForvardDiv.classList.add('control')
+        this._moveForvardDiv.classList.add('butt-front')
         this._moveForvardDiv.addEventListener("pointerdown", () => {
             this.isForvard = true
         })
@@ -22,10 +21,20 @@ export class PhoneControls {
         })
         document.body.appendChild(this._moveForvardDiv)
 
+        this._moveBackDiv = document.createElement('div')
+        this._moveBackDiv.classList.add('control')
+        this._moveBackDiv.classList.add('butt-back')
+        this._moveBackDiv.addEventListener("pointerdown", () => {
+            this.isBack = true
+        })
+        this._moveBackDiv.addEventListener("pointerup", () => {
+            this.isBack = false
+        })
+        document.body.appendChild(this._moveBackDiv)
+
         this._moveLeftDiv = document.createElement('div')
-        this._moveLeftDiv.classList.add('phone-control')
-        this._moveLeftDiv.classList.add('move-left')
-        this._moveLeftDiv.innerHTML = 'left'
+        this._moveLeftDiv.classList.add('control')
+        this._moveLeftDiv.classList.add('butt-left')
         this._moveLeftDiv.addEventListener("pointerdown", () => {
             this.isLeft = true
         })
@@ -35,9 +44,8 @@ export class PhoneControls {
         document.body.appendChild(this._moveLeftDiv)
 
         this._moveRightDiv = document.createElement('div')
-        this._moveRightDiv.classList.add('phone-control')
-        this._moveRightDiv.classList.add('move-right')
-        this._moveRightDiv.innerHTML = 'right'
+        this._moveRightDiv.classList.add('control')
+        this._moveRightDiv.classList.add('butt-right')
         this._moveRightDiv.addEventListener("pointerdown", () => {
             this.isRight = true
         })
@@ -50,6 +58,10 @@ export class PhoneControls {
         this._moveLeftDiv.style.display = 'none'
         this._moveRightDiv.style.display = 'none'
 
+        window.addEventListener('keydown', this._onKeyDown.bind(this))
+		window.addEventListener('keyup', this._onKeyUp.bind(this))
+
+
         this.obj = new THREE.Object3D()
         this.obj.rotation.y = Math.PI
     }
@@ -59,10 +71,10 @@ export class PhoneControls {
             return
         }
         if (this.isLeft) {
-            this.obj.rotation.y += 0.023 
+            this.obj.rotation.y += 0.026 
         }
         if (this.isRight) {
-            this.obj.rotation.y -= 0.023 
+            this.obj.rotation.y -= 0.026 
         }
         
         playerBody.quaternion.x = this.obj.quaternion.x
@@ -96,6 +108,7 @@ export class PhoneControls {
 
     enable () {
         this._moveForvardDiv.style.display = 'block'
+        this._moveBackDiv.style.display = 'block'
         this._moveLeftDiv.style.display = 'block'
         this._moveRightDiv.style.display = 'block'
 
@@ -104,9 +117,51 @@ export class PhoneControls {
 
     disable () {
         this._moveForvardDiv.style.display = 'none'
+        this._moveBackDiv.style.display = 'none'
         this._moveLeftDiv.style.display = 'none'
         this._moveRightDiv.style.display = 'none'
 
         this._isEnabled = false
+    }
+
+
+    _onKeyUp ( event ) {
+        switch ( event.code ) {
+
+            case 'ArrowUp':
+            case 'KeyW': this.isForvard = false; break;
+
+            case 'ArrowLeft':
+            case 'KeyA': this.isLeft = false; break;
+
+            case 'ArrowDown':
+            case 'KeyS': this.isBack = false; break;
+
+            case 'ArrowRight':
+            case 'KeyD': this.isRight = false; break;
+
+            //case 'KeyR': this.moveUp = false; break;
+            //case 'KeyF': this.moveDown = false; break;
+        }
+    }
+
+	_onKeyDown (event) {
+        switch ( event.code ) {
+
+            case 'ArrowUp':
+            case 'KeyW': this.isForvard = true; break;
+
+            case 'ArrowLeft':
+            case 'KeyA': this.isLeft = true; break;
+
+            case 'ArrowDown':
+            case 'KeyS': this.isBack = true; break;
+
+            case 'ArrowRight':
+            case 'KeyD': this.isRight = true; break;
+
+            //case 'KeyR': this.moveUp = true; break;
+            //case 'KeyF': this.moveDown = true; break;
+        }
     }
 }

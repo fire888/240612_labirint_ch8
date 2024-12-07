@@ -1,0 +1,141 @@
+.control  {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    transition: 0.2s;  
+    border: 1px solid #e4f9ff; 
+    min-height: 4vh;
+    overflow: hidden;
+    background-color: #181d3855;
+    color: #e4f9ff;
+    cursor: pointer;
+    margin: 1vh;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    position: absolute;
+    flex: 0 0 60px;
+    height: 60px;
+    width: 60px;
+    max-width: 80px;
+    max-height: 80px;
+    user-select: none;
+    border-radius: 150px; 
+    background-size: contain;
+}
+
+.control-small  {
+    position: absolute;
+    flex: 0 0 60px;
+    height: 40px;
+    width: 40px;
+    border-radius: 150px; 
+    background-size: contain;
+}
+
+
+
+.control:hover,
+.control-small:hover {
+    background-color: #e4f9ff;
+    color: #181d38;
+    cursor: pointer;
+    border-color:  #181d38;
+}
+
+.control:hover,  
+.control-small:hover
+{
+    border: 1px solid #e4f9ff; 
+    background-color: #181d3855;
+}
+
+
+
+.butt-left {
+    bottom: 1.5rem;
+    left: .5rem;
+    background: url(../assets/c-left.png) center no-repeat;
+    background-size: contain;
+}
+
+.butt-right {
+    bottom: 1.5rem;
+    left: 5rem;
+    background: url(../assets/c-right.png) center no-repeat;
+    background-size: contain;
+}
+
+.butt-front {
+    bottom: 5.5rem;
+    right: 1rem;
+    background: url(../assets/c-top.png) center no-repeat;
+    background-size: contain;
+}
+
+.butt-back {
+    bottom: 1.5rem;
+    right: 1rem;
+    background: url(../assets/c-bottom.png) center no-repeat;
+    background-size: contain;
+}
+
+.butt-fullscreen {
+    height: 60px;
+    width: 60px;
+    background-color: none;
+    border: none;
+    top: .5rem;
+    right: 4rem;
+    background: url(../assets/c-screen.png) center no-repeat; 
+    background-size: contain;
+}
+.butt-info {
+    background-color: none;
+    border: none;
+    top: .5rem;
+    right: 1rem;
+    background: url(../assets/c-i.png) center no-repeat;
+    background-size: contain; 
+}
+.butt-sound {
+    background-color: none;
+    border: none;
+    top: .5rem;
+    left: 1rem; 
+    background: url(../assets/c-sound.png) center no-repeat;
+    background-size: contain; 
+}
+.butt-sound-n {
+    background-color: none;
+    border: none;
+    top: .5rem;
+    left: 1rem; 
+    background: url(../assets/c-sound-n.png) center no-repeat; 
+    background-size: contain;
+}
+.butt-lock {
+    background-color: none;
+    border: none;
+    top: .5rem;
+    right: 1rem; 
+    background: url(../assets/mouse.png) center no-repeat; 
+    background-size: contain;
+}
+
+
+.ui button.butt-fullscreen:hover, 
+.ui button.butt-info:hover,
+.ui button.butt-sound:hover,
+.ui button.butt-sound-n:hover
+{
+    background-color: none;
+    border: none;
+}

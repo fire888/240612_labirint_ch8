@@ -30,9 +30,9 @@ module.exports = (env, { mode }) => {
             new HtmlWebpackPlugin({
                 template: './templates/index.html'
             }),
-            // new MiniCssExtractPlugin({
-            //     filename: './dist/main_' + hashCommit + '.css',
-            // }),
+            new MiniCssExtractPlugin({
+                filename: './dist/main.css',
+            }),
             new webpack.DefinePlugin({
                 // __MODE__: JSON.stringify(mode),
                 // __HASH_COMMIT__: JSON.stringify(hashCommit),
