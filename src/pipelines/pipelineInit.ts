@@ -52,6 +52,7 @@ export const pipelineInit = async (root: Root) => {
 
     controlsPhone.init(root)
     ticker.on((t: number) => { 
+        console.log('YYY', t)
         controlsPhone.update(t, phisics.playerBody) 
     })
     

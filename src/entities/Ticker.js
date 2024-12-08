@@ -1,10 +1,10 @@
 export class Ticker {
-    constructor() {
-        this.updates = []
-        this.isRunning = false
-    }
+    isRunning = false
+    _updates = []
+    _oldTime = Date.now()
 
     start () {
+        this._oldTime = Date.now()
         this.isRunning = true
         this.tick()
     }
@@ -13,17 +13,17 @@ export class Ticker {
         if (!this.isRunning) {
             return
         }
-
         requestAnimationFrame(this.tick.bind(this))
-        for (let i = 0; i < this.updates.length; ++i) {
-            this.updates[i]()
-        }
+
+        const diff = Date.now() - this._oldTime
+        this._oldTime = Date.now()
+        this._updates.forEach(f => f(diff))
     }
 
     on (f) {
-        this.updates.push(f)
+        this._updates.push(f)
         return () => {
-            this.updates.filter(item => item !== f)
+            this._updates.filter(item => item !== f)
         }
     }
 }

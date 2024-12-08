@@ -27,6 +27,9 @@ export class ControlsPointer {
     _resultDir = new THREE.Vector3()
     _topVec = new THREE.Vector3(0, 1, 0)
 
+    _vecRotMovie = new THREE.Vector3(0, 0, 0)
+    _timeRot = 0 
+
     init (root) {
         this.camera = root.studio.camera
         this.domElem = root.studio.containerDom
@@ -59,14 +62,14 @@ export class ControlsPointer {
             return;
         }
 
-        if (!this.camera) {
-            return;
-        }
-
         if (!this.controls.isLocked) {
             return;
         }
 
+        if (!this.camera) {
+            return;
+        }
+        
         this._resultDir.x = 0
         this._resultDir.z = 0
         
@@ -93,6 +96,19 @@ export class ControlsPointer {
         this.camera.position.x = playerCollision.position.x
         this.camera.position.y = playerCollision.position.y
         this.camera.position.z = playerCollision.position.z
+
+        const summSpeed = Math.abs(this._currentSpeedLeft) + Math.abs(this._currentSpeedForward)
+        this._timeRot += delta
+        this._vecRotMovie.x = Math.sin(this._timeRot * 0.03) * .0005 * summSpeed
+        this._vecRotMovie.z = Math.sin(this._timeRot * 0.02) * .0005 * summSpeed
+        this._vecRotMovie.y = Math.sin(this._timeRot * 0.025) * .0005 * summSpeed
+        this._vecRotMovie.x += Math.sin(this._timeRot * 0.001) * .0001
+        this._vecRotMovie.z += Math.sin(this._timeRot * 0.0005) * .0001
+        this._vecRotMovie.y += Math.sin(this._timeRot * 0.0007) * .0001
+
+        this.camera.rotation.x += this._vecRotMovie.x
+        this.camera.rotation.y += this._vecRotMovie.y
+        this.camera.rotation.z += this._vecRotMovie.z
     }
 
     enable() {

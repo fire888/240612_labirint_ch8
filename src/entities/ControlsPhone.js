@@ -16,6 +16,9 @@ export class ControlsPhone {
     _maxSpeedLeft = .035
     _tweenSpeedLeft = null
 
+    _vecRotMovie = new THREE.Vector3(0, 0, 0)
+    _timeRot = 0 
+
     init (root) {
         this._root = root
 
@@ -80,42 +83,44 @@ export class ControlsPhone {
 		window.addEventListener('keyup', this._onKeyUp.bind(this))
 
 
-        this.obj = new THREE.Object3D()
-        this.obj.rotation.y = Math.PI
+        this._obj = new THREE.Object3D()
+        this._obj.rotation.y = Math.PI
     }
 
     update (delta, playerBody) {
         if (!this._isEnabled) {
             return
         }
-        if (this._currentSpeedLeft !== 0) {
-            this.obj.rotation.y += this._currentSpeedLeft
-        }
-        
-        playerBody.quaternion.x = this.obj.quaternion.x
-        playerBody.quaternion.y = this.obj.quaternion.y
-        playerBody.quaternion.z = this.obj.quaternion.z
-        playerBody.quaternion.w = this.obj.quaternion.w
+        this._obj.position.x = 0
+        this._obj.position.z = 0
+        this._obj.rotation.y += this._currentSpeedLeft
+        this._obj.translateZ(this._currentSpeedForward)
 
-        if (this._currentSpeedForward !== 0) {
-            this.obj.translateZ(this._currentSpeedForward)
-        }
+        const summSpeed = Math.abs(this._currentSpeedLeft) + Math.abs(this._currentSpeedForward)
 
-        playerBody.velocity.x = this.obj.position.x
-        playerBody.velocity.z = this.obj.position.z
-
-        this._root.studio.camera.quaternion.x = this.obj.quaternion.x
-        this._root.studio.camera.quaternion.y = this.obj.quaternion.y
-        this._root.studio.camera.quaternion.z = this.obj.quaternion.z
-        this._root.studio.camera.quaternion.w = this.obj.quaternion.w
+        playerBody.velocity.x = this._obj.position.x
+        playerBody.velocity.z = this._obj.position.z
 
         this._root.studio.camera.position.x = playerBody.position.x
         this._root.studio.camera.position.y = playerBody.position.y
         this._root.studio.camera.position.z = playerBody.position.z
 
-        this.obj.position.x = 0
-        this.obj.position.y = 0 
-        this.obj.position.z = 0
+        this._root.studio.camera.quaternion.x = this._obj.quaternion.x
+        this._root.studio.camera.quaternion.y = this._obj.quaternion.y
+        this._root.studio.camera.quaternion.z = this._obj.quaternion.z
+        this._root.studio.camera.quaternion.w = this._obj.quaternion.w
+
+        this._timeRot += delta
+        this._vecRotMovie.x = Math.sin(this._timeRot * 0.03) * .0015 * summSpeed
+        this._vecRotMovie.z = Math.sin(this._timeRot * 0.02) * .0015 * summSpeed
+        this._vecRotMovie.y = Math.sin(this._timeRot * 0.025) * .0015 * summSpeed
+        this._vecRotMovie.x += Math.sin(this._timeRot * 0.001) * .01
+        this._vecRotMovie.z += Math.sin(this._timeRot * 0.0005) * .01
+        this._vecRotMovie.y += Math.sin(this._timeRot * 0.0007) * .01
+
+        this._root.studio.camera.rotation.x += this._vecRotMovie.x
+        this._root.studio.camera.rotation.y += this._vecRotMovie.y
+        this._root.studio.camera.rotation.z += this._vecRotMovie.z
     }
 
     enable () {
