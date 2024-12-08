@@ -10,7 +10,7 @@ export const pipelinePlay = async (root: Root) => {
         studio,
         controlsOrbit,
         controlsPointer,
-        phoneControls,
+        controlsPhone,
         ticker,
         boxTest,
         floor,
@@ -18,38 +18,51 @@ export const pipelinePlay = async (root: Root) => {
         ui,
     } = root
 
-    if (deviceData.device === 'desktop') {
-        controlsPointer.enable()
-        phoneControls.disable()
-        controlsOrbit.disable()
-    } else {
-        controlsPointer.disable()
-        phoneControls.enable()
-        controlsOrbit.disable()
-    }
+    let currentWalkingControls = deviceData.device === 'desktop' 
+        ? controlsPointer
+        : controlsPhone
+    currentWalkingControls.enable()
 
-    ui.lock.onclick = () => {
-        phoneControls.disable()
-        controlsPointer.enable() 
-    }
-    controlsPointer.onUnlock(() => {
-        phoneControls.enable()
-    }) 
-
-    const onKeyUp = (event: any) => {
-        if (event.code === 'KeyO') {
-            if (controlsPointer.isEnabled) {
-                studio.scene.fog = null
-                controlsPointer.disable()
-                controlsOrbit.enable()
-            } else {
-                studio.scene.fog = studio.fog
+    // ** CONTROLS LOGIC ******************************************* //
+    {
+        // click on buttonPointerLock: enable pointerLock and hide phoneControls  
+        ui.lock.onclick = () => {
+            controlsPointer.enable().then(isOn => {
+                if (!isOn) { 
+                    return 
+                }
+                currentWalkingControls = controlsPointer
+                controlsPhone.disable()
                 controlsOrbit.disable()
-                controlsPointer.enable()
+                ui.toggleVisibleLock(false) 
+            })
+        }
+        // callback on pointerUnlock: enable phoneControls and show buttonPointerLock
+        controlsPointer.onUnlock(() => {
+            if (controlsOrbit.isEnabled) {
+                return;
+            }
+            currentWalkingControls = controlsPhone
+            ui.toggleVisibleLock(true) 
+            controlsPhone.enable()
+        }) 
+
+        // key O: disable/enable orbitControls
+        const onKeyUp = (event: any) => {
+            if (event.code === 'KeyO') {
+                if (controlsOrbit.isEnabled) {
+                    studio.scene.fog = studio.fog
+                    controlsOrbit.disable()
+                    currentWalkingControls.enable()
+                } else {
+                    studio.scene.fog = null
+                    currentWalkingControls.disable()
+                    controlsOrbit.enable()
+                }
             }
         }
+        document.addEventListener('keyup', onKeyUp)
     }
-    document.addEventListener('keyup', onKeyUp)
 
     await completePlay()
 }

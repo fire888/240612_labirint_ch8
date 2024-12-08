@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-export class PhoneControls {
+export class ControlsPhone {
     isForvard = false
     isBack = false
     isLeft = false

@@ -1,6 +1,7 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 export class ControlsOrbit {
+    isEnabled = false
     constructor () {}
 
     init (camera, domElem) {
@@ -14,16 +15,21 @@ export class ControlsOrbit {
     }
 
     enable () {
+        this.isEnabled = true
         this.controls.enabled = true
     }
 
     disable () {
+        this.isEnabled = false
         this.controls.enabled = false
     }
 
     update () {
         if (!this.controls.enabled) {
             return;
+        }
+        if (!this.isEnabled) {
+            return
         }
         this.controls.update()
     }

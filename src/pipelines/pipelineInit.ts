@@ -12,13 +12,13 @@ export const pipelineInit = async (root: Root) => {
         studio,
         controlsOrbit,
         controlsPointer,
+        controlsPhone,
+        ui,
         ticker,
         boxTest,
         floor,
         //lab,
         loader,
-        phoneControls,
-        ui,
     } = root
 
     loader.init()
@@ -45,9 +45,9 @@ export const pipelineInit = async (root: Root) => {
         controlsPointer.update(t, phisics.playerBody) 
     })
 
-    phoneControls.init(root)
+    controlsPhone.init(root)
     ticker.on((t: number) => { 
-        phoneControls.update(t, phisics.playerBody) 
+        controlsPhone.update(t, phisics.playerBody) 
     })
     
     floor.init(root)
