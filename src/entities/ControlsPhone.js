@@ -55,6 +55,7 @@ export class ControlsPhone {
         document.body.appendChild(this._moveRightDiv)
 
         this._moveForvardDiv.style.display = 'none'
+        this._moveBackDiv.style.display = 'none'
         this._moveLeftDiv.style.display = 'none'
         this._moveRightDiv.style.display = 'none'
 

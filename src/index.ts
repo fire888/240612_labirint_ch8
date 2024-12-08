@@ -1,17 +1,17 @@
 import "./stylesheets/controls.css"
 import { Studio } from "./entities/Studio"
 import { ControlsOrbit } from "./entities/ControlsOrbit"
-import { Ticker } from "./helpers/Ticker"
+import { Ticker } from "./entities/Ticker"
 import { ControlsPointer } from "./entities/ControlsPointer"
 import { BoxTest } from "./entities/BoxTest"
 import { Floor } from "./entities/Floor"
-import { Labyrinth } from "./_0_trash/Labyrinth";
+// import { Labyrinth } from "./_0_trash/Labyrinth";
 import { pipelineInit } from "./pipelines/pipelineInit"
 import { pipelinePlay } from "./pipelines/pipelinePlay"
-import { documentClickOnce } from "./helpers/clickHelpers";
-import { LoaderAssets } from "./helpers/Loader";
+import { documentClickOnce } from "./entities/_helpers";
+import { LoaderAssets } from "./entities/Loader";
 import { ControlsPhone } from "entities/ControlsPhone"
-import { DeviceData } from "helpers/DeviceData"
+import { DeviceData } from "entities/DeviceData"
 import { Ui } from "entities/Ui"
 
 

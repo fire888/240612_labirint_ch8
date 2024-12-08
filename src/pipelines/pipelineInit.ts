@@ -5,7 +5,7 @@ import { Lab } from '../entities/labyrinth/Lab'
 import { SmallTriangles } from '../entities/SmallTriangles'
 import { Phisics } from 'entities/Phisics'
 import { Particles } from 'entities/Particles'
-import { elementClickOnce } from 'helpers/clickHelpers'
+import { elementClickOnce } from 'entities/_helpers'
 
 export const pipelineInit = async (root: Root) => {
     const {

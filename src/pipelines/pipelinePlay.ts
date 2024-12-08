@@ -40,7 +40,7 @@ export const pipelinePlay = async (root: Root) => {
         // callback on pointerUnlock: enable phoneControls and show buttonPointerLock
         controlsPointer.onUnlock(() => {
             if (controlsOrbit.isEnabled) {
-                return;
+                return
             }
             currentWalkingControls = controlsPhone
             ui.toggleVisibleLock(true) 
