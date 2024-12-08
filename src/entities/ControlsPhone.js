@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import * as TWEEN from '@tweenjs/tween.js'
 
 export class ControlsPhone {
-    _isForvard = false
+    _isForward = false
     _isBack = false
     _isLeft = false
     _isRight = false
@@ -19,24 +19,28 @@ export class ControlsPhone {
     init (root) {
         this._root = root
 
-        this._moveForvardDiv = document.createElement('div')
-        this._moveForvardDiv.classList.add('control')
-        this._moveForvardDiv.classList.add('butt-front')
-        this._moveForvardDiv.addEventListener("pointerdown", () => {
-            this._isForvard = true
+        this._moveForwardDiv = document.createElement('div')
+        this._moveForwardDiv.classList.add('control')
+        this._moveForwardDiv.classList.add('butt-front')
+        this._moveForwardDiv.addEventListener("pointerdown", () => {
+            if (!this._isForward) this._changeForwardSpeedTo(-this._maxSpeedForward)
+            this._isForward = true
         })
-        this._moveForvardDiv.addEventListener("pointerup", () => {
-            this._isForvard = false
+        this._moveForwardDiv.addEventListener("pointerup", () => {
+            if (this._isForward) this._changeForwardSpeedTo(0.)
+            this._isForward = false
         })
-        document.body.appendChild(this._moveForvardDiv)
+        document.body.appendChild(this._moveForwardDiv)
 
         this._moveBackDiv = document.createElement('div')
         this._moveBackDiv.classList.add('control')
         this._moveBackDiv.classList.add('butt-back')
         this._moveBackDiv.addEventListener("pointerdown", () => {
+            !this._isBack && this._changeForwardSpeedTo(this._maxSpeedForward)
             this._isBack = true
         })
         this._moveBackDiv.addEventListener("pointerup", () => {
+            this._isBack && this._changeForwardSpeedTo(0.)
             this._isBack = false
         })
         document.body.appendChild(this._moveBackDiv)
@@ -45,9 +49,11 @@ export class ControlsPhone {
         this._moveLeftDiv.classList.add('control')
         this._moveLeftDiv.classList.add('butt-left')
         this._moveLeftDiv.addEventListener("pointerdown", () => {
+            !this._isLeft && this._changeLeftSpeedTo(this._maxSpeedLeft)
             this._isLeft = true
         })
         this._moveLeftDiv.addEventListener("pointerup", () => {
+            this._isLeft && this._changeLeftSpeedTo(0.)
             this._isLeft = false
         })
         document.body.appendChild(this._moveLeftDiv)
@@ -56,14 +62,16 @@ export class ControlsPhone {
         this._moveRightDiv.classList.add('control')
         this._moveRightDiv.classList.add('butt-right')
         this._moveRightDiv.addEventListener("pointerdown", () => {
+            !this._isRight && this._changeLeftSpeedTo(-this._maxSpeedLeft)
             this._isRight = true
         })
         this._moveRightDiv.addEventListener("pointerup", () => {
+            this._isRight && this._changeLeftSpeedTo(0.)
             this._isRight = false
         })
         document.body.appendChild(this._moveRightDiv)
 
-        this._moveForvardDiv.style.display = 'none'
+        this._moveForwardDiv.style.display = 'none'
         this._moveBackDiv.style.display = 'none'
         this._moveLeftDiv.style.display = 'none'
         this._moveRightDiv.style.display = 'none'
@@ -111,7 +119,7 @@ export class ControlsPhone {
     }
 
     enable () {
-        this._moveForvardDiv.style.display = 'block'
+        this._moveForwardDiv.style.display = 'block'
         this._moveBackDiv.style.display = 'block'
         this._moveLeftDiv.style.display = 'block'
         this._moveRightDiv.style.display = 'block'
@@ -120,7 +128,7 @@ export class ControlsPhone {
     }
 
     disable () {
-        this._moveForvardDiv.style.display = 'none'
+        this._moveForwardDiv.style.display = 'none'
         this._moveBackDiv.style.display = 'none'
         this._moveLeftDiv.style.display = 'none'
         this._moveRightDiv.style.display = 'none'
@@ -132,8 +140,8 @@ export class ControlsPhone {
         switch ( event.code ) {
             case 'ArrowUp':
             case 'KeyW':
-                if (this._isForvard) this._changeForwardSpeedTo(0.)
-                this._isForvard = false; 
+                if (this._isForward) this._changeForwardSpeedTo(0.)
+                this._isForward = false; 
                 break;
 
             case 'ArrowLeft':
@@ -160,8 +168,8 @@ export class ControlsPhone {
         switch ( event.code ) {
             case 'ArrowUp':
             case 'KeyW': 
-                if (!this._isForvard) this._changeForwardSpeedTo(-this._maxSpeedForward)
-                this._isForvard = true; 
+                if (!this._isForward) this._changeForwardSpeedTo(-this._maxSpeedForward)
+                this._isForward = true; 
                 break;
 
             case 'ArrowDown':
