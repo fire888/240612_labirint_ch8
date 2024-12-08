@@ -23,7 +23,6 @@ export class BufferTexture {
             this.data[ stride + 3 ] = 255;                         // alpha
         }
         const texture = new THREE.DataTexture(this.data, width, height)
-        console.log('YYY', texture)
         texture.needsUpdate = true
 
         const plane = new THREE.Mesh(
