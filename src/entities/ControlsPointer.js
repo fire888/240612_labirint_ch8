@@ -1,21 +1,35 @@
 import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls'
 import * as THREE from 'three'
+import * as TWEEN from '@tweenjs/tween.js'
 
 export class ControlsPointer {
     isEnabled = false
+
     _timeLastLocked = null
     _delayNextLock = 2000
     _isFirstLock = true
 
+    _currentSpeedForward = 0.
+    _maxSpeedForward = 5.
+    _tweenSpeedForward = null
+
+    _currentSpeedLeft = 0.
+    _maxSpeedLeft = 5.
+    _tweenSpeedLeft = null
+
+    _moveForward = false
+    _moveBackward = false
+    _moveLeft = false
+    _moveRight = false
+
+    _dirForward = new THREE.Vector3()
+    _dirLeft = new THREE.Vector3()
+    _resultDir = new THREE.Vector3()
+    _topVec = new THREE.Vector3(0, 1, 0)
+
     init (root) {
         this.camera = root.studio.camera
         this.domElem = root.studio.containerDom
-
-        this.moveForward = false
-        this.moveBackward = false
-        this.moveLeft = false
-        this.moveRight = false
-        this.canJump = false
 
         this._prevTime = performance.now()
         this.velocity = new THREE.Vector3()
@@ -24,8 +38,6 @@ export class ControlsPointer {
         this.savedPosition = new THREE.Vector3()
         this.diffVec = new THREE.Vector3()
         this.savedRotation = new THREE.Quaternion()
-
-        this.objects = []
 
         this.controls = new PointerLockControls(this.camera, this.domElem)
         this.controls.addEventListener('lock', () => {
@@ -36,63 +48,10 @@ export class ControlsPointer {
             this._timeLastLocked = Date.now()
         })
 
-        const onKeyDown = event => {
-            switch ( event.code ) {
-                case 'ArrowUp':
-                case 'KeyW':
-                    this.moveForward = true
-                    break
+        document.addEventListener('keydown', this._onKeyDown.bind(this))
+        document.addEventListener('keyup', this._onKeyUp.bind(this))
 
-                case 'ArrowLeft':
-                case 'KeyA':
-                    this.moveLeft = true
-                    break
-
-                case 'ArrowDown':
-                case 'KeyS':
-                    this.moveBackward = true
-                    break
-
-                case 'ArrowRight':
-                case 'KeyD':
-                    this.moveRight = true
-                    break
-
-                case 'Space':
-                    if (this.canJump === true) this.velocity.y += 10
-                    this.canJump = false
-                    break
-            }
-        }
-
-        const onKeyUp = event => {
-            switch (event.code) {
-                case 'ArrowUp':
-                case 'KeyW':
-                    this.moveForward = false
-                    break
-
-                case 'ArrowLeft':
-                case 'KeyA':
-                    this.moveLeft = false
-                    break
-
-                case 'ArrowDown':
-                case 'KeyS':
-                    this.moveBackward = false
-                    break
-
-                case 'ArrowRight':
-                case 'KeyD':
-                    this.moveRight = false
-                    break
-            }
-        }
-
-        document.addEventListener('keydown', onKeyDown)
-        document.addEventListener('keyup', onKeyUp)
-
-        this.raycaster = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, -1, 0), 0, 1)
+        this.raycaster = new THREE.Raycaster(new THREE.Vector3(), this._topVec, 0, 1)
     }
 
     update (delta, playerCollision) {
@@ -108,51 +67,32 @@ export class ControlsPointer {
             return;
         }
 
-        const time = performance.now()
+        this._resultDir.x = 0
+        this._resultDir.z = 0
         
-        const obj = this.controls.getObject()
-        const dir = new THREE.Vector3()
-        obj.getWorldDirection(dir)
-        dir.y = 0
-        dir.normalize()
-        const dirLeft = new THREE.Vector3().copy(dir).applyAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI * .5)
+        this.camera.getWorldDirection(this._dirForward)
+        this._dirForward.y = 0
+        this._dirForward.normalize()
 
-        playerCollision.quaternion.x = obj.quaternion.x
-        playerCollision.quaternion.y = obj.quaternion.y
-        playerCollision.quaternion.z = obj.quaternion.z
-        playerCollision.quaternion.w = obj.quaternion.w
+        this._dirLeft.copy(this._dirForward).applyAxisAngle(this._topVec, Math.PI * .5)
 
-        const resultDir = new THREE.Vector3()
-
-        if (this.moveForward) {
-            resultDir.add(dir)
+        if (this._moveForward || this._moveBackward || this._tweenSpeedForward) {
+            this._dirForward.x *= this._currentSpeedForward
+            this._dirForward.z *= this._currentSpeedForward
+            this._resultDir.add(this._dirForward)
         }
-        if (this.moveBackward) {
-            resultDir.sub(dir)
-        }
-        if (this.moveLeft) {
-            resultDir.add(dirLeft)
-        }
-        if (this.moveRight) {
-            resultDir.sub(dirLeft)
-        }
-        resultDir.normalize()
-
-        playerCollision.velocity.x = resultDir.x * 3.
-        playerCollision.velocity.z = resultDir.z * 3.
-
-        if (this.controls.isLocked === true) {
-            this.controls.getObject().position.x = playerCollision.position.x
-            this.controls.getObject().position.y = playerCollision.position.y
-            this.controls.getObject().position.z = playerCollision.position.z
+        if (this._moveLeft || this._moveRight || this._tweenSpeedLeft) {
+            this._dirLeft.x *= this._currentSpeedLeft
+            this._dirLeft.z *= this._currentSpeedLeft
+            this._resultDir.add(this._dirLeft)
         }
 
-        this._prevTime = time
-    }
+        playerCollision.velocity.x = this._resultDir.x
+        playerCollision.velocity.z = this._resultDir.z
 
-
-    setToCollisionFloor (m) {
-        this.objects.push(m)
+        this.camera.position.x = playerCollision.position.x
+        this.camera.position.y = playerCollision.position.y
+        this.camera.position.z = playerCollision.position.z
     }
 
     enable() {
@@ -183,61 +123,96 @@ export class ControlsPointer {
     onUnlock (cb) {
         this.controls.addEventListener('unlock', cb)
     }
+
+    _changeForwardSpeedTo(v) {
+        if (this._tweenSpeedForward) {
+            this._tweenSpeedForward.stop()
+        }
+
+        const obj = { speed: this._currentSpeedForward }
+        this._tweenSpeedForward = new TWEEN.Tween(obj)
+            .interpolation(TWEEN.Interpolation.Linear)
+            .to({ speed: v }, 200)
+            .onUpdate(() => {
+                this._currentSpeedForward = obj.speed
+            })
+            .onComplete(() => {
+                this._tweenSpeedForward = null
+            })
+            .start()
+    }
+
+    _changeLeftSpeedTo(v) {
+        if (this._tweenSpeedLeft) {
+            this._tweenSpeedLeft.stop()
+        }
+
+        const obj = { speed: this._currentSpeedLeft }
+        this._tweenSpeedLeft = new TWEEN.Tween(obj)
+            .interpolation(TWEEN.Interpolation.Linear)
+            .to({ speed: v }, 200)
+            .onUpdate(() => {
+                this._currentSpeedLeft = obj.speed
+            })
+            .onComplete(() => {
+                this._tweenSpeedLeft = null
+            })
+            .start()
+    }
+
+    _onKeyDown (event) {
+        switch ( event.code ) {
+            case 'ArrowUp':
+            case 'KeyW':
+                !this._moveForward && this._changeForwardSpeedTo(this._maxSpeedForward)
+                this._moveForward = true
+                break
+
+            case 'ArrowDown':
+            case 'KeyS':
+                !this._moveBackward &&this._changeForwardSpeedTo(-this._maxSpeedForward)
+                this._moveBackward = true
+                break    
+
+            case 'ArrowLeft':
+            case 'KeyA':
+                !this._moveLeft && this._changeLeftSpeedTo(this._maxSpeedLeft)
+                this._moveLeft = true
+                break
+
+            case 'ArrowRight':
+            case 'KeyD':
+                !this._moveRight && this._changeLeftSpeedTo(-this._maxSpeedLeft)
+                this._moveRight = true
+                break
+        }
+    }
+
+    _onKeyUp (event) {
+        switch (event.code) {
+            case 'ArrowUp':
+            case 'KeyW':
+                this._moveForward && this._changeForwardSpeedTo(0)
+                this._moveForward = false
+                break
+
+            case 'ArrowDown':
+            case 'KeyS':
+                this._moveBackward && this._changeForwardSpeedTo(0)
+                this._moveBackward = false
+                break    
+
+            case 'ArrowLeft':
+            case 'KeyA':
+                this._moveLeft && this._changeLeftSpeedTo(0)
+                this._moveLeft = false
+                break
+
+            case 'ArrowRight':
+            case 'KeyD':
+                this._moveRight && this._changeLeftSpeedTo(0)
+                this._moveRight = false
+                break
+        }
+    }
 }
-
-
-
-    // update () {
-    //     if (!this.isEnabled) {
-    //         return;
-    //     }
-    //     if (!this.camera) {
-    //         return;
-    //     }
-    //     if (!this.controls.isLocked) {
-    //         return;
-    //     }
-
-    //     const time = performance.now()
-
-    //     this.raycaster.ray.origin.copy(this.controls.getObject().position)
-    //     this.raycaster.ray.origin.y -= 0
-
-    //     const intersections = this.raycaster.intersectObjects(this.objects, true)
-
-    //     const onObject = intersections.length > 0
-
-    //     const delta = ( time - this._prevTime ) / 1000
-
-    //     this.velocity.x -= this.velocity.x * 10.0 * delta
-    //     this.velocity.z -= this.velocity.z * 10.0 * delta
-    //     this.velocity.y -= 9.8 * 3. * delta; // 100.0 = mass
-
-    //     this.direction.z = Number(this.moveForward) - Number(this.moveBackward)
-    //     this.direction.x = Number(this.moveRight) - Number(this.moveLeft)
-    //     this.direction.normalize() // this ensures consistent movements in all directions
-
-    //     if (this.moveForward || this.moveBackward) this.velocity.z -= this.direction.z * 40.0 * delta
-    //     if (this.moveLeft || this.moveRight) this.velocity.x -= this.direction.x * 40.0 * delta
-
-    //     if (onObject === true) {
-    //         this.velocity.y = Math.max(0, this.velocity.y)
-    //         this.canJump = true
-    //         if (intersections[0].distance < 1) {
-    //             this.controls.getObject().position.y += 1 - intersections[0].distance
-    //         }
-    //     }
-
-    //     this.controls.moveRight( - this.velocity.x * delta)
-    //     this.controls.moveForward( - this.velocity.z * delta)
-
-    //     this.controls.getObject().position.y += (this.velocity.y * delta) // new behavior
-
-    //     if (this.controls.getObject().position.y < 1) {
-    //         this.velocity.y = 0
-    //         this.controls.getObject().position.y = 1
-    //         this.canJump = true
-    //     }
-
-    //     this._prevTime = time
-    // }

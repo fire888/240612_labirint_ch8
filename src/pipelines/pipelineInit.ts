@@ -6,6 +6,7 @@ import { SmallTriangles } from '../entities/SmallTriangles'
 import { Phisics } from 'entities/Phisics'
 import { Particles } from 'entities/Particles'
 import { elementClickOnce } from 'entities/_helpers'
+import * as TWEEN from '@tweenjs/tween.js'
 
 export const pipelineInit = async (root: Root) => {
     const {
@@ -25,6 +26,10 @@ export const pipelineInit = async (root: Root) => {
     await loader.loadAssets()
 
     ticker.start()
+
+    ticker.on((t: number) => {
+        TWEEN.update()
+    })
 
     studio.init(root)
     //studio.addAxisHelper()
