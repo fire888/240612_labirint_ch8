@@ -74,6 +74,7 @@ export const pipelineInit = async (root: Root) => {
 
     const particles = new Particles()
     particles.init(root)
+    ticker.on(particles.update.bind(particles))
     studio.add(particles.m)
 
     // test demo debug tiles

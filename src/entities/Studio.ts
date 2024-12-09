@@ -49,7 +49,8 @@ export class Studio {
         this.envMap = root.loader.assets.mapEnv
         //this.scene.background = new THREE.Color(0x999999)
         //this.fog = new THREE.Fog(0x00001a, 1, 50)
-        this.fog = new THREE.Fog(0x00001a, 1, 150)
+        //this.fog = new THREE.Fog(0x00001a, 1, 50)
+        //this.scene.fog = this.fog
 
        this.hemiLight = new THREE.HemisphereLight(0x6767f3, 0xffffff, 5)
        this.hemiLight.position.set( 0, 20, 0 )
@@ -80,13 +81,14 @@ export class Studio {
         const bokehPass = new BokehPass(this.scene, this.camera, {
             focus: 50,
             aperture: 0.00002,
-            maxblur: 0.015
+            //maxblur: 0.015
+            maxblur: 0.01
         } );
 
-        const bloomPass = new UnrealBloomPass( new THREE.Vector2(window.innerWidth, window.innerHeight),1.5,0.4,0.85)
-        bloomPass.threshold = params.threshold
-        bloomPass.strength = params.strength
-        bloomPass.radius = params.radius
+        //const bloomPass = new UnrealBloomPass( new THREE.Vector2(window.innerWidth, window.innerHeight),1.5,0.4,0.85)
+        //bloomPass.threshold = params.threshold
+        //bloomPass.strength = params.strength
+        //bloomPass.radius = params.radius
 
         const outputPass = new OutputPass();
 
@@ -94,7 +96,7 @@ export class Studio {
         this.composer.addPass(renderScene)
         this.composer.addPass(smaaPass)
         this.composer.addPass(bokehPass)
-        this.composer.addPass(bloomPass)
+        //this.composer.addPass(bloomPass)
         this.composer.addPass(outputPass)
 
         window.addEventListener( 'resize', this.onWindowResize.bind(this))

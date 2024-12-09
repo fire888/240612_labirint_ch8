@@ -51,11 +51,11 @@ export const pipelinePlay = async (root: Root) => {
         const onKeyUp = (event: any) => {
             if (event.code === 'KeyO') {
                 if (controlsOrbit.isEnabled) {
-                    studio.scene.fog = studio.fog
+                    //studio.scene.fog = studio.fog
                     controlsOrbit.disable()
                     currentWalkingControls.enable()
                 } else {
-                    studio.scene.fog = null
+                    //studio.scene.fog = null
                     currentWalkingControls.disable()
                     controlsOrbit.enable()
                 }

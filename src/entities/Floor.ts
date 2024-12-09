@@ -7,37 +7,51 @@ export class Floor {
     constructor() {}
 
     init (root: Root) {
-        const v = [
-            ..._M.createPolygon(
-                [-100, 0, 100],
-                [100, 0, 100],
-                [100, 0, -100],
-                [-100, 0, -100],
+
+        const v = []
+        const c: number[] = []
+
+        const SIZE = 70
+        const SIZE_H = SIZE * .5
+        const S = .05
+        const N = 90
+        const COLOR = [.2, .7, 2.]
+
+        const centers = []
+        for (let i = 0; i < N; ++i) {
+            for (let j = 0; j < N; ++j) {
+                centers.push([j / N * SIZE - SIZE_H, 0, i / N * SIZE - SIZE_H])
+            }
+        }
+
+        for (let i = 0; i < centers.length; ++i) {
+            const center = centers[i]
+            const dist = Math.sqrt(center[0] * center[0] + center[2] * center[2])
+            const cc = 1. - dist / SIZE_H
+            if (cc < 0.05) { 
+                continue
+            }
+
+            v.push(
+                ..._M.createPolygon(
+                    [center[0] - S, center[1], center[2] + S],
+                    [center[0] + S, center[1], center[2] + S],
+                    [center[0] + S, center[1], center[2] - S],
+                    [center[0] - S, center[1], center[2] - S],
+                )
             )
-        ]
 
-        const uv = [
-            ..._M.createUv(
-                [0, 0],
-                [1, 0],
-                [1, 1],
-                [0, 1],
-            )
-        ]
+            c.push(..._M.fillColorFace([cc * COLOR[0], cc * COLOR[1], cc * COLOR[2]]))
+        }
 
-        root.loader.assets.mapFloor.wrapS = THREE.RepeatWrapping
-        root.loader.assets.mapFloor.wrapT = THREE.RepeatWrapping
-        root.loader.assets.mapFloor.repeat.set(30, 30)
-
-        const material = new THREE.MeshStandardMaterial({
-            color: 0xffffff,
-            map: root.loader.assets.mapFloor,
-            bumpMap: root.loader.assets.mapFloor,
-            bumpScale: 1000,
+        const material = new THREE.MeshBasicMaterial({
+            color: 0xFFFFFF,
+            vertexColors: true,
         })
 
         // @ts-ignore: Unreachable code error
-        this.mesh = createMesh({ v, uv, material })
+        this.mesh = createMesh({ v, c, material })
+        this.mesh.position.x = 15
         this.mesh.position.y = -.3
     }
 }

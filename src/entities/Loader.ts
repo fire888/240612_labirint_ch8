@@ -3,11 +3,13 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import envModel from "../assets/env.jpg"
 import mapFloor from  "../assets/floor.jpg"
 import sky from '../assets/sky.jpg'
+import sprite from '../assets/sprite.png'
 
 type Assets = {
     mapEnv?: any,
-    mapFloor?: any,
-    sky?: any, 
+    //mapFloor?: any,
+    sky?: any,
+    sprite?: any, 
 }
 
 export class LoaderAssets {
@@ -18,8 +20,9 @@ export class LoaderAssets {
     constructor() {
         this.assets = {
             mapEnv: null,
-            mapFloor: null,
+            //mapFloor: null,
             sky: null,
+            sprite: null,
         }
     }
 
@@ -30,20 +33,21 @@ export class LoaderAssets {
 
     loadAssets (): Promise<void> {
         return new Promise(res => {
-            //this._gltfLoader.load(coinModel, m => {
-                this._textureLoader.load(envModel, t => {
-                    this.assets.mapEnv = t
-                    this._textureLoader.load(mapFloor, t => {
-                        this.assets.mapFloor = t
-                        this._textureLoader.load(sky, s => {
-                            s.mapping = THREE.EquirectangularReflectionMapping;
-                            s.colorSpace = THREE.SRGBColorSpace;
-                            this.assets.sky = s
+            this._textureLoader.load(envModel, t => {
+                this.assets.mapEnv = t
+                //this._textureLoader.load(mapFloor, t => {
+                    //this.assets.mapFloor = t
+                    this._textureLoader.load(sky, s => {
+                        s.mapping = THREE.EquirectangularReflectionMapping;
+                        s.colorSpace = THREE.SRGBColorSpace;
+                        this.assets.sky = s
+                        this._textureLoader.load(sprite, s => {
+                            this.assets.sprite = s
                             res()
                         })
                     })
-                })
-            //})
+                //})
+            })
         })
     }
 }
