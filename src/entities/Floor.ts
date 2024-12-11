@@ -1,6 +1,5 @@
 import * as THREE from 'three'
 import { Root } from "../index";
-import { createMesh } from 'geometry/helperCreateMesh';
 import { _M } from 'geometry/_m';
 export class Floor {
     mesh: THREE.Mesh
@@ -50,7 +49,7 @@ export class Floor {
         })
 
         // @ts-ignore: Unreachable code error
-        this.mesh = createMesh({ v, c, material })
+        this.mesh = _M.createMesh({ v, c, material })
         this.mesh.position.x = 15
         this.mesh.position.y = -.3
     }

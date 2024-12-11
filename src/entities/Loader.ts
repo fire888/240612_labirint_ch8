@@ -1,7 +1,6 @@
 import * as THREE from 'three'
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import envModel from "../assets/env.jpg"
-import mapFloor from  "../assets/floor.jpg"
 import sky from '../assets/sky.jpg'
 import sprite from '../assets/sprite.png'
 

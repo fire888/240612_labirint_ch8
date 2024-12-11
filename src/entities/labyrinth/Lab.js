@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { LabLevel } from './LabLevel'
 import { createStair } from '../../geometry/stair'
 import { createRandomDataForLine } from '../../geometry/lineGeomCrafted'
-import { createMesh } from '../../geometry/helperCreateMesh' 
+import { _M } from "../../geometry/_m";
 
 const TILES_X = 11
 const TILES_Z = 13
@@ -48,7 +48,7 @@ export class Lab {
             w: W, 
             h: LEVEL_H,
         })
-        const stairM = createMesh({
+        const stairM = _M.createMesh({
             v: startStair.v,
             c: startStair.c,
             material,
@@ -57,7 +57,7 @@ export class Lab {
         stairM.position.z = W
         this.mesh.add(stairM)
 
-        const collisionStairM = createMesh({
+        const collisionStairM = _M.createMesh({
             v: startStair.vC,
             material: this.collisionMaterial,
         })
@@ -141,7 +141,7 @@ export class Lab {
                 w: W, 
                 h: LEVEL_H,                
             })
-            const stairM = createMesh({
+            const stairM = _M.createMesh({
                 v: stair.v,
                 c: stair.c,
                 material,
@@ -151,7 +151,7 @@ export class Lab {
             stairM.position.y = (i + 1) * LEVEL_H
             this.mesh.add(stairM)
 
-            const collisionM = createMesh({
+            const collisionM = _M.createMesh({
                 v: stair.vC,
                 material: this.collisionMaterial,
             })

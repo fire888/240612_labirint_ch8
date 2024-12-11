@@ -8,9 +8,6 @@ import { createTileU } from '../../geometry/tile_U_crafted'
 import { createTileX } from '../../geometry/tile_X_crafted';
 import { createStair } from "../../geometry/stair";
 
-import {
-    createMesh,
-} from '../../geometry/helperCreateMesh'
 
 
 const EMPTY = 1
@@ -468,7 +465,7 @@ export class LabLevel {
             }
         }
 
-        this.mesh = createMesh({ v, c, material })
-        this.collisionMesh = createMesh({ v: vC, material: collisionMaterial }) 
+        this.mesh = _M.createMesh({ v, c, material })
+        this.collisionMesh = _M.createMesh({ v: vC, material: collisionMaterial }) 
     }
 }

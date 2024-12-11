@@ -1,6 +1,7 @@
 import { Root } from '../index'
 // import { createDemoTiles } from '_0_trash/demoTiles'
 import { Lab } from '../entities/labyrinth/Lab'
+import { Energy } from 'entities/Energy'
 //import { testStairs } from '../entities/labyrinth/testStairs'
 import { SmallTriangles } from '../entities/SmallTriangles'
 import { Phisics } from 'entities/Phisics'
@@ -66,6 +67,11 @@ export const pipelineInit = async (root: Root) => {
     lab.collisionsItems.map(e => {
         phisics.addMeshToCollision(e)
     })
+
+    const energy = new Energy()
+    energy.init(root)
+
+
 
     const smallTriangles = new SmallTriangles(root)
     studio.add(smallTriangles.m)
