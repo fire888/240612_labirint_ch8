@@ -65,6 +65,7 @@ const createMaze = async (width, height, posStart, startDirection, dataForEnter)
     let maze = {}
     let hasVisited = []
     const posEnd = []
+    const posesSleepEnds = []
     let dirToPosEnd = null
     let pathToPosEnd = null
     let colorToPosEnd = null
@@ -151,6 +152,7 @@ const createMaze = async (width, height, posStart, startDirection, dataForEnter)
                 unvisitetNeighbors.push(EAST)
             }
             if (unvisitetNeighbors.length === 0) {
+                posesSleepEnds.push([ x, y ])
                 return
             }
 
@@ -251,7 +253,8 @@ const createMaze = async (width, height, posStart, startDirection, dataForEnter)
         pathToPosEnd,
         colorToPosEnd,
         formToPosEnd, 
-        maze, 
+        maze,
+        posesSleepEnds,
     }
 }
 
@@ -276,36 +279,6 @@ const addStairsData = (maze, posStart, posEnd) => {
         maze[posEnd[0] + ',' + posEnd[1]] = { type: STAIR }
         endDir = dir
     }
-
-    // {
-    //     // enterStair 
-    //     let dir = null
-    //     for (let i = posStart[0] - 1; i < posStart[0] + 2; ++i) {
-    //         for (let j = posStart[1] - 1; j < posStart[1] + 2; ++j) {
-    //             if (maze[i + ',' + j].type === TUNNEL) {
-    //                 maze[i + ',' + j].type = EMPTY
-    //                 maze[i + ',' + j].model = null
-    //                 maze[i + ',' + j].dir = null
-
-    //                 if (i < posStart[0]) {
-    //                     dir = 'w'
-    //                 }
-    //                 if (i > posStart[0]) {
-    //                     dir = 'e'
-    //                 }
-    //                 if (j < posStart[1]) {
-    //                     dir = 'n'
-    //                 }
-    //                 if (j > posStart[1]) {
-    //                     dir = 's'
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     maze[posStart[0] + ',' + posStart[1]] = {type: TUNNEL, model: 'START_ROOM', dir }
-    // }
-
-    // return endDir
 }
 
 
@@ -324,10 +297,9 @@ export const createScheme04_crafted = async ({
         colorToPosEnd,
         formToPosEnd, 
         maze,
+        posesSleepEnds,
     } = await createMaze(width, height, posStart, posStartDir, dataForEnter)
-
-    //debugPrintMaze(maze, width, height, posStart, posEnd)
-
+    
     addStairsData(maze, posStart, posEnd)
 
     return {
@@ -338,5 +310,6 @@ export const createScheme04_crafted = async ({
         pathToPosEnd,
         colorToPosEnd,
         formToPosEnd,
+        posesSleepEnds,
     }
 }

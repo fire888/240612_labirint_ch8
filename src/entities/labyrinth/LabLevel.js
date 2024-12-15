@@ -79,8 +79,11 @@ export class LabLevel {
             dirToPosEnd,
             pathToPosEnd,
             colorToPosEnd,
-            formToPosEnd, 
+            formToPosEnd,
+            posesSleepEnds,
         } = shemeData
+
+        console.log('****', posesSleepEnds)
 
         this.posStart = posStart
         this.posEnd = posEnd
@@ -107,7 +110,6 @@ export class LabLevel {
              
 
             let typeTile = null
-            let angle = null
             let keyDir = null
 
             if (
@@ -124,7 +126,6 @@ export class LabLevel {
                 }
 
                 typeTile = 'U'
-                //angle = 0
                 keyDir = 's'
             }
 
@@ -142,7 +143,6 @@ export class LabLevel {
                 }
 
                 typeTile = 'U'
-                //angle = 0
                 keyDir = 'e'
             }
 
@@ -160,7 +160,6 @@ export class LabLevel {
                 }
 
                 typeTile = 'U'
-                //angle = 0
                 keyDir = 'n'
             }
 
@@ -178,7 +177,6 @@ export class LabLevel {
                 }
 
                 typeTile = 'U'
-                //angle = 0
                 keyDir = 'w'
             }
 
@@ -192,7 +190,6 @@ export class LabLevel {
                 !tile.e
             ) {
                 typeTile = 'I'
-                //angle = 0
                 keyDir = 'sn'
             }
             if (
@@ -203,7 +200,6 @@ export class LabLevel {
             ) {
                 typeTile = 'I'
                 keyDir = 'we'
-                //angle = -Math.PI * .5
             }
 
             ///////////////
@@ -216,7 +212,6 @@ export class LabLevel {
             ) {
                 typeTile = 'L'
                 keyDir = 'se'
-                //angle = 0
             }
 
             if (
@@ -226,7 +221,6 @@ export class LabLevel {
                 !tile.e
             ) {
                 typeTile = 'L'
-                //angle = 0
                 keyDir = 'nw' 
             }
 
@@ -237,7 +231,6 @@ export class LabLevel {
                 !tile.n
             ) {
                 typeTile = 'L'
-                //angle = 0
                 keyDir = 'ws' 
             }
 
@@ -248,7 +241,6 @@ export class LabLevel {
                 !tile.s
             ) {
                 typeTile = 'L'
-                //angle = 0
                 keyDir = 'ne' 
             }
 
@@ -261,7 +253,6 @@ export class LabLevel {
                 !tile.n
             ) {
                 typeTile = 'T'
-                //angle = 0
                 keyDir = 'w-e|w-s|s-e'
             }
 
@@ -272,7 +263,6 @@ export class LabLevel {
                 !tile.w
             ) {
                 typeTile = 'T'
-                //angle = 0
                 keyDir = 's-n|s-e|n-e'
             }
 
@@ -283,7 +273,6 @@ export class LabLevel {
                 !tile.s
             ) {
                 typeTile = 'T'
-                //angle = 0
                 keyDir = 'e-w|n-e|n-w'
             }
 
@@ -294,11 +283,8 @@ export class LabLevel {
                 !tile.e
             ) {
                 typeTile = 'T'
-                //angle = 0
                 keyDir = 'n-s|w-s|n-w'
             }
-
-
 
             // create buffers
 
@@ -351,24 +337,6 @@ export class LabLevel {
                     key: keyDir,
                 })
             }
-
-
-            // if (typeTile === 'I' && angle === -Math.PI * .5) {
-            //     if (
-            //         !checkArray(tile.w.path) ||
-            //         !checkArray(tile.e.path)
-            //     ) {
-            //         continue;
-            //     }
-
-            //     e = createTileI({ 
-            //         paths: [tile.w.path, tile.e.path],
-            //         colors: [tile.w.color, tile.e.color],
-            //         forms: [tile.w.form, tile.e.form],
-            //         n: N,
-            //         w: W,
-            //     })
-            // }
 
             if (typeTile === 'L' && keyDir === 'se') {
                 if (
@@ -452,19 +420,18 @@ export class LabLevel {
            }
 
             if (e) {
-                //_M.rotateVerticesY(e.v, angle)
                 _M.translateVertices(e.v, +ij[0] * W, 0, +ij[1] * W)
                 v.push(...e.v)
                 c.push(...e.c)
 
                 if (e.vC) {
-                    //_M.rotateVerticesY(e.vC, angle)
                     _M.translateVertices(e.vC, +ij[0] * W, 0, +ij[1] * W)
                     vC.push(...e.vC)
                 }
             }
         }
 
+        this.posesSleepEnds = posesSleepEnds
         this.mesh = _M.createMesh({ v, c, material })
         this.collisionMesh = _M.createMesh({ v: vC, material: collisionMaterial }) 
     }

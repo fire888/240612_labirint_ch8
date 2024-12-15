@@ -21,6 +21,7 @@ export class Lab {
         this.collisionMesh = new THREE.Object3D()
         //this.collisionMesh.visible = false
         this.collisionsItems = []
+        this.posesSleepEnds = []
 
         const material = new THREE.MeshPhongMaterial({ 
             color: 0xFFFFFF, 
@@ -165,6 +166,19 @@ export class Lab {
             posStart = labLevel.posEnd
             posStartDir = stairDataTopExit.dir
             dataForEnter = stairDataTopExit
+
+            // save poses for energy 
+            for (let j = 0; j < labLevel.posesSleepEnds.length; ++j) {
+                labLevel.posesSleepEnds[j].push(
+                    labLevel.posesSleepEnds[j][0] * W, 
+                    labLevel.posesSleepEnds[j][1] * W,
+                    LEVEL_H * i,
+                )
+            }
+
+            this.posesSleepEnds.push(labLevel.posesSleepEnds)
         }
+
+        console.log(this.posesSleepEnds)
     } 
 }
