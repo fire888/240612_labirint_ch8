@@ -69,7 +69,7 @@ export const pipelineInit = async (root: Root) => {
     })
 
     const energy = new Energy()
-    energy.init(root)
+    energy.init(root, lab.posesSleepEnds)
 
 
 

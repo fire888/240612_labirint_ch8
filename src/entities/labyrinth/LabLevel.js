@@ -83,8 +83,6 @@ export class LabLevel {
             posesSleepEnds,
         } = shemeData
 
-        console.log('****', posesSleepEnds)
-
         this.posStart = posStart
         this.posEnd = posEnd
         this.dirToPosEnd = dirToPosEnd

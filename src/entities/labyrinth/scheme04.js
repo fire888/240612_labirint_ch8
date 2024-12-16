@@ -65,7 +65,7 @@ const createMaze = async (width, height, posStart, startDirection, dataForEnter)
     let maze = {}
     let hasVisited = []
     const posEnd = []
-    const posesSleepEnds = []
+    //const posesSleepEnds = []
     let dirToPosEnd = null
     let pathToPosEnd = null
     let colorToPosEnd = null
@@ -152,7 +152,7 @@ const createMaze = async (width, height, posStart, startDirection, dataForEnter)
                 unvisitetNeighbors.push(EAST)
             }
             if (unvisitetNeighbors.length === 0) {
-                posesSleepEnds.push([ x, y ])
+                //posesSleepEnds.push({ xI: x, yI: y })
                 return
             }
 
@@ -254,7 +254,7 @@ const createMaze = async (width, height, posStart, startDirection, dataForEnter)
         colorToPosEnd,
         formToPosEnd, 
         maze,
-        posesSleepEnds,
+        //posesSleepEnds,
     }
 }
 
@@ -282,6 +282,31 @@ const addStairsData = (maze, posStart, posEnd) => {
 }
 
 
+const prepareSleepEndPoints = maze => {
+    const sleepPoints = []
+    for (let key in maze) {
+        if (maze[key].type === 1) {
+            continue;
+        }
+
+        let n = 0
+        if (maze[key].n) ++n
+        if (maze[key].e) ++n
+        if (maze[key].s) ++n
+        if (maze[key].w) ++n
+
+        if (n !== 1) {
+            continue;
+        }
+
+        const coordsI = key.split(',')
+        sleepPoints.push({ xI: +coordsI[0], yI: ++coordsI[1] })
+    }
+
+    return sleepPoints
+} 
+
+
 export const createScheme04_crafted = async ({
     width = 21,
     height = 21,
@@ -297,10 +322,13 @@ export const createScheme04_crafted = async ({
         colorToPosEnd,
         formToPosEnd, 
         maze,
-        posesSleepEnds,
+        //posesSleepEnds,
     } = await createMaze(width, height, posStart, posStartDir, dataForEnter)
+
+    console.log(maze)
     
     addStairsData(maze, posStart, posEnd)
+    const posesSleepEnds = prepareSleepEndPoints(maze)
 
     return {
         maze,

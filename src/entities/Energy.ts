@@ -22,7 +22,7 @@ import * as THREE from 'three'
 export class Energy {
     _root: Root
     _v: number[] = []
-    init (root: Root) {
+    init (root: Root, points: any) {
         this._root = root
 
 
@@ -111,30 +111,45 @@ export class Energy {
         } 
 
 
+        console.log(points)
+        //debugger
 
-        for (let i = 0; i < 10; ++i) {
-            const v = createEn({ 
-                t: _M.ran(.5, 2),
-                rad: _M.ran(.1, .2),
-                l: _M.ran(.2, .3),
-            })
-            const m = _M.createMesh({ 
-                v, 
-                // @ts-ignore:next-line
-                material: new THREE.MeshPhongMaterial({ 
-                    color: new THREE.Color(
-                        _M.ran(.8, 1),
-                        _M.ran(.2, 1),
-                        _M.ran(.2, 1),
-                    ),
-                    envMap: root.loader.assets.sky,
-                    reflectivity: _M.ran(.2, 1),
-                }) 
-            })
-            m.scale.set(.3, .3, .3)
-            m.position.x = i * 2
-            m.position.y = .5
-            root.studio.add(m)
+        for (let i = 0; i < points.length; ++i) {
+            for (let j = 0; j < points[i].length; ++j) {
+                //if (Math.random() > .7) {
+                //    continue;      
+                //}
+
+                console.log(points[i])
+                const v = createEn({ 
+                    t: _M.ran(.5, 2),
+                    rad: _M.ran(.1, .2),
+                    l: _M.ran(.2, .3),
+                })
+                const m = _M.createMesh({ 
+                    v, 
+                    // @ts-ignore:next-line
+                    material: new THREE.MeshPhongMaterial({ 
+                        color: new THREE.Color(
+                            _M.ran(.8, 1),
+                            _M.ran(.2, 1),
+                            _M.ran(.2, 1),
+                        ),
+                        envMap: root.loader.assets.sky,
+                        reflectivity: _M.ran(.2, 1),
+                    }) 
+                })
+                m.scale.set(.3, .3, .3)
+                m.position.x = points[i][j].x
+                m.position.y = points[i][j].y + .5
+                m.position.z = points[i][j].z
+                root.studio.add(m)
+                root.ticker.on((t: number) => {
+                    m.rotation.y += t * 0.001
+
+                })
+            }
+
         }
 
 

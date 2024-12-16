@@ -169,11 +169,9 @@ export class Lab {
 
             // save poses for energy 
             for (let j = 0; j < labLevel.posesSleepEnds.length; ++j) {
-                labLevel.posesSleepEnds[j].push(
-                    labLevel.posesSleepEnds[j][0] * W, 
-                    labLevel.posesSleepEnds[j][1] * W,
-                    LEVEL_H * i,
-                )
+                labLevel.posesSleepEnds[j].x = labLevel.posesSleepEnds[j].xI * W 
+                labLevel.posesSleepEnds[j].z = (labLevel.posesSleepEnds[j].yI - 1) * W 
+                labLevel.posesSleepEnds[j].y = LEVEL_H * (i + 1)
             }
 
             this.posesSleepEnds.push(labLevel.posesSleepEnds)
