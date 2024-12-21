@@ -1,6 +1,7 @@
 import * as CANNON from 'cannon-es'
 import * as THREE from 'three'
 import CannonDebugger from 'cannon-es-debugger'
+import { timerDelta } from 'three/examples/jsm/nodes/Nodes'
 
 const createTrimesh = geometry => {
     const vertices = geometry.attributes.position.array
@@ -9,6 +10,8 @@ const createTrimesh = geometry => {
 }
 
 export class Phisics {
+    _cbsOnCollision = []
+    _bodies = []
 
     init (root) {
         this.world = new CANNON.World()
@@ -71,29 +74,22 @@ export class Phisics {
         this.playerBody.position.y = 3
         this.playerBody.position.z = -10
 
-        // this.playerBody.position.x = playerPosition.x
-        // this.playerBody.position.y = playerPosition.y
-        // this.playerBody.position.z = playerPosition.z
-
         this.playerBody._object3D = new THREE.Object3D()
         this.playerBody._object3D.position.set(this.playerBody.position.x, this.playerBody.position.y, this.playerBody.position.z)
         this.playerBody._object3D.rotation.y = Math.PI
 
         this.world.addBody(this.playerBody)
-
-        this.playerBody.addEventListener("collide", e => {
-            //console.log(e)
-        });
     }
     
-    addMeshToCollision (mesh) {
+    addMeshToCollision (mesh, nameSpace = '') {
         const cannonShape = createTrimesh(mesh.geometry)
         const body = new CANNON.Body({ 
             mass: 0, 
             type: CANNON.Body.STATIC, 
         })
         body.addShape(cannonShape)
-        body._myName = 'level_' + Math.floor(Math.random() * 1000)
+        body._myName = mesh.name
+        body._nameSpace = nameSpace
         //body.collisionResponse = 0;
 
         body.position.x = mesh.position.x
@@ -101,6 +97,37 @@ export class Phisics {
         body.position.z = mesh.position.z
         
         this.world.addBody(body)
+        this._bodies.push(body)
+
+        if (nameSpace === '') {
+            return;
+        }
+
+        body.addEventListener("collide", e => {
+            for (let i = 0; i < this._cbsOnCollision.length; ++i) {
+                if (this._cbsOnCollision[i][0] !== nameSpace) {
+                    continue;
+                }
+                this._cbsOnCollision[i][1](e.target._myName)
+            }
+        })
+    }
+
+    onCollision (meshNameIncludeStr, f) {
+        this._cbsOnCollision.push([meshNameIncludeStr, f])
+    }
+
+    removeMeshFromCollision (name) {
+        for (let i = 0; i < this._bodies.length; ++i) {
+            if (this._bodies[i]._myName !== name) {
+                continue
+            }
+
+            this._bodies[i].listeners = []
+            this._bodies[i].position.z = 100000
+            //console.log('REMOVE !!!!!', m.name)
+            //this.world.removeBody(this._bodies[i])
+        }
     }
 
     /**

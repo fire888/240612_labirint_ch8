@@ -324,8 +324,6 @@ export const createScheme04_crafted = async ({
         maze,
         //posesSleepEnds,
     } = await createMaze(width, height, posStart, posStartDir, dataForEnter)
-
-    console.log(maze)
     
     addStairsData(maze, posStart, posEnd)
     const posesSleepEnds = prepareSleepEndPoints(maze)

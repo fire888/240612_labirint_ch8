@@ -10,9 +10,11 @@ import { pipelineInit } from "./pipelines/pipelineInit"
 import { pipelinePlay } from "./pipelines/pipelinePlay"
 import { documentClickOnce } from "./entities/_helpers";
 import { LoaderAssets } from "./entities/Loader";
-import { ControlsPhone } from "entities/ControlsPhone"
-import { DeviceData } from "entities/DeviceData"
-import { Ui } from "entities/Ui"
+import { ControlsPhone } from "./entities/ControlsPhone"
+import { DeviceData } from "./entities/DeviceData"
+import { Ui } from "./entities/Ui"
+import { Phisics } from "./entities/Phisics"
+import { EnergySystem } from './entities/EnergySystem'
 
 
 export type Root = {
@@ -27,6 +29,8 @@ export type Root = {
     loader: LoaderAssets,
     deviceData: DeviceData,
     ui: Ui,
+    phisics: Phisics,
+    energySystem: EnergySystem,
 }
 
 
@@ -43,6 +47,8 @@ window.addEventListener("DOMContentLoaded", async () => {
         //lab: new Labyrinth(),
         loader: new LoaderAssets(),
         deviceData: new DeviceData(),
+        phisics: new Phisics(),
+        energySystem: new EnergySystem(),
     }
 
     await pipelineInit(root)

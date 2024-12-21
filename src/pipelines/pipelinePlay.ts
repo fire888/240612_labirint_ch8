@@ -16,6 +16,8 @@ export const pipelinePlay = async (root: Root) => {
         floor,
         deviceData,
         ui,
+        phisics,
+        energySystem,
     } = root
 
     let currentWalkingControls = deviceData.device === 'desktop' 
@@ -63,6 +65,12 @@ export const pipelinePlay = async (root: Root) => {
         }
         document.addEventListener('keyup', onKeyUp)
     }
+
+    // energy get
+    phisics.onCollision(energySystem.nameSpace, (name: string) => {
+        phisics.removeMeshFromCollision(name)
+        energySystem.animateMovieHide(name)
+    })
 
     await completePlay()
 }

@@ -1,10 +1,8 @@
 import { Root } from '../index'
 // import { createDemoTiles } from '_0_trash/demoTiles'
 import { Lab } from '../entities/labyrinth/Lab'
-import { Energy } from 'entities/Energy'
 //import { testStairs } from '../entities/labyrinth/testStairs'
 import { SmallTriangles } from '../entities/SmallTriangles'
-import { Phisics } from 'entities/Phisics'
 import { Particles } from 'entities/Particles'
 import { elementClickOnce } from 'entities/_helpers'
 import * as TWEEN from '@tweenjs/tween.js'
@@ -17,10 +15,12 @@ export const pipelineInit = async (root: Root) => {
         controlsPhone,
         ui,
         ticker,
-        boxTest,
+        // boxTest,
         floor,
-        //lab,
+        // lab,
         loader,
+        phisics,
+        energySystem,
     } = root
 
     loader.init()
@@ -39,7 +39,6 @@ export const pipelineInit = async (root: Root) => {
     controlsOrbit.init(studio.camera, studio.containerDom)
     ticker.on(controlsOrbit.update.bind(controlsOrbit))
 
-    const phisics = new Phisics()
     phisics.init(root)
     ticker.on(phisics.update.bind(phisics))
     phisics.createPlayerPhisicsBody({ x: 0, y: 3, z: 0}, 0)
@@ -68,10 +67,8 @@ export const pipelineInit = async (root: Root) => {
         phisics.addMeshToCollision(e)
     })
 
-    const energy = new Energy()
-    energy.init(root, lab.posesSleepEnds)
-
-
+    energySystem.init(root, lab.posesSleepEnds)
+    energySystem.mapCollisions((e: any) => phisics.addMeshToCollision(e, energySystem.nameSpace))
 
     const smallTriangles = new SmallTriangles(root)
     studio.add(smallTriangles.m)

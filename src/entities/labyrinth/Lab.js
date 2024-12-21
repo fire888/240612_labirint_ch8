@@ -176,7 +176,5 @@ export class Lab {
 
             this.posesSleepEnds.push(labLevel.posesSleepEnds)
         }
-
-        console.log(this.posesSleepEnds)
     } 
 }

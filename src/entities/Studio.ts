@@ -150,6 +150,10 @@ export class Studio {
         this.scene.add(m)
     }
 
+    remove (m: THREE.Object3D) {
+        this.scene.remove(m)
+    }
+
     addAxisHelper () {
         const axesHelper = new THREE.AxesHelper(15)
         this.scene.add(axesHelper)
