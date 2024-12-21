@@ -68,6 +68,9 @@ export const pipelinePlay = async (root: Root) => {
 
     // energy get
     phisics.onCollision(energySystem.nameSpace, (name: string) => {
+        if (!name.includes(energySystem.nameSpace)) {
+            return;
+        }
         phisics.removeMeshFromCollision(name)
         energySystem.animateMovieHide(name)
     })

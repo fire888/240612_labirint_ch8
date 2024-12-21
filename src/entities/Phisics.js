@@ -122,11 +122,7 @@ export class Phisics {
             if (this._bodies[i]._myName !== name) {
                 continue
             }
-
-            this._bodies[i].listeners = []
-            this._bodies[i].position.z = 100000
-            //console.log('REMOVE !!!!!', m.name)
-            //this.world.removeBody(this._bodies[i])
+            this._bodies[i].position.y = -100000
         }
     }
 

@@ -16,7 +16,7 @@ export class EnergySystem {
         this._root = root
 
         this._collisionMaterial = new THREE.MeshBasicMaterial({ color: 0xFFFF00 })
-        let n = 0
+        let namePrefix = 0
 
         for (let i = 0; i < points.length; ++i) {
             for (let j = 0; j < points[i].length; ++j) {
@@ -59,12 +59,12 @@ export class EnergySystem {
                     v: vCol,
                     material: this._collisionMaterial,
                 })
-                collisionM.name = 'collision_energy_' + i 
+                collisionM.name = 'collision_energy_' + namePrefix 
                 this.collisionsItems.push(collisionM)
 
                 this._items.push({ m, collisionM })
 
-                ++n
+                ++namePrefix
             }
         }
 
@@ -136,7 +136,7 @@ export class EnergySystem {
         const obj = { s: item.m.scale.x, y: 0 }
         new TWEEN.Tween(obj)
             .interpolation(TWEEN.Interpolation.Linear)
-            .to({ s: 0, y: .2 }, 500)
+            .to({ s: 0, y: .1 }, 500)
             .onUpdate(() => {
                 item.m.scale.set(obj.s, obj.s, obj.s)
                 item.m.position.y = savedY + obj.y  
