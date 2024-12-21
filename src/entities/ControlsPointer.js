@@ -2,6 +2,8 @@ import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockCont
 import * as THREE from 'three'
 import * as TWEEN from '@tweenjs/tween.js'
 
+
+
 export class ControlsPointer {
     isEnabled = false
 
@@ -27,8 +29,9 @@ export class ControlsPointer {
     _resultDir = new THREE.Vector3()
     _topVec = new THREE.Vector3(0, 1, 0)
 
-    _vecRotMovie = new THREE.Vector3(0, 0, 0)
     _timeRot = 0 
+    _eulerRot = new THREE.Euler(0, 0, 0, 'YXZ')
+
 
     init (root) {
         this.camera = root.studio.camera
@@ -43,6 +46,8 @@ export class ControlsPointer {
         this.savedRotation = new THREE.Quaternion()
 
         this.controls = new PointerLockControls(this.camera, this.domElem)
+        this.controls.maxPolarAngle = Math.PI - .01
+        this.controls.minPolarAngle = .01
         this.controls.addEventListener('lock', () => {
             this.isEnabled = true
         })
@@ -97,18 +102,13 @@ export class ControlsPointer {
         this.camera.position.y = playerCollision.position.y
         this.camera.position.z = playerCollision.position.z
 
-        const summSpeed = Math.abs(this._currentSpeedLeft) + Math.abs(this._currentSpeedForward)
+        // camera debounce
         this._timeRot += delta
-        this._vecRotMovie.x = Math.sin(this._timeRot * 0.03) * .0005 * summSpeed
-        this._vecRotMovie.z = Math.sin(this._timeRot * 0.02) * .0005 * summSpeed
-        this._vecRotMovie.y = Math.sin(this._timeRot * 0.025) * .0005 * summSpeed
-        this._vecRotMovie.x += Math.sin(this._timeRot * 0.001) * .0001
-        this._vecRotMovie.z += Math.sin(this._timeRot * 0.0005) * .0001
-        this._vecRotMovie.y += Math.sin(this._timeRot * 0.0007) * .0001
-
-        this.camera.rotation.x += this._vecRotMovie.x
-        this.camera.rotation.y += this._vecRotMovie.y
-        this.camera.rotation.z += this._vecRotMovie.z
+        const walkingDebounce = Math.sin(this._timeRot * 0.02) * 0.006 * this._currentSpeedForward
+        const idleDebounce = Math.sin(this._timeRot * 0.001) * 0.01 * (this._maxSpeedForward - this._currentSpeedForward)
+        this._eulerRot.setFromQuaternion(this.camera.quaternion)
+        this._eulerRot.z = walkingDebounce + idleDebounce
+        this.camera.quaternion.setFromEuler(this._eulerRot)
     }
 
     enable() {
