@@ -44,6 +44,7 @@ export const pipelineInit = async (root: Root) => {
     phisics.createPlayerPhisicsBody({ x: 0, y: 3, z: 0}, 0)
 
     ui.init(root)
+    ui.setEnergyLevel(0)
 
     controlsPointer.init(root)
     ticker.on((t: number) => { 

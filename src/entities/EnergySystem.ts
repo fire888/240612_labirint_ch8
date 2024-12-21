@@ -62,7 +62,7 @@ export class EnergySystem {
                 collisionM.name = 'collision_energy_' + namePrefix 
                 this.collisionsItems.push(collisionM)
 
-                this._items.push({ m, collisionM })
+                this._items.push({ m, collisionM, isActive: true })
 
                 ++namePrefix
             }
@@ -111,7 +111,7 @@ export class EnergySystem {
         collisionM.name = 'collision_energy_' + 1000 
         this.collisionsItems.push(collisionM)
 
-        this._items.push({ m, collisionM })
+        this._items.push({ m, collisionM, isActive: true })
     }
 
     mapCollisions (f: any) {
@@ -131,6 +131,8 @@ export class EnergySystem {
             console.log('not find to hide', name)
         }
 
+        item.isActive = false
+
         const savedY = item.m.position.y
 
         const obj = { s: item.m.scale.x, y: 0 }
@@ -148,5 +150,16 @@ export class EnergySystem {
                 item.m.material.dispose()
             })
             .start()
+    }
+
+    getPercentageItemsGetted () {
+        let count = 0 
+        for (let i = 0; i < this._items.length; ++i) {
+            if (this._items[i].isActive) {
+                continue;
+            }
+            ++count
+        }
+        return count / this._items.length
     }
 }

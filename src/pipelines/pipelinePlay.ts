@@ -67,12 +67,22 @@ export const pipelinePlay = async (root: Root) => {
     }
 
     // energy get
+    let isFullEnergy = false
+    const PERC_OF_FULL_COUNT_ENERGY_COMPLETE = .1
     phisics.onCollision(energySystem.nameSpace, (name: string) => {
         if (!name.includes(energySystem.nameSpace)) {
             return;
         }
         phisics.removeMeshFromCollision(name)
         energySystem.animateMovieHide(name)
+        const percentageItemsGetted = energySystem.getPercentageItemsGetted()
+        const multipyPerc = Math.min(1., percentageItemsGetted / PERC_OF_FULL_COUNT_ENERGY_COMPLETE)
+        ui.setEnergyLevel(multipyPerc)
+        if (multipyPerc === 1) {
+            isFullEnergy = true
+            ui.setEnergyLevel(1)
+            ui.setEnergyYellow()
+        }
     })
 
     await completePlay()
