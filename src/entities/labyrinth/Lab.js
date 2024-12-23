@@ -2,13 +2,14 @@ import * as THREE from 'three'
 import { LabLevel } from './LabLevel'
 import { createStair } from '../../geometry/stair'
 import { createRandomDataForLine } from '../../geometry/lineGeomCrafted'
-import { _M } from "../../geometry/_m";
+import { _M } from "../../geometry/_m"
+import { TopTunnel } from './TopTunnel'
 
 const TILES_X = 11
 const TILES_Z = 13
 //const LEVEL_H = 3.3
 const LEVEL_H = 5
-const FLOORS = 15
+const FLOORS_NUM = 10
 //const FLOORS = 1
 const W = 3
 const N = 7
@@ -74,7 +75,7 @@ export class Lab {
 
 
         // level 
-        for (let i = 0; i < FLOORS; ++i) {
+        for (let i = 0; i < FLOORS_NUM; ++i) {
             // create level
             const labLevel = new LabLevel()
             await labLevel.init(root, {
@@ -176,5 +177,35 @@ export class Lab {
 
             this.posesSleepEnds.push(labLevel.posesSleepEnds)
         }
+
+        const topTunnel = new TopTunnel()
+        topTunnel.init({ material, dataForEnter, collisionMaterial: this.collisionMaterial })
+        const pos = new THREE.Vector3(posStart[0] * W,  (FLOORS_NUM + 1) * LEVEL_H, posStart[1] * W)
+        const offset = W + (topTunnel.W / 2) + W / 2
+        if (posStartDir === 'n') {
+            topTunnel.mesh.rotation.y = 0
+            topTunnel.meshCollision.rotation.y = 0
+            pos.z -= offset
+        }
+        if (posStartDir === 'e') {
+            topTunnel.mesh.rotation.y = Math.PI * 1.5
+            topTunnel.meshCollision.rotation.y = Math.PI * 1.5
+            pos.x += offset
+        }
+        if (posStartDir === 'w') {
+            topTunnel.mesh.rotation.y = Math.PI / 2
+            topTunnel.meshCollision.rotation.y = Math.PI / 2
+            pos.x -= offset
+        }
+        if (posStartDir === 's') {
+            topTunnel.mesh.rotation.y = Math.PI
+            topTunnel.meshCollision.rotation.y = Math.PI
+            pos.z += offset
+        }
+        topTunnel.mesh.position.copy(pos)
+        topTunnel.meshCollision.position.copy(pos)
+        this.mesh.add(topTunnel.mesh)
+
+        this.collisionsItems.push(topTunnel.meshCollision)
     } 
 }

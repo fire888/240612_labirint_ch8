@@ -2,7 +2,6 @@ import { _M } from "./_m";
 import { createLineGeom } from './lineGeomCrafted'
 
 
-//export const createTileI = ({ w, n, forms = [], paths = [], colors = [] }) => {
 export const createTileI = ({ w, n, forms, paths, colors, key }) => {
     // CREATE ARRAYS DATA
 

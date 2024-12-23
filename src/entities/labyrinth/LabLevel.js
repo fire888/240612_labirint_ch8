@@ -11,7 +11,6 @@ import { createStair } from "../../geometry/stair";
 
 
 const EMPTY = 1
-const TUNNEL = 3
 const STAIR = 4
 
 
