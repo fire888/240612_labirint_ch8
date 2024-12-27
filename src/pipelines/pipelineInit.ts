@@ -21,6 +21,7 @@ export const pipelineInit = async (root: Root) => {
         loader,
         phisics,
         energySystem,
+        lab,
     } = root
 
     loader.init()
@@ -59,13 +60,12 @@ export const pipelineInit = async (root: Root) => {
     floor.init(root)
     studio.add(floor.mesh)
 
-    const lab = new Lab()
     await lab.init(root)
     studio.add(lab.mesh)
     studio.add(lab.collisionMesh)
     lab.collisionMesh.visible = false
     lab.collisionsItems.map(e => {
-        phisics.addMeshToCollision(e)
+        phisics.addMeshToCollision(e, lab.nameSpace)
     })
 
     energySystem.init(root, lab.posesSleepEnds)

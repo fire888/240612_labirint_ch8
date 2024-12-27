@@ -18,6 +18,7 @@ export const pipelinePlay = async (root: Root) => {
         ui,
         phisics,
         energySystem,
+        lab
     } = root
 
     let currentWalkingControls = deviceData.device === 'desktop' 
@@ -70,9 +71,6 @@ export const pipelinePlay = async (root: Root) => {
     let isFullEnergy = false
     const PERC_OF_FULL_COUNT_ENERGY_COMPLETE = .1
     phisics.onCollision(energySystem.nameSpace, (name: string) => {
-        if (!name.includes(energySystem.nameSpace)) {
-            return;
-        }
         phisics.removeMeshFromCollision(name)
         energySystem.animateMovieHide(name)
         const percentageItemsGetted = energySystem.getPercentageItemsGetted()
@@ -83,6 +81,24 @@ export const pipelinePlay = async (root: Root) => {
             ui.setEnergyLevel(1)
             ui.setEnergyYellow()
         }
+    })
+
+    let isDoorOpen = false 
+    phisics.onCollision(lab.nameSpace, (name: string) => {
+
+        if (name !== 'collision_lab_tunnel') {
+            return;
+        }
+        if (!isFullEnergy) {
+            return;
+        }
+        if (isDoorOpen) {
+            return;
+        }
+
+        isDoorOpen = true
+        lab.openDoor()
+        phisics.removeMeshFromCollision('collision_lab_door')
     })
 
     await completePlay()

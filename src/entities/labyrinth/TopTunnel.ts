@@ -52,6 +52,7 @@ export class TopTunnel {
             ),
         ]
         this.meshCollision = _M.createMesh({ v: vC, material: data.collisionMaterial })
+        this.meshCollision.name = 'collision_lab_tunnel'
 
         const doorData = createDoor({
             paths: [dataForEnter.path, randomData2.path],
@@ -79,6 +80,11 @@ export class TopTunnel {
                 [-3, 3, 0],
             ) 
         })
-        this.meshDoorCollision.name = 'door_collision'
+        this.meshDoorCollision.name = 'collision_lab_door'
+    }
+
+    openDoor () {
+        this._doorMesh.position.z = -50000
+        this.meshDoorCollision.position.y = -500000
     }
 }

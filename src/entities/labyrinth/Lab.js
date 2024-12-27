@@ -9,15 +9,17 @@ const TILES_X = 11
 const TILES_Z = 13
 //const LEVEL_H = 3.3
 const LEVEL_H = 5
-const FLOORS_NUM = 10
+const FLOORS_NUM = 3
 //const FLOORS = 1
 const W = 3
 const N = 7
 
 export class Lab {
+    nameSpace = 'collision_lab_'
+
     constructor () {}
 
-    async init(root) {
+    async init (root) {
         this.mesh = new THREE.Object3D()
         this.collisionMesh = new THREE.Object3D()
         //this.collisionMesh.visible = false
@@ -181,10 +183,10 @@ export class Lab {
 
         // top tunnel ***********************************************************/
 
-        const topTunnel = new TopTunnel()
-        topTunnel.init({ material, dataForEnter, collisionMaterial: this.collisionMaterial, w: W })
+        this.topTunnel = new TopTunnel()
+        this.topTunnel.init({ material, dataForEnter, collisionMaterial: this.collisionMaterial, w: W })
         const pos = new THREE.Vector3(posStart[0] * W,  (FLOORS_NUM + 1) * LEVEL_H, posStart[1] * W)
-        const offset = W + (topTunnel.W / 2) + W / 2
+        const offset = W + (this.topTunnel.W / 2) + W / 2
         const doorCollisionPos = new THREE.Vector3().copy(pos)
         let rotation = 0
         let rotationCollision = 0
@@ -212,14 +214,18 @@ export class Lab {
             doorCollisionPos.x -= W * 4
         }
 
-        topTunnel.mesh.rotation.y = topTunnel.meshDoorCollision.rotation.y = rotation 
-        topTunnel.meshCollision.rotation.y = rotationCollision
+        this.topTunnel.mesh.rotation.y = this.topTunnel.meshDoorCollision.rotation.y = rotation 
+        this.topTunnel.meshCollision.rotation.y = rotationCollision
 
-        topTunnel.mesh.position.copy(pos)
-        topTunnel.meshCollision.position.copy(pos)
-        this.mesh.add(topTunnel.mesh)
+        this.topTunnel.mesh.position.copy(pos)
+        this.topTunnel.meshCollision.position.copy(pos)
+        this.mesh.add(this.topTunnel.mesh)
 
-        topTunnel.meshDoorCollision.position.copy(doorCollisionPos)
-        this.collisionsItems.push(topTunnel.meshCollision, topTunnel.meshDoorCollision)
+        this.topTunnel.meshDoorCollision.position.copy(doorCollisionPos)
+        this.collisionsItems.push(this.topTunnel.meshCollision, this.topTunnel.meshDoorCollision)
     } 
+
+    openDoor () {
+        this.topTunnel.openDoor()
+    }
 }

@@ -15,6 +15,7 @@ import { DeviceData } from "./entities/DeviceData"
 import { Ui } from "./entities/Ui"
 import { Phisics } from "./entities/Phisics"
 import { EnergySystem } from './entities/EnergySystem'
+import { Lab } from './entities/labyrinth/Lab'
 
 
 export type Root = {
@@ -31,6 +32,7 @@ export type Root = {
     ui: Ui,
     phisics: Phisics,
     energySystem: EnergySystem,
+    lab: Lab 
 }
 
 
@@ -49,6 +51,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         deviceData: new DeviceData(),
         phisics: new Phisics(),
         energySystem: new EnergySystem(),
+        lab: new Lab()
     }
 
     await pipelineInit(root)
