@@ -178,34 +178,48 @@ export class Lab {
             this.posesSleepEnds.push(labLevel.posesSleepEnds)
         }
 
+
+        // top tunnel ***********************************************************/
+
         const topTunnel = new TopTunnel()
-        topTunnel.init({ material, dataForEnter, collisionMaterial: this.collisionMaterial })
+        topTunnel.init({ material, dataForEnter, collisionMaterial: this.collisionMaterial, w: W })
         const pos = new THREE.Vector3(posStart[0] * W,  (FLOORS_NUM + 1) * LEVEL_H, posStart[1] * W)
         const offset = W + (topTunnel.W / 2) + W / 2
+        const doorCollisionPos = new THREE.Vector3().copy(pos)
+        let rotation = 0
+        let rotationCollision = 0
+
         if (posStartDir === 'n') {
-            topTunnel.mesh.rotation.y = 0
-            topTunnel.meshCollision.rotation.y = 0
+            rotation = 0
+            rotationCollision = Math.PI / 2
+            doorCollisionPos.z -= W * 4
             pos.z -= offset
         }
         if (posStartDir === 'e') {
-            topTunnel.mesh.rotation.y = Math.PI * 1.5
-            topTunnel.meshCollision.rotation.y = Math.PI * 1.5
+            rotation = Math.PI * 1.5
             pos.x += offset
-        }
-        if (posStartDir === 'w') {
-            topTunnel.mesh.rotation.y = Math.PI / 2
-            topTunnel.meshCollision.rotation.y = Math.PI / 2
-            pos.x -= offset
+            doorCollisionPos.x += W * 4
         }
         if (posStartDir === 's') {
-            topTunnel.mesh.rotation.y = Math.PI
-            topTunnel.meshCollision.rotation.y = Math.PI
+            rotation = Math.PI
+            rotationCollision = Math.PI / 2
             pos.z += offset
+            doorCollisionPos.z += W * 4
         }
+        if (posStartDir === 'w') {
+            rotation = Math.PI / 2
+            pos.x -= offset
+            doorCollisionPos.x -= W * 4
+        }
+
+        topTunnel.mesh.rotation.y = topTunnel.meshDoorCollision.rotation.y = rotation 
+        topTunnel.meshCollision.rotation.y = rotationCollision
+
         topTunnel.mesh.position.copy(pos)
         topTunnel.meshCollision.position.copy(pos)
         this.mesh.add(topTunnel.mesh)
 
-        this.collisionsItems.push(topTunnel.meshCollision)
+        topTunnel.meshDoorCollision.position.copy(doorCollisionPos)
+        this.collisionsItems.push(topTunnel.meshCollision, topTunnel.meshDoorCollision)
     } 
 }

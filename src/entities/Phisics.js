@@ -95,6 +95,12 @@ export class Phisics {
         body.position.x = mesh.position.x
         body.position.y = mesh.position.y
         body.position.z = mesh.position.z
+
+        body.quaternion.x = mesh.quaternion.x
+        body.quaternion.y = mesh.quaternion.y
+        body.quaternion.z = mesh.quaternion.z
+        body.quaternion.w = mesh.quaternion.w
+ 
         
         this.world.addBody(body)
         this._bodies.push(body)

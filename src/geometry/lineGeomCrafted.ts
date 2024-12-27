@@ -6,7 +6,7 @@ type AttributesArrs = {
 }
 
 type DataToCreateLine = {
-    form: number[],
+    form: number[], // линейный массив перечисления x: 0, y: высота, z: ширина, смотрит вправо   
     path: number[][],
     color: number[],
     isClosed: boolean,
