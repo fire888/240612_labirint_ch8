@@ -8,6 +8,7 @@ import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js';
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 import { Root } from "../index";
+import * as TWEEN from '@tweenjs/tween.js'
 
 
 
@@ -157,5 +158,42 @@ export class Studio {
     addAxisHelper () {
         const axesHelper = new THREE.AxesHelper(15)
         this.scene.add(axesHelper)
+    }
+
+    cameraFlyAway (dir: string) {
+        return new Promise(res => {
+            console.log(dir)
+            let newPlace = new THREE.Vector3().copy(this.camera.position) 
+            if (dir === 'n') {
+                newPlace.z -= 100
+            }
+            if (dir === 's') {
+                newPlace.z += 100
+            }
+            if (dir === 'e') {
+                newPlace.x += 100
+            }
+            if (dir === 'w') {
+                newPlace.x -= 100
+            }
+    
+            const savedPos = new THREE.Vector3().copy(this.camera.position) 
+            const savedRotation = this.camera.rotation.y
+
+            const dirRot = Math.random() > 0.5 ? 1 : -1
+    
+            const obj = { v: 0  }
+            new TWEEN.Tween(obj)
+                .interpolation(TWEEN.Interpolation.Linear)
+                .to({ v: 1 }, 5000)
+                .onUpdate(() => {
+                    this.camera.position.lerpVectors(savedPos, newPlace, obj.v)
+                    this.camera.rotation.y = savedRotation + Math.min(Math.PI * 2,  Math.PI * 2 * obj.v * 3) * dirRot
+                })
+                .onComplete(() => {
+                    res(true)
+                })
+                .start()
+        })
     }
 }

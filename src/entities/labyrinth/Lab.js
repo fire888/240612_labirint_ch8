@@ -11,12 +11,13 @@ const TILES_X = 11
 const TILES_Z = 13
 //const LEVEL_H = 3.3
 const LEVEL_H = 5
-const FLOORS_NUM = 10
+const FLOORS_NUM = 1
 const W = 3
 const N = 7
 
 export class Lab {
     nameSpace = 'collision_lab_'
+    lastDir = null
 
     async init (root) {
         this._root = root
@@ -226,10 +227,16 @@ export class Lab {
 
         root.phisics.addMeshToCollision(this.topTunnel.meshCollision)
         root.phisics.addMeshToCollision(this.topTunnel.meshDoorCollision)
+
+        this.lastDir = posStartDir
     } 
 
     openDoor () {
         this._root.phisics.removeMeshFromCollision('collision_lab_door')
         this.topTunnel.openDoor()
+    }
+
+    destroy() {
+        console.log('HHHHHHH MUST DESTROY')
     }
 }

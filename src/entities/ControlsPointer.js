@@ -7,6 +7,8 @@ import * as TWEEN from '@tweenjs/tween.js'
 export class ControlsPointer {
     isEnabled = false
 
+    _cameraFree = false
+
     _timeLastLocked = null
     _delayNextLock = 2000
     _isFirstLock = true
@@ -63,6 +65,10 @@ export class ControlsPointer {
     }
 
     update (delta, playerCollision) {
+        if (this._cameraFree) {
+            return;
+        }
+
         if (!this.isEnabled) {
             return;
         }
@@ -134,6 +140,16 @@ export class ControlsPointer {
         }
         this.isEnabled = false
         this.controls.unlock()
+    }
+
+    cameraDisconnect () {
+        this._cameraFree = true
+        this.controls.disconnect()
+    } 
+
+    cameraConnect () {
+        this._cameraFree = false
+        this.controls.connect()
     }
 
     onUnlock (cb) {

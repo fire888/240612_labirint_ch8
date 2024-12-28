@@ -3,6 +3,7 @@ import { Root } from '../index'
 const completePlay = (): Promise<void> => {
     return new Promise(res => {})
 }
+const pause = (t: number): Promise<void> => new Promise(res => setTimeout(res, t))
 
 
 export const pipelinePlay = async (root: Root) => {
@@ -67,7 +68,7 @@ export const pipelinePlay = async (root: Root) => {
         document.addEventListener('keyup', onKeyUp)
     }
 
-    // energy get
+    // energy get *******************************************/
     let isFullEnergy = false
     const PERC_OF_FULL_COUNT_ENERGY_COMPLETE = .1
     phisics.onCollision(energySystem.nameSpace, (name: string) => {
@@ -83,8 +84,9 @@ export const pipelinePlay = async (root: Root) => {
         }
     })
 
+    // pipeline change level ******************************/
     let isDoorOpen = false 
-    phisics.onCollision('collision_lab_tunnel', (name: string) => {
+    phisics.onCollision('collision_lab_tunnel', async (name: string) => {
         if (!isFullEnergy) {
             return;
         }
@@ -94,7 +96,19 @@ export const pipelinePlay = async (root: Root) => {
 
         isDoorOpen = true
         lab.openDoor()
+        await pause(1000)
+        controlsPhone.disable()
+        controlsPointer.cameraDisconnect()
+        await studio.cameraFlyAway(lab.lastDir)
+        lab.destroy()
     })
+
+    // setTimeout(() => {
+    //     controlsPointer.cameraDisconnect()
+    //     setTimeout(() => {
+    //         controlsPointer.cameraConnect()
+    //     }, 5000)
+    // }, 5000)
 
     await completePlay()
 }
