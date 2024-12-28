@@ -81,15 +81,15 @@ export class Phisics {
         this.world.addBody(this.playerBody)
     }
     
-    addMeshToCollision (mesh, nameSpace = '') {
+    addMeshToCollision (mesh) {
         const cannonShape = createTrimesh(mesh.geometry)
         const body = new CANNON.Body({ 
             mass: 0, 
             type: CANNON.Body.STATIC, 
         })
+        mesh.geometry.dispose()
         body.addShape(cannonShape)
         body._myName = mesh.name
-        body._nameSpace = nameSpace
         //body.collisionResponse = 0;
 
         body.position.x = mesh.position.x
@@ -104,23 +104,17 @@ export class Phisics {
         
         this.world.addBody(body)
         this._bodies.push(body)
-
-        if (nameSpace === '') {
-            return;
-        }
-
-        body.addEventListener("collide", e => {
-            for (let i = 0; i < this._cbsOnCollision.length; ++i) {
-                if (this._cbsOnCollision[i][0] !== nameSpace) {
-                    continue;
-                }
-                this._cbsOnCollision[i][1](e.target._myName)
-            }
-        })
     }
 
     onCollision (meshNameIncludeStr, f) {
-        this._cbsOnCollision.push([meshNameIncludeStr, f])
+        for (let i = 0; i < this._bodies.length; ++i) {
+            if (!this._bodies[i]._myName.includes(meshNameIncludeStr)) {
+                continue;
+            }
+            this._bodies[i].addEventListener("collide", e => {
+                f(e.target._myName)
+            })
+        }
     }
 
     removeMeshFromCollision (name) {

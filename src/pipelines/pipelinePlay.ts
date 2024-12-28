@@ -84,11 +84,7 @@ export const pipelinePlay = async (root: Root) => {
     })
 
     let isDoorOpen = false 
-    phisics.onCollision(lab.nameSpace, (name: string) => {
-
-        if (name !== 'collision_lab_tunnel') {
-            return;
-        }
+    phisics.onCollision('collision_lab_tunnel', (name: string) => {
         if (!isFullEnergy) {
             return;
         }
@@ -98,7 +94,6 @@ export const pipelinePlay = async (root: Root) => {
 
         isDoorOpen = true
         lab.openDoor()
-        phisics.removeMeshFromCollision('collision_lab_door')
     })
 
     await completePlay()

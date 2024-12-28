@@ -4,12 +4,7 @@ import * as THREE from 'three'
 
 
 export const createDoor = (data: any) => {
-    // CREATE ARRAYS DATA
-
     const { forms, paths, colors, key } = data
-    console.log(forms)
-
-    //const m = new THREE.Object3D()
     
     const v = []
     const c = []

@@ -1,29 +1,29 @@
 import * as THREE from 'three'
 import { LabLevel } from './LabLevel'
 import { createStair } from '../../geometry/stair'
+import { TopTunnel } from './TopTunnel'
 import { createRandomDataForLine } from '../../geometry/lineGeomCrafted'
 import { _M } from "../../geometry/_m"
-import { TopTunnel } from './TopTunnel'
 
+
+//const TILES_X = 11
 const TILES_X = 11
 const TILES_Z = 13
 //const LEVEL_H = 3.3
 const LEVEL_H = 5
-const FLOORS_NUM = 3
-//const FLOORS = 1
+const FLOORS_NUM = 10
 const W = 3
 const N = 7
 
 export class Lab {
     nameSpace = 'collision_lab_'
 
-    constructor () {}
-
     async init (root) {
+        this._root = root
+
+        const { phisics } = root
+
         this.mesh = new THREE.Object3D()
-        this.collisionMesh = new THREE.Object3D()
-        //this.collisionMesh.visible = false
-        this.collisionsItems = []
         this.posesSleepEnds = []
 
         const material = new THREE.MeshPhongMaterial({ 
@@ -35,7 +35,8 @@ export class Lab {
 
         this.collisionMaterial = new THREE.MeshBasicMaterial({ color: 0xFFFF00 })
 
-        // start stair
+        // start stair *******************************************/
+
         const stairDataBottom = createRandomDataForLine()
         stairDataBottom.dir = 'n'
         const stairDataCenterB = createRandomDataForLine()
@@ -67,9 +68,10 @@ export class Lab {
         })
         collisionStairM.position.x = W * 5
         collisionStairM.position.z = W
-        this.collisionMesh.add(collisionStairM)
-        this.collisionsItems.push(collisionStairM)
+        phisics.addMeshToCollision(collisionStairM)
 
+
+        // levels *******************************************/
 
         let posStart = [5, 1]
         let posStartDir = stairDataTop.dir
@@ -94,8 +96,7 @@ export class Lab {
             labLevel.mesh.position.y = LEVEL_H * i + LEVEL_H
             this.mesh.add(labLevel.mesh)
             labLevel.collisionMesh.position.y = LEVEL_H * i + LEVEL_H
-            this.collisionMesh.add(labLevel.collisionMesh)
-            this.collisionsItems.push(labLevel.collisionMesh)
+            root.phisics.addMeshToCollision(labLevel.collisionMesh)
 
 
             // create stair
@@ -162,8 +163,7 @@ export class Lab {
             collisionM.position.x = W * labLevel.posEnd[0]
             collisionM.position.z = W * labLevel.posEnd[1]
             collisionM.position.y = (i + 1) * LEVEL_H
-            this.collisionMesh.add(collisionM)
-            this.collisionsItems.push(collisionM)
+            root.phisics.addMeshToCollision(collisionM)
 
             // save for next level
             posStart = labLevel.posEnd
@@ -215,17 +215,21 @@ export class Lab {
         }
 
         this.topTunnel.mesh.rotation.y = this.topTunnel.meshDoorCollision.rotation.y = rotation 
+
         this.topTunnel.meshCollision.rotation.y = rotationCollision
 
         this.topTunnel.mesh.position.copy(pos)
         this.topTunnel.meshCollision.position.copy(pos)
+        this.topTunnel.meshDoorCollision.position.copy(doorCollisionPos)
+
         this.mesh.add(this.topTunnel.mesh)
 
-        this.topTunnel.meshDoorCollision.position.copy(doorCollisionPos)
-        this.collisionsItems.push(this.topTunnel.meshCollision, this.topTunnel.meshDoorCollision)
+        root.phisics.addMeshToCollision(this.topTunnel.meshCollision)
+        root.phisics.addMeshToCollision(this.topTunnel.meshDoorCollision)
     } 
 
     openDoor () {
+        this._root.phisics.removeMeshFromCollision('collision_lab_door')
         this.topTunnel.openDoor()
     }
 }

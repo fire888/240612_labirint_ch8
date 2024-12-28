@@ -59,10 +59,11 @@ export class EnergySystem {
                     v: vCol,
                     material: this._collisionMaterial,
                 })
-                collisionM.name = 'collision_energy_' + namePrefix 
-                this.collisionsItems.push(collisionM)
+                const collisionName = this.nameSpace + namePrefix
+                collisionM.name = collisionName
+                this._root.phisics.addMeshToCollision(collisionM)
 
-                this._items.push({ m, collisionM, isActive: true })
+                this._items.push({ collisionName, m, isActive: true })
 
                 ++namePrefix
             }
@@ -108,22 +109,17 @@ export class EnergySystem {
             v: vCol,
             material: this._collisionMaterial,
         })
-        collisionM.name = 'collision_energy_' + 1000 
-        this.collisionsItems.push(collisionM)
+        const collisionName = this.nameSpace + 1000 
+        collisionM.name = collisionName
+        this._root.phisics.addMeshToCollision(collisionM)
 
-        this._items.push({ m, collisionM, isActive: true })
-    }
-
-    mapCollisions (f: any) {
-        for (let i = 0; i < this._items.length; ++i) {
-            f(this._items[i].collisionM)
-        }
+        this._items.push({ collisionName, m, isActive: true })
     }
 
     animateMovieHide (name: string) {
         let item = null
         for (let i = 0; i < this._items.length; ++i) {
-            if (this._items[i].collisionM.name === name) {
+            if (this._items[i].collisionName === name) {
                 item = this._items[i] 
             }
         }

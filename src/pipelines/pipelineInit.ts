@@ -62,14 +62,8 @@ export const pipelineInit = async (root: Root) => {
 
     await lab.init(root)
     studio.add(lab.mesh)
-    studio.add(lab.collisionMesh)
-    lab.collisionMesh.visible = false
-    lab.collisionsItems.map(e => {
-        phisics.addMeshToCollision(e, lab.nameSpace)
-    })
 
     energySystem.init(root, lab.posesSleepEnds)
-    energySystem.mapCollisions((e: any) => phisics.addMeshToCollision(e, energySystem.nameSpace))
 
     const smallTriangles = new SmallTriangles(root)
     studio.add(smallTriangles.m)
