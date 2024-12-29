@@ -60,7 +60,7 @@ export const pipelineInit = async (root: Root) => {
     floor.init(root)
     studio.add(floor.mesh)
 
-    await lab.init(root)
+    await lab.init(root, { TILES_X: 11, TILES_Z: 11, FLOORS_NUM: 0 })
     studio.add(lab.mesh)
 
     energySystem.init(root, lab.posesSleepEnds)

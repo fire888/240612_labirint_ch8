@@ -12,6 +12,7 @@ const createTrimesh = geometry => {
 export class Phisics {
     _cbsOnCollision = []
     _bodies = []
+    _bodiesToRemove = []
 
     init (root) {
         this.world = new CANNON.World()
@@ -122,7 +123,7 @@ export class Phisics {
             if (this._bodies[i]._myName !== name) {
                 continue
             }
-            this._bodies[i].position.y = -100000
+            this._bodiesToRemove.push(this._bodies[i])
         }
     }
 
@@ -136,5 +137,21 @@ export class Phisics {
         }
         this.world.fixedStep()
         this.cannonDebugger && this.cannonDebugger.update()
+
+        if (this._bodiesToRemove.length > 0) {
+            for (let i = 0; i < this._bodiesToRemove.length; ++i) {
+                this.world.removeBody(this._bodiesToRemove[i])
+            }
+            this._bodiesToRemove = []
+        }
+    }
+
+    setPlayerPosition (x, y, z) {
+        this.playerBody.position.x = x
+        this.playerBody.position.y = y
+        this.playerBody.position.z = z
+
+        this.playerBody._object3D.position.set(this.playerBody.position.x, this.playerBody.position.y, this.playerBody.position.z)
+        this.playerBody._object3D.rotation.y = Math.PI
     }
 }

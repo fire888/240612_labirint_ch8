@@ -8,10 +8,10 @@ import { createDoor } from "geometry/door"
 export class TopTunnel {
     W = 60
     N = 140
-    mesh: THREE.Object3D
+    mesh: THREE.Mesh
     meshCollision: THREE.Object3D
     meshDoorCollision: THREE.Object3D
-    _doorMesh: THREE.Object3D
+    _doorMesh: THREE.Mesh
 
     init (data: any) {
         
@@ -81,6 +81,12 @@ export class TopTunnel {
             ) 
         })
         this.meshDoorCollision.name = 'collision_lab_door'
+    }
+
+    destroy () {
+        this.mesh.remove(this._doorMesh)
+        this._doorMesh.geometry.dispose()
+        this.mesh.geometry.dispose()
     }
 
     openDoor () {

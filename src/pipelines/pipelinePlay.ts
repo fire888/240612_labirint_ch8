@@ -1,9 +1,17 @@
 import { Root } from '../index'
 
-const completePlay = (): Promise<void> => {
-    return new Promise(res => {})
-}
 const pause = (t: number): Promise<void> => new Promise(res => setTimeout(res, t))
+
+let indexPlay = 0
+
+const LAB_CONF: any = []
+for (let i = 1; i < 31; i += 2) {
+    let n = i * 3
+    if (n % 2 === 0) {
+        n += 1
+    }
+    LAB_CONF.push({ TILES_X: 3 * i, TILES_Z: 3 * i, FLOORS_NUM: i })
+}
 
 
 export const pipelinePlay = async (root: Root) => {
@@ -21,6 +29,12 @@ export const pipelinePlay = async (root: Root) => {
         energySystem,
         lab
     } = root
+
+    if (indexPlay !== 0) {
+        await lab.init(root, LAB_CONF[indexPlay])
+        energySystem.init(root, lab.posesSleepEnds)
+        phisics.setPlayerPosition(15.076315508474185, 3, -10)
+    }
 
     let currentWalkingControls = deviceData.device === 'desktop' 
         ? controlsPointer
@@ -85,8 +99,9 @@ export const pipelinePlay = async (root: Root) => {
     })
 
     // pipeline change level ******************************/
+    let executeAwaitCompletePlay: any = null
     let isDoorOpen = false 
-    phisics.onCollision('collision_lab_tunnel', async (name: string) => {
+    phisics.onCollision(lab.nameSpace + 'top_tunnel', async (name: string) => {
         if (!isFullEnergy) {
             return;
         }
@@ -97,18 +112,24 @@ export const pipelinePlay = async (root: Root) => {
         isDoorOpen = true
         lab.openDoor()
         await pause(1000)
-        controlsPhone.disable()
-        controlsPointer.cameraDisconnect()
-        await studio.cameraFlyAway(lab.lastDir)
+        //controlsPhone.disable()
+        //controlsPointer.cameraDisconnect()
+        //await studio.cameraFlyAway(lab.lastDir)
         lab.destroy()
+        energySystem.destroy()
+        ui.setEnergyLevel(0)
+        executeAwaitCompletePlay()
     })
 
-    // setTimeout(() => {
-    //     controlsPointer.cameraDisconnect()
-    //     setTimeout(() => {
-    //         controlsPointer.cameraConnect()
-    //     }, 5000)
-    // }, 5000)
+    const completePlay = () => {
+        return new Promise(resolve => {
+            executeAwaitCompletePlay = resolve
+        })
+    }
 
     await completePlay()
+    await pause(1000)
+
+    ++indexPlay
+    await pipelinePlay(root)
 }

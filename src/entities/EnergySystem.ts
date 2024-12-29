@@ -15,7 +15,10 @@ export class EnergySystem {
     init (root: Root, points: any) {
         this._root = root
 
-        this._collisionMaterial = new THREE.MeshBasicMaterial({ color: 0xFFFF00 })
+        if (!this._collisionMaterial) {
+            this._collisionMaterial = new THREE.MeshBasicMaterial({ color: 0xFFFF00 })
+        }
+
         let namePrefix = 0
 
         for (let i = 0; i < points.length; ++i) {
@@ -157,5 +160,16 @@ export class EnergySystem {
             ++count
         }
         return count / this._items.length
+    }
+
+    destroy () {
+        for (let i = 0; i < this._items.length; ++i) {
+            const { m, collisionName } = this._items[i]
+            this._root.studio.remove(m)
+            this._items[i].m.geometry.dispose()
+            this._items[i].m.material.dispose()
+            this._root.phisics.removeMeshFromCollision(collisionName)
+        }
+        this._items = []
     }
 }
