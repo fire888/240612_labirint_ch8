@@ -3,6 +3,7 @@ import { _M } from "geometry/_m";
 import * as THREE from 'three'
 import { createEnergyV } from "geometry/energy"
 import * as TWEEN from '@tweenjs/tween.js'
+import { CONSTANTS } from "constants/CONSTANTS";
 
 export class EnergySystem {
     nameSpace: string = 'collision_energy_'
@@ -72,7 +73,12 @@ export class EnergySystem {
             }
         }
 
-        const p = { x: 0, y: 0, z: 0 }
+        const { ENERGY_FIRST_POS } = CONSTANTS
+        const p = { 
+            x: ENERGY_FIRST_POS[0], 
+            y: ENERGY_FIRST_POS[1], 
+            z: ENERGY_FIRST_POS[2] 
+        }
 
         const { v } = createEnergyV({ 
             t: _M.ran(.5, 2),

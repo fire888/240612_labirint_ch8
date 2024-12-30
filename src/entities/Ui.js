@@ -1,4 +1,9 @@
+import * as TWEEN from '@tweenjs/tween.js'
+
+const ENERGY_MAX_WIDTH = 30
+
 export class Ui {
+    _currentEnergyMinWidth = 0
     init (root) {
         this.lockButton = document.createElement('div')
         this.lockButton.classList.add('butt-lock')
@@ -21,11 +26,23 @@ export class Ui {
     }
 
     setEnergyLevel (val) {
-        this._countEnergyInner.style.minWidth = val * (30) + 'vw'
-    }
-
-    setEnergyYellow () {
-        this._countEnergyInner.classList.remove('color-blue')
-        this._countEnergyInner.classList.add('color-yellow')
+        const obj = { v: this._currentEnergyMinWidth }
+        new TWEEN.Tween(obj)
+            .interpolation(TWEEN.Interpolation.Linear)
+            .to({ v: val }, 300)
+            .onUpdate(() => {
+                this._countEnergyInner.style.minWidth = obj.v * ENERGY_MAX_WIDTH + 'vw'
+            })
+            .onComplete(() => {
+                this._currentEnergyMinWidth = val
+                this._countEnergyInner.classList.remove('color-blue')
+                this._countEnergyInner.classList.remove('color-yellow')
+                if (val === 1) {
+                    this._countEnergyInner.classList.add('color-yellow')
+                } else {
+                    this._countEnergyInner.classList.add('color-blue')
+                }
+            })
+            .start()
     }
 }
