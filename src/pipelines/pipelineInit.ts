@@ -1,6 +1,5 @@
 import { Root } from '../index'
 // import { createDemoTiles } from '_0_trash/demoTiles'
-import { Lab } from '../entities/labyrinth/Lab'
 //import { testStairs } from '../entities/labyrinth/testStairs'
 import { SmallTriangles } from '../entities/SmallTriangles'
 import { Particles } from 'entities/Particles'
@@ -9,6 +8,7 @@ import * as TWEEN from '@tweenjs/tween.js'
 
 export const pipelineInit = async (root: Root) => {
     const {
+        CONSTANTS,
         studio,
         controlsOrbit,
         controlsPointer,
@@ -42,7 +42,7 @@ export const pipelineInit = async (root: Root) => {
 
     phisics.init(root)
     ticker.on(phisics.update.bind(phisics))
-    phisics.createPlayerPhisicsBody({ x: 0, y: 3, z: 0}, 0)
+    phisics.createPlayerPhisicsBody(CONSTANTS.PLAYER_START_POS, 0)
 
     ui.init(root)
     ui.setEnergyLevel(0)
@@ -60,7 +60,7 @@ export const pipelineInit = async (root: Root) => {
     floor.init(root)
     studio.add(floor.mesh)
 
-    await lab.init(root, { TILES_X: 11, TILES_Z: 11, FLOORS_NUM: 0 })
+    await lab.init(root, CONSTANTS.LABS_CONF[0])
     studio.add(lab.mesh)
 
     energySystem.init(root, lab.posesSleepEnds)

@@ -4,18 +4,9 @@ const pause = (t: number): Promise<void> => new Promise(res => setTimeout(res, t
 
 let indexPlay = 0
 
-const LAB_CONF: any = []
-for (let i = 1; i < 31; i += 2) {
-    let n = i * 3
-    if (n % 2 === 0) {
-        n += 1
-    }
-    LAB_CONF.push({ TILES_X: 3 * i, TILES_Z: 3 * i, FLOORS_NUM: i })
-}
-
-
 export const pipelinePlay = async (root: Root) => {
     const {
+        CONSTANTS,
         studio,
         controlsOrbit,
         controlsPointer,
@@ -30,10 +21,16 @@ export const pipelinePlay = async (root: Root) => {
         lab
     } = root
 
+    const { 
+        LABS_CONF,
+        PLAYER_START_POS, 
+    } = CONSTANTS
+
     if (indexPlay !== 0) {
-        await lab.init(root, LAB_CONF[indexPlay])
+        console.log('level:', indexPlay, LABS_CONF[indexPlay])
+        await lab.init(root, LABS_CONF[indexPlay])
         energySystem.init(root, lab.posesSleepEnds)
-        phisics.setPlayerPosition(15.076315508474185, 3, -10)
+        phisics.setPlayerPosition(...PLAYER_START_POS)
     }
 
     let currentWalkingControls = deviceData.device === 'desktop' 
@@ -131,5 +128,12 @@ export const pipelinePlay = async (root: Root) => {
     await pause(1000)
 
     ++indexPlay
+
+    // complete play if no next level
+    if (!LABS_CONF[indexPlay]) { 
+        return;
+    }
+
+    // play next level
     await pipelinePlay(root)
 }

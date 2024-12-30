@@ -5,13 +5,7 @@ import { TopTunnel } from './TopTunnel'
 import { createRandomDataForLine } from '../../geometry/lineGeomCrafted'
 import { _M } from "../../geometry/_m"
 
-
-//const TILES_X = 11
-const TILES_X = 11
-const TILES_Z = 13
-//const LEVEL_H = 3.3
 const LEVEL_H = 5
-const FLOORS_NUM = 1
 const W = 3
 const N = 7
 

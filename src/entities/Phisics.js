@@ -71,9 +71,9 @@ export class Phisics {
         this.playerBody._myName = 'playerBody'
         this.playerBody.addShape(sphere)
 
-        this.playerBody.position.x = 15.076315508474185
-        this.playerBody.position.y = 3
-        this.playerBody.position.z = -10
+        this.playerBody.position.x = playerPosition[0]
+        this.playerBody.position.y = playerPosition[1]
+        this.playerBody.position.z = playerPosition[2]
 
         this.playerBody._object3D = new THREE.Object3D()
         this.playerBody._object3D.position.set(this.playerBody.position.x, this.playerBody.position.y, this.playerBody.position.z)

@@ -1,4 +1,5 @@
 import "./stylesheets/controls.css"
+import { CONSTANTS } from "constants/CONSTANTS"
 import { Studio } from "./entities/Studio"
 import { ControlsOrbit } from "./entities/ControlsOrbit"
 import { Ticker } from "./entities/Ticker"
@@ -19,6 +20,7 @@ import { Lab } from './entities/labyrinth/Lab'
 
 
 export type Root = {
+    CONSTANTS: typeof CONSTANTS,
     ticker: Ticker,
     studio: Studio,
     controlsOrbit: ControlsOrbit,
@@ -38,6 +40,7 @@ export type Root = {
 
 window.addEventListener("DOMContentLoaded", async () => {
     const root: Root = {
+        CONSTANTS,
         ticker: new Ticker(),
         studio: new Studio(),
         controlsOrbit: new ControlsOrbit(),
