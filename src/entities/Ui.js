@@ -1,10 +1,10 @@
 export class Ui {
     init (root) {
-        this.lock = document.createElement('div')
-        this.lock.classList.add('butt-lock')
-        this.lock.classList.add('control-small')
-        this.lock.style.display = 'none'
-        document.body.appendChild(this.lock)
+        this.lockButton = document.createElement('div')
+        this.lockButton.classList.add('butt-lock')
+        this.lockButton.classList.add('control-small')
+        this.lockButton.style.display = 'none'
+        document.body.appendChild(this.lockButton)
 
         this._countEnergy = document.createElement('div')
         this._countEnergy.classList.add('count-energy')
@@ -17,7 +17,7 @@ export class Ui {
     }
 
     toggleVisibleLock (visible) {
-        this.lock.style.display = visible ? 'flex' : 'none'
+        this.lockButton.style.display = visible ? 'flex' : 'none'
     }
 
     setEnergyLevel (val) {

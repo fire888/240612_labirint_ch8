@@ -10,9 +10,7 @@ export const pipelineInit = async (root: Root) => {
     const {
         CONSTANTS,
         studio,
-        controlsOrbit,
-        controlsPointer,
-        controlsPhone,
+        controls,
         ui,
         ticker,
         // boxTest,
@@ -37,26 +35,15 @@ export const pipelineInit = async (root: Root) => {
     //studio.addAxisHelper()
     ticker.on(studio.render.bind(studio))
 
-    controlsOrbit.init(studio.camera, studio.containerDom)
-    ticker.on(controlsOrbit.update.bind(controlsOrbit))
+    ui.init(root)
+    ui.setEnergyLevel(0)
 
     phisics.init(root)
     ticker.on(phisics.update.bind(phisics))
     phisics.createPlayerPhisicsBody(CONSTANTS.PLAYER_START_POS, 0)
 
-    ui.init(root)
-    ui.setEnergyLevel(0)
 
-    controlsPointer.init(root)
-    ticker.on((t: number) => { 
-        controlsPointer.update(t, phisics.playerBody) 
-    })
 
-    controlsPhone.init(root)
-    ticker.on((t: number) => { 
-        controlsPhone.update(t, phisics.playerBody) 
-    })
-    
     floor.init(root)
     studio.add(floor.mesh)
 
@@ -89,11 +76,15 @@ export const pipelineInit = async (root: Root) => {
     const loaderCont = document.body.getElementsByClassName('loader')[0]
     // @ts-ignore: Unreachable code error
     loaderCont.style.display = 'none'
-    const startButton = document.body.getElementsByClassName('start-but')[0]
+        // @ts-ignore: Unreachable code error
+    const startButton: HTMLElement = document.body.getElementsByClassName('start-but')[0]
     // @ts-ignore: Unreachable code error
     startButton.style.display = 'block'
 
     await elementClickOnce(startButton)
+
+    controls.init(root)
+    ticker.on(controls.update.bind(controls))
 
     const startScreen = document.body.getElementsByClassName('start-screen')[0]
     // @ts-ignore: Unreachable code error
