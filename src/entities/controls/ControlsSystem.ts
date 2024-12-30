@@ -8,7 +8,8 @@ export class ControlsSystem {
     _pointer: ControlsPointer
     _phone: ControlsPhone
     _root: Root
-    _currentWalkingControls: ControlsPointer | ControlsPhone
+    _currentWalkingControls: ControlsPointer | ControlsPhone | null
+    _isDisabled = false
 
     init (root: Root) {
         this._root = root
@@ -36,6 +37,9 @@ export class ControlsSystem {
         // click on buttonPointerLock: enable pointerLock and hide phoneControls  
         ui.lockButton.onclick = () => {
             this._pointer.enable().then(isOn => {
+                if (this._isDisabled) {
+                    return
+                }
                 if (!isOn) { 
                     return 
                 }
@@ -47,6 +51,10 @@ export class ControlsSystem {
         }
         // callback on pointerUnlock: enable phoneControls and show buttonPointerLock
         this._pointer.onUnlock(() => {
+            if (this._isDisabled) {
+                return
+            }
+            
             if (this._orbit.isEnabled) {
                 return
             }
@@ -93,5 +101,14 @@ export class ControlsSystem {
         if (this._phone.constructor.name === this._currentWalkingControls.constructor.name) {
             this._phone.enable()
         }
+    }
+
+    disable () {
+        this._isDisabled = true
+        const { ui } = this._root
+        this._currentWalkingControls = null
+        this._pointer.disable()
+        this._phone.disable()
+        ui.toggleVisibleLock(false) 
     }
 }

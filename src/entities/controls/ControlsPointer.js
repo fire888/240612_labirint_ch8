@@ -34,6 +34,8 @@ export class ControlsPointer {
     _timeRot = 0 
     _eulerRot = new THREE.Euler(0, 0, 0, 'YXZ')
 
+    _strengthIdle = 0.
+
 
     init (root) {
         this.camera = root.studio.camera
@@ -111,7 +113,8 @@ export class ControlsPointer {
         // camera debounce
         this._timeRot += delta
         const walkingDebounce = Math.sin(this._timeRot * 0.02) * 0.006 * this._currentSpeedForward
-        const idleDebounce = Math.sin(this._timeRot * 0.001) * 0.01 * (this._maxSpeedForward - Math.abs(this._currentSpeedForward))
+        const idleDebounce = 
+            Math.sin(this._timeRot * 0.001) * 0.01 * (this._maxSpeedForward - Math.abs(this._currentSpeedForward)) * this._strengthIdle
         this._eulerRot.setFromQuaternion(this.camera.quaternion)
         this._eulerRot.z = walkingDebounce + idleDebounce
         this.camera.quaternion.setFromEuler(this._eulerRot)
@@ -130,6 +133,16 @@ export class ControlsPointer {
             }
             this.controls.lock()
             this.isEnabled = true
+
+            const obj = { v: 0 }
+            new TWEEN.Tween(obj)
+                .interpolation(TWEEN.Interpolation.Linear)
+                .to({ v: 1}, 5000)
+                .onUpdate(() => {
+                    this._strengthIdle = obj.v
+                })
+                .start()
+
             res(true)
         })
     }

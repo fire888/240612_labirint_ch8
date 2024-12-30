@@ -1,7 +1,7 @@
 import { Root } from '../index'
 import { pause } from '../entities/_helpers'
 
-let indexPlay = 0
+let indexLevel = 0
 
 export const pipelinePlay = async (root: Root) => {
     const {
@@ -20,33 +20,31 @@ export const pipelinePlay = async (root: Root) => {
         ENERGY_PERCENTAGE_MUST_GET,
     } = CONSTANTS
 
-    if (indexPlay !== 0) {
-        console.log('level:', indexPlay, LABS_CONF[indexPlay])
-        await lab.init(root, LABS_CONF[indexPlay])
-        energySystem.init(root, lab.posesSleepEnds)
-        await studio.cameraFlyToLevel() 
-        phisics.setPlayerPosition(...PLAYER_START_POS)
-        controls.connect()
-    }
-
-
-
     // energy get *******************************************/
     let isFullEnergy = false
     phisics.onCollision(energySystem.nameSpace, (name: string) => {
         phisics.removeMeshFromCollision(name)
         energySystem.animateMovieHide(name)
-        const percentageItemsGetted = energySystem.getPercentageItemsGetted()
-        const multipyPerc = Math.min(1., percentageItemsGetted / ENERGY_PERCENTAGE_MUST_GET)
-        ui.setEnergyLevel(multipyPerc)
-        if (multipyPerc === 1) {
-            isFullEnergy = true
-            ui.setEnergyLevel(1)
+        if (isFullEnergy) {
+            return;
         }
+        const percentageItemsGetted = energySystem.getPercentageItemsGetted()
+        const multipyPercentage = Math.min(1., percentageItemsGetted / ENERGY_PERCENTAGE_MUST_GET)
+        ui.setEnergyLevel(multipyPercentage)
+        if (multipyPercentage < 1) {
+            return;
+        }
+        isFullEnergy = true
     })
 
-    // pipeline change level ******************************/
-    let executeAwaitCompletePlay: (value: unknown) => void
+
+    // trigger complete level ******************************/
+    let executeAwaitCompletePlay: (value: unknown) => void = () => {}
+    const completePlay = () => {
+        return new Promise(resolve => {
+            executeAwaitCompletePlay = resolve
+        })
+    }
     let isDoorOpen = false 
     phisics.onCollision(lab.nameSpace + 'top_tunnel', async (name: string) => {
         if (!isFullEnergy) {
@@ -55,33 +53,34 @@ export const pipelinePlay = async (root: Root) => {
         if (isDoorOpen) {
             return;
         }
-
         isDoorOpen = true
-        lab.openDoor()
-        ui.setEnergyLevel(0)
-        await pause(1000)
-        controls.disconnect()
-        await studio.cameraFlyAway(lab.lastDir)
-        lab.destroy()
-        energySystem.destroy()
+
         executeAwaitCompletePlay(true)
     })
-
-    const completePlay = () => {
-        return new Promise(resolve => {
-            executeAwaitCompletePlay = resolve
-        })
-    }
-
     await completePlay()
 
-    ++indexPlay
+    // pipeline destroy level ******************************/
+    lab.openDoor()
+    ui.setEnergyLevel(0)
+    await pause(1000)
+    controls.disconnect()
+    await studio.cameraFlyAway(lab.lastDir)
+    lab.destroy()
+    energySystem.destroy()
+    executeAwaitCompletePlay(true)
 
-    // complete play if no next level
-    if (!LABS_CONF[indexPlay]) { 
+    // complete play if no next level ***********************/
+    ++indexLevel
+    if (!LABS_CONF[indexLevel]) {
         return;
     }
 
-    // play next level
+    // pipeline create new level ******************************/indexLevel
+    console.log('level:', indexLevel, LABS_CONF[indexLevel])
+    await lab.init(root, LABS_CONF[indexLevel])
+    energySystem.init(root, lab.posesSleepEnds)
+    await studio.cameraFlyToLevel() 
+    phisics.setPlayerPosition(...PLAYER_START_POS)
+    controls.connect()
     await pipelinePlay(root)
 }

@@ -17,6 +17,7 @@ export class ControlsPhone {
     _tweenSpeedLeft = null
 
     _vecRotMovie = new THREE.Vector3(0, 0, 0)
+    _strengthIdle = 0.
     _timeRot = 0 
 
     init (root) {
@@ -111,12 +112,12 @@ export class ControlsPhone {
         this._root.studio.camera.quaternion.w = this._obj.quaternion.w
 
         this._timeRot += delta
-        this._vecRotMovie.x = Math.sin(this._timeRot * 0.03) * .0015 * summSpeed
-        this._vecRotMovie.z = Math.sin(this._timeRot * 0.02) * .0015 * summSpeed
-        this._vecRotMovie.y = Math.sin(this._timeRot * 0.025) * .0015 * summSpeed
-        this._vecRotMovie.x += Math.sin(this._timeRot * 0.001) * .01
-        this._vecRotMovie.z += Math.sin(this._timeRot * 0.0005) * .01
-        this._vecRotMovie.y += Math.sin(this._timeRot * 0.0007) * .01
+        this._vecRotMovie.x = Math.sin(this._timeRot * 0.03) * .0015 * summSpeed * this._strengthIdle
+        this._vecRotMovie.z = Math.sin(this._timeRot * 0.02) * .0015 * summSpeed * this._strengthIdle
+        this._vecRotMovie.y = Math.sin(this._timeRot * 0.025) * .0015 * summSpeed * this._strengthIdle
+        this._vecRotMovie.x += Math.sin(this._timeRot * 0.001) * .01 * this._strengthIdle
+        this._vecRotMovie.z += Math.sin(this._timeRot * 0.0005) * .01 * this._strengthIdle
+        this._vecRotMovie.y += Math.sin(this._timeRot * 0.0007) * .01 * this._strengthIdle
 
         this._root.studio.camera.rotation.x += this._vecRotMovie.x
         this._root.studio.camera.rotation.y += this._vecRotMovie.y
@@ -130,6 +131,19 @@ export class ControlsPhone {
         this._moveRightDiv.style.display = 'block'
 
         this._obj.rotation.y = Math.PI
+        this._currentSpeedLeft = 0
+        this._timeRot = 1
+
+        const obj = { v: 0 }
+        new TWEEN.Tween(obj)
+            .interpolation(TWEEN.Interpolation.Linear)
+            .to({ v: 1}, 1000)
+            .onUpdate(() => {
+                this._strengthIdle = obj.v
+            })
+            .start()
+
+
 
         this._isEnabled = true
     }

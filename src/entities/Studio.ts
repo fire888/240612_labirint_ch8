@@ -221,7 +221,8 @@ export class Studio {
     cameraFlyToLevel () {
         const { PLAYER_START_POS } = this._root.CONSTANTS
 
-        const from = [PLAYER_START_POS[0], PLAYER_START_POS[1] + 300, PLAYER_START_POS[2] - 1500]
+        //const from = [PLAYER_START_POS[0], PLAYER_START_POS[1] + 300, PLAYER_START_POS[2] - 1500]
+        const from = [PLAYER_START_POS[0], PLAYER_START_POS[1], PLAYER_START_POS[2] - 1500]
         const to = PLAYER_START_POS
         const time = 5000
 

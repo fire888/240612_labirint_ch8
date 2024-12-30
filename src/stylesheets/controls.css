@@ -168,3 +168,33 @@
 .color-yellow {
     background-color: #ffff22ce;
 }
+
+.final-page {
+    position: absolute;
+    z-index: 1000;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #231143bd;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.final-page a {
+    color: #ffffff;
+}
+
+.height-20px {
+    min-height: 20px;
+}
+
+.list-elem {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}

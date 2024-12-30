@@ -4,8 +4,6 @@ import { Studio } from "./entities/Studio"
 import { ControlsSystem } from "./entities/controls/ControlsSystem"
 import { Ticker } from "./entities/Ticker"
 import { Floor } from "./entities/Floor"
-import { pipelineInit } from "./pipelines/pipelineInit"
-import { pipelinePlay } from "./pipelines/pipelinePlay"
 import { LoaderAssets } from "./entities/Loader";
 import { DeviceData } from "./entities/DeviceData"
 import { Ui } from "./entities/Ui"
@@ -13,6 +11,9 @@ import { Phisics } from "./entities/Phisics"
 import { EnergySystem } from './entities/EnergySystem'
 import { Lab } from './entities/labyrinth/Lab'
 
+import { pipelineInit } from "./pipelines/pipelineInit"
+import { pipelinePlay } from "./pipelines/pipelinePlay"
+import { pipelineEnd } from "./pipelines/pipelineEnd"
 
 export type Root = {
     CONSTANTS: typeof CONSTANTS,
@@ -46,4 +47,5 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     await pipelineInit(root)
     await pipelinePlay(root)
+    await pipelineEnd(root)
 })
