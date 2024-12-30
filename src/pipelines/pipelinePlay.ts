@@ -46,7 +46,7 @@ export const pipelinePlay = async (root: Root) => {
     })
 
     // pipeline change level ******************************/
-    let executeAwaitCompletePlay: any = null
+    let executeAwaitCompletePlay: (value: unknown) => void
     let isDoorOpen = false 
     phisics.onCollision(lab.nameSpace + 'top_tunnel', async (name: string) => {
         if (!isFullEnergy) {
@@ -58,15 +58,13 @@ export const pipelinePlay = async (root: Root) => {
 
         isDoorOpen = true
         lab.openDoor()
+        ui.setEnergyLevel(0)
         await pause(1000)
         controls.disconnect()
-        //controlsPhone.disable()
-        //controlsPointer.cameraDisconnect()
         await studio.cameraFlyAway(lab.lastDir)
         lab.destroy()
         energySystem.destroy()
-        ui.setEnergyLevel(0)
-        executeAwaitCompletePlay()
+        executeAwaitCompletePlay(true)
     })
 
     const completePlay = () => {
@@ -76,7 +74,6 @@ export const pipelinePlay = async (root: Root) => {
     }
 
     await completePlay()
-    await pause(1000)
 
     ++indexPlay
 

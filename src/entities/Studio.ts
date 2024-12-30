@@ -162,6 +162,7 @@ export class Studio {
     }
 
     cameraFlyAway (dir: string) {
+
         return new Promise(res => {
             const t = 5000
             {
@@ -185,7 +186,7 @@ export class Studio {
 
                 const obj = { v: 0 }
                 new TWEEN.Tween(obj)
-                    .interpolation(TWEEN.Interpolation.Linear)
+                    .easing(TWEEN.Easing.Exponential.InOut)
                     .to({ v: 1 },  t)
                     .onUpdate(() => {
                         this.camera.position.lerpVectors(savedPos, newPos, obj.v)
@@ -197,48 +198,32 @@ export class Studio {
             }
 
             {
-                const savedRotation = this.camera.rotation.y
-                const dirRot = Math.random() > 0.5 ? 1 : -1
-
+                const targetQ = new THREE.Quaternion(
+                    4.1079703617011707e-17, 
+                    0.6708824723277438, 
+                    -0.7415636913464778, 
+                    4.540768004856799e-17, 
+                )
+                const savedQ = new THREE.Quaternion().copy(this.camera.quaternion)
                 const obj = { v: 0 }
                 new TWEEN.Tween(obj)
-                    .to({ v: 1 }, t * .5)
+                    .easing(TWEEN.Easing.Exponential.InOut)
+                    .to({ v: 1 }, t)
                     .onUpdate(() => {
-                        this.camera.rotation.y = savedRotation + Math.min(Math.PI * 2,  Math.PI * 2 * obj.v * 3) * dirRot
+                        this.camera.quaternion.slerpQuaternions(savedQ, targetQ, obj.v * 5)
                     })
                     .onComplete(() => {})
-                    .start()
-            }
-
-
-            {
-                setTimeout(() => {
-                    const targetQ = new THREE.Quaternion(
-                        4.1079703617011707e-17, 
-                        0.6708824723277438, 
-                        -0.7415636913464778, 
-                        4.540768004856799e-17, 
-                    )
-                    const savedQ = new THREE.Quaternion().copy(this.camera.quaternion)
-                    const obj = { v: 0 }
-                    new TWEEN.Tween(obj)
-                        .to({ v: 1 }, t * .5)
-                        .onUpdate(() => {
-                            this.camera.quaternion.slerpQuaternions(savedQ, targetQ, obj.v)
-                        })
-                        .onComplete(() => {})
-                        .start()
-                }, t * .5)
-            }                
+                    .start()  
+            }  
         })
     }
 
     cameraFlyToLevel () {
         const { PLAYER_START_POS } = this._root.CONSTANTS
 
-        const from = [PLAYER_START_POS[0], PLAYER_START_POS[1] + 15, PLAYER_START_POS[2] - 1000]
+        const from = [PLAYER_START_POS[0], PLAYER_START_POS[1] + 300, PLAYER_START_POS[2] - 1500]
         const to = PLAYER_START_POS
-        const time = 3000
+        const time = 5000
 
         return new Promise(res => {
             const savedPos = new THREE.Vector3().fromArray(from)
@@ -251,17 +236,13 @@ export class Studio {
 
             const targetQ = new THREE.Quaternion().copy(this.camera.quaternion)
         
-
-            //console.log(savedQ)
-
-    
             const obj = { v: 0 }
             new TWEEN.Tween(obj)
-                .interpolation(TWEEN.Interpolation.Linear)
+                .easing(TWEEN.Easing.Exponential.InOut)
                 .to({ v: 1 }, time)
                 .onUpdate(() => {
                     this.camera.position.lerpVectors(savedPos, targetPos, obj.v)
-                    this.camera.quaternion.slerpQuaternions(savedQ, targetQ, Math.min(1., obj.v * 2))
+                    this.camera.quaternion.slerpQuaternions(savedQ, targetQ, Math.min(1., obj.v * 1.3))
                 })
                 .onComplete(() => {
                     res(true)
