@@ -8,10 +8,11 @@ export class ControlsSystem {
     _pointer: ControlsPointer
     _phone: ControlsPhone
     _root: Root
+    _currentWalkingControls: ControlsPointer | ControlsPhone
 
     init (root: Root) {
         this._root = root
-
+    
         const { 
             deviceData, 
             ui,
@@ -27,10 +28,10 @@ export class ControlsSystem {
         this._phone = new ControlsPhone()
         this._phone.init(root)
 
-        let currentWalkingControls = deviceData.device === 'desktop' 
+        this._currentWalkingControls = deviceData.device === 'desktop' 
             ? this._pointer
             : this._phone
-        currentWalkingControls.enable()
+        this._currentWalkingControls.enable()
 
         // click on buttonPointerLock: enable pointerLock and hide phoneControls  
         ui.lockButton.onclick = () => {
@@ -38,7 +39,7 @@ export class ControlsSystem {
                 if (!isOn) { 
                     return 
                 }
-                currentWalkingControls = this._pointer
+                this._currentWalkingControls = this._pointer
                 this._phone.disable()
                 this._orbit.disable()
                 ui.toggleVisibleLock(false) 
@@ -49,7 +50,7 @@ export class ControlsSystem {
             if (this._orbit.isEnabled) {
                 return
             }
-            currentWalkingControls = this._phone
+            this._currentWalkingControls = this._phone
             ui.toggleVisibleLock(true) 
             this._phone.enable()
         }) 
@@ -60,10 +61,10 @@ export class ControlsSystem {
                 if (this._orbit.isEnabled) {
                     //studio.scene.fog = studio.fog
                     this._orbit.disable()
-                    currentWalkingControls.enable()
+                    this._currentWalkingControls.enable()
                 } else {
                     //studio.scene.fog = null
-                    currentWalkingControls.disable()
+                    this._currentWalkingControls.disable()
                     this._orbit.enable()
                 }
             }
@@ -75,5 +76,22 @@ export class ControlsSystem {
         this._orbit.update()
         this._pointer.update(delta, this._root.phisics.playerBody)
         this._phone.update(delta, this._root.phisics.playerBody)
+    }
+
+    disconnect () {
+        if (this._orbit.isEnabled) {
+            return
+        }
+        this._phone.disable()
+        this._pointer.cameraDisconnect()
+    }
+
+    connect () {
+        if (this._pointer.constructor.name === this._currentWalkingControls.constructor.name) {
+            this._pointer.cameraConnect()
+        }
+        if (this._phone.constructor.name === this._currentWalkingControls.constructor.name) {
+            this._phone.enable()
+        }
     }
 }

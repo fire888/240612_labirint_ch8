@@ -7,13 +7,11 @@ export const pipelinePlay = async (root: Root) => {
     const {
         CONSTANTS,
         studio,
-        ticker,
-        floor,
-        deviceData,
+        controls,
         ui,
         phisics,
         energySystem,
-        lab
+        lab,
     } = root
 
     const { 
@@ -26,7 +24,9 @@ export const pipelinePlay = async (root: Root) => {
         console.log('level:', indexPlay, LABS_CONF[indexPlay])
         await lab.init(root, LABS_CONF[indexPlay])
         energySystem.init(root, lab.posesSleepEnds)
+        await studio.cameraFlyToLevel() 
         phisics.setPlayerPosition(...PLAYER_START_POS)
+        controls.connect()
     }
 
 
@@ -59,9 +59,10 @@ export const pipelinePlay = async (root: Root) => {
         isDoorOpen = true
         lab.openDoor()
         await pause(1000)
+        controls.disconnect()
         //controlsPhone.disable()
         //controlsPointer.cameraDisconnect()
-        //await studio.cameraFlyAway(lab.lastDir)
+        await studio.cameraFlyAway(lab.lastDir)
         lab.destroy()
         energySystem.destroy()
         ui.setEnergyLevel(0)

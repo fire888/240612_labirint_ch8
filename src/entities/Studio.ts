@@ -32,9 +32,10 @@ export class Studio {
     renderer: THREE.WebGLRenderer
     envMap: THREE.Texture
     composer: EffectComposer
-    constructor() {}
+    _root: Root
 
     init (root: Root) {
+        this._root = root
         this.containerDom = document.getElementById('container-game')
         this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, .001, 1000)
         this.camera.position.set(1, 30, 70)
@@ -162,33 +163,105 @@ export class Studio {
 
     cameraFlyAway (dir: string) {
         return new Promise(res => {
-            console.log(dir)
-            let newPlace = new THREE.Vector3().copy(this.camera.position) 
-            if (dir === 'n') {
-                newPlace.z -= 100
-            }
-            if (dir === 's') {
-                newPlace.z += 100
-            }
-            if (dir === 'e') {
-                newPlace.x += 100
-            }
-            if (dir === 'w') {
-                newPlace.x -= 100
-            }
-    
-            const savedPos = new THREE.Vector3().copy(this.camera.position) 
-            const savedRotation = this.camera.rotation.y
+            const t = 5000
+            {
+                const savedPos = new THREE.Vector3().copy(this.camera.position) 
+                const newPos = new THREE.Vector3().copy(this.camera.position) 
+                const dist = 500
+                if (dir === 'n') {
+                    newPos.z -= dist
+                }
+                if (dir === 's') {
+                    newPos.z += dist
+                }
+                if (dir === 'e') {
+                    newPos.x += dist
+                }
+                if (dir === 'w') {
+                    newPos.x -= dist
+                }
+        
+                
 
-            const dirRot = Math.random() > 0.5 ? 1 : -1
+                const obj = { v: 0 }
+                new TWEEN.Tween(obj)
+                    .interpolation(TWEEN.Interpolation.Linear)
+                    .to({ v: 1 },  t)
+                    .onUpdate(() => {
+                        this.camera.position.lerpVectors(savedPos, newPos, obj.v)
+                    })
+                    .onComplete(() => {
+                        res(true)
+                    })
+                    .start()
+            }
+
+            {
+                const savedRotation = this.camera.rotation.y
+                const dirRot = Math.random() > 0.5 ? 1 : -1
+
+                const obj = { v: 0 }
+                new TWEEN.Tween(obj)
+                    .to({ v: 1 }, t * .5)
+                    .onUpdate(() => {
+                        this.camera.rotation.y = savedRotation + Math.min(Math.PI * 2,  Math.PI * 2 * obj.v * 3) * dirRot
+                    })
+                    .onComplete(() => {})
+                    .start()
+            }
+
+
+            {
+                setTimeout(() => {
+                    const targetQ = new THREE.Quaternion(
+                        4.1079703617011707e-17, 
+                        0.6708824723277438, 
+                        -0.7415636913464778, 
+                        4.540768004856799e-17, 
+                    )
+                    const savedQ = new THREE.Quaternion().copy(this.camera.quaternion)
+                    const obj = { v: 0 }
+                    new TWEEN.Tween(obj)
+                        .to({ v: 1 }, t * .5)
+                        .onUpdate(() => {
+                            this.camera.quaternion.slerpQuaternions(savedQ, targetQ, obj.v)
+                        })
+                        .onComplete(() => {})
+                        .start()
+                }, t * .5)
+            }                
+        })
+    }
+
+    cameraFlyToLevel () {
+        const { PLAYER_START_POS } = this._root.CONSTANTS
+
+        const from = [PLAYER_START_POS[0], PLAYER_START_POS[1] + 15, PLAYER_START_POS[2] - 1000]
+        const to = PLAYER_START_POS
+        const time = 3000
+
+        return new Promise(res => {
+            const savedPos = new THREE.Vector3().fromArray(from)
+            const targetPos = new THREE.Vector3().fromArray(to)
+
+            const savedQ = new THREE.Quaternion().copy(this.camera.quaternion)
+
+            this.camera.position.copy(savedPos)
+            this.camera.lookAt(targetPos)
+
+            const targetQ = new THREE.Quaternion().copy(this.camera.quaternion)
+        
+
+            //console.log(savedQ)
+
     
-            const obj = { v: 0  }
+            const obj = { v: 0 }
             new TWEEN.Tween(obj)
                 .interpolation(TWEEN.Interpolation.Linear)
-                .to({ v: 1 }, 5000)
+                .to({ v: 1 }, time)
                 .onUpdate(() => {
-                    this.camera.position.lerpVectors(savedPos, newPlace, obj.v)
-                    this.camera.rotation.y = savedRotation + Math.min(Math.PI * 2,  Math.PI * 2 * obj.v * 3) * dirRot
+                    this.camera.position.lerpVectors(savedPos, targetPos, obj.v)
+                    this.camera.quaternion.slerpQuaternions(savedQ, targetQ, Math.min(1., obj.v * 2))
                 })
                 .onComplete(() => {
                     res(true)

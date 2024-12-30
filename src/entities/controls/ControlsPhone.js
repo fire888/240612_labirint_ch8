@@ -129,6 +129,8 @@ export class ControlsPhone {
         this._moveLeftDiv.style.display = 'block'
         this._moveRightDiv.style.display = 'block'
 
+        this._obj.rotation.y = Math.PI
+
         this._isEnabled = true
     }
 
