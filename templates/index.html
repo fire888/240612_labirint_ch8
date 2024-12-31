@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 
 <head>
     <title>Walking_09</title>
-    <!--  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">-->
-    <!--  <meta name='viewport' content='width=device-width, user-scalable=no'>-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
       <meta name="-ms-viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -19,10 +17,14 @@
             padding: 0;
             margin: 0;
         }
+        .VIpgJd-ZVi9od-ORHb-OEVmcd {
+            display: none !important;
+        }
         body {
             overflow: hidden;
-            font-family: Geneva, Arial, Helvetica, sans-seri;
-            font-family: 'Roboto Mono' monospace;
+            /* font-family: Geneva, Arial, Helvetica, sans-seri;
+            font-family: 'Roboto Mono' monospace; */
+            font-style: italic;
             color: #a1ccea;
         }
         .start-screen {
@@ -43,7 +45,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-weight: bold;
+            /* font-weight: bold; */
         }
         img.big-border {
             border: 35px solid #570ea4;
@@ -74,15 +76,17 @@
             min-width: 200px;
             border-radius: 3px;
             font-size: 20px;
-            font-weight: bold;
+            font-style: italic;
             color: #ffffff;
             cursor: pointer;
+            transition: 1s;
         }
         .start-but:hover {
             background-color:  #141524; /* Green */
             border: 1px solid #3498db;
             color: #3498db;
             cursor: pointer;
+            transition: 1s;
         }
     </style>
 </head>
@@ -94,7 +98,7 @@
             <button class="start-but" style="display: none;">P&nbsp;L&nbsp;A&nbsp;Y</button>
             <div class="loader"></div>
             <div style="min-height: 40px;"></div>
-            <div>&#8592; &#8593; &#8594; &#8595; | W A S D</div>
+            <div class="controls-mess">&#8592; &#8593; &#8594; &#8595; | W A S D</div>
         </div>
     </div>
     <div id="container-game" touch-action="none"></div>

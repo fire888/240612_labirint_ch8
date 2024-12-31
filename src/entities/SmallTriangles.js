@@ -1,7 +1,6 @@
 import * as THREE from 'three'
 
 
-
 const createS = m => {
     const v = []
 
@@ -32,28 +31,17 @@ const createS = m => {
 
 
 export class SmallTriangles {
-    constructor (root) {
+    init (root) {
         this.m = new THREE.Object3D()
-        // this.material = new THREE.MeshPhongMaterial({ 
-        //     color: 0x88aaff,
-        //     envMap: root.loader.assets.sky,
-        //     reflectivity: .6,
-        // })
         this.material = new THREE.MeshBasicMaterial({ 
             color: 0xffffff,
-            //envMap: root.loader.assets.sky,
-            //reflectivity: .6,
         })
 
-    
-        //this.arrSprites = []
         for (let i = 0; i < 50; ++i) {
             const s = createS(this.material)
             s.position.x = 0
             s.position.z = 0
             this.m.add(s) 
-            //s.position.set(Math.random() * 3, 0, Math.random() * 3)
-            //this.arrSprites.push(s)
         }
     }
 }

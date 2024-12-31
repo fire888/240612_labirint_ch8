@@ -151,7 +151,9 @@
     border-radius: 4px;
     background-color: #181d381f;
     z-index: 100;
-    min-height: 30px;
+    min-height: 15px;
+    max-height: 15px;
+    overflow: hidden;
     display: flex;
     flex-direction: row;
     justify-items: end;
@@ -171,7 +173,7 @@
 
 .final-dark {
     position: absolute;
-    z-index: 900;
+    z-index: 400;
     top: 0;
     bottom: 0;
     left: 0;
@@ -191,12 +193,13 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: #231143bd;
+    background-color: #11194386;
     color: #ffffff;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: end;
     align-items: center;
+    font-style: italic;
 }
 
 .final-page a {
@@ -205,6 +208,16 @@
 
 .height-20px {
     min-height: 20px;
+}
+
+.height-60px {
+    min-height: 60px;
+}
+
+.dark {
+    background-color: #11194386;
+    padding: 0 30px;
+    min-width: 250px;
 }
 
 .list-elem {

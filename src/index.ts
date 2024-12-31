@@ -4,6 +4,8 @@ import { Studio } from "./entities/Studio"
 import { ControlsSystem } from "./entities/controls/ControlsSystem"
 import { Ticker } from "./entities/Ticker"
 import { Floor } from "./entities/Floor"
+import { SmallTriangles } from "./entities/SmallTriangles"
+import { Particles } from './entities/Particles'
 import { LoaderAssets } from "./entities/Loader";
 import { DeviceData } from "./entities/DeviceData"
 import { Ui } from "./entities/Ui"
@@ -21,6 +23,8 @@ export type Root = {
     studio: Studio,
     controls: ControlsSystem,
     floor: Floor,
+    smallTriangles: SmallTriangles,
+    particles: Particles,
     loader: LoaderAssets,
     deviceData: DeviceData,
     ui: Ui,
@@ -38,6 +42,8 @@ window.addEventListener("DOMContentLoaded", async () => {
         controls: new ControlsSystem(),
         ui: new Ui(),
         floor: new Floor(),
+        smallTriangles: new SmallTriangles(),
+        particles: new Particles(),
         loader: new LoaderAssets(),
         deviceData: new DeviceData(),
         phisics: new Phisics(),

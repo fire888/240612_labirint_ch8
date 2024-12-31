@@ -162,7 +162,6 @@ export class Studio {
     }
 
     cameraFlyAway (dir: string) {
-
         return new Promise(res => {
             const t = 5000
             {
