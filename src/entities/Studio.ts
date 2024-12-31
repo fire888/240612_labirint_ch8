@@ -251,4 +251,9 @@ export class Studio {
                 .start()
         })
     }
+
+    showFinalView () {
+        this.camera.position.set(17.5, 1, -6)
+        this.camera.lookAt(14, .5, 0)
+    }
 }

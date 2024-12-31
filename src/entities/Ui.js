@@ -48,23 +48,10 @@ export class Ui {
     }
 
     async showFinalPage () {
-        const showByTransition = (elem, time) => {
-            return new Promise(res => {
-                const obj = { v: 0 }
-                this._tweenSpeedLeft = new TWEEN.Tween(obj)
-                    .interpolation(TWEEN.Interpolation.Linear)
-                    .to({ v: 1 }, time)
-                    .onUpdate(() => {
-                        elem.style.opacity = obj.v
-                    })
-                    .onComplete(() => {
-                        res()
-                    })
-                    .start()
-            })
-        } 
-
-        this._countEnergy.style.display = 'none'
+        const finalDark = document.createElement('div')
+        finalDark.classList.add('final-dark')
+        finalDark.style.opacity = 0
+        document.body.appendChild(finalDark)
 
         const wrapper = document.createElement('div')
         wrapper.style.opacity = 0
@@ -72,12 +59,12 @@ export class Ui {
         
         // top mess **************************/
         const complete = document.createElement('div')
-        complete.innerHTML = 'You are done'
+        complete.innerHTML = 'You are done,'
         complete.style.opacity = 0
         wrapper.appendChild(complete)
 
         const complete2 = document.createElement('div')
-        complete2.innerHTML = 'Thank you for playing'
+        complete2.innerHTML = 'thank you for playing!'
         complete2.style.opacity = 0
         wrapper.appendChild(complete2)
 
@@ -113,6 +100,7 @@ export class Ui {
                 const a = document.createElement('a')
                 a.href = link
                 a.innerText = text
+                a.target = '_blank'
                 l.appendChild(a)
             }
 
@@ -145,36 +133,60 @@ export class Ui {
         // bottom mess ************************/
         const bottom = document.createElement('div')
         bottom.style.opacity = 0
-        bottom.innerHTML = 'Next chapter comming soon'
+        bottom.innerHTML = 'Next chapter comming soon,'
         wrapper.appendChild(bottom)
 
         // bb mess ***************************/
         const bottom1 = document.createElement('div')
         bottom1.style.opacity = 0
-        bottom1.innerHTML = 'To be continued'
+        bottom1.innerHTML = 'to be continued...'
         wrapper.appendChild(bottom1)
 
         document.body.appendChild(wrapper)
 
-        await pause(300)
-        await showByTransition(wrapper, 300)
+        const showByTransition = (elem, to, time) => {
+            return new Promise(res => {
+                const obj = { v: to === 1 ? 0 : 1 }
+                this._tweenSpeedLeft = new TWEEN.Tween(obj)
+                    .interpolation(TWEEN.Interpolation.Linear)
+                    .to({ v: to }, time)
+                    .onUpdate(() => {
+                        elem.style.opacity = obj.v
+                    })
+                    .onComplete(() => {
+                        res()
+                    })
+                    .start()
+            })
+        } 
 
         await pause(300)
-        await showByTransition(complete, 300)
+        await showByTransition(finalDark, 1, 300)
+
+        this._countEnergy.style.display = 'none'
 
         await pause(300)
-        await showByTransition(complete2, 300)
+        await showByTransition(wrapper, 1, 300)
 
         await pause(300)
-        await showByTransition(prev, 300)
+        await showByTransition(complete, 1, 300)
 
         await pause(300)
-        await showByTransition(list, 300)
+        await showByTransition(complete2, 1, 300)
 
         await pause(300)
-        await showByTransition(bottom, 300)
+        await showByTransition(prev, 1, 300)
+
+        await pause(300)
+        await showByTransition(list, 1, 300)
+
+        await pause(300)
+        await showByTransition(bottom, 1, 300)
 
         await pause(500)
-        await showByTransition(bottom1, 300)
+        await showByTransition(bottom1, 1, 300)
+
+        await pause(300)
+        await showByTransition(finalDark, 0, 300)
     }
 }

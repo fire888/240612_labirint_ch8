@@ -11,8 +11,13 @@ export const pipelineEnd = async (root: Root) => {
         lab,
     } = root
 
-    
-    //controls.disable()
+
+    controls.disable()
     ui.toggleVisibleLock(false)
+    setTimeout(() => {
+        studio.showFinalView()
+        lab.init(root, CONSTANTS.LABS_CONF[0])
+        energySystem.init(root, [])
+    }, 600)
     await ui.showFinalPage()
 }

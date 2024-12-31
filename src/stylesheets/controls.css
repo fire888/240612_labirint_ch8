@@ -169,6 +169,21 @@
     background-color: #ffff22ce;
 }
 
+.final-dark {
+    position: absolute;
+    z-index: 900;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #231143;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .final-page {
     position: absolute;
     z-index: 1000;
