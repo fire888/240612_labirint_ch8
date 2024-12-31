@@ -1,51 +1,50 @@
 import * as THREE from 'three'
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import envModel from "../assets/env.jpg"
+import mapEnv from "../assets/env.jpg"
 import sky from '../assets/sky.jpg'
 import sprite from '../assets/sprite.png'
 
 type Assets = {
-    mapEnv?: any,
-    //mapFloor?: any,
-    sky?: any,
-    sprite?: any, 
+    mapEnv: THREE.Texture,
+    sky: THREE.Texture,
+    sprite: THREE.Texture,
+}
+type ResultLoad = {
+    key: keyof Assets,
+    texture: THREE.Texture,
 }
 
 export class LoaderAssets {
-    _gltfLoader: GLTFLoader
-    _textureLoader: THREE.TextureLoader
-    assets: Assets
-
-    constructor() {
-        this.assets = {
-            mapEnv: null,
-            //mapFloor: null,
-            sky: null,
-            sprite: null,
-        }
+    _textureLoader: THREE.TextureLoader = new THREE.TextureLoader()
+    assets: Assets = {
+        mapEnv: null,
+        sky: null,
+        sprite: null,
     }
 
-    init () {
-        this._gltfLoader = new GLTFLoader()
-        this._textureLoader = new THREE.TextureLoader()
-    }
+    init () {}
 
     loadAssets (): Promise<void> {
         return new Promise(res => {
-            this._textureLoader.load(envModel, t => {
-                this.assets.mapEnv = t
-                //this._textureLoader.load(mapFloor, t => {
-                    //this.assets.mapFloor = t
-                    this._textureLoader.load(sky, s => {
-                        s.mapping = THREE.EquirectangularReflectionMapping;
-                        s.colorSpace = THREE.SRGBColorSpace;
-                        this.assets.sky = s
-                        this._textureLoader.load(sprite, s => {
-                            this.assets.sprite = s
-                            res()
-                        })
+
+            const loadTextue = (key: keyof Assets, src: string) => {
+                return new Promise<ResultLoad>(res => {
+                    this._textureLoader.load(src, texture => {
+                        res({ key, texture })
                     })
-                //})
+                })
+            }
+
+            const promises = [
+                loadTextue('mapEnv', mapEnv),
+                loadTextue('sky', sky),
+                loadTextue('sprite', sprite),
+            ]
+
+            Promise.all(promises).then(result => {
+                for (let i = 0; i < result.length; ++i) {
+                     this.assets[result[i].key as keyof Assets] = result[i].texture
+                }
+                res()
             })
         })
     }

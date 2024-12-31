@@ -76,7 +76,7 @@ export const pipelineInit = async (root: Root) => {
     const loaderCont = document.body.getElementsByClassName('loader')[0]
     // @ts-ignore: Unreachable code error
     loaderCont.style.display = 'none'
-        // @ts-ignore: Unreachable code error
+    // @ts-ignore: Unreachable code error
     const startButton: HTMLElement = document.body.getElementsByClassName('start-but')[0]
     // @ts-ignore: Unreachable code error
     startButton.style.display = 'block'

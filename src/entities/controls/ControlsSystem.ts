@@ -3,6 +3,7 @@ import { ControlsPointer } from "./ControlsPointer"
 import { ControlsPhone } from "./ControlsPhone"
 import { Root } from "index"
 
+
 export class ControlsSystem {
     _orbit: ControlsOrbit
     _pointer: ControlsPointer
@@ -64,7 +65,7 @@ export class ControlsSystem {
         }) 
 
         // key O: disable/enable orbitControls
-        const onKeyUp = (event: any) => {
+        const onKeyUp = (event: KeyboardEvent ) => {
             if (event.code === 'KeyO') {
                 if (this._orbit.isEnabled) {
                     //studio.scene.fog = studio.fog

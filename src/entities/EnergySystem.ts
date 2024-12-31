@@ -3,15 +3,20 @@ import { _M } from "geometry/_m";
 import * as THREE from 'three'
 import { createEnergyV } from "geometry/energy"
 import * as TWEEN from '@tweenjs/tween.js'
-import { CONSTANTS } from "constants/CONSTANTS";
+import { CONSTANTS } from "constants/CONSTANTS"
+
+type Energy = {
+    collisionName: string,
+    m: THREE.Mesh,
+    isActive: boolean,
+}
 
 export class EnergySystem {
     nameSpace: string = 'collision_energy_'
-    collisionsItems: THREE.Object3D[] = []
     _root: Root
     _v: number[] = []
     _collisionMaterial: THREE.MeshBasicMaterial
-    _items: any[] = []
+    _items: Energy[] = []
 
     init (root: Root, points: any) {
         this._root = root
@@ -152,6 +157,7 @@ export class EnergySystem {
             .onComplete(() => {
                 this._root.studio.remove(item.m)
                 item.m.geometry.dispose()
+                // @ts-ignore: Unreachable code error
                 item.m.material.dispose()
             })
             .start()
@@ -173,6 +179,7 @@ export class EnergySystem {
             const { m, collisionName } = this._items[i]
             this._root.studio.remove(m)
             this._items[i].m.geometry.dispose()
+            // @ts-ignore: Unreachable code error
             this._items[i].m.material.dispose()
             this._root.phisics.removeMeshFromCollision(collisionName)
         }
