@@ -206,13 +206,15 @@ export class Lab {
         // top tunnel ***********************************************************/
 
         this.topTunnel = new TopTunnel()
-        this.topTunnel.init({
+        this.topTunnel.init(
             root,
-            material: this.material, 
-            dataForEnter, 
-            collisionMaterial: this._collisionMaterial, 
-            w: W 
-        })
+            {
+                ...dataForEnter,
+                material: this.material, 
+                collisionMaterial: this._collisionMaterial, 
+                w: W
+            } 
+        )
         const pos = new THREE.Vector3(posStart[0] * W,  (FLOORS_NUM + 1) * LEVEL_H, posStart[1] * W)
         const offset = W + (this.topTunnel.W / 2) + W / 2
         const doorCollisionPos = new THREE.Vector3().copy(pos)

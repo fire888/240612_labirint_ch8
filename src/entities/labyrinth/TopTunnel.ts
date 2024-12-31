@@ -3,6 +3,16 @@ import { _M } from "geometry/_m"
 import { createRandomDataForLine } from "geometry/lineGeomCrafted"
 import * as THREE from 'three'
 import { createDoor } from "geometry/door"
+import { Root } from "index"
+
+type TopTunnelStartData = {
+    color: number[],
+    form: number[],
+    path: number[][],
+    material: THREE.MeshBasicMaterial,
+    collisionMaterial: THREE.MeshBasicMaterial,
+    w: number,
+}
 
 
 export class TopTunnel {
@@ -13,21 +23,21 @@ export class TopTunnel {
     meshDoorCollision: THREE.Object3D
     _doorMesh: THREE.Mesh
 
-    init (data: any) {
+    init (root: Root, startData: TopTunnelStartData) {
+
         
         // corridor view mesh *************************************/
-        const { dataForEnter } = data
         const randomData2 = createRandomDataForLine()
 
         const e = createTileI({ 
-            paths: [dataForEnter.path, randomData2.path],
-            colors: [dataForEnter.color, randomData2.color],
-            forms: [dataForEnter.form, randomData2.form],
+            paths: [startData.path, randomData2.path],
+            colors: [startData.color, randomData2.color],
+            forms: [startData.form, randomData2.form],
             n: this.N,
             w: this.W,
             key: 'n',
         })
-        this.mesh = _M.createMesh({ v: e.v, c: e.c, material: data.material })
+        this.mesh = _M.createMesh({ v: e.v, c: e.c, material: startData.material })
 
 
         // collision corridor *************************************/
@@ -51,21 +61,21 @@ export class TopTunnel {
                 [this.W / 2, 3, 1.5],
             ),
         ]
-        this.meshCollision = _M.createMesh({ v: vC, material: data.collisionMaterial })
+        this.meshCollision = _M.createMesh({ v: vC, material: startData.collisionMaterial })
         this.meshCollision.name = 'collision_lab_tunnel'
 
         const doorData = createDoor({
-            color: dataForEnter.color,
-            form: dataForEnter.form,
+            color: startData.color,
+            form: startData.form,
         })
 
         // door ***************************************************/ 
         this._doorMesh = _M.createMesh({
             v: doorData.v,
             c: doorData.c,
-            material: data.material
+            material: startData.material
         })
-        this._doorMesh.position.z = this.W / 2 - (data.w * 3)
+        this._doorMesh.position.z = this.W / 2 - (startData.w * 3)
         this.mesh.add(this._doorMesh)
 
         this.meshDoorCollision = _M.createMesh({ 
