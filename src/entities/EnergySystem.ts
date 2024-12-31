@@ -5,6 +5,9 @@ import { createEnergyV } from "geometry/energy"
 import * as TWEEN from '@tweenjs/tween.js'
 import { CONSTANTS } from "constants/CONSTANTS"
 
+
+type Points = { x: number, y: number, z: number }[][]   
+
 type Energy = {
     collisionName: string,
     m: THREE.Mesh,
@@ -18,7 +21,7 @@ export class EnergySystem {
     _collisionMaterial: THREE.MeshBasicMaterial
     _items: Energy[] = []
 
-    init (root: Root, points: any) {
+    init (root: Root, points: Points) {
         this._root = root
 
         if (!this._collisionMaterial) {

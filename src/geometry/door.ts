@@ -2,9 +2,14 @@ import { _M } from "./_m";
 import { createLineGeom } from './lineGeomCrafted'
 import * as THREE from 'three'
 
+type DoorCreateData = {
+    form: number[],
+    color: number[],
+}
 
-export const createDoor = (data: any) => {
-    const { forms, paths, colors, key } = data
+
+export const createDoor = (data: DoorCreateData) => {
+    const { form, color } = data
     
     const v = []
     const c = []
@@ -14,9 +19,9 @@ export const createDoor = (data: any) => {
     for (let i = 0; i < n; ++i) {
         const y = -1 + i / n * h
         const l = createLineGeom({
-            form: forms[0],
+            form: form,
             path: [[w / 2, y + .2, 0], [w / 2, y, 0], [-w / 2, y, 0], [-w / 2, y + .2, 0],  ],
-            color: colors[0],
+            color: color,
             isClosed: true,
         })
         v.push(...l.v)

@@ -55,12 +55,8 @@ export class TopTunnel {
         this.meshCollision.name = 'collision_lab_tunnel'
 
         const doorData = createDoor({
-            paths: [dataForEnter.path, randomData2.path],
-            colors: [dataForEnter.color, randomData2.color],
-            forms: [dataForEnter.form, randomData2.form],
-            n: this.N,
-            w: this.W,
-            key: 'n',
+            color: dataForEnter.color,
+            form: dataForEnter.form,
         })
 
         // door ***************************************************/ 
