@@ -1,6 +1,6 @@
 export class Ticker {
     isRunning = false
-    _updates = []
+    _updates: { (t: number): void }[] = []
     _oldTime = Date.now()
 
     start () {
@@ -20,7 +20,7 @@ export class Ticker {
         this._updates.forEach(f => f(diff))
     }
 
-    on (f) {
+    on (f: (t: number) => void) {
         this._updates.push(f)
         return () => {
             this._updates.filter(item => item !== f)
