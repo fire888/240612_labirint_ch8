@@ -60,7 +60,7 @@ export const pipelinePlay = async (root: Root) => {
     await completePlay()
 
     // pipeline destroy level ******************************/
-    lab.openDoor()
+    await lab.openDoor()
     ui.setEnergyLevel(0)
     await pause(1000)
     controls.disconnect()

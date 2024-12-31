@@ -5,16 +5,17 @@ import * as THREE from 'three'
 type DoorCreateData = {
     form: number[],
     color: number[],
+    width: number,
 }
 
 
 export const createDoor = (data: DoorCreateData) => {
-    const { form, color } = data
+    const { form, color, width = 5 } = data
     
     const v = []
     const c = []
     const n = 16
-    const w = 5
+    const w = width
     const h = 7
     for (let i = 0; i < n; ++i) {
         const y = -1 + i / n * h

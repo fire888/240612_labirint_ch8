@@ -268,9 +268,9 @@ export class Lab {
         this.lastDir = posStartDir
     } 
 
-    openDoor () {
+    async openDoor () {
         this._root.phisics.removeMeshFromCollision('collision_lab_door')
-        this.topTunnel.openDoor()
+        await this.topTunnel.openDoor()
     }
 
     destroy() {
