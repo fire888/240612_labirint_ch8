@@ -55,7 +55,6 @@ export class ControlsSystem {
             if (this._isDisabled) {
                 return
             }
-            
             if (this._orbit.isEnabled) {
                 return
             }
@@ -91,14 +90,12 @@ export class ControlsSystem {
         if (this._orbit.isEnabled) {
             return
         }
-        this._phone.disable()
         this._pointer.cameraDisconnect()
+        this._phone.disable()
     }
 
     connect () {
-        if (this._pointer.constructor.name === this._currentWalkingControls.constructor.name) {
-            this._pointer.cameraConnect()
-        }
+        this._pointer.cameraConnect()
         if (this._phone.constructor.name === this._currentWalkingControls.constructor.name) {
             this._phone.enable()
         }

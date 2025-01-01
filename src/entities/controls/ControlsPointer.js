@@ -157,12 +157,10 @@ export class ControlsPointer {
 
     cameraDisconnect () {
         this._cameraFree = true
-        this.controls.disconnect()
     } 
 
     cameraConnect () {
         this._cameraFree = false
-        this.controls.connect()
     }
 
     onUnlock (cb) {

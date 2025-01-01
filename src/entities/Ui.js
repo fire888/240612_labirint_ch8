@@ -85,6 +85,10 @@ export class Ui {
         this.lockButton.style.display = visible ? 'flex' : 'none'
     }
 
+    toggleVisibleEnergy (visible) {
+        opacityByTransition(this._countEnergy, visible ? 1 : 0, 300) 
+    }
+
     setEnergyLevel (val) {
         const obj = { v: this._currentEnergyMinWidth }
         new TWEEN.Tween(obj)

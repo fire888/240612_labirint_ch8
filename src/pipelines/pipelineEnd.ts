@@ -13,7 +13,6 @@ export const pipelineEnd = async (root: Root) => {
 
 
     controls.disable()
-    ui.toggleVisibleLock(false)
     setTimeout(() => {
         studio.showFinalView()
         lab.init(root, CONSTANTS.LABS_CONF[0])

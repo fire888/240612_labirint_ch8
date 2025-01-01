@@ -143,8 +143,6 @@ export class ControlsPhone {
             })
             .start()
 
-
-
         this._isEnabled = true
     }
 

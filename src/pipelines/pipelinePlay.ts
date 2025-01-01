@@ -63,6 +63,7 @@ export const pipelinePlay = async (root: Root) => {
     await lab.openDoor()
     ui.setEnergyLevel(0)
     await pause(1000)
+    ui.toggleVisibleEnergy(false)
     controls.disconnect()
     await studio.cameraFlyAway(lab.lastDir)
     lab.destroy()
@@ -82,5 +83,6 @@ export const pipelinePlay = async (root: Root) => {
     await studio.cameraFlyToLevel() 
     phisics.setPlayerPosition(...PLAYER_START_POS)
     controls.connect()
+    ui.toggleVisibleEnergy(true)
     await pipelinePlay(root)
 }
