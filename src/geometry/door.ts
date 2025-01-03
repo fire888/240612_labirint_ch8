@@ -1,10 +1,9 @@
 import { _M } from "./_m";
 import { createLineGeom } from './lineGeomCrafted'
-import * as THREE from 'three'
 
 type DoorCreateData = {
     form: number[],
-    color: number[],
+    color: [number, number, number],
     width: number,
 }
 

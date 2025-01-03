@@ -1,12 +1,10 @@
 import * as THREE from 'three'
 import { _M } from "../../geometry/_m";
-import { createScheme04_crafted } from './scheme04';
+import { createScheme } from './scheme';
 import { createTileI } from '../../geometry/tile_I_crafted'
 import { createTileL } from '../../geometry/tile_L_crafted'
 import { createTileT } from '../../geometry/tile_T_crafted'
 import { createTileU } from '../../geometry/tile_U_crafted'
-import { createTileX } from '../../geometry/tile_X_crafted';
-import { createStair } from "../../geometry/stair";
 
 
 
@@ -64,7 +62,7 @@ export class LabLevel {
         const W = w
         const N = n
 
-        const shemeData = await createScheme04_crafted({
+        const shemeData = await createScheme({
             width: numTilesX,
             height: numTilesZ,
             posStart,

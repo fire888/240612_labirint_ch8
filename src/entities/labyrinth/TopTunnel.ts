@@ -7,12 +7,18 @@ import { Root } from "index"
 import * as TWEEN from '@tweenjs/tween.js'
 
 type TopTunnelStartData = {
-    color: number[],
+    color: [number, number, number],
     form: number[],
     path: number[][],
     material: THREE.MeshBasicMaterial,
     collisionMaterial: THREE.MeshBasicMaterial,
     w: number,
+}
+
+type GeometryData = {
+    v: number[],
+    c?: number[],
+    vC?: number[], 
 }
 
 
@@ -23,7 +29,7 @@ export class TopTunnel {
     meshCollision: THREE.Object3D
     meshDoorCollision: THREE.Object3D
     _doorMesh: THREE.Mesh
-    _doorDataOpened: any
+    _doorDataOpened: GeometryData
 
     init (root: Root, startData: TopTunnelStartData) {
 
