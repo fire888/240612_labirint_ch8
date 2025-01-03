@@ -5,15 +5,25 @@ import { createTileI } from '../../geometry/tile_I_crafted'
 import { createTileL } from '../../geometry/tile_L_crafted'
 import { createTileT } from '../../geometry/tile_T_crafted'
 import { createTileU } from '../../geometry/tile_U_crafted'
+import { Root } from 'index';
+import { Dir, SegmentData } from './scheme';
 
 
 
 const EMPTY = 1
 const STAIR = 4
 
+export type PosesSleepEnds = {
+    xI: number, 
+    yI: number, 
+    x?: number, 
+    z?: number, 
+    y?: number,
+}[]
 
 
-const checkArray = arr => {
+
+const checkArray = (arr: any) => {
     if (!arr) {
         return false
     }
@@ -24,7 +34,7 @@ const checkArray = arr => {
                 return false
             }
 
-            if (typeof arr[i] === Object && arr[i].length) {
+            if (Array.isArray(arr[i]) && arr[i] === Object && arr[i].length) {
                 for (let j = 0; j < arr[i].length; j ++) {
                     if (arr[i][j] === undefined) {
                         return false
@@ -39,26 +49,50 @@ const checkArray = arr => {
 
 
 
+type LevelData = {
+    material: THREE.MeshPhongMaterial, 
+    collisionMaterial: THREE.MeshBasicMaterial,
+    numTilesX: number, 
+    numTilesZ: number, 
+    posStart: [number, number],
+    posStartDir: Dir,
+    dataForEnter: SegmentData,
+    w: number,
+    n: number,
+}
+
 
 export class LabLevel {
-    constructor () {
-        this.collisionMech = null
-    }
+    collisionMesh: THREE.Mesh
+    mesh: THREE.Mesh
+
+    posStart: [number, number]
+    posEnd: [number, number]
+    dirToPosEnd: Dir
+    pathToPosEnd: number[][]
+    colorToPosEnd: [number, number, number]
+    formToPosEnd: number[]
+    posesSleepEnds: PosesSleepEnds
 
     async init (
-        root, 
-        { 
-            material, 
-            collisionMaterial,
-            numTilesX, 
-            numTilesZ, 
-            posStart,
-            posStartDir,
-            dataForEnter,
-            w,
-            n,
-        }
+        root: Root, 
+        levelData: LevelData,
     ) {
+
+
+        const 
+        material = levelData.material, 
+        collisionMaterial = levelData.collisionMaterial,
+        numTilesX = levelData.numTilesX, 
+        numTilesZ = levelData.numTilesZ, 
+        posStart = levelData.posStart,
+        posStartDir = levelData.posStartDir,
+        dataForEnter = levelData.dataForEnter,
+        w = levelData.w,
+        n = levelData.n
+
+
+
         const W = w
         const N = n
 
@@ -286,14 +320,16 @@ export class LabLevel {
             let e = null
 
             if (typeTile === 'U') {
-                e = createTileU({
-                    paths: [tile[keyDir].path, tile[keyDir].path],
-                    colors: [tile[keyDir].color, tile[keyDir].color],
-                    forms: [tile[keyDir].form, tile[keyDir].form],
-                    n: N,
-                    w: W,
-                    key: keyDir,
-                })
+                if (keyDir === 's' || keyDir === 'e' || keyDir === 'n' || keyDir === 'w') {
+                    e = createTileU({
+                        paths: [tile[keyDir].path, tile[keyDir].path],
+                        colors: [tile[keyDir].color, tile[keyDir].color],
+                        forms: [tile[keyDir].form, tile[keyDir].form],
+                        n: N,
+                        w: W,
+                        key: keyDir,
+                    })
+                }
             }
 
 
@@ -427,7 +463,12 @@ export class LabLevel {
         }
 
         this.posesSleepEnds = posesSleepEnds
-        this.mesh = _M.createMesh({ v, c, material })
+        this.mesh = _M.createMesh({ 
+            v, 
+            c,
+            // @ts-ignore:next-line 
+            material 
+        })
         this.collisionMesh = _M.createMesh({ v: vC, material: collisionMaterial }) 
     }
 }

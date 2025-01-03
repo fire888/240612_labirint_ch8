@@ -5,14 +5,14 @@ const EMPTY = 1
 const TUNNEL = 3
 const STAIR = 4
 
-enum Dir {
+export enum Dir {
     NORTH = 'n',
     SOUTH = 's',
     EAST = 'e',
     WEST = 'w',
 }
 
-type SegmentData = {
+export type SegmentData = {
     color: number[],
     form: number[],
     path: number[][],
@@ -177,8 +177,6 @@ const createMaze = async (width: number, height: number, posStart: [number, numb
                 //posesSleepEnds.push({ xI: x, yI: y })
                 return
             }
-
-            console.log('&&&&', hasVisited)
 
             const nextDir = unvisitetNeighbors[Math.floor(Math.random() * unvisitetNeighbors.length)]
             const randomData1 = createRandomDataForLine()
@@ -355,7 +353,7 @@ export const createScheme = async (dataMaze: {
     const dataForEnter: SegmentData = dataMaze.dataForEnter
     const resultMaze = await createMaze(width, height, posStart, posStartDir, dataForEnter)
 
-    debugPrintMaze(resultMaze.maze, width, height, posStart, resultMaze.posEnd)
+    // debugPrintMaze(resultMaze.maze, width, height, posStart, resultMaze.posEnd)
 
     const posEnd: [number, number] = resultMaze.posEnd 
     const dirToPosEnd: Dir = resultMaze.dirToPosEnd

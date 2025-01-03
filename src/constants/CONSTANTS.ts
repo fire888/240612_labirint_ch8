@@ -9,12 +9,15 @@ const ENERGY_FIRST_POS: number[] = [15.076315508474185, 0, -4]
 const ENERGY_PERCENTAGE_MUST_GET: number = .3
 
 const LABS_CONF: LevelCof[] = [
-    { TILES_X: 0, TILES_Z: 0, FLOORS_NUM: 0 },
+    //{ TILES_X: 0, TILES_Z: 0, FLOORS_NUM: 0 },
+    {TILES_X: 9, TILES_Z: 9, FLOORS_NUM: 4}
 ]
 
+//const N_LEVELS_START = 2
+const N_LEVELS_START = 4
 const N_LEVELS = 10
 //const N_LEVELS = 2
-for (let i = 2; i < N_LEVELS; i += 1) {
+for (let i = N_LEVELS_START; i < N_LEVELS; i += 1) {
     let n = i * 2
     if (n % 2 === 0) {
         n += 1
