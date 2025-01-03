@@ -16,7 +16,7 @@ export type SegmentData = {
     color: number[],
     form: number[],
     path: number[][],
-    dir?: string,
+    dir?: Dir,
     isClosed?: boolean,
 }
 

@@ -4,6 +4,11 @@ import { createStair } from '../../geometry/stair'
 import { TopTunnel } from './TopTunnel'
 import { createRandomDataForLine } from '../../geometry/lineGeomCrafted'
 import { _M } from "../../geometry/_m"
+import { Dir } from './scheme'
+import { Root } from 'index'
+import { PosesSleepEnds } from './LabLevel'
+import { SegmentData } from './scheme'
+
 
 const LEVEL_H = 5
 const W = 3
@@ -11,11 +16,17 @@ const N = 7
 
 export class Lab {
     nameSpace = 'collision_lab_'
-    lastDir = null
-    _namesMeshes = []
-    _meshes = []
+    lastDir: Dir = null
+    _namesMeshes: string[] = []
+    _meshes: THREE.Mesh[] = []
+    _root: Root
+    mesh: THREE.Object3D
+    material: THREE.MeshPhongMaterial
+    _collisionMaterial: THREE.MeshBasicMaterial
+    posesSleepEnds: PosesSleepEnds[] = []
+    topTunnel: TopTunnel
 
-    async init (root, params = { TILES_X: 11, TILES_Z: 13, FLOORS_NUM: 5 }) {
+    async init (root: Root, params = { TILES_X: 11, TILES_Z: 13, FLOORS_NUM: 5 }) {
         const {
             TILES_X,
             TILES_Z,
@@ -46,12 +57,12 @@ export class Lab {
 
         // start stair *******************************************/
 
-        const stairDataBottom = createRandomDataForLine()
-        stairDataBottom.dir = 'n'
-        const stairDataCenterB = createRandomDataForLine()
-        const stairDataCenterT = createRandomDataForLine()
-        const stairDataTop = createRandomDataForLine()
-        stairDataTop.dir = 's'
+        const stairDataBottom: SegmentData = createRandomDataForLine()
+        stairDataBottom.dir = Dir.NORTH
+        const stairDataCenterB: SegmentData = createRandomDataForLine()
+        const stairDataCenterT: SegmentData = createRandomDataForLine()
+        const stairDataTop: SegmentData = createRandomDataForLine()
+        stairDataTop.dir = Dir.SOUTH
 
         const startStair = createStair({ 
             stairDataBottom, 
@@ -62,16 +73,17 @@ export class Lab {
             w: W, 
             h: LEVEL_H,
         })
-        this.stairMesh = _M.createMesh({
+        const stairMesh = _M.createMesh({
             v: startStair.v,
             c: startStair.c,
+            // @ts-ignore:next-line
             material: this.material,
         })
-        this.stairMesh.position.x = W * 5
-        this.stairMesh.position.z = W
-        this.stairMesh.name = 'view_start_stair'
-        this.mesh.add(this.stairMesh)
-        this._meshes.push(this.stairMesh)
+        stairMesh.position.x = W * 5
+        stairMesh.position.z = W
+        stairMesh.name = 'view_start_stair'
+        this.mesh.add(stairMesh)
+        this._meshes.push(stairMesh)
 
         const collisionStairMesh = _M.createMesh({
             v: startStair.vC,
@@ -86,8 +98,8 @@ export class Lab {
 
         // levels *******************************************/
 
-        let posStart = [5, 1]
-        let posStartDir = stairDataTop.dir
+        let posStart: [number, number] = [5, 1]
+        let posStartDir: Dir = stairDataTop.dir
         let dataForEnter = stairDataTop
 
 
@@ -120,32 +132,32 @@ export class Lab {
             // create stair
             const stairDataTopExit = createRandomDataForLine()
             let bottomDir = null
-            if (labLevel.dirToPosEnd === 'n') {
-                bottomDir = 's'
+            if (labLevel.dirToPosEnd === Dir.NORTH) {
+                bottomDir = Dir.SOUTH
             }
-            if (labLevel.dirToPosEnd === 's') {
-                bottomDir = 'n'
+            if (labLevel.dirToPosEnd === Dir.SOUTH) {
+                bottomDir = Dir.NORTH
             }
-            if (labLevel.dirToPosEnd === 'w') {
-                bottomDir = 'e'
+            if (labLevel.dirToPosEnd === Dir.WEST) {
+                bottomDir = Dir.EAST
             }
-            if (labLevel.dirToPosEnd === 'e') {
-                bottomDir = 'w'
+            if (labLevel.dirToPosEnd === Dir.EAST) {
+                bottomDir = Dir.WEST
             }
 
-            let topDirFull = ['n', 'w', 's', 'e']
+            let topDirFull = [Dir.NORTH, Dir.WEST, Dir.SOUTH, Dir.EAST]
             topDirFull = topDirFull.filter(elem => elem !== bottomDir)
             if (labLevel.posEnd[0] < 3) {
-                topDirFull = topDirFull.filter(elem => elem !== 'w')
+                topDirFull = topDirFull.filter(elem => elem !== Dir.WEST)
             }
             if (labLevel.posEnd[1] < 3) {
-                topDirFull = topDirFull.filter(elem => elem !== 'n')
+                topDirFull = topDirFull.filter(elem => elem !== Dir.NORTH)
             }
             if (labLevel.posEnd[0] > TILES_X - 3) {
-                topDirFull = topDirFull.filter(elem => elem !== 'e')
+                topDirFull = topDirFull.filter(elem => elem !== Dir.EAST)
             }
             if (labLevel.posEnd[1] > TILES_Z - 3) {
-                topDirFull = topDirFull.filter(elem => elem !== 's')
+                topDirFull = topDirFull.filter(elem => elem !== Dir.SOUTH)
             }
             const dirTop = topDirFull[Math.floor(Math.random() * topDirFull.length)]
             stairDataTopExit.dir = dirTop
@@ -167,6 +179,7 @@ export class Lab {
             const stairMesh = _M.createMesh({
                 v: stair.v,
                 c: stair.c,
+                // @ts-ignore:next-line
                 material: this.material,
             })
             stairMesh.position.x = W * labLevel.posEnd[0]
@@ -210,6 +223,7 @@ export class Lab {
             root,
             {
                 ...dataForEnter,
+                // @ts-ignore:next-line
                 material: this.material, 
                 collisionMaterial: this._collisionMaterial, 
                 w: W

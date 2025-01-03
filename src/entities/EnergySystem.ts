@@ -4,9 +4,7 @@ import * as THREE from 'three'
 import { createEnergyV } from "geometry/energy"
 import * as TWEEN from '@tweenjs/tween.js'
 import { CONSTANTS } from "constants/CONSTANTS"
-
-
-type Points = { x: number, y: number, z: number }[][]   
+import { PosesSleepEnds } from "./labyrinth/LabLevel";
 
 type Energy = {
     collisionName: string,
@@ -21,7 +19,7 @@ export class EnergySystem {
     _collisionMaterial: THREE.MeshBasicMaterial
     _items: Energy[] = []
 
-    init (root: Root, points: Points) {
+    init (root: Root, points: PosesSleepEnds[]) {
         this._root = root
 
         if (!this._collisionMaterial) {
