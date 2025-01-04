@@ -126,15 +126,14 @@ const createMaze = async (
         prevDir: Dir, 
         prevForm: number[], 
         prevPath: A3[], 
-        prevColor: A3
+        prevColor: A3,
+        // path: A3[],
+        // color: A3,
+        // form: number[],
     ) => {        
         // save global for stair
         posEnd[0] = x
         posEnd[1] = y
-        dirToPosEnd = prevDir
-        pathToPosEnd = prevPath
-        colorToPosEnd = prevColor
-        formToPosEnd = prevForm
 
         // current tile mark prev direction 
         maze[[x, y] + ''].type = TUNNEL
@@ -198,7 +197,6 @@ const createMaze = async (
                 unvisitetNeighbors.push(Dir.EAST)
             }
             if (unvisitetNeighbors.length === 0) {
-                //posesSleepEnds.push({ xI: x, yI: y })
                 return
             }
 
@@ -258,6 +256,11 @@ const createMaze = async (
             }
             hasVisited.push([nextX, nextY])
 
+            dirToPosEnd = nextDir
+            pathToPosEnd = currentData.path
+            colorToPosEnd = currentData.color
+            formToPosEnd = currentData.form
+
             await visit(nextX, nextY, nextDir, nextData.form, nextData.path, nextData.color)
         }
     }
@@ -315,14 +318,9 @@ const createMaze = async (
 
 
 
-const addStairsData = (maze: Maze, posStart: [number, number], posEnd: [number, number]) => {
-    let endDir = null
-
+const addStairsData = (maze: Maze, posEnd: [number, number]) => {
     {
         // exit stair from level
-        let dir = null
-        let sI = -1
-        let sJ = -1
         for (let i = posEnd[0] - 1; i < posEnd[0] + 2; ++i) {
             for (let j = posEnd[1] - 1; j < posEnd[1] + 2; ++j) {
                 if (maze[i + ',' + j].type === TUNNEL) {
@@ -331,7 +329,6 @@ const addStairsData = (maze: Maze, posStart: [number, number], posEnd: [number, 
             }
         }
         maze[posEnd[0] + ',' + posEnd[1]] = { type: STAIR }
-        endDir = dir
     }
 }
 
@@ -386,7 +383,7 @@ export const createScheme = async (dataMaze: {
     const formToPosEnd: number[] = resultMaze.formToPosEnd 
     const maze: Maze = resultMaze.maze
     
-    addStairsData(maze, posStart, posEnd)
+    addStairsData(maze, posEnd)
     const posesSleepEnds = prepareSleepEndPoints(maze)
 
     return {

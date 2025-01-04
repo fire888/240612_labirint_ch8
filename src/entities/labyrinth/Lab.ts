@@ -15,16 +15,19 @@ const W = 3
 const N = 7
 
 export class Lab {
+    mesh: THREE.Object3D
     nameSpace = 'collision_lab_'
     lastDir: Dir = null
-    _namesMeshes: string[] = []
-    _meshes: THREE.Mesh[] = []
-    _root: Root
-    mesh: THREE.Object3D
-    material: THREE.MeshPhongMaterial
-    _collisionMaterial: THREE.MeshBasicMaterial
     posesSleepEnds: PosesSleepEnds[] = []
-    topTunnel: TopTunnel
+
+    private _namesMeshes: string[] = []
+    private _meshes: THREE.Mesh[] = []
+    private _root: Root
+
+    private _material: THREE.MeshPhongMaterial
+    private _collisionMaterial: THREE.MeshBasicMaterial
+
+    private _topTunnel: TopTunnel
 
     async init (root: Root, params = { TILES_X: 11, TILES_Z: 13, FLOORS_NUM: 5 }) {
         const {
@@ -44,8 +47,8 @@ export class Lab {
 
         this.posesSleepEnds = []
 
-        if (!this.material) {
-            this.material = new THREE.MeshPhongMaterial({ 
+        if (!this._material) {
+            this._material = new THREE.MeshPhongMaterial({ 
                 color: 0xFFFFFF, 
                 vertexColors: true,
                 envMap: root.loader.assets.sky,
@@ -77,7 +80,7 @@ export class Lab {
             v: startStair.v,
             c: startStair.c,
             // @ts-ignore:next-line
-            material: this.material,
+            material: this._material,
         })
         stairMesh.position.x = W * 5
         stairMesh.position.z = W
@@ -115,7 +118,7 @@ export class Lab {
                 numTilesZ: TILES_Z,
                 w: W,
                 n: N,
-                material: this.material, 
+                material: this._material, 
                 collisionMaterial: this._collisionMaterial,
             })
             labLevel.mesh.position.y = LEVEL_H * i + LEVEL_H
@@ -180,7 +183,7 @@ export class Lab {
                 v: stair.v,
                 c: stair.c,
                 // @ts-ignore:next-line
-                material: this.material,
+                material: this._material,
             })
             stairMesh.position.x = W * labLevel.posEnd[0]
             stairMesh.position.z = W * labLevel.posEnd[1]
@@ -218,19 +221,19 @@ export class Lab {
 
         // top tunnel ***********************************************************/
 
-        this.topTunnel = new TopTunnel()
-        this.topTunnel.init(
+        this._topTunnel = new TopTunnel()
+        this._topTunnel.init(
             root,
             {
                 ...dataForEnter,
                 // @ts-ignore:next-line
-                material: this.material, 
+                material: this._material, 
                 collisionMaterial: this._collisionMaterial, 
                 w: W
             } 
         )
         const pos = new THREE.Vector3(posStart[0] * W,  (FLOORS_NUM + 1) * LEVEL_H, posStart[1] * W)
-        const offset = W + (this.topTunnel.W / 2) + W / 2
+        const offset = W + (this._topTunnel.W / 2) + W / 2
         const doorCollisionPos = new THREE.Vector3().copy(pos)
         let rotation = 0
         let rotationCollision = 0
@@ -260,31 +263,31 @@ export class Lab {
 
 
         // phisics close dooor
-        this.topTunnel.meshDoorCollision.name = this.nameSpace + 'top_tunnel_door'
-        this._namesMeshes.push(this.topTunnel.meshDoorCollision.name) 
-        this.topTunnel.meshDoorCollision.rotation.y = rotation
-        this.topTunnel.meshDoorCollision.position.copy(doorCollisionPos)
-        phisics.addMeshToCollision(this.topTunnel.meshDoorCollision)
+        this._topTunnel.meshDoorCollision.name = this.nameSpace + 'top_tunnel_door'
+        this._namesMeshes.push(this._topTunnel.meshDoorCollision.name) 
+        this._topTunnel.meshDoorCollision.rotation.y = rotation
+        this._topTunnel.meshDoorCollision.position.copy(doorCollisionPos)
+        phisics.addMeshToCollision(this._topTunnel.meshDoorCollision)
 
         // phisics corridor collision
-        this.topTunnel.meshCollision.name = this.nameSpace + 'top_tunnel'
-        this._namesMeshes.push(this.topTunnel.meshCollision.name)
-        this.topTunnel.meshCollision.rotation.y = rotationCollision
-        this.topTunnel.meshCollision.position.copy(pos)
-        phisics.addMeshToCollision(this.topTunnel.meshCollision)
+        this._topTunnel.meshCollision.name = this.nameSpace + 'top_tunnel'
+        this._namesMeshes.push(this._topTunnel.meshCollision.name)
+        this._topTunnel.meshCollision.rotation.y = rotationCollision
+        this._topTunnel.meshCollision.position.copy(pos)
+        phisics.addMeshToCollision(this._topTunnel.meshCollision)
 
         // tunnel mesh
-        this.topTunnel.mesh.rotation.y = rotation
-        this.topTunnel.mesh.position.copy(pos)
-        this.mesh.add(this.topTunnel.mesh)
-        this._meshes.push(this.topTunnel.mesh)
+        this._topTunnel.mesh.rotation.y = rotation
+        this._topTunnel.mesh.position.copy(pos)
+        this.mesh.add(this._topTunnel.mesh)
+        this._meshes.push(this._topTunnel.mesh)
 
         this.lastDir = posStartDir
     } 
 
     async openDoor () {
         this._root.phisics.removeMeshFromCollision('collision_lab_door')
-        await this.topTunnel.openDoor()
+        await this._topTunnel.openDoor()
     }
 
     destroy() {
@@ -292,10 +295,8 @@ export class Lab {
         for (let i = 0; i < this._namesMeshes.length; ++i) {
             this._root.phisics.removeMeshFromCollision(this._namesMeshes[i])
         }
-        //this.mesh.remove(this.stairMesh)
-        //this.stairMesh.geometry.dispose()
-        this.mesh.remove(this.topTunnel.mesh)
-        this.topTunnel.destroy()
+        this.mesh.remove(this._topTunnel.mesh)
+        this._topTunnel.destroy()
         
 
         this._meshes.forEach(m => {
