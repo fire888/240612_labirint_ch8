@@ -1,27 +1,51 @@
-import { _M } from "./_m"
+import { _M, A3 } from "./_m"
 
 import { createLineGeom  } from "./lineGeomCrafted";
 
 
-export const createTileX = ({
-                                w,
-                                n,
+export const createTileX = (data: {
+    w: number,
+    n: number,
 
-                                formS,
-                                formE,
-                                formN,
-                                formW,
+    formS: number[],
+    formE: number[],
+    formN: number[],
+    formW: number[],
 
-                                pathS,
-                                pathE,
-                                pathN,
-                                pathW,
+    pathS: A3[],
+    pathE: A3[],
+    pathN: A3[],
+    pathW: A3[],
 
-                                colorS,
-                                colorW,
-                                colorE,
-                                colorN,
-                            }) => {
+    colorS: A3,
+    colorW: A3,
+    colorE: A3,
+    colorN: A3,
+}) => {
+
+    const {
+        w,
+        n,
+
+        formS,
+        formE,
+        formN,
+        formW,
+
+        pathS,
+        pathE,
+        pathN,
+        pathW,
+
+        colorS,
+        colorW,
+        colorE,
+        colorN,
+    } = data
+
+
+
+
     const v = []
     const c = []
 
@@ -94,13 +118,13 @@ export const createTileX = ({
     */
     {
 
-        const pathStart = [
+        const pathStart: A3[] = [
             [0, 0, 0],
             pathS[0],
             pathS[1],
             pathS[2],
         ]
-        const pathEnd = [
+        const pathEnd: A3[] = [
             [0, 0, 0],
             pathE[0],
             pathE[1],
@@ -131,9 +155,9 @@ export const createTileX = ({
         }
 
 
-        for (let i = 0; i < arrs.length; ++i) {
-            _M.rotateVerticesY(arrs, -angleStep * i)
-        }
+        // for (let i = 0; i < arrs.length; ++i) {
+        //     _M.rotateVerticesY(arrs, -angleStep * i)
+        // }
     }
 
     /*
@@ -143,13 +167,13 @@ export const createTileX = ({
     */
     {
 
-        const pathStart = [
+        const pathStart: A3[] = [
             pathS[2],
             pathS[3],
             pathS[4],
             [0, 0, 0],
         ]
-        const pathEnd = [
+        const pathEnd: A3[] = [
             [...pathW[2]],
             [...pathW[1]],
             [...pathW[0]],
@@ -185,9 +209,9 @@ export const createTileX = ({
         }
 
 
-        for (let i = 0; i < arrs.length; ++i) {
-            _M.rotateVerticesY(arrs, -angleStep * i)
-        }
+        // for (let i = 0; i < arrs.length; ++i) {
+        //     _M.rotateVerticesY(arrs, -angleStep * i)
+        // }
     }
 
     /*
@@ -197,13 +221,13 @@ export const createTileX = ({
          |
      */
     {
-        const pathWStart = [
+        const pathWStart: A3[] = [
             pathW[2],
             pathW[3],
             pathW[4],
             [0, 0, 0],
         ]
-        const pathNEnd = [
+        const pathNEnd: A3[] = [
             pathN[2],
             pathN[3],
             pathN[4],
@@ -243,13 +267,13 @@ export const createTileX = ({
         ____________ |
      */
     {
-        const pathNStart = [
+        const pathNStart: A3[] = [
             pathN[2],
             pathN[1],
             pathN[0],
             [0, 0, 0],
         ]
-        const pathEEnd = [
+        const pathEEnd: A3[] = [
             [...pathE[2]],
             [...pathE[3]],
             [...pathE[4]],
@@ -283,5 +307,5 @@ export const createTileX = ({
         }
     }
 
-    return { v, c, vC }
+    return { v, c }
 }

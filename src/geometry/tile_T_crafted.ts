@@ -1,26 +1,20 @@
-import { _M } from "./_m"
+import { _M, A3 } from "./_m"
 
 import { createLineGeom  } from "./lineGeomCrafted";
+import { MazeSegment } from "../entities/labyrinth/scheme"
 
 
-export const createTileT = ({ 
-    w, 
-    n,
-    tile,
-    // formS,
-    // formE,
-    // formW,
-    // pathS,
-    // pathE,
-    // pathW,
-    // colorS,
-    // colorW,
-    // colorE,
-    key,
+export const createTileT = (data: {
+    w: number,
+    n: number,
+    tile: MazeSegment,
+    key: string
 }) => {
-    const v = []
-    const c = []
-    const vC = [
+    const { w, n, tile, key } = data
+
+    const v: number[] = []
+    const c: number[] = []
+    const vC: number[] = [
         ..._M.createPolygon(
             [-w * .5, 0, w * .5],
             [w * .5, 0, w * .5],
@@ -43,13 +37,13 @@ export const createTileT = ({
                     _
             */
 
-            const pathStart = [
+            const pathStart: A3[] = [
                 [0, 0, 0], 
                 tile.s.path[0],
                 tile.s.path[1],
                 tile.s.path[2],
             ] 
-            const pathEnd = [
+            const pathEnd: A3[] = [
                 [0, 0, 0], 
                 tile.e.path[0],
                 tile.e.path[1],
@@ -79,11 +73,6 @@ export const createTileT = ({
                 v.push(...r.v)
                 c.push(...r.c)
             }
-    
-    
-            for (let i = 0; i < arrs.length; ++i) {
-                _M.rotateVerticesY(arrs, -angleStep * i)
-            }
         }
     }
 
@@ -95,13 +84,13 @@ export const createTileT = ({
             */
         {
 
-            const pathStart = [
+            const pathStart: A3[] = [
                 tile.s.path[2],
                 tile.s.path[3],
                 tile.s.path[4],
                 [0, 0, 0], 
             ] 
-            const pathEnd = [
+            const pathEnd: A3[] = [
                 [...tile.w.path[2]],
                 [...tile.w.path[1]],
                 [...tile.w.path[0]],
@@ -136,9 +125,9 @@ export const createTileT = ({
             }
             
             
-            for (let i = 0; i < arrs.length; ++i) {
-                _M.rotateVerticesY(arrs, -angleStep * i)
-            }
+            // for (let i = 0; i < arrs.length; ++i) {
+            //     _M.rotateVerticesY(arrs, -angleStep * i)
+            // }
         }
     }
 
@@ -154,13 +143,13 @@ export const createTileT = ({
 
             */
 
-            const pathStart = [
+            const pathStart: A3[] = [
                 [0, 0, 0], 
                 tile.n.path[0], 
                 tile.n.path[1], 
                 tile.n.path[2], 
             ]
-            const pathEnd = [
+            const pathEnd: A3[] = [
                 [0, 0, 0], 
                 tile.e.path[0], 
                 tile.e.path[1], 
@@ -198,13 +187,13 @@ export const createTileT = ({
 
             */
 
-            const pathStart = [
+            const pathStart: A3[] = [
                 [0, 0, 0], 
                 tile.w.path[4], 
                 tile.w.path[3], 
                 tile.w.path[2], 
             ]
-            const pathEnd = [
+            const pathEnd: A3[] = [
                 [0, 0, 0], 
                 tile.n.path[4], 
                 tile.n.path[3], 
@@ -245,13 +234,13 @@ export const createTileT = ({
 
             */
 
-            const pathStart = [
+            const pathStart: A3[] = [
                 [0, 0, 0], 
                 tile.w.path[4], 
                 tile.w.path[3], 
                 tile.w.path[2], 
             ]
-            const pathEnd = [
+            const pathEnd: A3[] = [
                 [0, 0, 0], 
                 tile.e.path[4], 
                 tile.e.path[3], 
@@ -296,13 +285,13 @@ export const createTileT = ({
 
         */
        
-        const pathStart = [
+        const pathStart: A3[] = [
             [0, 0, 0], 
             tile.s.path[4], 
             tile.s.path[3], 
             tile.s.path[2], 
         ]
-        const pathEnd = [
+        const pathEnd: A3[] = [
             [0, 0, 0], 
             tile.n.path[4], 
             tile.n.path[3], 
@@ -346,13 +335,13 @@ export const createTileT = ({
 
         */
        
-        const pathStart = [
+        const pathStart: A3[] = [
             [0, 0, 0], 
             tile.s.path[0], 
             tile.s.path[1], 
             tile.s.path[2], 
         ]
-        const pathEnd = [
+        const pathEnd: A3[] = [
             [0, 0, 0], 
             tile.n.path[0], 
             tile.n.path[1], 
@@ -395,13 +384,13 @@ export const createTileT = ({
 
         */
        
-        const pathStart = [
+        const pathStart: A3[] = [
             [0, 0, 0], 
             tile.w.path[0], 
             tile.w.path[1], 
             tile.w.path[2], 
         ]
-        const pathEnd = [
+        const pathEnd: A3[] = [
             [0, 0, 0], 
             tile.e.path[0], 
             tile.e.path[1], 

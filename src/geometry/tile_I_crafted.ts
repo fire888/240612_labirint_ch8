@@ -1,8 +1,12 @@
 import { _M } from "./_m";
 import { createLineGeom } from './lineGeomCrafted'
 
+import { DataToCreateGeom } from '../entities/labyrinth/scheme'
 
-export const createTileI = ({ w, n, forms, paths, colors, key }) => {
+
+export const createTileI = (data: DataToCreateGeom) => {
+    const { w, n, forms, paths, colors, key } = data
+
     // CREATE ARRAYS DATA
 
     const arrs = _M.interpolateArrays({ forms, paths, colors, n })

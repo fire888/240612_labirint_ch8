@@ -1,9 +1,13 @@
 import { _M } from "./_m";
 import { createLineGeom } from './lineGeomCrafted'
+import { DataToCreateGeom } from '../entities/labyrinth/scheme'
 
 
 
-export const createTileL = ({ w, n, forms, paths, colors, key }) => {
+export const createTileL = (data: DataToCreateGeom) => {
+    let { w, n, forms, paths, colors, key } = data
+
+
     if (key === 'ws' || key === 'ne') {
         const copy = JSON.parse(JSON.stringify(paths[1]))
         const s1 = copy[0][1]

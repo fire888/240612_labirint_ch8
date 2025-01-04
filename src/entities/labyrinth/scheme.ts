@@ -10,6 +10,8 @@ export enum Dir {
     SOUTH = 's',
     EAST = 'e',
     WEST = 'w',
+
+
 }
 
 export type SegmentData = {
@@ -20,7 +22,7 @@ export type SegmentData = {
     isClosed?: boolean,
 }
 
-type MazeSegment = {
+export type MazeSegment = {
     type: number,    
     [Dir.SOUTH]?: SegmentData,            
     [Dir.EAST]?: SegmentData,
@@ -30,6 +32,15 @@ type MazeSegment = {
 
 type Maze = {
     [key: string]: MazeSegment,
+}
+
+export type DataToCreateGeom = {
+    paths: [A3[], A3[]],
+    forms: [number[], number[]],
+    colors: [A3, A3],
+    key: string,
+    n: number,
+    w: number,
 }
 
 

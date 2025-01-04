@@ -1,8 +1,11 @@
-import { _M } from "./_m";
+import { _M, A3 } from "./_m";
 import { createLineGeom } from './lineGeomCrafted'
+import { DataToCreateGeom } from '../entities/labyrinth/scheme'
 
 
-export const createTileU = ({ w, n, forms, paths, colors, key }) => {
+export const createTileU = (data: DataToCreateGeom) => {
+    const { w, n, forms, paths, colors, key } = data
+
     const v = []
     const c = []
     const vC = []
@@ -86,12 +89,12 @@ export const createTileU = ({ w, n, forms, paths, colors, key }) => {
 
     {
         const N = 5
-        const pathsEnd = []
+        const pathsEnd: A3[][] = []
         const colorsEnd = []
         const formsEnd = []
         const p = paths[paths.length - 1]
         for (let i = 0; i < N; ++i) {
-            const newP = []
+            const newP: A3[] = []
             for (let j = 0; j < p.length; ++j) {
                 const phase = 1 - i / N
                 newP.push([
