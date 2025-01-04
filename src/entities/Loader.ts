@@ -2,15 +2,25 @@ import * as THREE from 'three'
 import mapEnv from "../assets/env.jpg"
 import sky from '../assets/sky.jpg'
 import sprite from '../assets/sprite.png'
+import audioAmbient from '../assets/ambient.mp3'
+import steps from '../assets/steps_metal.mp3'
+import audioBzink from '../assets/bzink.mp3'
+import audioDoor from '../assets/door.mp3'
+import audioFly from '../assets/fly.mp3'
 
 type Assets = {
     mapEnv: THREE.Texture,
     sky: THREE.Texture,
     sprite: THREE.Texture,
+    soundAmbient: any,
+    soundStepsMetal: any,
+    soundBzink: any, 
+    soundDoor: any,
+    soundFly: any,
 }
 type ResultLoad = {
     key: keyof Assets,
-    texture: THREE.Texture,
+    texture: THREE.Texture | any,
 }
 
 export class LoaderAssets {
@@ -19,6 +29,11 @@ export class LoaderAssets {
         mapEnv: null,
         sky: null,
         sprite: null,
+        soundAmbient: null,
+        soundStepsMetal: null,
+        soundBzink: null,
+        soundDoor: null,
+        soundFly: null,
     }
 
     init () {}
@@ -34,10 +49,25 @@ export class LoaderAssets {
                 })
             }
 
+            const loadAudio = ( key: keyof Assets, src: string) => {
+                return new Promise<ResultLoad>(res => {
+                    const loader = new THREE.AudioLoader()
+                    loader.load(src, buffer => {
+                        res({ key, texture: buffer })
+                    })
+                })
+            }
+
             const promises = [
                 loadTextue('mapEnv', mapEnv),
                 loadTextue('sky', sky),
                 loadTextue('sprite', sprite),
+
+                loadAudio('soundAmbient', audioAmbient),
+                loadAudio('soundStepsMetal', steps),
+                loadAudio('soundBzink', audioBzink),
+                loadAudio('soundDoor', audioDoor),
+                loadAudio('soundFly', audioFly),
             ]
 
             Promise.all(promises).then(result => {

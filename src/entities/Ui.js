@@ -59,18 +59,18 @@ export class Ui {
 
         const controlsM = document.body.getElementsByClassName('controls-mess')[0]
         await opacityByTransition(controlsM, 0, 300)
-        await pause(300)  
+        await pause(100)  
 
         await opacityByTransition(startButton, 0, 300)
-        await pause(1000)
+        await pause(100)
 
         const img = document.body.getElementsByTagName('img')[0]
         await opacityByTransition(img, 0, 300)
-        await pause(300)
+        await pause(100)
 
         const startScreen = document.body.getElementsByClassName('start-screen')[0]
         await opacityByTransition(startScreen, 0, 300)
-        await pause(300)
+        await pause(100)
 
         setTimeout(async () => {
             await opacityByTransition(finalDark, 0, 300)

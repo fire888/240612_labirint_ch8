@@ -17,6 +17,7 @@ export const pipelineInit = async (root: Root) => {
         phisics,
         energySystem,
         lab,
+        audio,
     } = root
 
     loader.init()
@@ -56,8 +57,12 @@ export const pipelineInit = async (root: Root) => {
     ticker.on(particles.update.bind(particles))
     studio.add(particles.m)
 
+    audio.init(root)
+    ticker.on(audio.update.bind(audio))
+
     await ui.hideStartScreen()
 
+    audio.playAmbient()
     controls.init(root)
     ticker.on(controls.update.bind(controls))
 }

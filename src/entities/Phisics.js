@@ -154,4 +154,9 @@ export class Phisics {
         this.playerBody._object3D.position.set(this.playerBody.position.x, this.playerBody.position.y, this.playerBody.position.z)
         this.playerBody._object3D.rotation.y = Math.PI
     }
+
+    stopPlayerBody () {
+        this.playerBody.velocity.x = 0
+        this.playerBody.velocity.z = 0
+    }
 }

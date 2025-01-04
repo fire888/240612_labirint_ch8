@@ -12,6 +12,7 @@ export const pipelinePlay = async (root: Root) => {
         phisics,
         energySystem,
         lab,
+        audio,
     } = root
 
     const { 
@@ -24,6 +25,7 @@ export const pipelinePlay = async (root: Root) => {
     let isFullEnergy = false
     phisics.onCollision(energySystem.nameSpace, (name: string) => {
         phisics.removeMeshFromCollision(name)
+        audio.playEnergy()
         energySystem.animateMovieHide(name)
         if (isFullEnergy) {
             return;
@@ -60,11 +62,14 @@ export const pipelinePlay = async (root: Root) => {
     await completePlay()
 
     // pipeline destroy level ******************************/
+    audio.playDoor()
     await lab.openDoor()
     ui.setEnergyLevel(0)
     await pause(1000)
     ui.toggleVisibleEnergy(false)
     controls.disconnect()
+    phisics.stopPlayerBody()
+    audio.playFly()
     await studio.cameraFlyAway(lab.lastDir)
     lab.destroy()
     energySystem.destroy()
@@ -73,6 +78,7 @@ export const pipelinePlay = async (root: Root) => {
     // complete play if no next level ***********************/
     ++indexLevel
     if (!LABS_CONF[indexLevel]) {
+        audio.stopFly()
         return;
     }
 
@@ -80,7 +86,8 @@ export const pipelinePlay = async (root: Root) => {
     console.log('level:', indexLevel, LABS_CONF[indexLevel])
     await lab.init(root, LABS_CONF[indexLevel])
     energySystem.init(root, lab.posesSleepEnds)
-    await studio.cameraFlyToLevel() 
+    await studio.cameraFlyToLevel()
+    audio.stopFly()
     phisics.setPlayerPosition(...PLAYER_START_POS)
     controls.connect()
     ui.toggleVisibleEnergy(true)
