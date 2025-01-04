@@ -1,4 +1,4 @@
-import { _M  } from "./_m"
+import { _M, A3  } from "./_m"
 
 type AttributesArrs = {
     v: number[],
@@ -9,9 +9,9 @@ import { Dir } from "entities/labyrinth/scheme"
 
 export type DataToCreateLine = {
     form: number[], // линейный массив перечисления x: 0, y: высота, z: ширина, смотрит вправо   
-    path: number[][],
-    color: [number, number, number],
-    isClosed: boolean,
+    path: A3[],
+    color: A3,
+    isClosed?: boolean,
     isDebug?: boolean,
     dir?: Dir,
 }

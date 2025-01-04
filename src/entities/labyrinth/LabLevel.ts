@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { _M } from "../../geometry/_m";
+import { _M, A3 } from "../../geometry/_m";
 import { createScheme } from './scheme';
 import { createTileI } from '../../geometry/tile_I_crafted'
 import { createTileL } from '../../geometry/tile_L_crafted'
@@ -69,8 +69,8 @@ export class LabLevel {
     posStart: [number, number]
     posEnd: [number, number]
     dirToPosEnd: Dir
-    pathToPosEnd: number[][]
-    colorToPosEnd: [number, number, number]
+    pathToPosEnd: A3[]
+    colorToPosEnd: A3
     formToPosEnd: number[]
     posesSleepEnds: PosesSleepEnds
 

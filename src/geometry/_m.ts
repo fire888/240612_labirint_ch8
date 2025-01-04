@@ -260,16 +260,16 @@ export const _M = {
                 const prevPath = paths[prevPathIndex]
                 const nextPath = paths[nextPathIndex] ? paths[nextPathIndex] : paths[paths.length - 1]
     
-                const path: number[][] = []
+                const path: A3[] = []
                 if (!nextPath.length) {
                     pathsReal.push(path)
                     continue;
                 }
     
                 for (let j = 0; j < prevPath.length; ++j) {
-                    const p = []
+                    const p: A3 = [null, null, null]
                     for (let k = 0; k < prevPath[j].length; ++k) {
-                        p.push(prevPath[j][k] + phasePrevNext * (nextPath[j][k] - prevPath[j][k]))
+                        p[k] = prevPath[j][k] + phasePrevNext * (nextPath[j][k] - prevPath[j][k])
                     }
                     path.push(p)
                 }
@@ -290,10 +290,9 @@ export const _M = {
                 const prevC: A3 = colors[prevCIndex]
                 const nextC: A3 = colors[nextCIndex] ? colors[nextCIndex] : colors[colors.length - 1]
     
-                const color = []
-                console.log('EEEE', prevC, nextC)
+                const color: A3 = [null, null, null]
                 for (let j = 0; j < prevC.length; ++j) {
-                    color.push(prevC[j] + phasePrevNext * (nextC[j] - prevC[j]))
+                    color[j] = prevC[j] + phasePrevNext * (nextC[j] - prevC[j])
                 }
                 colorsReal.push(color)
             }

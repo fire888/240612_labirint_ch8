@@ -1,5 +1,5 @@
 import { createTileI } from "geometry/tile_I_crafted"
-import { _M } from "geometry/_m"
+import { _M, A3 } from "geometry/_m"
 import { createRandomDataForLine } from "geometry/lineGeomCrafted"
 import * as THREE from 'three'
 import { createDoor } from "geometry/door"
@@ -9,7 +9,7 @@ import * as TWEEN from '@tweenjs/tween.js'
 type TopTunnelStartData = {
     color: [number, number, number],
     form: number[],
-    path: number[][],
+    path: A3[],
     material: THREE.MeshBasicMaterial,
     collisionMaterial: THREE.MeshBasicMaterial,
     w: number,

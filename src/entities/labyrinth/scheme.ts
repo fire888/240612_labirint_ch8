@@ -1,5 +1,5 @@
 import { createRandomDataForLine } from "../../geometry/lineGeomCrafted"
-import { _M } from "../../geometry/_m"
+import { _M, A3 } from "../../geometry/_m"
 
 const EMPTY = 1
 const TUNNEL = 3
@@ -13,9 +13,9 @@ export enum Dir {
 }
 
 export type SegmentData = {
-    color: number[],
+    color: A3,
     form: number[],
-    path: number[][],
+    path: A3[],
     dir?: Dir,
     isClosed?: boolean,
 }
@@ -77,7 +77,13 @@ const debugPrintMaze = (maze: Maze, W: number, H: number, posStart: [number, num
 
 
 
-const createMaze = async (width: number, height: number, posStart: [number, number], startDirection: Dir, dataForEnter: SegmentData) => {
+const createMaze = async (
+    width: number, 
+    height: number, 
+    posStart: [number, number], 
+    startDirection: Dir, 
+    dataForEnter: SegmentData
+) => {
     const WIDTH = width
     const HEIGHT = height
 
@@ -89,8 +95,8 @@ const createMaze = async (width: number, height: number, posStart: [number, numb
     const posEnd: [number, number] = [null, null]
     //const posesSleepEnds = []
     let dirToPosEnd: Dir = null
-    let pathToPosEnd: number[][] = null
-    let colorToPosEnd: [number, number, number] = null
+    let pathToPosEnd: A3[] = null
+    let colorToPosEnd: A3 = null
     let formToPosEnd: number[] = null
 
     const makeMap = () => {
@@ -103,7 +109,14 @@ const createMaze = async (width: number, height: number, posStart: [number, numb
         }
     }
 
-    const visit = async (x: number, y: number, prevDir: Dir, prevForm: number[], prevPath: number[][], prevColor: [number, number, number]) => {        
+    const visit = async (
+        x: number, 
+        y: number, 
+        prevDir: Dir, 
+        prevForm: number[], 
+        prevPath: A3[], 
+        prevColor: A3
+    ) => {        
         // save global for stair
         posEnd[0] = x
         posEnd[1] = y
@@ -357,8 +370,8 @@ export const createScheme = async (dataMaze: {
 
     const posEnd: [number, number] = resultMaze.posEnd 
     const dirToPosEnd: Dir = resultMaze.dirToPosEnd
-    const pathToPosEnd: number[][] = resultMaze.pathToPosEnd 
-    const colorToPosEnd: [number, number, number] = resultMaze.colorToPosEnd
+    const pathToPosEnd: A3[] = resultMaze.pathToPosEnd 
+    const colorToPosEnd: A3 = resultMaze.colorToPosEnd
     const formToPosEnd: number[] = resultMaze.formToPosEnd 
     const maze: Maze = resultMaze.maze
     
