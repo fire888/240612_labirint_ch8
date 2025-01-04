@@ -1,50 +1,10 @@
-import { createRandomDataForLine } from "../../geometry/lineGeomCrafted"
+import { createRandomDataForLine } from "../../geometry/lineGeom"
 import { _M, A3 } from "../../geometry/_m"
+import { Dir, DataToCreateLine, Maze } from "./types"
 
 const EMPTY = 1
 const TUNNEL = 3
 const STAIR = 4
-
-export enum Dir {
-    NORTH = 'n',
-    SOUTH = 's',
-    EAST = 'e',
-    WEST = 'w',
-
-
-}
-
-export type SegmentData = {
-    color: A3,
-    form: number[],
-    path: A3[],
-    dir?: Dir,
-    isClosed?: boolean,
-}
-
-export type MazeSegment = {
-    type: number,    
-    [Dir.SOUTH]?: SegmentData,            
-    [Dir.EAST]?: SegmentData,
-    [Dir.NORTH]?: SegmentData,
-    [Dir.WEST]?: SegmentData,
-}
-
-type Maze = {
-    [key: string]: MazeSegment,
-}
-
-export type DataToCreateGeom = {
-    paths: [A3[], A3[]],
-    forms: [number[], number[]],
-    colors: [A3, A3],
-    key: string,
-    n: number,
-    w: number,
-}
-
-
-
 
 
 const debugPrintMaze = (maze: Maze, W: number, H: number, posStart: [number, number], posEnd: [number, number]) => {
@@ -93,7 +53,7 @@ const createMaze = async (
     height: number, 
     posStart: [number, number], 
     startDirection: Dir, 
-    dataForEnter: SegmentData
+    dataForEnter: DataToCreateLine,
 ) => {
     const WIDTH = width
     const HEIGHT = height
@@ -357,7 +317,7 @@ export const createScheme = async (dataMaze: {
     height?: number, 
     posStart?: [number, number], 
     posStartDir?: Dir, 
-    dataForEnter: SegmentData 
+    dataForEnter: DataToCreateLine
 }) => {
 
     const width = dataMaze.width || 21
@@ -365,7 +325,7 @@ export const createScheme = async (dataMaze: {
     const posStart = dataMaze.posStart || [11, 1]
     const posStartDir = dataMaze.posStartDir || Dir.SOUTH
 
-    const dataForEnter: SegmentData = dataMaze.dataForEnter
+    const dataForEnter: DataToCreateLine = dataMaze.dataForEnter
     const resultMaze = await createMaze(width, height, posStart, posStartDir, dataForEnter)
 
     // debugPrintMaze(resultMaze.maze, width, height, posStart, resultMaze.posEnd)

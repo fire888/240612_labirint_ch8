@@ -1,20 +1,6 @@
 import { _M, A3  } from "./_m"
+import { Dir, DataToCreateLine, AttributesArrs } from "entities/labyrinth/types"
 
-type AttributesArrs = {
-    v: number[],
-    c: number[],
-}
-
-import { Dir } from "entities/labyrinth/scheme"
-
-export type DataToCreateLine = {
-    form: number[], // линейный массив перечисления x: 0, y: высота, z: ширина, смотрит вправо   
-    path: A3[],
-    color: A3,
-    isClosed?: boolean,
-    isDebug?: boolean,
-    dir?: Dir,
-}
 
 
 const D = .1
@@ -44,7 +30,6 @@ export const createLineGeom = (data: DataToCreateLine): AttributesArrs => {
         path,
         color,
         isClosed,
-        isDebug,
     } = data
 
 

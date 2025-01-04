@@ -4,7 +4,7 @@ import * as THREE from 'three'
 import { createEnergyV } from "geometry/energy"
 import * as TWEEN from '@tweenjs/tween.js'
 import { CONSTANTS } from "constants/CONSTANTS"
-import { PosesSleepEnds } from "./labyrinth/LabLevel";
+import { PosesSleepEnds } from "entities/labyrinth/types"
 
 type Energy = {
     collisionName: string,

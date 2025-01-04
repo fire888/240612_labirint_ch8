@@ -1,5 +1,5 @@
 import { _M } from "./_m";
-import { createLineGeom } from './lineGeomCrafted'
+import { createLineGeom } from './lineGeom'
 
 type DoorCreateData = {
     form: number[],

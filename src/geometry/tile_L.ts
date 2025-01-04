@@ -1,6 +1,6 @@
 import { _M } from "./_m";
-import { createLineGeom } from './lineGeomCrafted'
-import { DataToCreateGeom } from '../entities/labyrinth/scheme'
+import { createLineGeom } from './lineGeom'
+import { DataToCreateGeom } from '../entities/labyrinth/types'
 
 
 

@@ -1,5 +1,5 @@
 import { _M } from '../geometry/_m'
-import { createTileI } from '../geometry/tile_I_crafted'
+import { createTileI } from '../geometry/tile_I'
 import { createMesh } from 'geometry/helperCreateMesh'
 import { MeshBasicMaterial } from 'three'
 

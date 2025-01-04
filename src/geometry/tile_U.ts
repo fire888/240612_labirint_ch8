@@ -1,6 +1,6 @@
 import { _M, A3 } from "./_m";
-import { createLineGeom } from './lineGeomCrafted'
-import { DataToCreateGeom } from '../entities/labyrinth/scheme'
+import { createLineGeom } from './lineGeom'
+import { DataToCreateGeom } from '../entities/labyrinth/types'
 
 
 export const createTileU = (data: DataToCreateGeom) => {

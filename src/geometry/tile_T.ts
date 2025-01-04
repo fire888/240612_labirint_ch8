@@ -1,7 +1,7 @@
 import { _M, A3 } from "./_m"
 
-import { createLineGeom  } from "./lineGeomCrafted";
-import { MazeSegment } from "../entities/labyrinth/scheme"
+import { createLineGeom  } from "./lineGeom";
+import { MazeSegment } from "../entities/labyrinth/types"
 
 
 export const createTileT = (data: {

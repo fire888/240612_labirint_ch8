@@ -1,6 +1,6 @@
 import { _M, A3 } from "./_m"
 
-import { createLineGeom  } from "./lineGeomCrafted";
+import { createLineGeom  } from "./lineGeom";
 
 
 export const createTileX = (data: {

@@ -2,12 +2,10 @@ import * as THREE from 'three'
 import { LabLevel } from './LabLevel'
 import { createStair } from '../../geometry/stair'
 import { TopTunnel } from './TopTunnel'
-import { createRandomDataForLine } from '../../geometry/lineGeomCrafted'
+import { createRandomDataForLine } from '../../geometry/lineGeom'
 import { _M } from "../../geometry/_m"
-import { Dir } from './scheme'
 import { Root } from 'index'
-import { PosesSleepEnds } from './LabLevel'
-import { SegmentData } from './scheme'
+import { PosesSleepEnds, Dir, DataToCreateLine } from './types'
 
 
 const LEVEL_H = 5
@@ -60,11 +58,11 @@ export class Lab {
 
         // start stair *******************************************/
 
-        const stairDataBottom: SegmentData = createRandomDataForLine()
+        const stairDataBottom: DataToCreateLine = createRandomDataForLine()
         stairDataBottom.dir = Dir.NORTH
-        const stairDataCenterB: SegmentData = createRandomDataForLine()
-        const stairDataCenterT: SegmentData = createRandomDataForLine()
-        const stairDataTop: SegmentData = createRandomDataForLine()
+        const stairDataCenterB: DataToCreateLine = createRandomDataForLine()
+        const stairDataCenterT: DataToCreateLine = createRandomDataForLine()
+        const stairDataTop: DataToCreateLine = createRandomDataForLine()
         stairDataTop.dir = Dir.SOUTH
 
         const startStair = createStair({ 

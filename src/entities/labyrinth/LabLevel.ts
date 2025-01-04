@@ -1,25 +1,25 @@
 import * as THREE from 'three'
 import { _M, A3 } from "../../geometry/_m";
 import { createScheme } from './scheme';
-import { createTileI } from '../../geometry/tile_I_crafted'
-import { createTileL } from '../../geometry/tile_L_crafted'
-import { createTileT } from '../../geometry/tile_T_crafted'
-import { createTileU } from '../../geometry/tile_U_crafted'
+import { createTileI } from '../../geometry/tile_I'
+import { createTileL } from '../../geometry/tile_L'
+import { createTileT } from '../../geometry/tile_T'
+import { createTileU } from '../../geometry/tile_U'
 import { Root } from 'index';
-import { Dir, SegmentData } from './scheme';
+import { PosesSleepEnds, Dir, DataToCreateLine } from './types';
 
 
 
 const EMPTY = 1
 const STAIR = 4
 
-export type PosesSleepEnds = {
-    xI: number, 
-    yI: number, 
-    x?: number, 
-    z?: number, 
-    y?: number,
-}[]
+// export type PosesSleepEnds = {
+//     xI: number, 
+//     yI: number, 
+//     x?: number, 
+//     z?: number, 
+//     y?: number,
+// }[]
 
 
 
@@ -56,7 +56,7 @@ type LevelData = {
     numTilesZ: number, 
     posStart: [number, number],
     posStartDir: Dir,
-    dataForEnter: SegmentData,
+    dataForEnter: DataToCreateLine,
     w: number,
     n: number,
 }

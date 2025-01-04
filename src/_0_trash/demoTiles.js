@@ -1,11 +1,11 @@
 import * as THREE from 'three'
 import { _M } from "../geometry/_m";
-import { createTileI } from '../geometry/tile_I_crafted'
-import { createTileL } from '../geometry/tile_L_crafted'
-import { createTileT } from '../geometry/tile_T_crafted'
-import { createTileU } from '../geometry/tile_U_crafted'
+import { createTileI } from '../geometry/tile_I'
+import { createTileL } from '../geometry/tile_L'
+import { createTileT } from '../geometry/tile_T'
+import { createTileU } from '../geometry/tile_U'
 import { createStair } from "../geometry/stair"
-import { createTileX } from "../geometry/tile_X_crafted"
+import { createTileX } from "../geometry/tile_X"
 
 
 import {
