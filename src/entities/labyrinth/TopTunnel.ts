@@ -5,6 +5,7 @@ import * as THREE from 'three'
 import { createDoor } from "geometry/door"
 import { Root } from "index"
 import * as TWEEN from '@tweenjs/tween.js'
+import { vC_H } from "constants/CONSTANTS"
 
 type TopTunnelStartData = {
     color: [number, number, number],
@@ -59,14 +60,14 @@ export class TopTunnel {
             ..._M.createPolygon(
                 [-this.W / 2, 0, -1.5],
                 [this.W / 2, 0, -1.5],
-                [this.W / 2, 3, -1.5],
-                [-this.W / 2, 3, -1.5],
+                [this.W / 2, vC_H, -1.5],
+                [-this.W / 2, vC_H, -1.5],
             ),
             ..._M.createPolygon(
                 [this.W / 2, 0, 1.5],
                 [-this.W / 2, 0, 1.5],
-                [-this.W / 2, 3, 1.5],
-                [this.W / 2, 3, 1.5],
+                [-this.W / 2, vC_H, 1.5],
+                [this.W / 2, vC_H, 1.5],
             ),
         ]
         this.meshCollision = _M.createMesh({ v: vC, material: startData.collisionMaterial })

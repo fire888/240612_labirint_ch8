@@ -1,6 +1,7 @@
 import { _M, A3 } from "./_m";
 import { createLineGeom } from './_lineGeom'
 import { DataToCreateGeom } from '../entities/labyrinth/types'
+import { vC_H } from "constants/CONSTANTS";
 
 
 export const createTileU = (data: DataToCreateGeom) => {
@@ -56,20 +57,20 @@ export const createTileU = (data: DataToCreateGeom) => {
             ..._M.createPolygon( // left
                 [-w * .5, 0, w * .5],
                 [-w * .5, 0, -w *.2],
-                [-w * .5, h, -w *.2],
-                [-w * .5, h, w * .5],
+                [-w * .5, vC_H, -w *.2],
+                [-w * .5, vC_H, w * .5],
             ),
             ..._M.createPolygon( // right
                 [w * .5, 0, -w *.2],
                 [w * .5, 0, w * .5],
-                [w * .5, h, w * .5],
-                [w * .5, h, -w *.2],
+                [w * .5, vC_H, w * .5],
+                [w * .5, vC_H, -w *.2],
             ),
             ..._M.createPolygon( // back
               [-w * .5, 0, -w *.2],  
               [w * .5, 0, -w *.2],  
-              [w * .5, h, -w *.2],  
-              [-w * .5, h, -w *.2],  
+              [w * .5, vC_H, -w *.2],  
+              [-w * .5, vC_H, -w *.2],  
             ),
         ]
 

@@ -1,7 +1,7 @@
 import { _M } from "./_m";
 import { createLineGeom } from './_lineGeom'
 import { DataToCreateGeom } from '../entities/labyrinth/types'
-
+import { vC_H } from "constants/CONSTANTS";
 
 
 export const createTileL = (data: DataToCreateGeom) => {
@@ -61,8 +61,8 @@ export const createTileL = (data: DataToCreateGeom) => {
         arcVC.push(..._M.createPolygon(
             [Math.cos(-angleStep * (i + 1) - add) * r, 0, Math.sin(-angleStep * (i + 1) - add) * r],
             [Math.cos(-angleStep * i - add) * r, 0, Math.sin(-angleStep * i - add) * r],
-            [Math.cos(-angleStep * i - add) * r, w, Math.sin(-angleStep * i - add) * r],
-            [Math.cos(-angleStep * (i + 1) - add) * r, w, Math.sin(-angleStep * (i + 1) - add) * r],
+            [Math.cos(-angleStep * i - add) * r, vC_H, Math.sin(-angleStep * i - add) * r],
+            [Math.cos(-angleStep * (i + 1) - add) * r, vC_H, Math.sin(-angleStep * (i + 1) - add) * r],
         ))
     }
     _M.translateVertices(arcVC, w * .5, 0, w * .5)

@@ -3,6 +3,8 @@ import { createLineGeom } from './_lineGeom'
 
 import { DataToCreateGeom } from '../entities/labyrinth/types'
 
+import { vC_H } from "constants/CONSTANTS";
+
 
 export const createTileI = (data: DataToCreateGeom) => {
     const { w, n, forms, paths, colors, key } = data
@@ -44,14 +46,14 @@ export const createTileI = (data: DataToCreateGeom) => {
         ..._M.createPolygon(
             [-w * .5, 0, w * .5],
             [-w * .5, 0, -w * .5],
-            [-w * .5, 3, -w * .5],
-            [-w * .5, 3, w * .5],
+            [-w * .5, vC_H, -w * .5],
+            [-w * .5, vC_H, w * .5],
         ),
         ..._M.createPolygon(
             [w * .5, 0, -w * .5],
             [w * .5, 0, w * .5],
-            [w * .5, 3, w * .5],
-            [w * .5, 3, -w * .5],
+            [w * .5, vC_H, w * .5],
+            [w * .5, vC_H, -w * .5],
         ),
     )
 

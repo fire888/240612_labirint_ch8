@@ -20,7 +20,12 @@ export const createDoor = (data: DoorCreateData) => {
         const y = -1 + i / n * h
         const l = createLineGeom({
             form: form,
-            path: [[w / 2, y + .2, 0], [w / 2, y, 0], [-w / 2, y, 0], [-w / 2, y + .2, 0],  ],
+            path: [
+                [w / 2, y, 0],
+                [w / 2, y + .2, 0], 
+                [-w / 2, y + .2, 0], 
+                [-w / 2, y, 0], 
+            ],
             color: color,
             isClosed: true,
         })

@@ -2,6 +2,7 @@ import { _M } from './_m'
 import { DataToCreateLine } from '../entities/labyrinth/types'
 import { createLineGeom } from './_lineGeom'
 import { createRandomDataForLine } from './_lineGeom'
+import { vC_H } from 'constants/CONSTANTS'
 
 export const createStair = (data: {
     stairDataBottom: DataToCreateLine,
@@ -99,15 +100,15 @@ export const createStair = (data: {
             ..._M.createPolygon( // left
                 [-w * .5, h * .5, -w * .5],
                 [-w * .5, 0, -w * 1.5],
-                [-w * .5, h, -w * 1.5],
-                [-w * .5, h, -w * .5],
+                [-w * .5, vC_H, -w * 1.5],
+                [-w * .5, vC_H, -w * .5],
             ),
 
             ..._M.createPolygon( // right
                 [w * .5, 0, -w * 1.5],
                 [w * .5, h * .5, -w * .5],
-                [w * .5, h, -w * .5],
-                [w * .5, h, -w * 1.5],
+                [w * .5, vC_H, -w * .5],
+                [w * .5, vC_H, -w * 1.5],
             ),
         ]
         if (stairDataBottom.dir === 'n') {
@@ -182,14 +183,14 @@ export const createStair = (data: {
             ..._M.createPolygon( // left
                 [-w * .5, h * .5, -w * .5],
                 [-w * .5, h, -w * 1.5],
-                [-w * .5, h * 1.5, -w * 1.5],
-                [-w * .5, h, -w * .5],
+                [-w * .5, vC_H * 1.5, -w * 1.5],
+                [-w * .5, vC_H, -w * .5],
             ),
             ..._M.createPolygon( // right
                 [w * .5, h, -w * 1.5],
                 [w * .5, h * .5, -w * .5],
-                [w * .5, h, -w * .5],
-                [w * .5, h * 1.5, -w * 1.5],
+                [w * .5, vC_H, -w * .5],
+                [w * .5, vC_H * 1.5, -w * 1.5],
             ),
         ]
         if (stairDataTop.dir === 'n') {
@@ -301,8 +302,8 @@ export const createStair = (data: {
                     arcVC.push(..._M.createPolygon(
                         [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5, Math.sin(-angleStep * (i + 1) - add) * radius],
                         [Math.cos(-angleStep * i - add) * radius, h * .5, Math.sin(-angleStep * i - add) * radius],
-                        [Math.cos(-angleStep * i - add) * radius, h * .5 + w, Math.sin(-angleStep * i - add) * radius],
-                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5 +w, Math.sin(-angleStep * (i + 1) - add) * radius],
+                        [Math.cos(-angleStep * i - add) * radius, h * .5 + vC_H, Math.sin(-angleStep * i - add) * radius],
+                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5 + vC_H, Math.sin(-angleStep * (i + 1) - add) * radius],
                     ))
                 }
                 _M.translateVertices(arcVC, w * .5, 0, w * .5)
@@ -331,8 +332,8 @@ export const createStair = (data: {
                     arcVC.push(..._M.createPolygon(
                         [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5, Math.sin(-angleStep * (i + 1) - add) * radius],
                         [Math.cos(-angleStep * i - add) * radius, h * .5, Math.sin(-angleStep * i - add) * radius],
-                        [Math.cos(-angleStep * i - add) * radius, h * .5 + w, Math.sin(-angleStep * i - add) * radius],
-                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5 +w, Math.sin(-angleStep * (i + 1) - add) * radius],
+                        [Math.cos(-angleStep * i - add) * radius, h * .5 + vC_H, Math.sin(-angleStep * i - add) * radius],
+                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5 + vC_H, Math.sin(-angleStep * (i + 1) - add) * radius],
                     ))
                 }
                 _M.translateVertices(arcVC, w * .5, 0, w * .5)
@@ -360,8 +361,8 @@ export const createStair = (data: {
                     arcVC.push(..._M.createPolygon(
                         [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5, Math.sin(-angleStep * (i + 1) - add) * radius],
                         [Math.cos(-angleStep * i - add) * radius, h * .5, Math.sin(-angleStep * i - add) * radius],
-                        [Math.cos(-angleStep * i - add) * radius, h * .5 + w, Math.sin(-angleStep * i - add) * radius],
-                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5 +w, Math.sin(-angleStep * (i + 1) - add) * radius],
+                        [Math.cos(-angleStep * i - add) * radius, h * .5 + vC_H, Math.sin(-angleStep * i - add) * radius],
+                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5 + vC_H, Math.sin(-angleStep * (i + 1) - add) * radius],
                     ))
                 }
                 _M.translateVertices(arcVC, w * .5, 0, w * .5)
@@ -390,8 +391,8 @@ export const createStair = (data: {
                     arcVC.push(..._M.createPolygon(
                         [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5, Math.sin(-angleStep * (i + 1) - add) * radius],
                         [Math.cos(-angleStep * i - add) * radius, h * .5, Math.sin(-angleStep * i - add) * radius],
-                        [Math.cos(-angleStep * i - add) * radius, h * .5 + w, Math.sin(-angleStep * i - add) * radius],
-                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5 +w, Math.sin(-angleStep * (i + 1) - add) * radius],
+                        [Math.cos(-angleStep * i - add) * radius, h * .5 + vC_H, Math.sin(-angleStep * i - add) * radius],
+                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5 + vC_H, Math.sin(-angleStep * (i + 1) - add) * radius],
                     ))
                 }
                 _M.translateVertices(arcVC, w * .5, 0, w * .5)
@@ -420,8 +421,8 @@ export const createStair = (data: {
                     arcVC.push(..._M.createPolygon(
                         [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5, Math.sin(-angleStep * (i + 1) - add) * radius],
                         [Math.cos(-angleStep * i - add) * radius, h * .5, Math.sin(-angleStep * i - add) * radius],
-                        [Math.cos(-angleStep * i - add) * radius, h * .5 + w, Math.sin(-angleStep * i - add) * radius],
-                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5 +w, Math.sin(-angleStep * (i + 1) - add) * radius],
+                        [Math.cos(-angleStep * i - add) * radius, h * .5 + vC_H, Math.sin(-angleStep * i - add) * radius],
+                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5 + vC_H, Math.sin(-angleStep * (i + 1) - add) * radius],
                     ))
                 }
                 _M.translateVertices(arcVC, w * .5, 0, w * .5)
@@ -480,8 +481,8 @@ export const createStair = (data: {
                     arcVC.push(..._M.createPolygon(
                         [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5, Math.sin(-angleStep * (i + 1) - add) * radius],
                         [Math.cos(-angleStep * i - add) * radius, h * .5, Math.sin(-angleStep * i - add) * radius],
-                        [Math.cos(-angleStep * i - add) * radius, h * .5 + w, Math.sin(-angleStep * i - add) * radius],
-                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5 +w, Math.sin(-angleStep * (i + 1) - add) * radius],
+                        [Math.cos(-angleStep * i - add) * radius, h * .5 + vC_H, Math.sin(-angleStep * i - add) * radius],
+                        [Math.cos(-angleStep * (i + 1) - add) * radius, h * .5 + vC_H, Math.sin(-angleStep * (i + 1) - add) * radius],
                     ))
                 }
                 _M.translateVertices(arcVC, w * .5, 0, w * .5)

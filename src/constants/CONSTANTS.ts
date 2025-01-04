@@ -4,6 +4,8 @@ type LevelCof = {
     FLOORS_NUM: number  
 }
 
+export const vC_H = 4.5
+
 const PLAYER_START_POS: number[] = [15.076315508474185, 3, -10]
 const ENERGY_FIRST_POS: number[] = [15.076315508474185, 0, -4]
 const ENERGY_PERCENTAGE_MUST_GET: number = .3

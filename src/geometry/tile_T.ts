@@ -2,6 +2,7 @@ import { _M, A3 } from "./_m"
 
 import { createLineGeom  } from "./_lineGeom";
 import { MazeSegment } from "../entities/labyrinth/types"
+import { vC_H } from "constants/CONSTANTS";
 
 
 export const createTileT = (data: {
@@ -267,8 +268,8 @@ export const createTileT = (data: {
                 ..._M.createPolygon(
                     [-w * .5, 0, -w * .5],
                     [w * .5, 0, -w * .5],
-                    [w * .5, w, -w * .5],
-                    [-w * .5, w, -w * .5],
+                    [w * .5, vC_H, -w * .5],
+                    [-w * .5, vC_H, -w * .5],
                 )
             )
         }
@@ -317,8 +318,8 @@ export const createTileT = (data: {
             ..._M.createPolygon(
                 [-w * .5, 0, w * .5],
                 [-w * .5, 0, -w * .5],
-                [-w * .5, w, -w * .5],
-                [-w * .5, w, w * .5],
+                [-w * .5, vC_H, -w * .5],
+                [-w * .5, vC_H, w * .5],
             )
         )
 
@@ -367,8 +368,8 @@ export const createTileT = (data: {
             ..._M.createPolygon(
                 [w * .5, 0, -w * .5],
                 [w * .5, 0, w * .5],
-                [w * .5, w, w * .5],
-                [w * .5, w, -w * .5],
+                [w * .5, vC_H, w * .5],
+                [w * .5, vC_H, -w * .5],
             )
         )
 
@@ -417,8 +418,8 @@ export const createTileT = (data: {
             ..._M.createPolygon(
                 [w * .5, 0, w * .5],
                 [-w * .5, 0, w * .5],
-                [-w * .5, w, w * .5],
-                [w * .5, w, w * .5],
+                [-w * .5, vC_H, w * .5],
+                [w * .5, vC_H, w * .5],
             )
         )
 

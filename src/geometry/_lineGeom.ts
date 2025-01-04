@@ -1,5 +1,5 @@
-import { _M, A3  } from "./_m"
-import { Dir, DataToCreateLine, AttributesArrs } from "entities/labyrinth/types"
+import { _M } from "./_m"
+import { DataToCreateLine, AttributesArrs } from "entities/labyrinth/types"
 
 
 
@@ -7,9 +7,9 @@ const D = .1
 export const createRandomDataForLine = (): DataToCreateLine => {
     return {
         form: [
-            0, D * Math.random(), - Math.random() * D,
-            0, D * Math.random(), + Math.random() * D,
             0, -Math.random() * D, 0,
+            0, D * Math.random(), + Math.random() * D,
+            0, D * Math.random(), - Math.random() * D,
         ],
         path: [
             [1 + Math.random(), 0, 0],
@@ -98,6 +98,14 @@ export const createLineGeom = (data: DataToCreateLine): AttributesArrs => {
 
     for (let i = 0; i < arrForms.length; ++i) {
         if (!isClosed && i === 0) {
+            v.push(
+                ...arrForms[arrForms.length - 1],
+                ...arrForms[0],
+            )
+
+            c.push(...color, ...color, ...color)
+            c.push(...color, ...color, ...color)
+
             continue;
         }
         
