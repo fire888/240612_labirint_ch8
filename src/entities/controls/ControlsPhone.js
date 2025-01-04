@@ -34,6 +34,10 @@ export class ControlsPhone {
             if (this._isForward) this._changeForwardSpeedTo(0.)
             this._isForward = false
         })
+        this._moveForwardDiv.addEventListener("pointerout", () => {
+            if (this._isForward) this._changeForwardSpeedTo(0.)
+            this._isForward = false
+        })
         document.body.appendChild(this._moveForwardDiv)
 
         this._moveBackDiv = document.createElement('div')
@@ -44,6 +48,10 @@ export class ControlsPhone {
             this._isBack = true
         })
         this._moveBackDiv.addEventListener("pointerup", () => {
+            this._isBack && this._changeForwardSpeedTo(0.)
+            this._isBack = false
+        })
+        this._moveBackDiv.addEventListener("pointerout", () => {
             this._isBack && this._changeForwardSpeedTo(0.)
             this._isBack = false
         })
@@ -60,6 +68,10 @@ export class ControlsPhone {
             this._isLeft && this._changeLeftSpeedTo(0.)
             this._isLeft = false
         })
+        this._moveLeftDiv.addEventListener("pointerout", () => {
+            this._isLeft && this._changeLeftSpeedTo(0.)
+            this._isLeft = false
+        })
         document.body.appendChild(this._moveLeftDiv)
 
         this._moveRightDiv = document.createElement('div')
@@ -70,6 +82,10 @@ export class ControlsPhone {
             this._isRight = true
         })
         this._moveRightDiv.addEventListener("pointerup", () => {
+            this._isRight && this._changeLeftSpeedTo(0.)
+            this._isRight = false
+        })
+        this._moveRightDiv.addEventListener("pointerout", () => {
             this._isRight && this._changeLeftSpeedTo(0.)
             this._isRight = false
         })
