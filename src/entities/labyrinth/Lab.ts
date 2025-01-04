@@ -79,7 +79,6 @@ export class Lab {
         const stairMesh = _M.createMesh({
             v: startStair.v,
             c: startStair.c,
-            // @ts-ignore:next-line
             material: this._material,
         })
         stairMesh.position.x = W * 5
@@ -182,7 +181,6 @@ export class Lab {
             const stairMesh = _M.createMesh({
                 v: stair.v,
                 c: stair.c,
-                // @ts-ignore:next-line
                 material: this._material,
             })
             stairMesh.position.x = W * labLevel.posEnd[0]
@@ -226,7 +224,6 @@ export class Lab {
             root,
             {
                 ...dataForEnter,
-                // @ts-ignore:next-line
                 material: this._material, 
                 collisionMaterial: this._collisionMaterial, 
                 w: W

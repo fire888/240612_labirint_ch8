@@ -119,15 +119,15 @@ export class Studio {
         // });
 
         // gui.add( params, 'focus', 1, 300, .0001 ).onChange( v => {
-        //     // @ts-ignore: Unreachable code error
+        //     // @ts-ignore:next-line
         //     bokehPass.uniforms.focus.value = v
         // });
         // gui.add( params, 'aperture', 0, .1, 0.000001 ).onChange( v => {
-        //     // @ts-ignore: Unreachable code error
+        //     // @ts-ignore:next-line
         //     bokehPass.uniforms.aperture.value = v
         // });
         // gui.add( params, 'maxblur', 0.0, 0.05, 0.0001 ).onChange( v => {
-        //     // @ts-ignore: Unreachable code error
+        //     // @ts-ignore:next-line
         //     bokehPass.uniforms.maxblur.value = v
         // })
 

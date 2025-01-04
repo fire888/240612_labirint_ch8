@@ -104,7 +104,6 @@ const createMaze = async (
     let maze: Maze = {}
     let hasVisited: [number, number][] = []
     const posEnd: [number, number] = [null, null]
-    //const posesSleepEnds = []
     let dirToPosEnd: Dir = null
     let pathToPosEnd: A3[] = null
     let colorToPosEnd: A3 = null
@@ -127,14 +126,7 @@ const createMaze = async (
         prevForm: number[], 
         prevPath: A3[], 
         prevColor: A3,
-        // path: A3[],
-        // color: A3,
-        // form: number[],
     ) => {        
-        // save global for stair
-        posEnd[0] = x
-        posEnd[1] = y
-
         // current tile mark prev direction 
         maze[[x, y] + ''].type = TUNNEL
 
@@ -256,6 +248,9 @@ const createMaze = async (
             }
             hasVisited.push([nextX, nextY])
 
+            // save global for stair
+            posEnd[0] = nextX
+            posEnd[1] = nextY
             dirToPosEnd = nextDir
             pathToPosEnd = currentData.path
             colorToPosEnd = currentData.color
@@ -311,7 +306,6 @@ const createMaze = async (
         colorToPosEnd,
         formToPosEnd, 
         maze,
-        //posesSleepEnds,
     }
 }
 

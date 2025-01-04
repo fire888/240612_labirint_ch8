@@ -10,7 +10,7 @@ type TopTunnelStartData = {
     color: [number, number, number],
     form: number[],
     path: A3[],
-    material: THREE.MeshBasicMaterial,
+    material: THREE.MeshBasicMaterial | THREE.MeshPhongMaterial,
     collisionMaterial: THREE.MeshBasicMaterial,
     w: number,
 }

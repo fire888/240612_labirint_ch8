@@ -48,7 +48,6 @@ export class Floor {
             vertexColors: true,
         })
 
-        // @ts-ignore: Unreachable code error
         this.mesh = _M.createMesh({ v, c, material })
         this.mesh.position.x = 15
         this.mesh.position.y = -.3

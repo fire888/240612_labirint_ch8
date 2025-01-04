@@ -11,8 +11,8 @@ type DoorCreateData = {
 export const createDoor = (data: DoorCreateData) => {
     const { form, color, width = 5 } = data
     
-    const v = []
-    const c = []
+    const v: number[] = []
+    const c: number[] = []
     const n = 16
     const w = width
     const h = 7

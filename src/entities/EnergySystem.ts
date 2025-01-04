@@ -39,7 +39,6 @@ export class EnergySystem {
                 })
                 const m = _M.createMesh({ 
                     v, 
-                    // @ts-ignore:next-line
                     material: new THREE.MeshPhongMaterial({ 
                         color: new THREE.Color(
                             _M.ran(.8, 1),
@@ -93,7 +92,6 @@ export class EnergySystem {
         })
         const m = _M.createMesh({ 
             v, 
-            // @ts-ignore:next-line
             material: new THREE.MeshPhongMaterial({ 
                 color: new THREE.Color(
                     _M.ran(.8, 1),
@@ -158,7 +156,7 @@ export class EnergySystem {
             .onComplete(() => {
                 this._root.studio.remove(item.m)
                 item.m.geometry.dispose()
-                // @ts-ignore: Unreachable code error
+                // @ts-ignore:next-line
                 item.m.material.dispose()
             })
             .start()
@@ -180,7 +178,7 @@ export class EnergySystem {
             const { m, collisionName } = this._items[i]
             this._root.studio.remove(m)
             this._items[i].m.geometry.dispose()
-            // @ts-ignore: Unreachable code error
+            // @ts-ignore:next-line
             this._items[i].m.material.dispose()
             this._root.phisics.removeMeshFromCollision(collisionName)
         }

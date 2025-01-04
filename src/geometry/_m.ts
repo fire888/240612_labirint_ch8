@@ -301,12 +301,19 @@ export const _M = {
         return { paths: pathsReal, forms: formsReal, colors: colorsReal }
     },
 
-    createMesh: ({
-        v = [],
-        uv = [],
-        c = [],
-        material = new THREE.MeshBasicMaterial({ color: 0x777777 })
+    createMesh: (data: {
+        v: number[], 
+        uv?: number[], 
+        c?: number[], 
+        material?: THREE.MeshBasicMaterial | THREE.MeshPhongMaterial,
     }) => {
+
+        const { 
+            v = [], 
+            uv = [], 
+            c = [],
+            material = new THREE.MeshBasicMaterial({ color: 0x777777 }) 
+        } = data
     
         const geometry = new THREE.BufferGeometry()
         const vF32 = new Float32Array(v)

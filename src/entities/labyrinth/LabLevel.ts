@@ -121,9 +121,9 @@ export class LabLevel {
         this.colorToPosEnd = colorToPosEnd
         this.formToPosEnd = formToPosEnd
 
-        const v = []
-        const c = []
-        const vC = []
+        const v: number[] = []
+        const c: number[] = []
+        const vC: number[] = []
 
         for (let key in maze) {
             const tile = maze[key]
@@ -466,7 +466,6 @@ export class LabLevel {
         this.mesh = _M.createMesh({ 
             v, 
             c,
-            // @ts-ignore:next-line 
             material 
         })
         this.collisionMesh = _M.createMesh({ v: vC, material: collisionMaterial }) 
