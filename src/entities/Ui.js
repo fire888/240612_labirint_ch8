@@ -22,6 +22,7 @@ const opacityByTransition = (elem, to, time) => {
 export class Ui {
     _currentEnergyMinWidth = 0
     init (root) {
+        this._root = root
         this.lockButton = document.createElement('div')
         this.lockButton.classList.add('butt-lock')
         this.lockButton.classList.add('control-small')
@@ -37,6 +38,16 @@ export class Ui {
         this._countEnergyInner.classList.add('color-blue')
         this._countEnergyInner.style.opacity = 0
         this._countEnergy.appendChild(this._countEnergyInner)
+
+        this._infoButton = document.createElement('div')
+        this._infoButton.classList.add('butt-info')
+        this._infoButton.classList.add('control-small')
+        this._infoButton.style.display = 'none'
+        this._infoButton.addEventListener('pointerdown', () => {
+            console.log('IIIII')
+            this._showInfo()
+        })
+        document.body.appendChild(this._infoButton) 
     }
 
     async hideStartScreen () {
@@ -82,6 +93,7 @@ export class Ui {
     }
 
     toggleVisibleLock (visible) {
+        this._infoButton.style.display = visible ? 'block' : 'none'
         this.lockButton.style.display = visible ? 'flex' : 'none'
     }
 
@@ -258,4 +270,158 @@ export class Ui {
         await pause(300)
         await opacityByTransition(finalDark, 0, 5000)
     }
+
+
+    _showInfo () {
+        this.toggleVisibleEnergy(false)
+        this.toggleVisibleLock(false)
+        this._root.controls.disconnect()
+        this._infoButton.style.display = 'none'
+
+
+        const wrapper = document.createElement('div')
+        wrapper.classList.add('final-page')
+
+        {
+            const offset = document.createElement('div')
+            offset.classList.add('dark')
+            offset.classList.add('height-20px')
+            wrapper.appendChild(offset)
+        }
+
+
+        const close = document.createElement('div')
+        close.classList.add('dark')
+        close.innerHTML = 'Close'
+        close.style.textAlign = 'right'
+        close.style.textDecoration = 'underline'
+        //close.style.opacity = 0
+        close.style.cursor = 'pointer'
+        close.addEventListener('pointerdown', () => {
+            this._infoButton.style.display = 'block'
+            this.toggleVisibleEnergy(true)
+            this.toggleVisibleLock(true)
+            this._root.controls.connect()
+            document.body.removeChild(wrapper)
+        })
+        wrapper.appendChild(close)
+
+        // offset ****************************/
+        const offset = document.createElement('div')
+        offset.classList.add('dark')
+        offset.classList.add('height-20px')
+        wrapper.appendChild(offset)
+
+        // mess prev *************************/
+        const prev = document.createElement('div')
+        prev.classList.add('dark')
+        prev.innerHTML = 'Previous chapters:'
+        //prev.style.opacity = 0
+        wrapper.appendChild(prev)
+
+        {
+            const offset = document.createElement('div')
+            offset.classList.add('dark')
+            offset.classList.add('height-20px')
+            wrapper.appendChild(offset)
+        }
+
+
+        // list chapters *********************/
+        const LIST = []
+        for (let i = 1; i < 9; ++i) {
+            LIST.push([i, './../chapter0' + i + '/', 'Chapter ' + i])
+        }
+        LIST[LIST.length - 1].push('current chapter')
+
+        const list = document.createElement('div')
+        list.classList.add('dark')
+        //list.style.opacity = 0
+
+        const createListElem = (n, link, text, additionalText = null) => {
+            const l = document.createElement('div')
+
+            const num = document.createElement('span')
+            num.innerHTML = n + '.&nbsp;&nbsp;'
+            l.appendChild(num)
+
+            if (link) {
+                const a = document.createElement('a')
+                a.href = link
+                a.innerText = text
+                a.target = '_blank'
+                l.appendChild(a)
+            }
+
+            if (additionalText) {
+                const add = document.createElement('span')
+                add.innerHTML = '&nbsp;&nbsp;&nbsp;' + additionalText
+                l.appendChild(add)
+            }
+
+            return l
+        }
+
+        for (let i = 0; i < LIST.length; ++i) {
+            const elem = createListElem(...LIST[i])
+            list.appendChild(elem)
+        }
+
+        wrapper.appendChild(list)
+
+        {
+            const offset = document.createElement('div')
+            offset.classList.add('dark')
+            offset.classList.add('height-20px')
+            wrapper.appendChild(offset)
+        }
+
+        {
+            const prev = document.createElement('div')
+            prev.classList.add('dark')
+            prev.innerHTML = 'To fly around level press key \'O\''
+            //prev.style.opacity = 0
+            wrapper.appendChild(prev)
+        }
+
+        {
+            const offset = document.createElement('div')
+            offset.classList.add('dark')
+            offset.classList.add('height-20px')
+            wrapper.appendChild(offset)
+        }
+
+        {
+            const prev = document.createElement('div')
+            prev.classList.add('dark')
+            prev.innerHTML = 'Example of generation level: <a href="https://js.otrisovano.ru/2D/maze/00/" target="_blank">link</a>'
+            //prev.style.opacity = 0
+            wrapper.appendChild(prev)
+        }
+
+        {
+            const offset = document.createElement('div')
+            offset.classList.add('dark')
+            offset.classList.add('height-20px')
+            wrapper.appendChild(offset)
+        }
+
+        {
+            const prev = document.createElement('div')
+            prev.classList.add('dark')
+            prev.innerHTML = 'Source code: <a href="https://github.com/fire888/240612_labirint_ch8" target="_blank">github</a>'
+            wrapper.appendChild(prev)
+        }
+
+        {
+            const offset = document.createElement('div')
+            offset.classList.add('dark')
+            offset.classList.add('height-60px')
+            wrapper.appendChild(offset)
+        }
+
+
+        document.body.appendChild(wrapper)      
+    }
+
 }
