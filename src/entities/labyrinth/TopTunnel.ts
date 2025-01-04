@@ -1,6 +1,6 @@
 import { createTileI } from "geometry/tile_I"
 import { _M, A3 } from "geometry/_m"
-import { createRandomDataForLine } from "geometry/lineGeom"
+import { createRandomDataForLine } from "geometry/_lineGeom"
 import * as THREE from 'three'
 import { createDoor } from "geometry/door"
 import { Root } from "index"

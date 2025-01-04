@@ -1,7 +1,7 @@
 import { _M } from './_m'
 import { DataToCreateLine } from '../entities/labyrinth/types'
-import { createLineGeom } from './lineGeom'
-import { createRandomDataForLine } from './lineGeom'
+import { createLineGeom } from './_lineGeom'
+import { createRandomDataForLine } from './_lineGeom'
 
 export const createStair = (data: {
     stairDataBottom: DataToCreateLine,

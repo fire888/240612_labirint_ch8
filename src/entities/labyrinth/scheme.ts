@@ -1,4 +1,4 @@
-import { createRandomDataForLine } from "../../geometry/lineGeom"
+import { createRandomDataForLine } from "../../geometry/_lineGeom"
 import { _M, A3 } from "../../geometry/_m"
 import { Dir, DataToCreateLine, Maze } from "./types"
 

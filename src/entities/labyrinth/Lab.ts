@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { LabLevel } from './LabLevel'
 import { createStair } from '../../geometry/stair'
 import { TopTunnel } from './TopTunnel'
-import { createRandomDataForLine } from '../../geometry/lineGeom'
+import { createRandomDataForLine } from '../../geometry/_lineGeom'
 import { _M } from "../../geometry/_m"
 import { Root } from 'index'
 import { PosesSleepEnds, Dir, DataToCreateLine } from './types'

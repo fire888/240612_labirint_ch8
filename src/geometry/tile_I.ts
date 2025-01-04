@@ -1,5 +1,5 @@
 import { _M } from "./_m";
-import { createLineGeom } from './lineGeom'
+import { createLineGeom } from './_lineGeom'
 
 import { DataToCreateGeom } from '../entities/labyrinth/types'
 
