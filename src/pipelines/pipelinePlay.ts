@@ -69,11 +69,11 @@ export const pipelinePlay = async (root: Root) => {
     ui.toggleVisibleEnergy(false)
     controls.disconnect()
     phisics.stopPlayerBody()
+    audio.disableSteps()
     audio.playFly()
     await studio.cameraFlyAway(lab.lastDir)
     lab.destroy()
     energySystem.destroy()
-    executeAwaitCompletePlay(true)
 
     // complete play if no next level ***********************/
     ++indexLevel
@@ -90,6 +90,7 @@ export const pipelinePlay = async (root: Root) => {
     audio.stopFly()
     phisics.setPlayerPosition(...PLAYER_START_POS)
     controls.connect()
+    audio.enableSteps()
     ui.toggleVisibleEnergy(true)
     await pipelinePlay(root)
 }

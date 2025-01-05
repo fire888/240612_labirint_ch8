@@ -8,7 +8,8 @@ export class Audio {
     private _steps: THREE.Audio
     private _energy: THREE.Audio
     private _door: THREE.Audio 
-    private _fly: THREE.Audio 
+    private _fly: THREE.Audio
+    private _isCanPlaySteps: boolean = true
 
     init (root: Root) {
         this._root = root
@@ -63,31 +64,32 @@ export class Audio {
             .start()
     }
 
-    playSteps () {
-        if (this._steps.isPlaying) {
-            return;
-        }
-            
-        this._steps.play()
+    disableSteps () {
+        this._isCanPlaySteps = false 
+        this._stopSteps() 
     }
 
-    stopSteps () {
-        this._steps.stop()
+    enableSteps () {
+        this._isCanPlaySteps = true
     }
 
     update () {
+        if (!this._isCanPlaySteps) {
+            return
+        }
+
         if (
             Math.abs(this._root.phisics.playerBody.velocity.x) > .05 || 
             Math.abs(this._root.phisics.playerBody.velocity.z) > .05 
         ) { 
-            this.playSteps()
+            this._playSteps()
         }
 
         if (
-            Math.abs(this._root.phisics.playerBody.velocity.x)  < .05 && 
+            Math.abs(this._root.phisics.playerBody.velocity.x) < .05 && 
             Math.abs(this._root.phisics.playerBody.velocity.x) < .05
         ) { 
-            this.stopSteps()
+            this._stopSteps()
         }
     }
 
@@ -109,7 +111,6 @@ export class Audio {
                 this._fly.setVolume(obj.v)
             })
             .start()
-
     }
 
     stopFly () {
@@ -124,5 +125,23 @@ export class Audio {
                 this._fly.stop()
             })
             .start()
+    }
+
+    private _playSteps () {
+        if (!this._isCanPlaySteps) {
+            return;
+        }
+        if (this._steps.isPlaying) {
+            return;
+        }
+            
+        this._steps.play()
+    }
+
+    private _stopSteps () {
+        if (!this._steps.isPlaying) {
+            return;
+        }
+        this._steps.stop()
     }
 }
