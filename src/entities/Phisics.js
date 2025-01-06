@@ -1,7 +1,6 @@
 import * as CANNON from 'cannon-es'
 import * as THREE from 'three'
-import CannonDebugger from 'cannon-es-debugger'
-import { timerDelta } from 'three/examples/jsm/nodes/Nodes'
+// import CannonDebugger from 'cannon-es-debugger'
 
 const createTrimesh = geometry => {
     const vertices = geometry.attributes.position.array
@@ -14,7 +13,7 @@ export class Phisics {
     _bodies = []
     _bodiesToRemove = []
 
-    init (root) {
+    init () {
         this.world = new CANNON.World()
         this.world.gravity.set(0, -9.82, 0)
         this.world.quatNormalizeSkip = 0;
@@ -62,7 +61,7 @@ export class Phisics {
         // this.cannonDebugger = new CannonDebugger(root.studio.scene, this.world, {})
     }
 
-    createPlayerPhisicsBody (playerPosition, playerRotationY) {
+    createPlayerPhisicsBody (playerPosition) {
         const sphere = new CANNON.Sphere(.5);
         this.playerBody = new CANNON.Body({ 
             mass: 5,
@@ -127,16 +126,12 @@ export class Phisics {
         }
     }
 
-    /**
-     * Updates the physics world by fixed time step.
-     * @param {number} delta - Time elapsed since last frame.
-     */
-    update (delta) {
+    update () {
         if (!this.playerBody) {
             return;
         }
         this.world.fixedStep()
-        this.cannonDebugger && this.cannonDebugger.update()
+        if (this.cannonDebugger) this.cannonDebugger.update()
 
         if (this._bodiesToRemove.length > 0) {
             for (let i = 0; i < this._bodiesToRemove.length; ++i) {

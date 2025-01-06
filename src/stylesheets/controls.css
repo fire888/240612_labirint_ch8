@@ -56,16 +56,12 @@
     border: 1px solid #e4f9ff; 
     background-color: #181d3855;
 }
-
-
-
 .butt-left {
     bottom: 1.5rem;
     left: .5rem;
     background: url(../assets/c-left.png) center no-repeat;
     background-size: contain;
 }
-
 .butt-right {
     bottom: 1.5rem;
     left: 5rem;
@@ -79,22 +75,10 @@
     background: url(../assets/c-top.png) center no-repeat;
     background-size: contain;
 }
-
 .butt-back {
     bottom: 1.5rem;
     right: 1rem;
     background: url(../assets/c-bottom.png) center no-repeat;
-    background-size: contain;
-}
-
-.butt-fullscreen {
-    height: 60px;
-    width: 60px;
-    background-color: none;
-    border: none;
-    top: .5rem;
-    right: 4rem;
-    background: url(../assets/c-screen.png) center no-repeat; 
     background-size: contain;
 }
 .butt-info {
@@ -104,22 +88,6 @@
     left: 1rem;
     background: url(../assets/c-i.png) center no-repeat;
     background-size: contain; 
-}
-.butt-sound {
-    background-color: none;
-    border: none;
-    top: .5rem;
-    left: 1rem; 
-    background: url(../assets/c-sound.png) center no-repeat;
-    background-size: contain; 
-}
-.butt-sound-n {
-    background-color: none;
-    border: none;
-    top: .5rem;
-    left: 1rem; 
-    background: url(../assets/c-sound-n.png) center no-repeat; 
-    background-size: contain;
 }
 .butt-lock {
     background-color: none;

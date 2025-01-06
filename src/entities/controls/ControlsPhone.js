@@ -18,9 +18,9 @@ export class ControlsPhone {
 
     _vecRotMovie = new THREE.Vector3(0, 0, 0)
     _strengthIdle = 0.
-    _timeRot = 0 
+    _timeRot = 0
 
-    init (root) {
+    init(root) {
         this._root = root
 
         this._moveForwardDiv = document.createElement('div')
@@ -44,15 +44,15 @@ export class ControlsPhone {
         this._moveBackDiv.classList.add('control')
         this._moveBackDiv.classList.add('butt-back')
         this._moveBackDiv.addEventListener("pointerdown", () => {
-            !this._isBack && this._changeForwardSpeedTo(this._maxSpeedForward)
+            if (!this._isBack) this._changeForwardSpeedTo(this._maxSpeedForward)
             this._isBack = true
         })
         this._moveBackDiv.addEventListener("pointerup", () => {
-            this._isBack && this._changeForwardSpeedTo(0.)
+            if (!this._isBack) this._changeForwardSpeedTo(0.)
             this._isBack = false
         })
         this._moveBackDiv.addEventListener("pointerout", () => {
-            this._isBack && this._changeForwardSpeedTo(0.)
+            if (this._isBack) this._changeForwardSpeedTo(0.)
             this._isBack = false
         })
         document.body.appendChild(this._moveBackDiv)
@@ -61,15 +61,15 @@ export class ControlsPhone {
         this._moveLeftDiv.classList.add('control')
         this._moveLeftDiv.classList.add('butt-left')
         this._moveLeftDiv.addEventListener("pointerdown", () => {
-            !this._isLeft && this._changeLeftSpeedTo(this._maxSpeedLeft)
+            if (!this._isLeft) this._changeLeftSpeedTo(this._maxSpeedLeft)
             this._isLeft = true
         })
         this._moveLeftDiv.addEventListener("pointerup", () => {
-            this._isLeft && this._changeLeftSpeedTo(0.)
+            if (this._isLeft) this._changeLeftSpeedTo(0.)
             this._isLeft = false
         })
         this._moveLeftDiv.addEventListener("pointerout", () => {
-            this._isLeft && this._changeLeftSpeedTo(0.)
+            if (this._isLeft) this._changeLeftSpeedTo(0.)
             this._isLeft = false
         })
         document.body.appendChild(this._moveLeftDiv)
@@ -78,15 +78,15 @@ export class ControlsPhone {
         this._moveRightDiv.classList.add('control')
         this._moveRightDiv.classList.add('butt-right')
         this._moveRightDiv.addEventListener("pointerdown", () => {
-            !this._isRight && this._changeLeftSpeedTo(-this._maxSpeedLeft)
+            if (!this._isRight) this._changeLeftSpeedTo(-this._maxSpeedLeft)
             this._isRight = true
         })
         this._moveRightDiv.addEventListener("pointerup", () => {
-            this._isRight && this._changeLeftSpeedTo(0.)
+            if (this._isRight) this._changeLeftSpeedTo(0.)
             this._isRight = false
         })
         this._moveRightDiv.addEventListener("pointerout", () => {
-            this._isRight && this._changeLeftSpeedTo(0.)
+            if (this._isRight) this._changeLeftSpeedTo(0.)
             this._isRight = false
         })
         document.body.appendChild(this._moveRightDiv)
@@ -97,14 +97,14 @@ export class ControlsPhone {
         this._moveRightDiv.style.display = 'none'
 
         window.addEventListener('keydown', this._onKeyDown.bind(this))
-		window.addEventListener('keyup', this._onKeyUp.bind(this))
+        window.addEventListener('keyup', this._onKeyUp.bind(this))
 
 
         this._obj = new THREE.Object3D()
         this._obj.rotation.y = Math.PI
     }
 
-    update (delta, playerBody) {
+    update(delta, playerBody) {
         if (!this._isEnabled) {
             return
         }
@@ -140,7 +140,7 @@ export class ControlsPhone {
         this._root.studio.camera.rotation.z += this._vecRotMovie.z
     }
 
-    enable () {
+    enable() {
         this._moveForwardDiv.style.display = 'block'
         this._moveBackDiv.style.display = 'block'
         this._moveLeftDiv.style.display = 'block'
@@ -153,7 +153,7 @@ export class ControlsPhone {
         const obj = { v: 0 }
         new TWEEN.Tween(obj)
             .interpolation(TWEEN.Interpolation.Linear)
-            .to({ v: 1}, 1000)
+            .to({ v: 1 }, 1000)
             .onUpdate(() => {
                 this._strengthIdle = obj.v
             })
@@ -162,7 +162,7 @@ export class ControlsPhone {
         this._isEnabled = true
     }
 
-    disable () {
+    disable() {
         this._moveForwardDiv.style.display = 'none'
         this._moveBackDiv.style.display = 'none'
         this._moveLeftDiv.style.display = 'none'
@@ -171,58 +171,58 @@ export class ControlsPhone {
         this._isEnabled = false
     }
 
-    _onKeyUp ( event ) {
-        switch ( event.code ) {
+    _onKeyUp(event) {
+        switch (event.code) {
             case 'ArrowUp':
             case 'KeyW':
                 if (this._isForward) this._changeForwardSpeedTo(0.)
-                this._isForward = false; 
+                this._isForward = false;
                 break;
 
             case 'ArrowLeft':
-            case 'KeyA': 
+            case 'KeyA':
                 if (this._isLeft) this._changeLeftSpeedTo(0.)
-                this._isLeft = false; 
+                this._isLeft = false;
                 break;
 
             case 'ArrowDown':
-            case 'KeyS': 
+            case 'KeyS':
                 if (this._isBack) this._changeForwardSpeedTo(0.)
-                this._isBack = false; 
+                this._isBack = false;
                 break;
 
             case 'ArrowRight':
-            case 'KeyD': 
-            this._isRight && this._changeLeftSpeedTo(0.)
+            case 'KeyD':
+                if (this._isRight) this._changeLeftSpeedTo(0.)
                 this._isRight = false;
                 break;
         }
     }
 
-	_onKeyDown (event) {
-        switch ( event.code ) {
+    _onKeyDown(event) {
+        switch (event.code) {
             case 'ArrowUp':
-            case 'KeyW': 
+            case 'KeyW':
                 if (!this._isForward) this._changeForwardSpeedTo(-this._maxSpeedForward)
-                this._isForward = true; 
+                this._isForward = true;
                 break;
 
             case 'ArrowDown':
-                case 'KeyS':
-                    if (!this._isBack) this._changeForwardSpeedTo(this._maxSpeedForward) 
-                    this._isBack = true; 
-                    break;    
+            case 'KeyS':
+                if (!this._isBack) this._changeForwardSpeedTo(this._maxSpeedForward)
+                this._isBack = true;
+                break;
 
             case 'ArrowLeft':
             case 'KeyA':
-                if (!this._isLeft) this._changeLeftSpeedTo(this._maxSpeedLeft) 
-                this._isLeft = true; 
+                if (!this._isLeft) this._changeLeftSpeedTo(this._maxSpeedLeft)
+                this._isLeft = true;
                 break;
 
             case 'ArrowRight':
             case 'KeyD':
-                if (!this._isRight) this._changeLeftSpeedTo(-this._maxSpeedLeft) 
-                this._isRight = true; 
+                if (!this._isRight) this._changeLeftSpeedTo(-this._maxSpeedLeft)
+                this._isRight = true;
                 break;
         }
     }

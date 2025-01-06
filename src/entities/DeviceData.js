@@ -3,6 +3,8 @@ const checkDeviceByUserAgent = () => {
     let isIphone = false
     let isIpad = false
 
+    console.log('UUUIUIUIU')
+
     if (window.navigator.userAgent.match(/iPhone/i)) {
         isIphone = true
     }

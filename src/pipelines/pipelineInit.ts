@@ -36,9 +36,9 @@ export const pipelineInit = async (root: Root) => {
     ui.init(root)
     ui.setEnergyLevel(0)
 
-    phisics.init(root)
+    phisics.init()
     ticker.on(phisics.update.bind(phisics))
-    phisics.createPlayerPhisicsBody(CONSTANTS.PLAYER_START_POS, 0)
+    phisics.createPlayerPhisicsBody(CONSTANTS.PLAYER_START_POS)
 
     floor.init(root)
     studio.add(floor.mesh)
@@ -48,7 +48,7 @@ export const pipelineInit = async (root: Root) => {
 
     energySystem.init(root, lab.posesSleepEnds)
 
-    smallTriangles.init(root)
+    smallTriangles.init()
     studio.add(smallTriangles.m)
     smallTriangles.m.position.x = 3 * 5
     smallTriangles.m.position.z = 3 * 5

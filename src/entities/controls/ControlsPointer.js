@@ -3,7 +3,6 @@ import * as THREE from 'three'
 import * as TWEEN from '@tweenjs/tween.js'
 
 
-
 export class ControlsPointer {
     isEnabled = false
 
@@ -183,6 +182,8 @@ export class ControlsPointer {
                 this._tweenSpeedForward = null
             })
             .start()
+
+        return null
     }
 
     _changeLeftSpeedTo(v) {
@@ -207,25 +208,25 @@ export class ControlsPointer {
         switch ( event.code ) {
             case 'ArrowUp':
             case 'KeyW':
-                !this._moveForward && this._changeForwardSpeedTo(this._maxSpeedForward)
+                if (!this._moveForward) this._changeForwardSpeedTo(0)
                 this._moveForward = true
                 break
 
             case 'ArrowDown':
             case 'KeyS':
-                !this._moveBackward &&this._changeForwardSpeedTo(-this._maxSpeedForward)
+                if (!this._moveBackward) this._changeForwardSpeedTo(-this._maxSpeedForward)
                 this._moveBackward = true
                 break    
 
             case 'ArrowLeft':
             case 'KeyA':
-                !this._moveLeft && this._changeLeftSpeedTo(this._maxSpeedLeft)
+                if (!this._moveLeft) this._changeLeftSpeedTo(this._maxSpeedLeft)
                 this._moveLeft = true
                 break
 
             case 'ArrowRight':
             case 'KeyD':
-                !this._moveRight && this._changeLeftSpeedTo(-this._maxSpeedLeft)
+                if (!this._moveRight) this._changeLeftSpeedTo(-this._maxSpeedLeft)
                 this._moveRight = true
                 break
         }
@@ -235,25 +236,25 @@ export class ControlsPointer {
         switch (event.code) {
             case 'ArrowUp':
             case 'KeyW':
-                this._moveForward && this._changeForwardSpeedTo(0)
+                if (this._moveForward) this._changeForwardSpeedTo(0)
                 this._moveForward = false
                 break
 
             case 'ArrowDown':
             case 'KeyS':
-                this._moveBackward && this._changeForwardSpeedTo(0)
+                if (this._moveBackward) this._changeForwardSpeedTo(0)
                 this._moveBackward = false
                 break    
 
             case 'ArrowLeft':
             case 'KeyA':
-                this._moveLeft && this._changeLeftSpeedTo(0)
+                if (this._moveLeft) this._changeLeftSpeedTo(0)
                 this._moveLeft = false
                 break
 
             case 'ArrowRight':
             case 'KeyD':
-                this._moveRight && this._changeLeftSpeedTo(0)
+                if (this._moveRight) this._changeLeftSpeedTo(0)
                 this._moveRight = false
                 break
         }

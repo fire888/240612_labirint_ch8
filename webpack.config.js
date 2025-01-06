@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
+const ESLintPlugin = require('eslint-webpack-plugin')
 
 
 
@@ -27,6 +28,7 @@ module.exports = (env, { mode }) => {
             assetModuleFilename: '[path][name][ext]',
         },
         plugins: [
+            new ESLintPlugin({}),
             new HtmlWebpackPlugin({
                 template: './templates/index.html'
             }),

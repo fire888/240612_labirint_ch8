@@ -1,5 +1,20 @@
 import * as THREE from 'three'
 
+export class SmallTriangles {
+    init () {
+        this.m = new THREE.Object3D()
+        this.material = new THREE.MeshBasicMaterial({ 
+            color: 0xffffff,
+        })
+
+        for (let i = 0; i < 50; ++i) {
+            const s = createS(this.material)
+            s.position.x = 0
+            s.position.z = 0
+            this.m.add(s) 
+        }
+    }
+}
 
 const createS = m => {
     const v = []
@@ -27,21 +42,4 @@ const createS = m => {
     geometry.computeVertexNormals()
 
     return new THREE.Mesh(geometry, m)
-}
-
-
-export class SmallTriangles {
-    init (root) {
-        this.m = new THREE.Object3D()
-        this.material = new THREE.MeshBasicMaterial({ 
-            color: 0xffffff,
-        })
-
-        for (let i = 0; i < 50; ++i) {
-            const s = createS(this.material)
-            s.position.x = 0
-            s.position.z = 0
-            this.m.add(s) 
-        }
-    }
 }

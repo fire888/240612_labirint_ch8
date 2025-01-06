@@ -2,6 +2,12 @@ import { Root } from '../index'
 import * as THREE from 'three'
 import * as TWEEN from '@tweenjs/tween.js'
 
+
+
+
+
+
+
 export class Audio {
     private _root: Root
     private _soundAmbient: THREE.Audio
