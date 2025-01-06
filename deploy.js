@@ -15,9 +15,9 @@ var config = {
   user: process.env.FTP_USER,
   password: process.env.FTP_PASSWORD,
   host: process.env.FTP_HOST,
-  port: 21,
+  port: process.env.FTP_PORT,
   localRoot: __dirname + '/dist',
-  remoteRoot: '/9.porokh.z8.ru/docs/android/chapter08',
+  remoteRoot: process.env.FTP_PATH,
   include: ['*', '**/*', '.*'],
   // with Gatsby, these should never make it into your public
   // folder anyway, but it's worth keeping these excludes here
