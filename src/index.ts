@@ -54,6 +54,9 @@ window.addEventListener("DOMContentLoaded", async () => {
         audio: new Audio(),
     }
 
+    // @ts-ignore:next-line
+    console.log("branch:" + __GIT_CURRENT_BRANCH__ + ' commit:' + __HASH_COMMIT__)
+
     await pipelineInit(root)
     await pipelinePlay(root)
     await pipelineEnd(root)

@@ -208,7 +208,7 @@ export class ControlsPointer {
         switch ( event.code ) {
             case 'ArrowUp':
             case 'KeyW':
-                if (!this._moveForward) this._changeForwardSpeedTo(0)
+                if (!this._moveForward) this._changeForwardSpeedTo(this._maxSpeedForward)
                 this._moveForward = true
                 break
 

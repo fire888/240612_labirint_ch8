@@ -1,4 +1,4 @@
-//const exec = require('child_process').execSync
+const exec = require('child_process').execSync
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -7,13 +7,14 @@ const webpack = require('webpack');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 const ESLintPlugin = require('eslint-webpack-plugin')
 
-
+const hashCommit = exec('git log -1 --pretty=format:%h').toString().trim()
+const currentBranch = exec('git rev-parse --abbrev-ref HEAD').toString().trim()
 
 module.exports = (env, { mode }) => {
     return {
         entry: './src/index.ts',
         // mode: 'development',
-        devtool: 'source-map',
+        devtool: mode === 'development' ? 'source-map' : null,
         resolve: {
             plugins: [
                 new TsconfigPathsPlugin({
@@ -23,9 +24,9 @@ module.exports = (env, { mode }) => {
             extensions: ['.js', '.jsx', '.ts', '.tsx'],
         },
         output: {
-            filename: "./dist/index.js",
+            filename: "./res/" + hashCommit + "_index.js",
             path: path.resolve(__dirname, 'dist'),
-            assetModuleFilename: '[path][name][ext]',
+            assetModuleFilename: './res/assets/'+ hashCommit + '_[name][ext]',
         },
         plugins: [
             new ESLintPlugin({}),
@@ -33,12 +34,12 @@ module.exports = (env, { mode }) => {
                 template: './templates/index.html'
             }),
             new MiniCssExtractPlugin({
-                filename: './dist/main.css',
+                filename: './res/main.css',
             }),
             new webpack.DefinePlugin({
                 // __MODE__: JSON.stringify(mode),
-                // __HASH_COMMIT__: JSON.stringify(hashCommit),
-                // __GIT_CURRENT_BRANCH__: JSON.stringify('' + currentBranch),
+                __HASH_COMMIT__: JSON.stringify(hashCommit),
+                __GIT_CURRENT_BRANCH__: JSON.stringify('' + currentBranch),
                 // __APP_PARAMS__: JSON.stringify(__APP_PARAMS__),
             }),
             new webpack.ProvidePlugin({
