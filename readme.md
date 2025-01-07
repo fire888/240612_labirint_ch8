@@ -5,7 +5,7 @@ About
 3d Adventure.  
   
   
-![pic](https://github.com/fire888/240612_labirint_ch8/blob/master/templates/start-img.png)
+![pic](https://raw.githubusercontent.com/fire888/240612_labirint_ch8/refs/heads/master/templates/start-img.jpg)
 
 Play
 ------------ 
