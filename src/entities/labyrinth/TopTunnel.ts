@@ -38,15 +38,16 @@ export class TopTunnel {
         // corridor view mesh *************************************/
         const randomData2 = createRandomDataForLine()
 
-        const e = createTileI({ 
-            paths: [startData.path, randomData2.path],
-            colors: [startData.color, randomData2.color],
-            forms: [startData.form, randomData2.form],
-            n: this.N,
-            w: this.W,
-            key: 'n',
-        })
-        this.mesh = _M.createMesh({ v: e.v, c: e.c, material: startData.material })
+        // const e = createTileI({ 
+        //     paths: [startData.path, randomData2.path],
+        //     colors: [startData.color, randomData2.color],
+        //     forms: [startData.form, randomData2.form],
+        //     n: this.N,
+        //     w: this.W,
+        //     key: 'n',
+        // })
+        // this.mesh = _M.createMesh({ v: e.v, c: e.c, material: startData.material })
+        this.mesh = _M.createMesh({ v: [], c: [], material: startData.material })
 
 
         // collision corridor *************************************/

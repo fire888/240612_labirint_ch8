@@ -33,6 +33,16 @@ export type DataToCreateGeom = {
     w: number,
 }
 
+export type DataToCreateTileU = {
+    type?: number,    
+    [Dir.SOUTH]?: DataToCreateLine,            
+    [Dir.EAST]?: DataToCreateLine,
+    [Dir.NORTH]?: DataToCreateLine,
+    [Dir.WEST]?: DataToCreateLine,
+    num: number,
+    width: number,
+}
+
 
 export type MazeSegment = {
     type: number,    

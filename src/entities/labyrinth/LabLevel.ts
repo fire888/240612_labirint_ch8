@@ -153,9 +153,7 @@ export class LabLevel {
                 ) {
                     continue;
                 }
-
                 typeTile = 'U'
-                keyDir = 's'
             }
 
             if (
@@ -170,9 +168,7 @@ export class LabLevel {
                 ) {
                     continue;
                 }
-
                 typeTile = 'U'
-                keyDir = 'e'
             }
 
             if (
@@ -187,9 +183,7 @@ export class LabLevel {
                 ) {
                     continue;
                 }
-
                 typeTile = 'U'
-                keyDir = 'n'
             }
 
             if (
@@ -204,9 +198,7 @@ export class LabLevel {
                 ) {
                     continue;
                 }
-
                 typeTile = 'U'
-                keyDir = 'w'
             }
 
 
@@ -219,7 +211,7 @@ export class LabLevel {
                 !tile.e
             ) {
                 typeTile = 'I'
-                keyDir = 'sn'
+                //keyDir = 'sn'
             }
             if (
                 tile.w && 
@@ -228,7 +220,7 @@ export class LabLevel {
                 !tile.n
             ) {
                 typeTile = 'I'
-                keyDir = 'we'
+                //keyDir = 'we'
             }
 
             ///////////////
@@ -240,7 +232,7 @@ export class LabLevel {
                 !tile.w
             ) {
                 typeTile = 'L'
-                keyDir = 'se'
+                //keyDir = 'se'
             }
 
             if (
@@ -250,7 +242,7 @@ export class LabLevel {
                 !tile.e
             ) {
                 typeTile = 'L'
-                keyDir = 'nw' 
+                //keyDir = 'nw' 
             }
 
             if (
@@ -260,7 +252,7 @@ export class LabLevel {
                 !tile.n
             ) {
                 typeTile = 'L'
-                keyDir = 'ws' 
+                //keyDir = 'ws' 
             }
 
             if (
@@ -270,7 +262,7 @@ export class LabLevel {
                 !tile.s
             ) {
                 typeTile = 'L'
-                keyDir = 'ne' 
+                //keyDir = 'ne' 
             }
 
             /////////
@@ -320,126 +312,157 @@ export class LabLevel {
             let e = null
 
             if (typeTile === 'U') {
-                if (keyDir === 's' || keyDir === 'e' || keyDir === 'n' || keyDir === 'w') {
+                //if (keyDir === 's' || keyDir === 'e' || keyDir === 'n' || keyDir === 'w') {
                     e = createTileU({
-                        paths: [tile[keyDir].path, tile[keyDir].path],
-                        colors: [tile[keyDir].color, tile[keyDir].color],
-                        forms: [tile[keyDir].form, tile[keyDir].form],
-                        n: N,
-                        w: W,
-                        key: keyDir,
+                        //paths: [tile[keyDir].path, tile[keyDir].path],
+                        //colors: [tile[keyDir].color, tile[keyDir].color],
+                        //forms: [tile[keyDir].form, tile[keyDir].form],
+                        ...tile,
+                        num: N,
+                        width: W,
+                    })
+                //}
+            }
+
+            if (typeTile === 'I') {
+            //     if (
+            //         !checkArray(tile.w.path) ||
+            //         !checkArray(tile.e.path)
+            //     ) {
+            //         continue;
+            //     }
+
+                e = createTileI({ 
+                    // paths: [tile.w.path, tile.e.path],
+                    // colors: [tile.w.color, tile.e.color],
+                    // forms: [tile.w.form, tile.e.form],
+                    ...tile,
+                    num: N,
+                    width: W,
+                })
+            }
+            
+
+
+            // if (typeTile === 'I' && keyDir === 'sn') {
+            //     if (
+            //         !checkArray(tile.s.path) ||
+            //         !checkArray(tile.n.path)
+            //     ) {
+            //         continue;
+            //     }
+
+            //     e = createTileI({ 
+            //         paths: [tile.s.path, tile.n.path],
+            //         colors: [tile.s.color, tile.n.color],
+            //         forms: [tile.s.form, tile.n.form],
+            //         n: N,
+            //         w: W,
+            //         key: keyDir,
+            //     })
+            // }
+
+            // if (typeTile === 'I' && keyDir === 'we') {
+            //     if (
+            //         !checkArray(tile.w.path) ||
+            //         !checkArray(tile.e.path)
+            //     ) {
+            //         continue;
+            //     }
+
+            //     e = createTileI({ 
+            //         paths: [tile.w.path, tile.e.path],
+            //         colors: [tile.w.color, tile.e.color],
+            //         forms: [tile.w.form, tile.e.form],
+            //         n: N,
+            //         w: W,
+            //         key: keyDir,
+            //     })
+            // }
+
+                if (typeTile === 'L') {
+                    e = createTileL({
+                        ...tile,
+                        //paths: [tile.s.path, tile.e.path],
+                        //colors: [tile.s.color, tile.e.color],
+                        //forms: [tile.s.form, tile.e.form],
+                        num: N,
+                        width: W,
+                        //key: 'se',
                     })
                 }
-            }
 
+        //     if (typeTile === 'L' && keyDir === 'se') {
+        //         if (
+        //             !checkArray(tile.s.path) ||
+        //             !checkArray(tile.e.path)
+        //         ) {
+        //             continue;
+        //         }
 
-            if (typeTile === 'I' && keyDir === 'sn') {
-                if (
-                    !checkArray(tile.s.path) ||
-                    !checkArray(tile.n.path)
-                ) {
-                    continue;
-                }
+        //         e = createTileL({ 
+        //             paths: [tile.s.path, tile.e.path],
+        //             colors: [tile.s.color, tile.e.color],
+        //             forms: [tile.s.form, tile.e.form],
+        //             n: N,
+        //             w: W,
+        //             key: 'se',
+        //         })
+        //     }
 
-                e = createTileI({ 
-                    paths: [tile.s.path, tile.n.path],
-                    colors: [tile.s.color, tile.n.color],
-                    forms: [tile.s.form, tile.n.form],
-                    n: N,
-                    w: W,
-                    key: keyDir,
-                })
-            }
+        //     if (typeTile === 'L' && keyDir === 'nw') {
+        //         if (
+        //             !checkArray(tile.w.path) ||
+        //             !checkArray(tile.n.path)
+        //         ) {
+        //             continue;
+        //         }
 
-            if (typeTile === 'I' && keyDir === 'we') {
-                if (
-                    !checkArray(tile.w.path) ||
-                    !checkArray(tile.e.path)
-                ) {
-                    continue;
-                }
+        //         e = createTileL({ 
+        //             paths: [tile.w.path, tile.n.path],
+        //             colors: [tile.w.color, tile.n.color],
+        //             forms: [tile.w.form, tile.n.form],
+        //             n: N,
+        //             w: W,
+        //             key: 'nw',
+        //         })
+        //     }
 
-                e = createTileI({ 
-                    paths: [tile.w.path, tile.e.path],
-                    colors: [tile.w.color, tile.e.color],
-                    forms: [tile.w.form, tile.e.form],
-                    n: N,
-                    w: W,
-                    key: keyDir,
-                })
-            }
+        //     if (typeTile === 'L' && keyDir === 'ws') {
+        //          if (
+        //              !checkArray(tile.w.path) ||
+        //              !checkArray(tile.s.path)
+        //          ) {
+        //              continue;
+        //          }
 
-            if (typeTile === 'L' && keyDir === 'se') {
-                if (
-                    !checkArray(tile.s.path) ||
-                    !checkArray(tile.e.path)
-                ) {
-                    continue;
-                }
+        //         e = createTileL({ 
+        //             paths: [tile.w.path, tile.s.path],
+        //             colors: [tile.w.color, tile.s.color],
+        //             forms: [tile.w.form, tile.s.form],
+        //             n: N,
+        //             w: W,
+        //             key: 'ws',
+        //         })
+        //     }
 
-                e = createTileL({ 
-                    paths: [tile.s.path, tile.e.path],
-                    colors: [tile.s.color, tile.e.color],
-                    forms: [tile.s.form, tile.e.form],
-                    n: N,
-                    w: W,
-                    key: 'se',
-                })
-            }
+        //     if (typeTile === 'L' && keyDir === 'ne') {
+        //         if (
+        //             !checkArray(tile.n.path) ||
+        //             !checkArray(tile.e.path)
+        //         ) {
+        //             continue;
+        //         }
 
-            if (typeTile === 'L' && keyDir === 'nw') {
-                if (
-                    !checkArray(tile.w.path) ||
-                    !checkArray(tile.n.path)
-                ) {
-                    continue;
-                }
-
-                e = createTileL({ 
-                    paths: [tile.w.path, tile.n.path],
-                    colors: [tile.w.color, tile.n.color],
-                    forms: [tile.w.form, tile.n.form],
-                    n: N,
-                    w: W,
-                    key: 'nw',
-                })
-            }
-
-            if (typeTile === 'L' && keyDir === 'ws') {
-                 if (
-                     !checkArray(tile.w.path) ||
-                     !checkArray(tile.s.path)
-                 ) {
-                     continue;
-                 }
-
-                e = createTileL({ 
-                    paths: [tile.w.path, tile.s.path],
-                    colors: [tile.w.color, tile.s.color],
-                    forms: [tile.w.form, tile.s.form],
-                    n: N,
-                    w: W,
-                    key: 'ws',
-                })
-            }
-
-            if (typeTile === 'L' && keyDir === 'ne') {
-                if (
-                    !checkArray(tile.n.path) ||
-                    !checkArray(tile.e.path)
-                ) {
-                    continue;
-                }
-
-               e = createTileL({ 
-                   paths: [tile.n.path, tile.e.path],
-                   colors: [tile.n.color, tile.e.color],
-                   forms: [tile.n.form, tile.e.form],
-                   n: N,
-                   w: W,
-                   key: 'ne',
-               })
-           }
+        //        e = createTileL({ 
+        //            paths: [tile.n.path, tile.e.path],
+        //            colors: [tile.n.color, tile.e.color],
+        //            forms: [tile.n.form, tile.e.form],
+        //            n: N,
+        //            w: W,
+        //            key: 'ne',
+        //        })
+        //    }
 
            if (typeTile === 'T') {
                 e = createTileT({ 

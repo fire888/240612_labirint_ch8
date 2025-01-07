@@ -1,17 +1,35 @@
 import { _M } from "./_m";
 import { createLineGeom } from './_lineGeom'
 
-import { DataToCreateGeom } from '../entities/labyrinth/types'
+import { DataToCreateGeom, DataToCreateLine, DataToCreateTileU, Dir } from '../entities/labyrinth/types'
 
 import { vC_H } from "constants/CONSTANTS";
 
 
-export const createTileI = (data: DataToCreateGeom) => {
-    const { w, n, forms, paths, colors, key } = data
+export const createTileI = (data:  DataToCreateTileU) => {
+    const { width, num, w, s, n, e } = data
+
+
+    let dir: Dir, startData: DataToCreateLine, endData: DataToCreateLine
+    if (n && s) { 
+        dir = Dir.NORTH
+        startData = data.n
+        endData = data.s
+    }
+    if (w && e) { 
+        dir = Dir.EAST 
+        startData = data.e
+        endData = data.w
+    }
 
     // CREATE ARRAYS DATA
 
-    const arrs = _M.interpolateArrays({ forms, paths, colors, n })
+    const arrs = _M.interpolateArrays({ 
+        forms: [startData.form, endData.form], 
+        paths: [startData.path, endData.path],
+        colors: [startData.color, endData.color],
+        n: num,
+    })
 
     
     // CREATE BUFFERS FROM ARRAYS
@@ -20,7 +38,7 @@ export const createTileI = (data: DataToCreateGeom) => {
     const c = []
     const vC = []
 
-    const xStep = w / n
+    const xStep = width / num
     const startX = xStep / 2
 
     for (let i = 0; i < arrs.paths.length; ++i) {
@@ -30,36 +48,46 @@ export const createTileI = (data: DataToCreateGeom) => {
             color: arrs.colors[i],
             isClosed: true,
         })
-        _M.translateVertices(l.v, 0 , 0, w / 2 - startX - i * xStep)
+        if (dir === Dir.NORTH) {
+            _M.translateVertices(l.v, 0, 0, -width / 2 + startX + i * xStep)
+        }
+        if (dir === Dir.EAST) {
+            _M.rotateVerticesY(l.v, Math.PI * .5)
+            _M.translateVertices(l.v, -width / 2 + startX + i * xStep, 0, 0)
+        }
+
         v.push(...l.v)
         c.push(...l.c)
     }
 
+    {
+        const w = width
+        vC.push(
+            ..._M.createPolygon(
+                [-w * .5, 0, w * .5],
+                [w * .5, 0, w * .5],
+                [w * .5, 0, -w * .5],
+                [-w * .5, 0, -w * .5],
+            ),
+            ..._M.createPolygon(
+                [-w * .5, 0, w * .5],
+                [-w * .5, 0, -w * .5],
+                [-w * .5, vC_H, -w * .5],
+                [-w * .5, vC_H, w * .5],
+            ),
+            ..._M.createPolygon(
+                [w * .5, 0, -w * .5],
+                [w * .5, 0, w * .5],
+                [w * .5, vC_H, w * .5],
+                [w * .5, vC_H, -w * .5],
+            ),
+        )
+    }
 
-    vC.push(
-        ..._M.createPolygon(
-            [-w * .5, 0, w * .5],
-            [w * .5, 0, w * .5],
-            [w * .5, 0, -w * .5],
-            [-w * .5, 0, -w * .5],
-        ),
-        ..._M.createPolygon(
-            [-w * .5, 0, w * .5],
-            [-w * .5, 0, -w * .5],
-            [-w * .5, vC_H, -w * .5],
-            [-w * .5, vC_H, w * .5],
-        ),
-        ..._M.createPolygon(
-            [w * .5, 0, -w * .5],
-            [w * .5, 0, w * .5],
-            [w * .5, vC_H, w * .5],
-            [w * .5, vC_H, -w * .5],
-        ),
-    )
 
-    if (key === 'we') {
-        _M.rotateVerticesY(v, -Math.PI * .5)
-        _M.rotateVerticesY(vC, -Math.PI * .5)
+    if (dir === Dir.EAST) {
+       // _M.rotateVerticesY(v, -Math.PI * .5)
+        _M.rotateVerticesY(vC, Math.PI * .5)
     }
 
 
