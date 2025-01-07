@@ -6,6 +6,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 const ESLintPlugin = require('eslint-webpack-plugin')
+const DeadCodePlugin = require('webpack-deadcode-plugin')
 
 const hashCommit = exec('git log -1 --pretty=format:%h').toString().trim()
 const currentBranch = exec('git rev-parse --abbrev-ref HEAD').toString().trim()
@@ -30,6 +31,10 @@ module.exports = (env, { mode }) => {
             clean: true,
         },
         plugins: [
+            new DeadCodePlugin({
+                exclude: ['**/node_modules/**'],
+                exportJSON: './analysis',
+            }),
             new ESLintPlugin({}),
             new HtmlWebpackPlugin({
                 template: './templates/index.html'

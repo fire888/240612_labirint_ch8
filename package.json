@@ -18,7 +18,8 @@
     "eslint-webpack-plugin": "^4.2.0",
     "ftp-deploy": "^2.4.7",
     "three": "^0.165.0",
-    "typescript-eslint-parser": "^21.0.2"
+    "typescript-eslint-parser": "^21.0.2",
+    "webpack-deadcode-plugin": "^0.1.17"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
