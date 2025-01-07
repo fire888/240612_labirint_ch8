@@ -25,7 +25,7 @@ var config = {
   exclude: ['dist/**/*.map', 'node_modules/**', 'node_modules/**/.*'],
   // set to true if you want it to delete all the existing remote
   // files first - I prefer not to
-  deleteRemote: false,
+  deleteRemote: true,
   forcePasv: true,
 };
 // call ftp-deploy with our configuration from above
