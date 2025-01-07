@@ -14,7 +14,7 @@ module.exports = (env, { mode }) => {
     return {
         entry: './src/index.ts',
         // mode: 'development',
-        devtool: mode === 'development' ? 'source-map' : null,
+        devtool: mode === 'development' ? 'source-map' : false,
         resolve: {
             plugins: [
                 new TsconfigPathsPlugin({
@@ -27,6 +27,7 @@ module.exports = (env, { mode }) => {
             filename: "./res/" + hashCommit + "_index.js",
             path: path.resolve(__dirname, 'dist'),
             assetModuleFilename: './res/assets/'+ hashCommit + '_[name][ext]',
+            clean: true,
         },
         plugins: [
             new ESLintPlugin({}),
