@@ -37,6 +37,9 @@ export type Root = {
 
 
 window.addEventListener("DOMContentLoaded", async () => {
+    // @ts-ignore:next-line
+    console.log("branch:" + __GIT_CURRENT_BRANCH__ + ' commit:' + __HASH_COMMIT__)
+
     const root: Root = {
         CONSTANTS,
         ticker: new Ticker(),
@@ -53,9 +56,6 @@ window.addEventListener("DOMContentLoaded", async () => {
         lab: new Lab(),
         audio: new Audio(),
     }
-
-    // @ts-ignore:next-line
-    console.log("branch:" + __GIT_CURRENT_BRANCH__ + ' commit:' + __HASH_COMMIT__)
 
     await pipelineInit(root)
     await pipelinePlay(root)
