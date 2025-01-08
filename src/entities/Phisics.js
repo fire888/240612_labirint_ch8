@@ -1,11 +1,23 @@
-import * as CANNON from 'cannon-es'
+import { 
+    Body, 
+    World, 
+    GSSolver, 
+    SplitSolver, 
+    NaiveBroadphase,
+    Material,
+    ContactMaterial,
+    Trimesh,
+    Box,
+    Vec3,
+    Sphere,
+} from 'cannon-es'
 import { Object3D } from 'three'
 import CannonDebugger from 'cannon-es-debugger'
 
 const createTrimesh = geometry => {
     const vertices = geometry.attributes.position.array
     const indices = Object.keys(vertices).map(Number)
-    return new CANNON.Trimesh(vertices, indices)
+    return new Trimesh(vertices, indices)
 }
 
 export class Phisics {
@@ -14,26 +26,26 @@ export class Phisics {
     _bodiesToRemove = []
 
     init (root) {
-        this.world = new CANNON.World()
+        this.world = new World()
         this.world.gravity.set(0, -9.82, 0)
         this.world.quatNormalizeSkip = 0;
         this.world.quatNormalizeFast = false;
 
-        var solver = new CANNON.GSSolver()
+        var solver = new GSSolver()
 
         this.world.defaultContactMaterial.contactEquationStiffness = 1e9
         this.world.defaultContactMaterial.contactEquationRelaxation = 4
 
         solver.iterations = 7
         solver.tolerance = 0.1
-        this.world.solver = new CANNON.SplitSolver(solver);
+        this.world.solver = new SplitSolver(solver);
 
-        this.world.broadphase = new CANNON.NaiveBroadphase();
+        this.world.broadphase = new NaiveBroadphase();
         this.world.broadphase.useBoundingBoxes = true;
 
         // Create a slippery material (friction coefficient = 0.0)
-        this.physicsMaterial = new CANNON.Material("slipperyMaterial");
-        var physicsContactMaterial = new CANNON.ContactMaterial(
+        this.physicsMaterial = new Material("slipperyMaterial");
+        var physicsContactMaterial = new ContactMaterial(
             this.physicsMaterial,
             this.physicsMaterial,
             {
@@ -47,9 +59,9 @@ export class Phisics {
         // We must add the contact materials to the world
         this.world.addContactMaterial(physicsContactMaterial);
 
-        this.ground = new CANNON.Body({
-            type: CANNON.Body.STATIC,
-            shape: new CANNON.Box(new CANNON.Vec3(50, 0.1, 50)),
+        this.ground = new Body({
+            type: Body.STATIC,
+            shape: new Box(new Vec3(50, 0.1, 50)),
         })
         //this.ground.scale.set(1000, 1, 1000)
         this.ground._myName = 'ground'
@@ -64,8 +76,8 @@ export class Phisics {
     }
 
     createPlayerPhisicsBody (playerPosition) {
-        const sphere = new CANNON.Sphere(.5);
-        this.playerBody = new CANNON.Body({ 
+        const sphere = new Sphere(.5);
+        this.playerBody = new Body({ 
             mass: 5,
             linearDamping: 0.9,
         })
@@ -85,9 +97,9 @@ export class Phisics {
     
     addMeshToCollision (mesh) {
         const cannonShape = createTrimesh(mesh.geometry)
-        const body = new CANNON.Body({ 
+        const body = new Body({ 
             mass: 0, 
-            type: CANNON.Body.STATIC, 
+            type: Body.STATIC, 
         })
         mesh.geometry.dispose()
         body.addShape(cannonShape)
