@@ -1,9 +1,9 @@
-import * as THREE from 'three'
+import { Object3D, MeshBasicMaterial, BufferGeometry, BufferAttribute, Mesh } from 'three'
 
 export class SmallTriangles {
     init () {
-        this.m = new THREE.Object3D()
-        this.material = new THREE.MeshBasicMaterial({ 
+        this.m = new Object3D()
+        this.material = new MeshBasicMaterial({ 
             color: 0xffffff,
         })
 
@@ -37,9 +37,9 @@ const createS = m => {
     } 
 
     const vertices = new Float32Array(v)
-    const geometry = new THREE.BufferGeometry()
-    geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3))
+    const geometry = new BufferGeometry()
+    geometry.setAttribute('position', new BufferAttribute(vertices, 3))
     geometry.computeVertexNormals()
 
-    return new THREE.Mesh(geometry, m)
+    return new Mesh(geometry, m)
 }

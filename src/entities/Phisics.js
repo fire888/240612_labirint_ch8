@@ -1,5 +1,5 @@
 import * as CANNON from 'cannon-es'
-import * as THREE from 'three'
+import { Object3D } from 'three'
 import CannonDebugger from 'cannon-es-debugger'
 
 const createTrimesh = geometry => {
@@ -76,7 +76,7 @@ export class Phisics {
         this.playerBody.position.y = playerPosition[1]
         this.playerBody.position.z = playerPosition[2]
 
-        this.playerBody._object3D = new THREE.Object3D()
+        this.playerBody._object3D = new Object3D()
         this.playerBody._object3D.position.set(this.playerBody.position.x, this.playerBody.position.y, this.playerBody.position.z)
         this.playerBody._object3D.rotation.y = Math.PI
 

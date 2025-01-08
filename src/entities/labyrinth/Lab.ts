@@ -1,4 +1,10 @@
-import * as THREE from 'three'
+import { 
+    Object3D, 
+    Mesh, 
+    MeshPhongMaterial, 
+    MeshBasicMaterial,
+    Vector3,
+} from 'three'
 import { LabLevel } from './LabLevel'
 import { createStair } from '../../geometry/stair'
 import { TopTunnel } from './TopTunnel'
@@ -13,17 +19,17 @@ const W = 3
 const N = 7
 
 export class Lab {
-    mesh: THREE.Object3D
+    mesh: Object3D
     nameSpace = 'collision_lab_'
     lastDir: Dir = null
     posesSleepEnds: PosesSleepEnds[] = []
 
     private _namesMeshes: string[] = []
-    private _meshes: THREE.Mesh[] = []
+    private _meshes: Mesh[] = []
     private _root: Root
 
-    private _material: THREE.MeshPhongMaterial
-    private _collisionMaterial: THREE.MeshBasicMaterial
+    private _material: MeshPhongMaterial
+    private _collisionMaterial: MeshBasicMaterial
 
     private _topTunnel: TopTunnel
 
@@ -40,19 +46,19 @@ export class Lab {
         const { phisics } = root
 
         if (!this.mesh) {
-            this.mesh = new THREE.Object3D()
+            this.mesh = new Object3D()
         }
 
         this.posesSleepEnds = []
 
         if (!this._material) {
-            this._material = new THREE.MeshPhongMaterial({ 
+            this._material = new MeshPhongMaterial({ 
                 color: 0xFFFFFF, 
                 vertexColors: true,
                 envMap: root.loader.assets.sky,
                 reflectivity: .6,
             })
-            this._collisionMaterial = new THREE.MeshBasicMaterial({ color: 0xFFFF00 })
+            this._collisionMaterial = new MeshBasicMaterial({ color: 0xFFFF00 })
         }
 
 
@@ -228,9 +234,9 @@ export class Lab {
                 posStartDir,
             } 
         )
-        const pos = new THREE.Vector3(posStart[0] * W,  (FLOORS_NUM + 1) * LEVEL_H, posStart[1] * W)
+        const pos = new Vector3(posStart[0] * W,  (FLOORS_NUM + 1) * LEVEL_H, posStart[1] * W)
         const offset = W + (this._topTunnel.W / 2) + W / 2
-        const doorCollisionPos = new THREE.Vector3().copy(pos)
+        const doorCollisionPos = new Vector3().copy(pos)
         let rotationCollision = 0
 
         if (posStartDir === 'n') {

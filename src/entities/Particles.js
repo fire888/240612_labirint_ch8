@@ -1,14 +1,21 @@
-import * as THREE from 'three'
+import { 
+    BufferGeometry, 
+    SRGBColorSpace, 
+    Float32BufferAttribute, 
+    PointsMaterial,
+    Points,
+    AdditiveBlending,
+} from 'three'
 
 export class Particles {
     init (root) {
         this._root = root
 
-        this._geometry = new THREE.BufferGeometry();
+        this._geometry = new BufferGeometry()
         this._vertices = []
         this._speeds = []
         const sprite = root.loader.assets.sprite
-        sprite.colorSpace = THREE.SRGBColorSpace;
+        sprite.colorSpace = SRGBColorSpace;
 
         for ( let i = 0; i < 500; i ++ ) {
             const x = Math.random() * 100 - 50
@@ -21,17 +28,17 @@ export class Particles {
             const sZ = Math.random() * .1 - .05
             this._speeds.push(sX, sY, sZ)
         }
-        this._geometry.setAttribute('position', new THREE.Float32BufferAttribute(this._vertices, 3))
+        this._geometry.setAttribute('position', new Float32BufferAttribute(this._vertices, 3))
 
-        const material = new THREE.PointsMaterial({ 
+        const material = new PointsMaterial({ 
             size: .5, 
             map: sprite, 
-            blending: THREE.AdditiveBlending, 
+            blending: AdditiveBlending, 
             //depthTest: false, 
             transparent: true 
         })
         //material.color.setHSL( color[ 0 ], color[ 1 ], color[ 2 ], THREE.SRGBColorSpace );
-        this.m = new THREE.Points(this._geometry, material) 
+        this.m = new Points(this._geometry, material) 
     }
 
     update () {
@@ -51,7 +58,7 @@ export class Particles {
             }
         }
 
-        this._geometry.setAttribute('position', new THREE.Float32BufferAttribute(this._vertices, 3))
+        this._geometry.setAttribute('position', new Float32BufferAttribute(this._vertices, 3))
         this._geometry.needsUpdate = true
     }
 }

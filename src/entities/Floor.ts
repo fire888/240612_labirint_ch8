@@ -1,8 +1,8 @@
-import * as THREE from 'three'
+import { MeshBasicMaterial, Mesh } from 'three'
 import { Root } from "../index";
 import { _M } from 'geometry/_m';
 export class Floor {
-    mesh: THREE.Mesh
+    mesh: Mesh
     constructor() {}
 
     init (root: Root) {
@@ -43,7 +43,7 @@ export class Floor {
             c.push(..._M.fillColorFace([cc * COLOR[0], cc * COLOR[1], cc * COLOR[2]]))
         }
 
-        const material = new THREE.MeshBasicMaterial({
+        const material = new MeshBasicMaterial({
             color: 0xFFFFFF,
             vertexColors: true,
         })

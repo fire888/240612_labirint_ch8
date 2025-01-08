@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import { Texture, TextureLoader, AudioLoader } from 'three'
 import mapEnv from "../assets/env.webp"
 import sky from '../assets/sky.webp'
 import sprite from '../assets/sprite.webp'
@@ -9,9 +9,9 @@ import audioDoor from '../assets/door.mp3'
 import audioFly from '../assets/fly.mp3'
 
 type Assets = {
-    mapEnv: THREE.Texture,
-    sky: THREE.Texture,
-    sprite: THREE.Texture,
+    mapEnv: Texture,
+    sky: Texture,
+    sprite: Texture,
     soundAmbient: any,
     soundStepsMetal: any,
     soundBzink: any, 
@@ -20,11 +20,11 @@ type Assets = {
 }
 type ResultLoad = {
     key: keyof Assets,
-    texture: THREE.Texture | any,
+    texture: Texture | any,
 }
 
 export class LoaderAssets {
-    _textureLoader: THREE.TextureLoader = new THREE.TextureLoader()
+    _textureLoader: TextureLoader = new TextureLoader()
     assets: Assets = {
         mapEnv: null,
         sky: null,
@@ -51,7 +51,7 @@ export class LoaderAssets {
 
             const loadAudio = ( key: keyof Assets, src: string) => {
                 return new Promise<ResultLoad>(res => {
-                    const loader = new THREE.AudioLoader()
+                    const loader = new AudioLoader()
                     loader.load(src, buffer => {
                         res({ key, texture: buffer })
                     })

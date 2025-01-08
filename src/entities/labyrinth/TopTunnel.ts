@@ -2,7 +2,13 @@ import { createTileI } from "geometry/tile_I"
 import { _M, A3 } from "geometry/_m"
 import { createRandomDataForLine } from "geometry/_lineGeom"
 import { Dir } from "entities/labyrinth/types"
-import * as THREE from 'three'
+import {
+    MeshBasicMaterial,
+    MeshPhongMaterial,
+    Mesh,
+    Object3D,
+    BufferAttribute,
+} from 'three'
 import { createDoor } from "geometry/door"
 import { Root } from "index"
 import * as TWEEN from '@tweenjs/tween.js'
@@ -12,8 +18,8 @@ type TopTunnelStartData = {
     color: [number, number, number],
     form: number[],
     path: A3[],
-    material: THREE.MeshBasicMaterial | THREE.MeshPhongMaterial,
-    collisionMaterial: THREE.MeshBasicMaterial,
+    material: MeshBasicMaterial | MeshPhongMaterial,
+    collisionMaterial: MeshBasicMaterial,
     w: number,
     posStartDir: Dir,
 }
@@ -28,10 +34,10 @@ type GeometryData = {
 export class TopTunnel {
     W = 60
     N = 140
-    mesh: THREE.Mesh
-    meshCollision: THREE.Object3D
-    meshDoorCollision: THREE.Object3D
-    _doorMesh: THREE.Mesh
+    mesh: Mesh
+    meshCollision: Object3D
+    meshDoorCollision: Object3D
+    _doorMesh: Mesh
     _doorDataOpened: GeometryData
 
     init (root: Root, startData: TopTunnelStartData) {
@@ -180,7 +186,7 @@ export class TopTunnel {
                             array[i] + (this._doorDataOpened.v[i] - array[i]) * obj.v, 
                         )
                     }
-                    this._doorMesh.geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(mV), 3))
+                    this._doorMesh.geometry.setAttribute('position', new BufferAttribute(new Float32Array(mV), 3))
                     this._doorMesh.geometry.computeVertexNormals()
                     this._doorMesh.geometry.attributes.position.needsUpdate = true
                 })
@@ -205,7 +211,7 @@ export class TopTunnel {
                             for (let i = 0; i < array.length; ++i) {
                                 mV.push(array[i] + (target[i] - array[i]) * obj.v,)
                             }
-                            this._doorMesh.geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(mV), 3))
+                            this._doorMesh.geometry.setAttribute('position', new BufferAttribute(new Float32Array(mV), 3))
                             this._doorMesh.geometry.computeVertexNormals()
                             this._doorMesh.geometry.attributes.position.needsUpdate = true
                         })

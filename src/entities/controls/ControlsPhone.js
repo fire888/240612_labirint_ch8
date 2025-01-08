@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import { Object3D, Vector3 } from 'three'
 import * as TWEEN from '@tweenjs/tween.js'
 
 export class ControlsPhone {
@@ -16,7 +16,7 @@ export class ControlsPhone {
     _maxSpeedLeft = .035
     _tweenSpeedLeft = null
 
-    _vecRotMovie = new THREE.Vector3(0, 0, 0)
+    _vecRotMovie = new Vector3(0, 0, 0)
     _strengthIdle = 0.
     _timeRot = 0
 
@@ -100,7 +100,7 @@ export class ControlsPhone {
         window.addEventListener('keyup', this._onKeyUp.bind(this))
 
 
-        this._obj = new THREE.Object3D()
+        this._obj = new Object3D()
         this._obj.rotation.y = Math.PI
     }
 

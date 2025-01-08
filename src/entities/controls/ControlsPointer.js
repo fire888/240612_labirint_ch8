@@ -1,5 +1,5 @@
 import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls'
-import * as THREE from 'three'
+import { Vector3, Euler, Quaternion, Raycaster } from 'three'
 import * as TWEEN from '@tweenjs/tween.js'
 
 
@@ -25,13 +25,13 @@ export class ControlsPointer {
     _moveLeft = false
     _moveRight = false
 
-    _dirForward = new THREE.Vector3()
-    _dirLeft = new THREE.Vector3()
-    _resultDir = new THREE.Vector3()
-    _topVec = new THREE.Vector3(0, 1, 0)
+    _dirForward = new Vector3()
+    _dirLeft = new Vector3()
+    _resultDir = new Vector3()
+    _topVec = new Vector3(0, 1, 0)
 
     _timeRot = 0 
-    _eulerRot = new THREE.Euler(0, 0, 0, 'YXZ')
+    _eulerRot = new Euler(0, 0, 0, 'YXZ')
 
     _strengthIdle = 0.
 
@@ -41,12 +41,12 @@ export class ControlsPointer {
         this.domElem = root.studio.containerDom
 
         this._prevTime = performance.now()
-        this.velocity = new THREE.Vector3()
-        this.direction = new THREE.Vector3()
+        this.velocity = new Vector3()
+        this.direction = new Vector3()
 
-        this.savedPosition = new THREE.Vector3()
-        this.diffVec = new THREE.Vector3()
-        this.savedRotation = new THREE.Quaternion()
+        this.savedPosition = new Vector3()
+        this.diffVec = new Vector3()
+        this.savedRotation = new Quaternion()
 
         this.controls = new PointerLockControls(this.camera, this.domElem)
         this.controls.maxPolarAngle = Math.PI - .01
@@ -62,7 +62,7 @@ export class ControlsPointer {
         document.addEventListener('keydown', this._onKeyDown.bind(this))
         document.addEventListener('keyup', this._onKeyUp.bind(this))
 
-        this.raycaster = new THREE.Raycaster(new THREE.Vector3(), this._topVec, 0, 1)
+        this.raycaster = new Raycaster(new Vector3(), this._topVec, 0, 1)
     }
 
     update (delta, playerCollision) {

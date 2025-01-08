@@ -1,6 +1,6 @@
 import { Root } from "../index";
 import { _M } from "geometry/_m";
-import * as THREE from 'three'
+import { Mesh, MeshBasicMaterial, MeshPhongMaterial, Color } from 'three'
 import { createEnergyV } from "geometry/energy"
 import * as TWEEN from '@tweenjs/tween.js'
 import { CONSTANTS } from "constants/CONSTANTS"
@@ -8,7 +8,7 @@ import { PosesSleepEnds } from "entities/labyrinth/types"
 
 type Energy = {
     collisionName: string,
-    m: THREE.Mesh,
+    m: Mesh,
     isActive: boolean,
 }
 
@@ -16,14 +16,14 @@ export class EnergySystem {
     nameSpace: string = 'collision_energy_'
     _root: Root
     _v: number[] = []
-    _collisionMaterial: THREE.MeshBasicMaterial
+    _collisionMaterial: MeshBasicMaterial
     _items: Energy[] = []
 
     init (root: Root, points: PosesSleepEnds[]) {
         this._root = root
 
         if (!this._collisionMaterial) {
-            this._collisionMaterial = new THREE.MeshBasicMaterial({ color: 0xFFFF00 })
+            this._collisionMaterial = new MeshBasicMaterial({ color: 0xFFFF00 })
         }
 
         let namePrefix = 0
@@ -39,8 +39,8 @@ export class EnergySystem {
                 })
                 const m = _M.createMesh({ 
                     v, 
-                    material: new THREE.MeshPhongMaterial({ 
-                        color: new THREE.Color(
+                    material: new MeshPhongMaterial({ 
+                        color: new Color(
                             _M.ran(.8, 1),
                             _M.ran(.2, 1),
                             _M.ran(.2, 1),
@@ -92,8 +92,8 @@ export class EnergySystem {
         })
         const m = _M.createMesh({ 
             v, 
-            material: new THREE.MeshPhongMaterial({ 
-                color: new THREE.Color(
+            material: new MeshPhongMaterial({ 
+                color: new Color(
                     _M.ran(.8, 1),
                     _M.ran(.2, 1),
                     _M.ran(.2, 1),

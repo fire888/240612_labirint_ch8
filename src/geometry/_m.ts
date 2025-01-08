@@ -1,4 +1,14 @@
-import * as THREE from "three";
+import { 
+    Matrix4, 
+    Vector3,
+    MeshBasicMaterial,
+    MeshPhongMaterial,
+    BufferGeometry,
+    BufferAttribute,
+    Mesh,
+    // LineBasicMaterial,
+    // Line,
+} from "three";
 
 export type A3 = [number, number, number]
 
@@ -7,8 +17,8 @@ export const _M = {
     createPolygon: function(v0: A3, v1: A3, v2: A3, v3: A3) { return  [...v0, ...v1, ...v2, ...v0, ...v2, ...v3] },
     fillColorFace: (c: A3) => [...c, ...c, ...c, ...c, ...c, ...c],
     createUv: (v1: A3, v2: A3, v3: A3, v4: A3) => [...v1, ...v2, ...v3, ...v1, ...v3, ...v4],
-    applyMatrixToArray(m: THREE.Matrix4, arr: number[]) {
-        const v3 = new THREE.Vector3()
+    applyMatrixToArray(m: Matrix4, arr: number[]) {
+        const v3 = new Vector3()
         for (let i = 0; i < arr.length; i += 3) {
             v3.fromArray(arr, i)
             v3.applyMatrix4(m)
@@ -18,19 +28,19 @@ export const _M = {
         }
     },
     translateVertices(v: number[], x: number, y: number, z: number) {
-        const m4 = new THREE.Matrix4().makeTranslation(x, y, z)
+        const m4 = new Matrix4().makeTranslation(x, y, z)
         this.applyMatrixToArray(m4, v)
     },
     rotateVerticesX(v: number[], angle: number) {
-        const m4 = new THREE.Matrix4().makeRotationX(angle)
+        const m4 = new Matrix4().makeRotationX(angle)
         this.applyMatrixToArray(m4, v)
     },
     rotateVerticesY(v: number[], angle: number) {
-        const m4 = new THREE.Matrix4().makeRotationY(angle)
+        const m4 = new Matrix4().makeRotationY(angle)
         this.applyMatrixToArray(m4, v)
     },
     rotateVerticesZ(v: number[], angle: number) {
-        const m4 = new THREE.Matrix4().makeRotationZ(angle)
+        const m4 = new Matrix4().makeRotationZ(angle)
         this.applyMatrixToArray(m4, v)
     },
     angleFromCoords (x: number, y: number) {
@@ -64,23 +74,11 @@ export const _M = {
        // 0 1 2   3 4 5    6 7 8
 
         for (let i = 0; i < arr.length; i += 9) {
-            //if (!arr[i + 1]) {
-            //    continue;
-            //}
             arr2.push(
                 arr[i + 6], arr[i + 7], -arr[i + 8],
                 arr[i + 3], arr[i + 4], -arr[i + 5],
                 arr[i], arr[i + 1], -arr[i + 2],
             )
-
-            // arr2.push(
-            //     arr[i + 3], arr[i + 4], -arr[i + 5],
-            //     arr[i], arr[i + 1], -arr[i + 2],
-            //     arr[i + 15], arr[i + 16], -arr[i + 17],
-            //     arr[i + 3], arr[i + 4], -arr[i + 5],
-            //     arr[i + 15], arr[i + 16], -arr[i + 17],
-            //     arr[i + 12], arr[i + 13], -arr[i + 14],
-            // )
         }
         arr.push(...arr2)
     },
@@ -166,8 +164,6 @@ export const _M = {
             ...this.createUv(
                 [0, .5],
                 [.5, .5],
-                //[.5, 1],
-                //[0, 1],
                 [.4, .6],
                 [.1, .6],
             ),
@@ -305,46 +301,46 @@ export const _M = {
         v: number[], 
         uv?: number[], 
         c?: number[], 
-        material?: THREE.MeshBasicMaterial | THREE.MeshPhongMaterial,
+        material?: MeshBasicMaterial | MeshPhongMaterial,
     }) => {
 
         const { 
             v = [], 
             uv = [], 
             c = [],
-            material = new THREE.MeshBasicMaterial({ color: 0x777777 }) 
+            material = new MeshBasicMaterial({ color: 0x777777 }) 
         } = data
     
-        const geometry = new THREE.BufferGeometry()
+        const geometry = new BufferGeometry()
         const vF32 = new Float32Array(v)
-        geometry.setAttribute('position', new THREE.BufferAttribute(vF32, 3))
+        geometry.setAttribute('position', new BufferAttribute(vF32, 3))
         geometry.computeVertexNormals()
         if (c.length > 0) {
             const cF32 = new Float32Array(c)
-            geometry.setAttribute('color', new THREE.BufferAttribute(cF32, 3))
+            geometry.setAttribute('color', new BufferAttribute(cF32, 3))
         }
         if (uv.length > 0) {
             const uvF32 = new Float32Array(uv)
-            geometry.setAttribute('uv', new THREE.BufferAttribute(uvF32, 2))
+            geometry.setAttribute('uv', new BufferAttribute(uvF32, 2))
         }
-        return new THREE.Mesh(geometry, material)
+        return new Mesh(geometry, material)
     },
     
-    makeCreaterSquare: (data: { w: number }) => {
-        const { w } = data 
-        const lineMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff })
-        const linePoints = [
-            new THREE.Vector3(-w / 2, 0, -w / 2),
-            new THREE.Vector3(-w / 2, 0, w / 2),
-            new THREE.Vector3(w / 2, 0, w / 2),
-            new THREE.Vector3(w / 2, 0, -w / 2),
-            new THREE.Vector3(-w / 2, 0, -w / 2),
-        ]
-        const geometry = new THREE.BufferGeometry().setFromPoints(linePoints)
+    // makeCreaterSquare: (data: { w: number }) => {
+    //     const { w } = data 
+    //     const lineMaterial = new LineBasicMaterial({ color: 0x0000ff })
+    //     const linePoints = [
+    //         new Vector3(-w / 2, 0, -w / 2),
+    //         new Vector3(-w / 2, 0, w / 2),
+    //         new Vector3(w / 2, 0, w / 2),
+    //         new Vector3(w / 2, 0, -w / 2),
+    //         new Vector3(-w / 2, 0, -w / 2),
+    //     ]
+    //     const geometry = new BufferGeometry().setFromPoints(linePoints)
     
-        return () => {
-            return new THREE.Line(geometry, lineMaterial)
-        }
-    }
+    //     return () => {
+    //         return new Line(geometry, lineMaterial)
+    //     }
+    // }
 }
 

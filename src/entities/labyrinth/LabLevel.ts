@@ -1,4 +1,8 @@
-import * as THREE from 'three'
+import {
+    MeshPhongMaterial,
+    MeshBasicMaterial,
+    Mesh,
+} from 'three'
 import { _M, A3 } from "../../geometry/_m";
 import { createScheme } from './scheme';
 import { createTileI } from '../../geometry/tile_I'
@@ -12,8 +16,8 @@ const EMPTY = 1
 const STAIR = 4
 
 type LevelData = {
-    material: THREE.MeshPhongMaterial, 
-    collisionMaterial: THREE.MeshBasicMaterial,
+    material: MeshPhongMaterial, 
+    collisionMaterial: MeshBasicMaterial,
     numTilesX: number, 
     numTilesZ: number, 
     posStart: [number, number],
@@ -25,8 +29,8 @@ type LevelData = {
 
 
 export class LabLevel {
-    collisionMesh: THREE.Mesh
-    mesh: THREE.Mesh
+    collisionMesh: Mesh
+    mesh: Mesh
 
     posStart: [number, number]
     posEnd: [number, number]

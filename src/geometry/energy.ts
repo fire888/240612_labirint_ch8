@@ -1,11 +1,11 @@
-import * as THREE from 'three'
+import { Vector3 } from 'three'
 import { _M } from './_m'
 
 
 export const createEnergyV = ({ rad = .6, l = .3, t = 1 }) => {
-    const vec1 = new THREE.Vector3(rad, -l, 0)
-    const vec2 = new THREE.Vector3(rad, l, 0)
-    const vTop = new THREE.Vector3(0, 1, 0)
+    const vec1 = new Vector3(rad, -l, 0)
+    const vec2 = new Vector3(rad, l, 0)
+    const vTop = new Vector3(0, 1, 0)
     const r = .6
 
     const arrb = []
@@ -15,14 +15,14 @@ export const createEnergyV = ({ rad = .6, l = .3, t = 1 }) => {
 
     // cloud points
     while (currentAngle < Math.PI * 2 - r) {
-        const v = new THREE.Vector3(_M.ran(r) , _M.ran(r), _M.ran(r)).add(vec1)
+        const v = new Vector3(_M.ran(r) , _M.ran(r), _M.ran(r)).add(vec1)
         v.applyAxisAngle(vTop, currentAngle)
         arrb.push(v)
 
         const addAngle = .1 + Math.random() * r
         currentAngle += addAngle
 
-        const v2 = new THREE.Vector3(_M.ran(r) , _M.ran(r), _M.ran(r)).add(vec2)
+        const v2 = new Vector3(_M.ran(r) , _M.ran(r), _M.ran(r)).add(vec2)
         v2.applyAxisAngle(vTop, currentAngle)
         arrt.push(v2)
 

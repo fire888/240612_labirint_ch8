@@ -1,4 +1,18 @@
-import * as THREE from 'three'
+import { 
+    PerspectiveCamera,
+    Scene, 
+    Fog,
+    HemisphereLight,
+    DirectionalLight,
+    WebGLRenderer,
+    Texture,
+    EquirectangularReflectionMapping,
+    SRGBColorSpace,
+    Object3D,
+    Vector3,
+    AxesHelper,
+    Quaternion,
+} from 'three'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
@@ -24,28 +38,28 @@ const params = {
 
 export class Studio {
     containerDom: HTMLElement
-    camera: THREE.PerspectiveCamera
-    scene: THREE.Scene
-    fog: THREE.Fog
-    hemiLight: THREE.HemisphereLight
-    dirLight: THREE.DirectionalLight
-    renderer: THREE.WebGLRenderer
-    envMap: THREE.Texture
+    camera: PerspectiveCamera
+    scene: Scene
+    fog: Fog
+    hemiLight: HemisphereLight
+    dirLight: DirectionalLight
+    renderer: WebGLRenderer
+    envMap: Texture
     composer: EffectComposer
     _root: Root
 
     init (root: Root) {
         this._root = root
         this.containerDom = document.getElementById('container-game')
-        this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, .001, 1000)
+        this.camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, .001, 1000)
         this.camera.position.set(1, 30, 70)
         this.camera.lookAt(0, 1, 0)
 
-        this.scene = new THREE.Scene()
+        this.scene = new Scene()
         //debugger
         //root.loader.assets.envMap.encoding = THREE.sRGBEncoding;
-        root.loader.assets.mapEnv.mapping = THREE.EquirectangularReflectionMapping;
-        root.loader.assets.mapEnv.colorSpace = THREE.SRGBColorSpace;
+        root.loader.assets.mapEnv.mapping = EquirectangularReflectionMapping;
+        root.loader.assets.mapEnv.colorSpace = SRGBColorSpace;
 
         this.scene.background = root.loader.assets.mapEnv
         this.envMap = root.loader.assets.mapEnv
@@ -54,11 +68,11 @@ export class Studio {
         //this.fog = new THREE.Fog(0x00001a, 1, 50)
         //this.scene.fog = this.fog
 
-       this.hemiLight = new THREE.HemisphereLight(0x6767f3, 0xffffff, 5)
+       this.hemiLight = new HemisphereLight(0x6767f3, 0xffffff, 5)
        this.hemiLight.position.set( 0, 20, 0 )
        this.scene.add(this.hemiLight)
 
-        this.dirLight = new THREE.DirectionalLight( 0xffffff, 3 )
+        this.dirLight = new DirectionalLight( 0xffffff, 3 )
         this.dirLight.position.set(-3, 10, 2)
         // this.dirLight.castShadow = true
         // this.dirLight.shadow.camera.top = 2
@@ -69,7 +83,7 @@ export class Studio {
         // this.dirLight.shadow.camera.far = 40
         this.scene.add(this.dirLight)
 
-        this.renderer = new THREE.WebGLRenderer({ antialias: true })
+        this.renderer = new WebGLRenderer({ antialias: true })
         this.renderer.setPixelRatio(window.devicePixelRatio)
         this.renderer.setSize(window.innerWidth, window.innerHeight)
         //this.renderer.shadowMap.enabled = true
@@ -148,16 +162,16 @@ export class Studio {
         this.composer.setSize(window.innerWidth, window.innerHeight)
     }
 
-    add (m: THREE.Object3D) {
+    add (m: Object3D) {
         this.scene.add(m)
     }
 
-    remove (m: THREE.Object3D) {
+    remove (m: Object3D) {
         this.scene.remove(m)
     }
 
     addAxisHelper () {
-        const axesHelper = new THREE.AxesHelper(15)
+        const axesHelper = new AxesHelper(15)
         this.scene.add(axesHelper)
     }
 
@@ -165,8 +179,8 @@ export class Studio {
         return new Promise(res => {
             const t = 5000
             {
-                const savedPos = new THREE.Vector3().copy(this.camera.position) 
-                const newPos = new THREE.Vector3().copy(this.camera.position) 
+                const savedPos = new Vector3().copy(this.camera.position) 
+                const newPos = new Vector3().copy(this.camera.position) 
                 const dist = 500
                 if (dir === 'n') {
                     newPos.z -= dist
@@ -197,13 +211,13 @@ export class Studio {
             }
 
             {
-                const targetQ = new THREE.Quaternion(
+                const targetQ = new Quaternion(
                     4.1079703617011707e-17, 
                     0.6708824723277438, 
                     -0.7415636913464778, 
                     4.540768004856799e-17, 
                 )
-                const savedQ = new THREE.Quaternion().copy(this.camera.quaternion)
+                const savedQ = new Quaternion().copy(this.camera.quaternion)
                 const obj = { v: 0 }
                 new TWEEN.Tween(obj)
                     .easing(TWEEN.Easing.Exponential.InOut)
@@ -226,15 +240,15 @@ export class Studio {
         const time = 5000
 
         return new Promise(res => {
-            const savedPos = new THREE.Vector3().fromArray(from)
-            const targetPos = new THREE.Vector3().fromArray(to)
+            const savedPos = new Vector3().fromArray(from)
+            const targetPos = new Vector3().fromArray(to)
 
-            const savedQ = new THREE.Quaternion().copy(this.camera.quaternion)
+            const savedQ = new Quaternion().copy(this.camera.quaternion)
 
             this.camera.position.copy(savedPos)
             this.camera.lookAt(targetPos)
 
-            const targetQ = new THREE.Quaternion().copy(this.camera.quaternion)
+            const targetQ = new Quaternion().copy(this.camera.quaternion)
         
             const obj = { v: 0 }
             new TWEEN.Tween(obj)
