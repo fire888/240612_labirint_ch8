@@ -11,7 +11,7 @@ import {
 } from 'three'
 import { createDoor } from "geometry/door"
 import { Root } from "index"
-import * as TWEEN from '@tweenjs/tween.js'
+import { Tween, Interpolation, Easing } from '@tweenjs/tween.js'
 import { vC_H } from "constants/CONSTANTS"
 
 type TopTunnelStartData = {
@@ -176,8 +176,8 @@ export class TopTunnel {
             const { array } = this._doorMesh.geometry.attributes.position
 
             const obj = { v: 0 }
-            new TWEEN.Tween(obj)
-                .easing(TWEEN.Easing.Exponential.InOut)
+            new Tween(obj)
+                .easing(Easing.Exponential.InOut)
                 .to({ v: 1 }, 1000)
                 .onUpdate(() => {
                     const mV = []
@@ -203,8 +203,8 @@ export class TopTunnel {
                     }
 
                     const obj = { v: 0 }
-                    new TWEEN.Tween(obj)
-                        .easing(TWEEN.Easing.Exponential.InOut)
+                    new Tween(obj)
+                        .easing(Easing.Exponential.InOut)
                         .to({ v: 1 }, 1000)
                         .onUpdate(() => {
                             const mV = []

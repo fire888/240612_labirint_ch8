@@ -15,14 +15,14 @@ import {
 } from 'three'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+// import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { BokehPass } from 'three/examples/jsm/postprocessing/BokehPass';
 //import { BokehPass } from 'three/examples/jsm/postprocessing/';
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js';
-import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
+// import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 import { Root } from "../index";
-import * as TWEEN from '@tweenjs/tween.js'
+import { Tween, Interpolation, Easing } from '@tweenjs/tween.js'
 
 
 
@@ -198,8 +198,8 @@ export class Studio {
                 
 
                 const obj = { v: 0 }
-                new TWEEN.Tween(obj)
-                    .easing(TWEEN.Easing.Exponential.InOut)
+                new Tween(obj)
+                    .easing(Easing.Exponential.InOut)
                     .to({ v: 1 },  t)
                     .onUpdate(() => {
                         this.camera.position.lerpVectors(savedPos, newPos, obj.v)
@@ -219,8 +219,8 @@ export class Studio {
                 )
                 const savedQ = new Quaternion().copy(this.camera.quaternion)
                 const obj = { v: 0 }
-                new TWEEN.Tween(obj)
-                    .easing(TWEEN.Easing.Exponential.InOut)
+                new Tween(obj)
+                    .easing(Easing.Exponential.InOut)
                     .to({ v: 1 }, t)
                     .onUpdate(() => {
                         this.camera.quaternion.slerpQuaternions(savedQ, targetQ, obj.v * 5)
@@ -251,8 +251,8 @@ export class Studio {
             const targetQ = new Quaternion().copy(this.camera.quaternion)
         
             const obj = { v: 0 }
-            new TWEEN.Tween(obj)
-                .easing(TWEEN.Easing.Exponential.InOut)
+            new Tween(obj)
+                .easing(Easing.Exponential.InOut)
                 .to({ v: 1 }, time)
                 .onUpdate(() => {
                     this.camera.position.lerpVectors(savedPos, targetPos, obj.v)

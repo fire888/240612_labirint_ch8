@@ -1,6 +1,6 @@
 import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls'
 import { Vector3, Euler, Quaternion, Raycaster } from 'three'
-import * as TWEEN from '@tweenjs/tween.js'
+import { Tween, Interpolation } from '@tweenjs/tween.js'
 
 
 export class ControlsPointer {
@@ -134,8 +134,8 @@ export class ControlsPointer {
             this.isEnabled = true
 
             const obj = { v: 0 }
-            new TWEEN.Tween(obj)
-                .interpolation(TWEEN.Interpolation.Linear)
+            new Tween(obj)
+                .interpolation(Interpolation.Linear)
                 .to({ v: 1}, 5000)
                 .onUpdate(() => {
                     this._strengthIdle = obj.v
@@ -172,8 +172,8 @@ export class ControlsPointer {
         }
 
         const obj = { speed: this._currentSpeedForward }
-        this._tweenSpeedForward = new TWEEN.Tween(obj)
-            .interpolation(TWEEN.Interpolation.Linear)
+        this._tweenSpeedForward = new Tween(obj)
+            .interpolation(Interpolation.Linear)
             .to({ speed: v }, 200)
             .onUpdate(() => {
                 this._currentSpeedForward = obj.speed
@@ -192,8 +192,8 @@ export class ControlsPointer {
         }
 
         const obj = { speed: this._currentSpeedLeft }
-        this._tweenSpeedLeft = new TWEEN.Tween(obj)
-            .interpolation(TWEEN.Interpolation.Linear)
+        this._tweenSpeedLeft = new Tween(obj)
+            .interpolation(Interpolation.Linear)
             .to({ speed: v }, 200)
             .onUpdate(() => {
                 this._currentSpeedLeft = obj.speed

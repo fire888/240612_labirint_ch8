@@ -2,7 +2,7 @@ import { Root } from "../index";
 import { _M } from "geometry/_m";
 import { Mesh, MeshBasicMaterial, MeshPhongMaterial, Color } from 'three'
 import { createEnergyV } from "geometry/energy"
-import * as TWEEN from '@tweenjs/tween.js'
+import { Tween, Interpolation} from '@tweenjs/tween.js'
 import { CONSTANTS } from "constants/CONSTANTS"
 import { PosesSleepEnds } from "entities/labyrinth/types"
 
@@ -145,8 +145,8 @@ export class EnergySystem {
         const savedY = item.m.position.y
 
         const obj = { s: item.m.scale.x, y: 0 }
-        new TWEEN.Tween(obj)
-            .interpolation(TWEEN.Interpolation.Linear)
+        new Tween(obj)
+            .interpolation(Interpolation.Linear)
             .to({ s: 0, y: .1 }, 500)
             .onUpdate(() => {
                 item.m.scale.set(obj.s, obj.s, obj.s)

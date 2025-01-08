@@ -1,6 +1,6 @@
 import { Root } from '../index'
 import { AudioListener, Audio } from 'three'
-import * as TWEEN from '@tweenjs/tween.js'
+import { Tween, Interpolation} from '@tweenjs/tween.js'
 
 export class AudioManager {
     private _root: Root
@@ -55,8 +55,8 @@ export class AudioManager {
         this._soundAmbient.play()
 
         const obj = { v: 0 } 
-        new TWEEN.Tween(obj)
-            .interpolation(TWEEN.Interpolation.Linear)
+        new Tween(obj)
+            .interpolation(Interpolation.Linear)
             .to({ v: .35 }, 400)
             .onUpdate(() => {
                 this._soundAmbient.setVolume(obj.v)
@@ -103,8 +103,8 @@ export class AudioManager {
 
         setTimeout(() => {
             const obj = { v: .5  } 
-            new TWEEN.Tween(obj)
-                .interpolation(TWEEN.Interpolation.Linear)
+            new Tween(obj)
+                .interpolation(Interpolation.Linear)
                 .to({ v: 0 }, 400)
                 .onUpdate(() => {
                     this._door.setVolume(obj.v)
@@ -116,8 +116,8 @@ export class AudioManager {
     playFly () {
         this._fly.play()
         const obj = { v: 0 } 
-        new TWEEN.Tween(obj)
-            .interpolation(TWEEN.Interpolation.Linear)
+        new Tween(obj)
+            .interpolation(Interpolation.Linear)
             .to({ v: 1 }, 1000)
             .onUpdate(() => {
                 this._fly.setVolume(obj.v)
@@ -127,8 +127,8 @@ export class AudioManager {
 
     stopFly () {
         const obj = { v: 1 } 
-        new TWEEN.Tween(obj)
-            .interpolation(TWEEN.Interpolation.Linear)
+        new Tween(obj)
+            .interpolation(Interpolation.Linear)
             .to({ v: 0 }, 1000)
             .onUpdate(() => {
                 this._fly.setVolume(obj.v)

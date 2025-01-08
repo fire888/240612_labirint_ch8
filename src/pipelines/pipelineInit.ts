@@ -1,5 +1,5 @@
 import { Root } from '../index'
-import * as TWEEN from '@tweenjs/tween.js'
+import { Tween, Interpolation, Easing, update } from '@tweenjs/tween.js'
 
 export const pipelineInit = async (root: Root) => {
     const {
@@ -24,7 +24,7 @@ export const pipelineInit = async (root: Root) => {
     ticker.start()
 
     ticker.on((t: number) => {
-        TWEEN.update()
+        update()
     })
 
     studio.init(root)

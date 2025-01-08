@@ -1,4 +1,4 @@
-import * as TWEEN from '@tweenjs/tween.js'
+import { Tween, Interpolation } from '@tweenjs/tween.js'
 import { pause, elementClickOnce } from './_helpers'
 
 const ENERGY_MAX_WIDTH = 30
@@ -86,8 +86,8 @@ export class Ui {
 
     setEnergyLevel (val) {
         const obj = { v: this._currentEnergyMinWidth }
-        new TWEEN.Tween(obj)
-            .interpolation(TWEEN.Interpolation.Linear)
+        new Tween(obj)
+            .interpolation(Interpolation.Linear)
             .to({ v: val }, 300)
             .onUpdate(() => {
                 this._countEnergyInner.style.minWidth = obj.v * ENERGY_MAX_WIDTH + 'vw'
@@ -265,8 +265,8 @@ export class Ui {
 const opacityByTransition = (elem, to, time) => {
     return new Promise(res => {
         const obj = { v: to === 1 ? 0 : 1 }
-        new TWEEN.Tween(obj)
-            .interpolation(TWEEN.Interpolation.Linear)
+        new Tween(obj)
+            .interpolation(Interpolation.Linear)
             .to({ v: to }, time)
             .onUpdate(() => {
                 elem.style.opacity = obj.v
