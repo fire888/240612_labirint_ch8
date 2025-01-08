@@ -40,7 +40,7 @@ module.exports = (env, { mode }) => {
                 template: './templates/index.html'
             }),
             new MiniCssExtractPlugin({
-                filename: './res/main.css',
+                filename: './res/'+ hashCommit + '_main.css',
             }),
             new webpack.DefinePlugin({
                 __HASH_COMMIT__: JSON.stringify(hashCommit),
