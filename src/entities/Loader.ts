@@ -1,7 +1,7 @@
 import * as THREE from 'three'
-import mapEnv from "../assets/env.jpg"
-import sky from '../assets/sky.jpg'
-import sprite from '../assets/sprite.png'
+import mapEnv from "../assets/env.webp"
+import sky from '../assets/sky.webp'
+import sprite from '../assets/sprite.webp'
 import audioAmbient from '../assets/ambient.mp3'
 import steps from '../assets/steps_metal.mp3'
 import audioBzink from '../assets/bzink.mp3'

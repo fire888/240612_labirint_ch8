@@ -48,7 +48,7 @@ export class ControlsPhone {
             this._isBack = true
         })
         this._moveBackDiv.addEventListener("pointerup", () => {
-            if (!this._isBack) this._changeForwardSpeedTo(0.)
+            if (this._isBack) this._changeForwardSpeedTo(0.)
             this._isBack = false
         })
         this._moveBackDiv.addEventListener("pointerout", () => {

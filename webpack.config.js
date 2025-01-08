@@ -54,7 +54,7 @@ module.exports = (env, { mode }) => {
             }),
             new CopyPlugin({
                 patterns: [
-                    {from: './templates/start-img.jpg', to: 'start-img.jpg'},
+                    {from: './templates/start-img.webp', to: 'start-img.webp'},
                 ],
             }),
         ],
