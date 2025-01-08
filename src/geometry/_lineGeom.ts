@@ -148,3 +148,28 @@ export const mirrorPathX = (path: A3[]) => {
 
     return copy
 }
+
+export const checkPathValid = (arr: any) => {
+    if (!arr) {
+        return false
+    }
+
+    if (arr.length) {
+        for (let i = 0; i < arr.length; ++i) {
+            if (arr[i] === undefined) {
+                return false
+            }
+
+            if (Array.isArray(arr[i]) && arr[i] === Object && arr[i].length) {
+                for (let j = 0; j < arr[i].length; j ++) {
+                    if (arr[i][j] === undefined) {
+                        return false
+                    }
+                }
+            }
+        }
+    }
+
+    return true
+}
+

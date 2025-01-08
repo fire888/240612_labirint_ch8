@@ -7,7 +7,7 @@ type LevelCof = {
 export const vC_H = 4.5
 
 const PHISICS_CONF = {
-    IS_DEBUG: true
+    IS_DEBUG: false
 }
 
 const PLAYER_START_POS: number[] = [15.076315508474185, 3, -10]
@@ -16,7 +16,7 @@ const ENERGY_PERCENTAGE_MUST_GET: number = .3
 
 const LABS_CONF: LevelCof[] = [
     //{ TILES_X: 0, TILES_Z: 0, FLOORS_NUM: 0 },
-    {TILES_X: 21, TILES_Z: 21, FLOORS_NUM: 1}
+    {TILES_X: 27, TILES_Z: 21, FLOORS_NUM: 1}
 ]
 
 const N_LEVELS_START = 2

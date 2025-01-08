@@ -1,5 +1,5 @@
 import { _M, A3 } from "./_m";
-import { createLineGeom } from './_lineGeom'
+import { createLineGeom, checkPathValid } from './_lineGeom'
 import { DataToCreateTileU, Dir } from '../entities/labyrinth/types'
 import { vC_H } from "constants/CONSTANTS";
 
@@ -16,6 +16,10 @@ export const createTileU = (data: DataToCreateTileU) => {
     if (e) dir = Dir.EAST
     if (s) dir = Dir.SOUTH
     if (w) dir = Dir.WEST
+
+    if (!checkPathValid(data[dir].path)) {
+        return null
+    }
 
     const arrs = _M.interpolateArrays({ 
         forms: [data[dir].form, data[dir].form], 
