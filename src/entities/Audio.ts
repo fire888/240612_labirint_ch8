@@ -118,7 +118,7 @@ export class Audio {
         const obj = { v: 0 } 
         new TWEEN.Tween(obj)
             .interpolation(TWEEN.Interpolation.Linear)
-            .to({ v: 1.5 }, 400)
+            .to({ v: 1 }, 1000)
             .onUpdate(() => {
                 this._fly.setVolume(obj.v)
             })
@@ -126,10 +126,10 @@ export class Audio {
     }
 
     stopFly () {
-        const obj = { v: 1.5 } 
+        const obj = { v: 1 } 
         new TWEEN.Tween(obj)
             .interpolation(TWEEN.Interpolation.Linear)
-            .to({ v: 0 }, 400)
+            .to({ v: 0 }, 1000)
             .onUpdate(() => {
                 this._fly.setVolume(obj.v)
             })
