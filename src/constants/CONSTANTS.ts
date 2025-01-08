@@ -15,8 +15,8 @@ const ENERGY_FIRST_POS: number[] = [15.076315508474185, 0, -4]
 const ENERGY_PERCENTAGE_MUST_GET: number = .3
 
 const LABS_CONF: LevelCof[] = [
-    //{ TILES_X: 0, TILES_Z: 0, FLOORS_NUM: 0 },
-    {TILES_X: 27, TILES_Z: 21, FLOORS_NUM: 1}
+    { TILES_X: 0, TILES_Z: 0, FLOORS_NUM: 0 },
+    //{TILES_X: 27, TILES_Z: 21, FLOORS_NUM: 10}
 ]
 
 const N_LEVELS_START = 2

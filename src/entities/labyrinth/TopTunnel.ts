@@ -1,6 +1,7 @@
 import { createTileI } from "geometry/tile_I"
 import { _M, A3 } from "geometry/_m"
 import { createRandomDataForLine } from "geometry/_lineGeom"
+import { Dir } from "entities/labyrinth/types"
 import * as THREE from 'three'
 import { createDoor } from "geometry/door"
 import { Root } from "index"
@@ -14,6 +15,7 @@ type TopTunnelStartData = {
     material: THREE.MeshBasicMaterial | THREE.MeshPhongMaterial,
     collisionMaterial: THREE.MeshBasicMaterial,
     w: number,
+    posStartDir: Dir,
 }
 
 type GeometryData = {
@@ -33,22 +35,59 @@ export class TopTunnel {
     _doorDataOpened: GeometryData
 
     init (root: Root, startData: TopTunnelStartData) {
+        const { posStartDir } = startData
 
-        
         // corridor view mesh *************************************/
         const randomData2 = createRandomDataForLine()
+        
+        let dataI = null
+        if (posStartDir === Dir.NORTH) {
+            dataI = {
+                e: null,
+                w: null,
+                n: randomData2,
+                s: startData,
+                num: this.N,
+                width: this.W,
+            }
+        }
+        if (posStartDir === Dir.SOUTH) {
+            dataI = {
+                e: null,
+                w: null,
+                n: startData,
+                s: randomData2,
+                num: this.N,
+                width: this.W,
+            }
+        }
+        if (posStartDir === Dir.EAST) {
+            dataI = {
+                e: randomData2,
+                w: startData,
+                n: null,
+                s: null,
+                num: this.N,
+                width: this.W,
+            }
+        }
+        if (posStartDir === Dir.WEST) {
+            dataI = {
+                e: startData,
+                w: randomData2,
+                n: null,
+                s: null,
+                num: this.N,
+                width: this.W,
+            }
+        }
 
-        // const e = createTileI({ 
-        //     paths: [startData.path, randomData2.path],
-        //     colors: [startData.color, randomData2.color],
-        //     forms: [startData.form, randomData2.form],
-        //     n: this.N,
-        //     w: this.W,
-        //     key: 'n',
-        // })
-        // this.mesh = _M.createMesh({ v: e.v, c: e.c, material: startData.material })
-        this.mesh = _M.createMesh({ v: [], c: [], material: startData.material })
-
+        if (dataI) {
+            const e = createTileI(dataI)
+            this.mesh = _M.createMesh({ v: e.v, c: e.c, material: startData.material })
+        } else {
+            this.mesh = _M.createMesh({ v: [], c: [], material: startData.material })
+        }
 
         // collision corridor *************************************/
         const vC = [
@@ -93,7 +132,6 @@ export class TopTunnel {
             c: doorData.c,
             material: startData.material
         })
-        this._doorMesh.position.z = this.W / 2 - (startData.w * 3)
         this.mesh.add(this._doorMesh)
 
         this.meshDoorCollision = _M.createMesh({ 
@@ -105,6 +143,23 @@ export class TopTunnel {
             ) 
         })
         this.meshDoorCollision.name = 'collision_lab_door'
+
+        if (posStartDir === Dir.NORTH) {
+            this._doorMesh.position.z = startData.w * 4
+        }
+        if (posStartDir === Dir.SOUTH) {
+            this._doorMesh.position.z = -startData.w * 4
+        }
+        if (posStartDir === Dir.EAST) {
+            this._doorMesh.position.x = -startData.w * 4
+            this._doorMesh.rotation.y = Math.PI / 2 
+            this.meshDoorCollision.rotation.y = Math.PI / 2   
+        }
+        if (posStartDir === Dir.WEST) {
+            this._doorMesh.position.x = startData.w * 4
+            this._doorMesh.rotation.y = Math.PI / 2
+            this.meshDoorCollision.rotation.y = Math.PI / 2   
+        }
     }
 
     async openDoor () {
@@ -128,7 +183,6 @@ export class TopTunnel {
                     this._doorMesh.geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(mV), 3))
                     this._doorMesh.geometry.computeVertexNormals()
                     this._doorMesh.geometry.attributes.position.needsUpdate = true
-                    //this._doorMesh.rotation.z = obj.v * Math.PI * 2
                 })
                 .onComplete(() => {
                     const { array } = this._doorMesh.geometry.attributes.position
@@ -154,7 +208,6 @@ export class TopTunnel {
                             this._doorMesh.geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(mV), 3))
                             this._doorMesh.geometry.computeVertexNormals()
                             this._doorMesh.geometry.attributes.position.needsUpdate = true
-                            //this._doorMesh.rotation.y = obj.v * Math.PI * 2
                         })
                         .onComplete(() => {
                             this._doorMesh.position.y = -10000

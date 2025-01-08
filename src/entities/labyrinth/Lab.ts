@@ -224,43 +224,38 @@ export class Lab {
                 ...dataForEnter,
                 material: this._material, 
                 collisionMaterial: this._collisionMaterial, 
-                w: W
+                w: W,
+                posStartDir,
             } 
         )
         const pos = new THREE.Vector3(posStart[0] * W,  (FLOORS_NUM + 1) * LEVEL_H, posStart[1] * W)
         const offset = W + (this._topTunnel.W / 2) + W / 2
         const doorCollisionPos = new THREE.Vector3().copy(pos)
-        let rotation = 0
         let rotationCollision = 0
 
         if (posStartDir === 'n') {
-            rotation = 0
             rotationCollision = Math.PI / 2
-            doorCollisionPos.z -= W * 4
+            doorCollisionPos.z -= W * 7
             pos.z -= offset
         }
         if (posStartDir === 'e') {
-            rotation = Math.PI * 1.5
             pos.x += offset
-            doorCollisionPos.x += W * 4
+            doorCollisionPos.x += W * 7
         }
         if (posStartDir === 's') {
-            rotation = Math.PI
             rotationCollision = Math.PI / 2
             pos.z += offset
-            doorCollisionPos.z += W * 4
+            doorCollisionPos.z += W * 7
         }
         if (posStartDir === 'w') {
-            rotation = Math.PI / 2
             pos.x -= offset
-            doorCollisionPos.x -= W * 4
+            doorCollisionPos.x -= W * 7
         }
 
 
         // phisics close dooor
         this._topTunnel.meshDoorCollision.name = this.nameSpace + 'top_tunnel_door'
         this._namesMeshes.push(this._topTunnel.meshDoorCollision.name) 
-        this._topTunnel.meshDoorCollision.rotation.y = rotation
         this._topTunnel.meshDoorCollision.position.copy(doorCollisionPos)
         phisics.addMeshToCollision(this._topTunnel.meshDoorCollision)
 
@@ -272,7 +267,6 @@ export class Lab {
         phisics.addMeshToCollision(this._topTunnel.meshCollision)
 
         // tunnel mesh
-        this._topTunnel.mesh.rotation.y = rotation
         this._topTunnel.mesh.position.copy(pos)
         this.mesh.add(this._topTunnel.mesh)
         this._meshes.push(this._topTunnel.mesh)
