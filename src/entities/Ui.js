@@ -58,7 +58,7 @@ export class Ui {
         await opacityByTransition(startButton, 0, 300)
         await pause(100)
 
-        const img = document.body.getElementsByTagName('img')[0]
+        const img = document.body.getElementsByTagName('svg')[0]
         await opacityByTransition(img, 0, 300)
         await pause(100)
 

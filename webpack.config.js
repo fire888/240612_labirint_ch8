@@ -43,20 +43,18 @@ module.exports = (env, { mode }) => {
                 filename: './res/main.css',
             }),
             new webpack.DefinePlugin({
-                // __MODE__: JSON.stringify(mode),
                 __HASH_COMMIT__: JSON.stringify(hashCommit),
                 __GIT_CURRENT_BRANCH__: JSON.stringify('' + currentBranch),
-                // __APP_PARAMS__: JSON.stringify(__APP_PARAMS__),
             }),
             new webpack.ProvidePlugin({
                 // 'cannon': 'cannon',
                 // 'babylonjs-loaders': 'babylonjs-loaders',
             }),
-            new CopyPlugin({
-                patterns: [
-                    {from: './templates/start-img.webp', to: 'start-img.webp'},
-                ],
-            }),
+            // new CopyPlugin({
+            //     patterns: [
+            //         {from: './templates/start-img.webp', to: 'start-img.webp'},
+            //     ],
+            // }),
         ],
         module: {
             rules: [
