@@ -98,7 +98,19 @@ export class Audio {
     }
 
     playDoor () {
+        this._door.setVolume(.5)
         this._door.play()
+
+        setTimeout(() => {
+            const obj = { v: .5  } 
+            new TWEEN.Tween(obj)
+                .interpolation(TWEEN.Interpolation.Linear)
+                .to({ v: 0 }, 400)
+                .onUpdate(() => {
+                    this._door.setVolume(obj.v)
+                })
+                .start()
+        }, 1500)
     }
 
     playFly () {
