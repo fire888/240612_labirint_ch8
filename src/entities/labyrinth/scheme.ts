@@ -140,13 +140,13 @@ const createMaze = async (
                 x > 1 &&
                 !JSON.stringify(hasVisited).includes(JSON.stringify([x - 2, y]))
             ) {
-                unvisitetNeighbors.push(Dir.EAST)
+                unvisitetNeighbors.push(Dir.WEST)
             }
             if (
                 x < WIDTH - 2 &&
                 !JSON.stringify(hasVisited).includes(JSON.stringify([x + 2, y]))
             ) {
-                unvisitetNeighbors.push(Dir.WEST)
+                unvisitetNeighbors.push(Dir.EAST)
             }
             if (unvisitetNeighbors.length === 0) {
                 return
@@ -189,21 +189,21 @@ const createMaze = async (
             } else if (nextDir === Dir.WEST) {
                 maze[[x, y] + ''][Dir.WEST] = currentData
 
-                maze[[x + 1, y] + ''].type = TUNNEL
-                maze[[x + 1, y] + ''][Dir.EAST] = currentData
-                maze[[x + 1, y] + ''][Dir.WEST] = nextData
+                maze[[x - 1, y] + ''].type = TUNNEL
+                maze[[x - 1, y] + ''][Dir.EAST] = currentData
+                maze[[x - 1, y] + ''][Dir.WEST] = nextData
 
-                nextX = x + 2
+                nextX = x - 2
                 nextY = y
 
             } else if (nextDir === Dir.EAST) {
                 maze[[x, y] + ''][Dir.EAST] = currentData
 
-                maze[[x - 1, y] + ''].type = TUNNEL
-                maze[[x - 1, y] + ''][Dir.WEST] = currentData
-                maze[[x - 1, y] + ''][Dir.EAST] = nextData
+                maze[[x + 1, y] + ''].type = TUNNEL
+                maze[[x + 1, y] + ''][Dir.WEST] = currentData
+                maze[[x + 1, y] + ''][Dir.EAST] = nextData
 
-                nextX = x - 2
+                nextX = x + 2
                 nextY = y
             }
             hasVisited.push([nextX, nextY])
@@ -234,8 +234,8 @@ const createMaze = async (
         startGatesDir = Dir.NORTH
     }
     if (startDirection === 'e') {
-        posNext[0] = posStart[0] - 1
-        posNextNext[0] = posStart[0] - 2
+        posNext[0] = posStart[0] + 1
+        posNextNext[0] = posStart[0] + 2
         startGatesDir = Dir.WEST
     }
     if (startDirection === 'n') {
@@ -244,8 +244,8 @@ const createMaze = async (
         startGatesDir = Dir.SOUTH
     }
     if (startDirection === 'w') {
-        posNext[0] = posStart[0] + 1
-        posNextNext[0] = posStart[0] + 2
+        posNext[0] = posStart[0] - 1
+        posNextNext[0] = posStart[0] - 2
         startGatesDir = Dir.EAST
     }
     hasVisited.push(

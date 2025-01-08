@@ -1,6 +1,6 @@
 import { _M } from "./_m"
 import { DataToCreateLine, AttributesArrs } from "entities/labyrinth/types"
-
+import { A3 } from "./_m"
 
 
 const D = .1
@@ -133,3 +133,18 @@ export const createLineGeom = (data: DataToCreateLine): AttributesArrs => {
 
     return { v, c, }
 } 
+export const mirrorPathX = (path: A3[]) => {
+    const copy = JSON.parse(JSON.stringify(path))
+
+    copy[0][0] = -path[4][0]
+    
+    copy[1][0] = -path[3][0]
+    copy[1][1] = path[3][1]
+    
+    copy[3][0] = -path[1][0]
+    copy[3][1] = path[1][1]
+    
+    copy[4][0] = -path[0][0]
+
+    return copy
+}

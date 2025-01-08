@@ -13,11 +13,9 @@ export const pipelineInit = async (root: Root) => {
         controls,
         ui,
         ticker,
-        // boxTest,
         floor,
         smallTriangles,
         particles,
-        // lab,
         loader,
         phisics,
         energySystem,
@@ -41,7 +39,7 @@ export const pipelineInit = async (root: Root) => {
     ui.init(root)
     ui.setEnergyLevel(0)
 
-    phisics.init()
+    phisics.init(root)
     ticker.on(phisics.update.bind(phisics))
     phisics.createPlayerPhisicsBody(CONSTANTS.PLAYER_START_POS)
 
@@ -95,8 +93,4 @@ export const pipelineInit = async (root: Root) => {
         //     m.rotation.y += 0.01    
         // })
     }
-
-
-
-
 }

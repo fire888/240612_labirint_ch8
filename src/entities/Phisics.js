@@ -1,6 +1,6 @@
 import * as CANNON from 'cannon-es'
 import * as THREE from 'three'
-// import CannonDebugger from 'cannon-es-debugger'
+import CannonDebugger from 'cannon-es-debugger'
 
 const createTrimesh = geometry => {
     const vertices = geometry.attributes.position.array
@@ -13,7 +13,7 @@ export class Phisics {
     _bodies = []
     _bodiesToRemove = []
 
-    init () {
+    init (root) {
         this.world = new CANNON.World()
         this.world.gravity.set(0, -9.82, 0)
         this.world.quatNormalizeSkip = 0;
@@ -58,7 +58,9 @@ export class Phisics {
 
         this._levelsPhisicsMeshes = []
 
-        // this.cannonDebugger = new CannonDebugger(root.studio.scene, this.world, {})
+        if (root.CONSTANTS.PHISICS_CONF.IS_DEBUG) {
+            this.cannonDebugger = new CannonDebugger(root.studio.scene, this.world, {})
+        }
     }
 
     createPlayerPhisicsBody (playerPosition) {

@@ -9,7 +9,6 @@ import { vC_H } from "constants/CONSTANTS";
 export const createTileI = (data:  DataToCreateTileU) => {
     const { width, num, w, s, n, e } = data
 
-
     let dir: Dir, startData: DataToCreateLine, endData: DataToCreateLine
     if (n && s) { 
         dir = Dir.NORTH
@@ -17,12 +16,10 @@ export const createTileI = (data:  DataToCreateTileU) => {
         endData = data.s
     }
     if (w && e) { 
-        dir = Dir.EAST 
-        startData = data.e
-        endData = data.w
+        dir = Dir.WEST
+        startData = data.w
+        endData = data.e
     }
-
-    // CREATE ARRAYS DATA
 
     const arrs = _M.interpolateArrays({ 
         forms: [startData.form, endData.form], 
@@ -30,9 +27,6 @@ export const createTileI = (data:  DataToCreateTileU) => {
         colors: [startData.color, endData.color],
         n: num,
     })
-
-    
-    // CREATE BUFFERS FROM ARRAYS
 
     const v = []
     const c = []
@@ -51,7 +45,7 @@ export const createTileI = (data:  DataToCreateTileU) => {
         if (dir === Dir.NORTH) {
             _M.translateVertices(l.v, 0, 0, -width / 2 + startX + i * xStep)
         }
-        if (dir === Dir.EAST) {
+        if (dir === Dir.WEST) {
             _M.rotateVerticesY(l.v, Math.PI * .5)
             _M.translateVertices(l.v, -width / 2 + startX + i * xStep, 0, 0)
         }
@@ -84,12 +78,9 @@ export const createTileI = (data:  DataToCreateTileU) => {
         )
     }
 
-
-    if (dir === Dir.EAST) {
-       // _M.rotateVerticesY(v, -Math.PI * .5)
+    if (dir === Dir.WEST) {
         _M.rotateVerticesY(vC, Math.PI * .5)
     }
-
 
     return { v, c, vC }
 }

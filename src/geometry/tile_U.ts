@@ -40,13 +40,12 @@ export const createTileU = (data: DataToCreateTileU) => {
         }
         if (dir === Dir.WEST) { 
             _M.rotateVerticesY(l.v, Math.PI / 2)
-            _M.translateVertices(l.v, width / 2 - i * step - step / 2, 0, 0)
+            _M.translateVertices(l.v, -width / 2 + i * step + step / 2, 0, 0)
         }
         if (dir === Dir.EAST) { 
             _M.rotateVerticesY(l.v, Math.PI / 2)
-            _M.translateVertices(l.v, -width / 2 + i * step + step / 2, 0, 0)
+            _M.translateVertices(l.v, width / 2 - i * step - step / 2, 0, 0)
         }
-
 
         v.push(...l.v)
         c.push(...l.c)
@@ -92,56 +91,27 @@ export const createTileU = (data: DataToCreateTileU) => {
 
         if (dir === Dir.WEST) { 
             _M.rotateVerticesY(b.v, Math.PI / 2)
-            _M.translateVertices(b.v, -i * step, 0, 0)
+            _M.translateVertices(b.v, i * step, 0, 0)
         }
         if (dir === Dir.EAST) { 
             _M.rotateVerticesY(b.v, Math.PI / 2)
-            _M.translateVertices(b.v, +i * step, 0, 0)
+            _M.translateVertices(b.v, -i * step, 0, 0)
         }
 
         v.push(...b.v)
         c.push(...b.c)
     }
 
-
-    // const h = w
-    // const step = w / n
-
-    // {
-    //     const arrs = _M.interpolateArrays({ forms, paths, colors, n: Math.floor(n / 2) })
-
-    //     for (let i = 0; i < arrs.paths.length; ++i) {
-    //         const b = createLineGeom({
-    //             form: arrs.forms[i],
-    //             path: arrs.paths[i],
-    //             color: arrs.colors[i],
-    //             isClosed: true,
-    //         })
-
-    //         if (key === 's') {
-    //             _M.translateVertices(b.v, 0, 0, -i * step - step / 2 + w / 2)
-    //         }
-
-    //         if (key === 'n') {
-    //             _M.translateVertices(b.v, 0, 0, +i * step + step / 2 - w / 2)
-    //         }
-
-    //         if (key === 'e') {
-    //             _M.rotateVerticesY(b.v, -Math.PI / 2)
-    //             _M.translateVertices(b.v, -i * step - step / 2 + w / 2, 0, 0)
-    //         }
-
-    //         if (key === 'w') {
-    //             _M.rotateVerticesY(b.v, -Math.PI / 2)
-    //             _M.translateVertices(b.v, i * step + step / 2 - w / 2, 0, 0)
-    //         }
-
-    //         v.push(...b.v)
-    //         c.push(...b.c)
-    //     }
-
-    
     {
+        /*
+        _________
+        |        |
+        |        |
+        |        |
+        |        |
+        
+        */
+
         const w = width
         const _vC = [
             ..._M.createPolygon( // bottom
@@ -170,17 +140,12 @@ export const createTileU = (data: DataToCreateTileU) => {
             ),
         ]
 
-        if (dir === 's') {
-        }
-        if (dir === 'n') {
-            _M.rotateVerticesY(_vC, Math.PI)
-        }
-        if (dir === 'e') {
-            _M.rotateVerticesY(_vC, Math.PI * .5)
-        }
-        if (dir === 'w') {
-            _M.rotateVerticesY(_vC, Math.PI * 1.5)
-        }
+        let rot = 0
+        if (dir === 's') {}
+        if (dir === 'n') rot = Math.PI
+        if (dir === 'e') rot = Math.PI * .5
+        if (dir === 'w') rot = Math.PI * 1.5
+        _M.rotateVerticesY(_vC, rot)
         vC.push(..._vC)
     }
 
