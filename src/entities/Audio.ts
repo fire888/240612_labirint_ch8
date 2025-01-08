@@ -2,12 +2,6 @@ import { Root } from '../index'
 import * as THREE from 'three'
 import * as TWEEN from '@tweenjs/tween.js'
 
-
-
-
-
-
-
 export class Audio {
     private _root: Root
     private _soundAmbient: THREE.Audio
@@ -32,7 +26,7 @@ export class Audio {
         this._steps.setBuffer(root.loader.assets.soundStepsMetal)
         this._steps.setLoop(true)
         this._steps.playbackRate = 1.5
-        this._steps.setVolume(.35)
+        this._steps.setVolume(.15)
 
         this._energy = new THREE.Audio(listener)
         this._energy.setBuffer(root.loader.assets.soundBzink)
