@@ -243,7 +243,7 @@ export class Ui {
         {
             const prev = document.createElement('div')
             prev.classList.add('dark')
-            prev.innerHTML = 'Example of generation level: <a href="https://js.otrisovano.ru/2D/maze/00/" target="_blank">link</a>'
+            prev.innerHTML = 'Example of generation level: <a href="/2D/maze/00/" target="_blank">link</a>'
             wrapper.appendChild(prev)
         }
 
@@ -292,7 +292,7 @@ const createOffset = (n) => {
 const createChaptersList = () => {
     const LIST = []
     for (let i = 1; i < 9; ++i) {
-        LIST.push([i, './../chapter0' + i + '/', 'Chapter ' + i])
+        LIST.push([i, './../0' + i + '/', 'Chapter ' + i])
     }
     LIST[LIST.length - 1].push('current chapter')
 
