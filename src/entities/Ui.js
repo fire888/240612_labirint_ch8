@@ -291,10 +291,13 @@ const createOffset = (n) => {
 
 const createChaptersList = () => {
     const LIST = []
-    for (let i = 1; i < 9; ++i) {
+    for (let i = 1; i < 10; ++i) {
         LIST.push([i, './../0' + i + '/', 'Chapter ' + i])
+        if (i === 8) {
+            LIST[LIST.length - 1].push('current chapter')
+        }
     }
-    LIST[LIST.length - 1].push('current chapter')
+
 
     const list = document.createElement('div')
     list.classList.add('dark')
