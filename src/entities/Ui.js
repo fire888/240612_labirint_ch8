@@ -131,6 +131,14 @@ export class Ui {
 
         wrapper.appendChild(createOffset(20))
 
+        const complete3 = document.createElement('div')
+        complete3.classList.add('dark')
+        complete3.innerHTML = '<a target="_blank" href="./../9">Continue adventure</a>'
+        complete3.style.opacity = 0
+        wrapper.appendChild(complete3)
+
+        wrapper.appendChild(createOffset(20))
+
         const prev = document.createElement('div')
         prev.classList.add('dark')
         prev.innerHTML = 'Previous chapters:'
@@ -173,6 +181,9 @@ export class Ui {
 
         await pause(300)
         await opacityByTransition(complete2, 1, 300)
+
+        await pause(300)
+        await opacityByTransition(complete3, 1, 300)
 
         await pause(300)
         await opacityByTransition(prev, 1, 300)
